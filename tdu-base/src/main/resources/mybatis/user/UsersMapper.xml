@@ -1,0 +1,1313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdu.develop.user.mapper.UsersMapper">
+
+    <select id="getPersonPhoto" parameterType="String" resultType="String">
+    SELECT PresonalPhoto FROM users WHERE Id=#{userKey}
+</select>
+
+    <select id="getUsersByTel" parameterType="String" resultType="com.tdu.develop.user.pojo.Users">
+    SELECT * FROM users WHERE MobilePhoneNum=#{mobilePhoneNum}
+ORDER BY CreateDate desc
+</select>
+
+    <select id="getUserByTel" parameterType="String" resultType="com.tdu.develop.user.pojo.Users">
+    SELECT * FROM users WHERE MobilePhoneNum=#{mobilePhoneNum}
+ORDER BY CreateDate desc
+LIMIT  1;
+</select>
+
+   <!-- <select id="getMonthInYearCount" resultType="java.lang.Object">
+    select ifnull(b.count,0)  as minute from past_12_month_view v
+left join
+(select DATE_FORMAT(t.logintime,'%Y-%m') month,count(t.id) as count  from useronline t where
+DATE_FORMAT(t.logintime,'%Y-%m')>
+DATE_FORMAT(date_sub(curdate(), interval 12 month),'%Y-%m')
+ group by month)b
+on v.month = b.month group by v.month
+</select>
+-->
+    <select id="getHalfYearUser" resultType="com.tdu.develop.util.MonthInYearUtil">
+    SELECT
+	v.MONTH as month,
+	ifnull( b.count, 0 ) AS minute
+FROM
+	past_6_month_view v
+	LEFT JOIN (
+SELECT
+	DATE_FORMAT( t.logintime, '%Y-%m' ) MONTH,
+	sum( t.onlinetime) AS count
+FROM
+	useronline t
+WHERE
+	DATE_FORMAT( t.logintime, '%Y-%m' ) > DATE_FORMAT( date_sub( curdate( ), INTERVAL 12 MONTH ), '%Y-%m' )
+GROUP BY
+MONTH
+	) b ON v.MONTH = b.MONTH
+GROUP BY
+	v.MONTH
+</select>
+    <select id="getMonthInYear" resultType="com.tdu.develop.util.MonthInYearUtil">
+    select v.month,ifnull(b.count,0)  as minute from past_12_month_view v
+left join
+(select DATE_FORMAT(t.logintime,'%Y-%m') month,count(t.id) as count  from useronline t where
+DATE_FORMAT(t.logintime,'%Y-%m')>
+DATE_FORMAT(date_sub(curdate(), interval 12 month),'%Y-%m')
+ group by month)b
+on v.month = b.month group by v.month
+</select>
+
+<select id="getUserOnLineDay" resultType="Integer">
+    select count(1) from useronline where to_days(logintime) = to_days(now());
+</select>
+
+    <select id="getUserOnLineMonth" resultType="Integer">
+   SELECT count(1) FROM useronline WHERE logintime BETWEEN DATE_FORMAT(NOW(),'%Y-%m-01') AND NOW()
+</select>
+
+    <select id="getUserOnLinePreMonth" resultType="Integer">
+   SELECT count(1) FROM useronline WHERE PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format( logintime, '%Y%m' ) ) =1;
+</select>
+
+<select id="getUserByUserNameWithPermission"  parameterType="String" resultType="com.tdu.develop.user.pojo.Users">
+    SELECT * FROM users WHERE UserName=#{userName}
+</select>
+
+
+    <select id="seleStuBySearch" resultType="com.tdu.develop.user.pojo.Users" parameterType="String">
+        SELECT * FROM `users` WHERE `Name` like CONCAT('%',#{content},'%');
+    </select>
+
+    <select id="getUserName" parameterType="String" resultType="String">
+		SELECT `Name` FROM `users` WHERE Id=#{Id};
+	</select>
+
+    <select id="getSubjectId" parameterType="String" resultType="String">
+	SELECT Id FROM subjects
+	</select>
+    <select id="getClassName" parameterType="String" resultType="String">
+		SELECT
+	ClassName
+FROM
+	classes
+WHERE
+	Id IN (
+		SELECT
+			Class
+		FROM
+			`classusers`
+		WHERE
+			`User` = #{userId}
+	)
+	</select>
+
+    <insert id="addMajorUsers"  parameterType="String">
+		insert into majorusers(`Id`,`UserKey`,`MajorKey`) values(#{Id},#{UserKey},#{MajorKey})
+	</insert>
+
+    <resultMap type="com.tdu.develop.user.pojo.Users" id="users">
+        <id property="id" column="Id"/>
+        <result property="booldType" column="BooldType"/>
+        <result property="birthdate" column="Brithdate"/>
+        <result property="confirmPassword" column="ConfirmPassword"/>
+        <result property="constellation" column="Constellation"/>
+        <result property="familyAddress" column="FamilyAddress"/>
+        <result property="familyPhoneNum" column="FamilyPhoneNum"/>
+        <result property="idNum" column="IDNum"/>
+        <result property="idol" column="Idol"/>
+        <result property="mobilePhoneNum" column="MobilePhoneNum"/>
+        <result property="motto" column="Motto"/>
+        <result property="msn" column="MSN"/>
+        <result property="name" column="Name"/>
+        <result property="Native" column="NativePlace"/>
+        <result property="office" column="OfficePhoneNum"/>
+        <result property="passWord" column="PassWord"/>
+        <result property="presonalPhoto" column="PresonalPhoto"/>
+        <result property="qqNum" column="QQNum"/>
+        <result property="sex" column="Sex"/>
+        <result property="userName" column="UserName"/>
+        <result property="createDate" column="CreateDate"/>
+        <result property="email" column="Email"/>
+        <result property="wx" column="Wx"/>
+        <result property="SchoolName" column="SchoolName"/>
+    </resultMap>
+
+    <resultMap type="com.tdu.develop.user.pojo.Classes" id="classes">
+        <id property="id" column="id"/>
+        <result property="className" column="className"/>
+        <result property="major_id" column="major_id"/>
+    </resultMap>
+
+    <resultMap type="com.tdu.develop.user.pojo.CellObject" id="cellObject">
+        <id property="id" column="id"/>
+        <result property="booldType" column="booldType"/>
+        <result property="birthdate" column="birthdate"/>
+        <result property="confirmPassword" column="confirmPassword"/>
+        <result property="constellation" column="constellation"/>
+        <result property="familyAddress" column="familyAddress"/>
+        <result property="familyPhoneNum" column="familyPhoneNum"/>
+        <result property="idNum" column="idNum"/>
+        <result property="idol" column="idol"/>
+        <result property="mobilePhoneNum" column="mobilePhoneNum"/>
+        <result property="motto" column="motto"/>
+        <result property="msn" column="msn"/>
+        <result property="name" column="name"/>
+        <result property="Native" column="Native"/>
+        <result property="office" column="office"/>
+        <result property="passWord" column="passWord"/>
+        <result property="presonalPhoto" column="presonalPhoto"/>
+        <result property="qqNum" column="qqNum"/>
+        <result property="sex" column="sex"/>
+        <result property="userName" column="userName"/>
+        <result property="createDate" column="createDate"/>
+        <result property="email" column="email"/>
+        <result property="wx" column="wx"/>
+        <result property="classId" column="classId"/>
+        <result property="roleId" column="roleId"/>
+    </resultMap>
+
+    <select id="userssele" resultMap="users" parameterType="com.tdu.develop.user.pojo.Users">
+        select * from users
+        <where>
+            UserName=#{userName} and PassWord=#{passWord}
+        </where>
+    </select>
+
+    <select id="GetNowUser" resultMap="users"  parameterType="String">
+        select * from users
+        <where>
+            id=#{userid}
+        </where>
+    </select>
+
+    <select id="usersseleAgain" resultMap="users" parameterType="com.tdu.develop.user.pojo.Users">
+        select * from users
+        <where>
+            UserName=#{userName} and PassWord=#{passWord}
+        </where>
+    </select>
+
+    <select id="seledid" resultType="String" parameterType="String">
+        SELECT role_id FROM userroles
+        <where>
+            User_Id=#{id}
+        </where>
+    </select>
+
+    <select id="seleNum" resultType="int" parameterType="String">
+        SELECT Num from roles
+        <where>
+            Id=#{id}
+        </where>
+    </select>
+
+    <insert id="insUser" parameterType="com.tdu.develop.user.pojo.Users">
+        <!-- INSERT INTO users (`Id`,`BooldType`,`Birthdate`,`ConfirmPassword`,`Constellation`,`FamilyAddress`,`FamilyPhoneNum`,`IDNum`,`Idol`,`MobilePhoneNum`,`Motto`,`MSN`,`NAME`,`NativePlace`,`OfficePhoneNum`,`PASSWORD`,`PresonalPhoto`,`QQNum`,`Sex`,`UserName`,`CreateDate`,`Email`,`Wx`)
+        VALUES
+        (#{id}, NULL, NULL, #{passWord},NULL, NULL, NULL, NULL, NULL, NULL, NULL,NULL, #{name}, NULL, NULL, #{passWord},NULL, NULL, #{sex}, #{userName}, #{createDate}, NULL,NULL) -->
+        INSERT INTO users (
+        `Id`,
+        `BooldType`,
+        `Brithdate`,
+        `ConfirmPassword`,
+        `Constellation`,
+        `FamilyAddress`,
+        `FamilyPhoneNum`,
+        `IDNum`,
+        `Idol`,
+        `MobilePhoneNum`,
+        `Motto`,
+        `MSN`,
+        `Name`,
+        `NativePlace`,
+        `OfficePhoneNum`,
+        `PassWord`,
+        `PresonalPhoto`,
+        `QQNum`,
+        `Sex`,
+        `UserName`,
+        `CreateDate`,
+        `Email`,
+        `Wx`
+        )
+        VALUES
+        (
+        #{id}, NULL,
+        #{birthdate},
+        #{passWord}, NULL,
+        NULL,
+        NULL,
+        NULL,
+        #{idol},
+        #{mobilePhoneNum},
+        NULL,
+        NULL,
+        #{name}, NULL,
+        NULL,
+        #{passWord}, NULL,
+        NULL,
+        #{sex}, #{userName}, #{createDate}, #{email},
+        NULL
+        )
+    </insert>
+
+    <insert id="insrole" parameterType="String">
+		INSERT INTO userroles(`User_Id`, `Role_Id`) VALUES (#{id}, #{roles});
+	</insert>
+
+    <insert id="inssub" parameterType="String">
+		INSERT INTO subjectusers(`Id`, `UserKey`, `SubjectKey`, `EndDate`) VALUES (#{uid}, #{id}, #{subjectkey}, #{data});
+	</insert>
+
+    <select id="seleClass" resultType="String" parameterType="String">
+        select id from classes <where> className=#{className} </where>
+    </select>
+
+    <select id="seleClassId" resultType="String" parameterType="String">
+        select class from classusers <where> user=#{userId} </where>
+    </select>
+
+
+    <select id="seleClassIdList" resultType="String" parameterType="String">
+        select class from classusers <where> user=#{userId} </where>
+    </select>
+
+    <select id="seleStu" resultType="String" parameterType="String">
+        select user from classusers <where> class=#{classId} </where>
+    </select>
+
+    <select id="seleStuName" resultType="String" parameterType="String">
+        select name from users <where> id=#{id} </where>
+    </select>
+
+    <select id="seleClassList" resultMap="classes">
+		select * from classes
+	</select>
+
+    <insert id="addClass" parameterType="com.tdu.develop.user.pojo.Classes">
+		insert into classes(`id`,`classname`) values(#{id},#{className})
+	</insert>
+
+    <select id="seleStuId" resultType="String">
+        select user_id from userroles <where> role_id='0c494961-fc3c-41b3-992a-4f9b0d0f57eb' </where>
+    </select>
+
+    <update id="upClassId" parameterType="String">
+        update classusers set class=#{classid} <where> user=#{userid} </where>
+    </update>
+
+    <insert id="addClassUsers" parameterType="String">
+		insert into classusers(`id`,`class`,`user`) values(#{id},#{classid},#{userid})
+	</insert>
+
+    <delete id="delClassUsers" parameterType="String">
+        delete from classusers <where> user=#{userid} </where>
+    </delete>
+
+    <select id="sel1" resultType="integer" parameterType="String">
+        select count(1) from users <where> UserName=#{userName} </where>
+    </select>
+
+    <select id="selRole" resultType="String" parameterType="String">
+        select Id from roles <where> RoleName=#{keyName} </where>
+    </select>
+
+    <insert id="insUserList" parameterType="com.tdu.develop.user.pojo.CellObject">
+        <!-- INSERT INTO users(Id,BooldType,Birthdate,ConfirmPassword,Constellation,FamilyAddress,FamilyPhoneNum,IDNum,Idol,MobilePhoneNum,Motto,MSN,Name,NativePlace,OfficePhoneNum,PassWord,PresonalPhoto,QQNum,Sex,UserName,CreateDate,Email,Wx) VALUES (#{id}, NULL, NULL, #{passWord}, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, #{name}, NULL, NULL, #{passWord}, NULL, NULL, #{sex}, #{userName}, #{createDate}, NULL,NULL) -->
+        INSERT INTO users (
+        `Id`,
+        `BooldType`,
+        `Brithdate`,
+        `ConfirmPassword`,
+        `Constellation`,
+        `FamilyAddress`,
+        `FamilyPhoneNum`,
+        `IDNum`,
+        `Idol`,
+        `MobilePhoneNum`,
+        `Motto`,
+        `MSN`,
+        `Name`,
+        `NativePlace`,
+        `OfficePhoneNum`,
+        `PassWord`,
+        `PresonalPhoto`,
+        `QQNum`,
+        `Sex`,
+        `UserName`,
+        `CreateDate`,
+        `Email`,
+        `Wx`
+        )
+        VALUES
+        (
+        #{id}, NULL,
+        NULL,
+        #{passWord}, NULL,
+        NULL,
+        NULL,
+        NULL,
+        #{idol},
+        NULL,
+        NULL,
+        NULL,
+        #{name}, NULL,
+        NULL,
+        #{passWord}, NULL,
+        NULL,
+        #{sex}, #{userName}, #{createDate}, NULL,
+        NULL
+        )
+    </insert>
+
+    <insert id="insClassList" parameterType="com.tdu.develop.user.pojo.CellObject">
+		insert into classusers(`id`,`Class`,`User`) values(#{id},#{classId},#{id})
+	</insert>
+
+    <insert id="insRoleList" parameterType="com.tdu.develop.user.pojo.CellObject">
+		insert into userroles(`User_Id`,`Role_Id`) values(#{id},#{roleId})
+	</insert>
+
+    <select id="GetAuthListByUserName" resultType="String" parameterType="String">
+	    SELECT DISTINCT Auth_Id FROM roleauths where Role_Id in(SELECT Role_Id from userroles where User_Id=#{userName})
+	</select>
+
+    <select id="GetAuthParent" resultType="com.tdu.develop.user.pojo.Auth">
+	    SELECT * FROM auths WHERE Children is NOT Null ORDER BY Num
+	</select>
+
+    <select id="GetAuthById" resultType="com.tdu.develop.user.pojo.Auth" parameterType="String">
+	    SELECT * FROM auths WHERE Id=#{id}
+	</select>
+
+    <select id="GetUidByuserName" resultType="String" parameterType="String">
+	    SELECT Id FROM users WHERE username=#{username}
+	</select>
+
+
+    <update id="UpdateUserInfo" parameterType="com.tdu.develop.user.pojo.Users">
+        UPDATE users
+        <!-- SET `confirmPassword`=#{confirmPassword},
+        `password`=#{password},
+        `booldtype`=#{booldType},
+        `birthdate`=#{birthdate},
+        `idnum`=#{idNum},
+        `idol`=#{idol},
+        `mobilePhonenum`=#{mobilePhoneNum},
+        `motto`=#{motto},
+        `msn`=#{msn},
+        `name`=#{name},
+        `nativeplace`=#{native},
+        `officePhonenum`=#{office},
+        `qqnum`=#{qqNum},
+        `sex`=#{sex},
+        `email`=#{email}
+        WHERE (=#{id}) -->
+        <trim prefix="set" suffixOverrides="," suffix="WHERE `Id` = #{id}">
+            <if test="confirmPassword!=null">`ConfirmPassword`= #{confirmPassword} ,</if>
+            <if test="passWord!=null">`PassWord`= #{passWord} ,</if>
+            <if test="booldType!=null">`BooldType`= #{booldType} ,</if>
+            <if test="birthdate!=null">`Brithdate`= #{birthdate} ,</if>
+            <if test="idNum!=null">`IDNum`= #{idNum} ,</if>
+            <if test="idol!=null">`Idol`= #{idol} ,</if>
+            <if test="mobilePhoneNum!=null">`MobilePhoneNum`= #{mobilePhoneNum},</if>
+            <if test="motto!=null">`Motto`= #{motto} ,</if>
+            <if test="msn!=null">`MSN`= #{msn},</if>
+            <if test="name!=null">`Name`= #{name} ,</if>
+            <if test="Native!=null">`NativePlace`= #{Native} ,</if>
+            <if test="office!=null">`OfficePhoneNum`= #{office} ,</if>
+            <if test="qqNum!=null">`QQNum`= #{qqNum} ,</if>
+            <if test="sex!=null">`Sex`= #{sex} ,</if>
+            <if test="email!=null">`Email`= #{email} ,</if>
+            <if test="presonalPhoto!=null">`PresonalPhoto`= #{presonalPhoto} ,</if>
+        </trim>
+    </update>
+
+
+    <update id="addUserInfo" parameterType="com.tdu.develop.user.pojo.Users">
+        UPDATE users
+        <trim prefix="set" suffixOverrides="," suffix="WHERE `Id` = #{id}">
+            <if test="idNum!=null">`IDNum`= #{idNum} ,</if>
+            <if test="mobilePhoneNum!=null">`MobilePhoneNum`= #{mobilePhoneNum},</if>
+            <if test="Native!=null">`NativePlace`= #{Native} ,</if>
+            <if test="qqNum!=null">`QQNum`= #{qqNum} ,</if>
+            <if test="sex!=null">`Sex`= #{sex} ,</if>
+            <if test="email!=null">`Email`= #{email} ,</if>
+            <if test="familyAddress!=null">`FamilyAddress`= #{familyAddress} ,</if>
+            <if test="wx!=null">`Wx`= #{wx} ,</if>
+            <if test="SchoolName!=null">`SchoolName`= #{SchoolName} ,</if>
+        </trim>
+    </update>
+
+
+    <select id="seleAllUsers" resultType="com.tdu.develop.user.pojo.Users">
+		select * from users order by CreateDate desc
+	</select>
+
+    <update id="upUser" parameterType="com.tdu.develop.user.pojo.Users">
+        update users set <!-- `userName`=#{userName}, -->`confirmPassword`=#{confirmPassword},`password`=#{passWord},`name`=#{name},`sex`=#{sex}, `email`=#{email} WHERE (`Id`=#{id})
+    </update>
+
+    <update id="upUsers" parameterType="com.tdu.develop.user.pojo.Users">
+        update users set <!-- `userName`=#{userName}, -->`confirmPassword`=#{confirmPassword},`password`=#{passWord},`name`=#{name},`sex`=#{sex} WHERE (`Id`=#{id})
+    </update>
+
+    <delete id="deleUser" parameterType="String">
+        delete from users <where> id=#{id} </where>
+    </delete>
+
+
+    <update id="uprole" parameterType="String">
+		update userroles set `Role_Id`=#{role} WHERE  User_Id=#{id};
+	</update>
+    <!-- **************************************************************************************************************************** -->
+
+    <select id="seleRoles" resultType="com.tdu.develop.user.pojo.Roles">
+        select * from roles ORDER BY `Num`
+	</select>
+
+    <select id="getRoles" parameterType="String" resultType="com.tdu.develop.user.pojo.Roles">
+        select * from roles  WHERE `Id` = #{id}
+    </select>
+
+    <insert id="addRole" parameterType="com.tdu.develop.user.pojo.Roles">
+		insert into roles(`id`,`enable`,`num`,`roleName`) values(#{id},#{enable},#{num},#{roleName})
+	</insert>
+
+    <update id="editRole" parameterType="String">
+		update roles set Role_Id=#{role} where User_Id=#{id}
+	</update>
+
+    <delete id="deleRole" parameterType="String">
+		delete from roles where id=#{id}
+	</delete>
+
+    <update id="updateRole" parameterType="String">
+        UPDATE roles  set RoleName=#{roleName} where Id=#{id}
+    </update>
+    <!-- ******************************************************************************************************************************* -->
+
+    <select id="seleTrialUsers" resultType="com.tdu.develop.user.pojo.TrialUsers">
+		SELECT u1.id AS userId,u1.UserName AS userName,u1.`Name` AS name,u2.EnableTrial,u2.BeginTrialDate,u2.EndTrialDate
+from users AS u1 LEFT JOIN trialusers AS u2 ON u2.UserId=u1.Id
+	</select>
+
+    <select id="seleUserId" resultType="Integer" parameterType="String">
+        select count(1) from trialusers <where> userid=#{id} </where>
+    </select>
+
+    <update id="upTrial" parameterType="com.tdu.develop.user.pojo.TrialUsers">
+        update trialusers set `beginTrialDate`=#{beginTrialDate},`endTrialDate`=#{endTrialDate} <where> userId=#{userId} </where>
+    </update>
+
+    <insert id="inTrial" parameterType="com.tdu.develop.user.pojo.TrialUsers">
+		insert into trialusers(`id`,`userId`,`enableTrial`,`beginTrialDate`,`endTrialDate`) values(#{id},#{userId},#{enableTrial},#{beginTrialDate},#{endTrialDate})
+	</insert>
+
+    <delete id="delTrial" parameterType="String">
+        delete from trialusers <where> userId=#{id} </where>
+    </delete>
+    <select id="getuNameById" parameterType="String" resultType="String">
+		select Name from users where Id=#{createPerson}
+	</select>
+    <select id="getroleIdByUserId" parameterType="String" resultType="String">
+		select Role_Id from userroles where User_Id=#{userId}
+	</select>
+    <select id="getroleNameByRoleId" parameterType="String" resultType="String">
+		select RoleName from roles where Id=#{roleId}
+	</select>
+    <insert id="creUser" parameterType="com.tdu.develop.user.pojo.Member">
+		insert into users (Id,Name,Sex,BirthDate,MobilePhoneNum,QqNum,Email,Msn,Constellation,FamilyAddress,
+		FamilyPhoneNum,UserName,Password,CreateDate,ConfirmPassword) values(#{id},#{name},#{sex},#{birthDate},#{mobilePhoneNum},
+		#{qqNum},#{email},#{msn},#{constellation},#{familyAddress},#{familyPhoneNum},#{userName},#{password},#{createDate},#{password})
+	</insert>
+    <insert id="creClassUser" parameterType="com.tdu.develop.user.pojo.ClassUsers">
+		insert into classusers (Id,Class,User) values(#{id},#{classId},#{user})
+	</insert>
+    <select id="selUsersForClassId" resultType="com.tdu.develop.user.pojo.Users">
+		select u.Id,u.Name,u.Sex FROM users u LEFT outer JOIN classusers c ON u.Id = c.User WHERE c.Class=#{classId} limit #{pageObject.startIndex},#{pageObject.pageSize}
+	</select>
+    <select id="selusersOfAll" parameterType="String" resultType="int">
+		select count(u.Id) FROM users u LEFT outer JOIN classusers c ON u.Id = c.User WHERE c.Class=#{classId}
+	</select>
+    <select id="selClassNameById" parameterType="com.tdu.develop.user.pojo.TeamInfos" resultType="String">
+		select className from classes where Id =#{classId}
+	</select>
+    <select id="queryteamUsersName" parameterType="com.tdu.develop.user.pojo.TeamInfos" resultType="String">
+		SELECT u.Name teamUsers
+		FROM cz_main.users u LEFT JOIN cz_sub.teamusers t
+		ON u.Id=t.UserId
+		WHERE u.Id in
+		(SELECT t1.UserId
+		FROM cz_sub.teamusers AS t1 LEFT JOIN cz_sub.team AS t2
+		ON t2.Id=t1.TeamId
+		WHERE t2.Id=#{teamId})
+		group by u.`Name`
+	</select>
+    <insert id="insUserPersonl" parameterType="String">
+		insert into users(`id`,`ConfirmPassword`,`Name`,`PassWord`,`Sex`,`UserName`,`CreateDate`,`MobilePhoneNum`,`idol`,`Brithdate`) values(#{userId},#{rePassWord},#{name},#{passWord},#{sex},#{userName},(select NOW()),#{mobilePhoneNum},#{idol},(select NOW()))
+	</insert>
+    <insert id="insUserPersonlNew" parameterType="String">
+		insert into users(`id`,`ConfirmPassword`,`Name`,`PassWord`,`Sex`,`UserName`,`CreateDate`,`idol`) values(#{userId},#{rePassWord},#{name},#{passWord},#{sex},#{userName},(select NOW()),#{idol})
+	</insert>
+    <select id="getTemp" parameterType="String"  resultType="com.tdu.develop.user.pojo.Users">
+		select * from users where UserName=#{userName}
+	</select>
+
+    <select id="selUsers" resultType="com.tdu.develop.user.pojo.Users">
+		select * from users;
+	</select>
+
+    <select id="loginTool" parameterType="String"  resultType="com.tdu.develop.user.pojo.Userstool">
+		select * from userstool where name=#{userName}
+	</select>
+
+    <insert id="setLoginTool"  parameterType="com.tdu.develop.user.pojo.Userstool"  >
+		insert into userstool(`name`,`mac`,`cpu`,`sysId`,`ip`) values(#{Userstool.name},#{Userstool.mac},#{Userstool.cpu},#{Userstool.sysId},#{Userstool.ip})
+	</insert>
+
+    <update id="upLoginTool"  parameterType="com.tdu.develop.user.pojo.Userstool"  >
+        update userstool set `mac`=#{Userstool.mac},`cpu`=#{Userstool.cpu},`sysId`=#{Userstool.sysId},`ip`=#{Userstool.ip} <where> name=#{Userstool.name} </where>
+    </update>
+
+    <select id="queryUserRoles" parameterType="String" resultType="String">
+		select Role_Id from userroles where User_Id=#{userId}
+	</select>
+
+    <update id="updateUsername" parameterType="String">
+		update users set name=#{userName} where id=#{userId}
+	</update>
+
+    <update id="updateUsersex" parameterType="String">
+		update users set Sex=#{userSex} where id=#{userId}
+	</update>
+
+    <update id="updateUserBirthdate" parameterType="String">
+		update users set Birthdate=#{userBirthdate} where id=#{userId}
+	</update>
+
+    <update id="updateUserQQ" parameterType="String">
+		update users set QQNum=#{userQQ} where id=#{userId}
+	</update>
+
+    <update id="updateUserChat" parameterType="String">
+		update users set Wx=#{userChat} where id=#{userId}
+	</update>
+
+    <update id="updateUserPhone" parameterType="String">
+		update users set MobilePhoneNum=#{userPhone} where id=#{userId}
+	</update>
+
+    <update id="updateUserMail" parameterType="String">
+		update users set Email=#{userEmail} where id=#{userId}
+	</update>
+
+    <select id="getauthId" resultType="com.tdu.develop.user.pojo.Auth" parameterType="String">
+         select * from auths where id IN (SELECT Auth_Id from roleauths where Role_Id=#{authId}) ORDER BY Num;
+    </select>
+
+    <select id="getAllAuth" resultType="com.tdu.develop.user.pojo.Auth">
+        select * from auths  ORDER BY Num;
+    </select>
+
+    <update id="updatePassword" parameterType="String">
+		update users set PassWord=#{password} where id=#{userid}
+	</update>
+
+    <select id="seleAllUsersByPage" parameterType="int" resultType="com.tdu.develop.user.pojo.Users">
+		select * from users limit #{page},#{limit}
+	</select>
+
+    <select id="seleAllUsersByPageclass"   resultType="com.tdu.develop.user.pojo.ClassUser">
+		<!--select * from users where id in (select UserKey from subjectusers where SubjectKey=#{subjectId}) limit #{page},#{limit}-->
+		 SELECT
+	`Id`,
+	`Class` AS ClassKey,
+	`UserName`,
+	`Name`,
+	`Sex`,
+        `createdateyear`,
+        `createdatemonth`,
+        `createdateday`,
+	IFNULL(
+		IFNULL(FIND_IN_SET(#{classid},Class), 0),
+		0
+	) AS checked
+FROM
+	(
+		SELECT
+			users.Id,
+			GROUP_CONCAT(classusers.Class) AS Class,
+			UserName,
+			`Name`,
+			Sex,
+        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+        DATE_FORMAT(CreateDate, "%d") AS createdateday
+		FROM
+			users
+		LEFT JOIN classusers ON classusers.`User` = users.Id
+        WHERE
+        users.id IN (
+        SELECT
+        UserKey
+        FROM
+        majorusers
+        WHERE
+        MajorKey =  #{majorId}
+        )
+		GROUP BY
+			users.Id
+		ORDER BY
+			CreateDate
+	) AS t2 limit #{page},#{limit};
+	</select>
+
+    <select id="seleAllUsersByPageclassLikeName"   resultType="com.tdu.develop.user.pojo.ClassUser">
+        <!--select * from users where id in (select UserKey from subjectusers where SubjectKey=#{subjectId}) limit #{page},#{limit}-->
+        SELECT
+        `Id`,
+        `Class` AS ClassKey,
+        `UserName`,
+        `Name`,
+        `Sex`,
+        `createdateyear`,
+        `createdatemonth`,
+        `createdateday`,
+        IFNULL(
+        IFNULL(FIND_IN_SET(#{classid},Class), 0),
+        0
+        ) AS checked
+        FROM
+        (
+        SELECT
+        users.Id,
+        GROUP_CONCAT(classusers.Class) AS Class,
+        UserName,
+        `Name`,
+        Sex,
+        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+        DATE_FORMAT(CreateDate, "%d") AS createdateday
+        FROM
+        users
+        LEFT JOIN classusers ON classusers.`User` = users.Id
+        WHERE
+        users.id IN (
+        SELECT
+        UserKey
+        FROM
+        majorusers
+        WHERE
+        MajorKey =  #{majorId}
+        )
+        GROUP BY
+        users.Id
+        ORDER BY
+        CreateDate
+        ) AS t2 WHERE
+        UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%')
+         limit #{page},#{limit};
+    </select>
+
+
+    <select id="seleAllUsersByPageSubjcet"   resultType="com.tdu.develop.user.pojo.SubjectUser">
+        <!--select * from users where id in (select UserKey from subjectusers where SubjectKey=#{subjectId}) limit #{page},#{limit}-->
+        SELECT
+        `Id`,
+        `subject` AS subjectKey,
+        `UserName`,
+        `Name`,
+        `Sex`,
+        `createdateyear`,
+        `createdatemonth`,
+        `createdateday`,
+        IFNULL(
+        IFNULL(
+        FIND_IN_SET(
+        #{subjectId},
+        `subject`
+        ),
+        0
+        ),
+        0
+        ) AS checked
+        FROM
+        (
+        SELECT
+        users.Id,
+        GROUP_CONCAT(subjectusers.SubjectKey) AS `subject`,
+        UserName,
+        `Name`,
+        Sex,
+        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+        DATE_FORMAT(CreateDate, "%d") AS createdateday
+        FROM
+        users
+        LEFT JOIN subjectusers ON subjectusers.UserKey = users.Id
+        WHERE
+        users.id IN (
+        SELECT
+        UserKey
+        FROM
+        majorusers
+        WHERE
+        MajorKey = #{majorId})
+        GROUP BY
+        users.Id
+        ORDER BY
+        CreateDate
+        ) AS t2 limit #{page},#{limit};
+    </select>
+
+
+    <select id="seleAllUsersByPageSubjcetLikeName"   resultType="com.tdu.develop.user.pojo.SubjectUser">
+        <!--select * from users where id in (select UserKey from subjectusers where SubjectKey=#{subjectId}) limit #{page},#{limit}-->
+        SELECT
+        `Id`,
+        `subject` AS subjectKey,
+        `UserName`,
+        `Name`,
+        `Sex`,
+        `createdateyear`,
+        `createdatemonth`,
+        `createdateday`,
+        IFNULL(
+        IFNULL(
+        FIND_IN_SET(
+        #{subjectId},
+        `subject`
+        ),
+        0
+        ),
+        0
+        ) AS checked
+        FROM
+        (
+        SELECT
+        users.Id,
+        GROUP_CONCAT(subjectusers.SubjectKey) AS `subject`,
+        UserName,
+        `Name`,
+        Sex,
+        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+        DATE_FORMAT(CreateDate, "%d") AS createdateday
+        FROM
+        users
+        LEFT JOIN subjectusers ON subjectusers.UserKey = users.Id
+        WHERE
+        users.id IN (
+        SELECT
+        UserKey
+        FROM
+        majorusers
+        WHERE
+        MajorKey = #{majorId})
+        GROUP BY
+        users.Id
+        ORDER BY
+        CreateDate
+        ) AS t2
+        WHERE
+        UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%')
+        limit #{page},#{limit};
+    </select>
+    <select id="seleAllUsersByPageSubjcetLikeNameCount"  parameterType="String" resultType="int">
+       SELECT
+        count(1)
+        FROM
+        (
+        SELECT
+        users.Id,
+        GROUP_CONCAT(subjectusers.SubjectKey) AS `subject`,
+        UserName,
+        `Name`,
+        Sex,
+        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+        DATE_FORMAT(CreateDate, "%d") AS createdateday
+        FROM
+        users
+        LEFT JOIN subjectusers ON subjectusers.UserKey = users.Id
+        WHERE
+        users.id IN (
+        SELECT
+        UserKey
+        FROM
+        majorusers
+        WHERE
+        MajorKey = #{majorId})
+        GROUP BY
+        users.Id
+        ORDER BY
+        CreateDate
+        ) AS t2 WHERE
+        UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%');
+    </select>
+
+    <select id="seleAllUsersByPageSubjcetCount"  parameterType="String" resultType="int">
+       SELECT
+        count(1)
+        FROM
+        (
+        SELECT
+        users.Id,
+        GROUP_CONCAT(subjectusers.SubjectKey) AS `subject`,
+        UserName,
+        `Name`,
+        Sex,
+        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+        DATE_FORMAT(CreateDate, "%d") AS createdateday
+        FROM
+        users
+        LEFT JOIN subjectusers ON subjectusers.UserKey = users.Id
+        WHERE
+        users.id IN (
+        SELECT
+        UserKey
+        FROM
+        majorusers
+        WHERE
+        MajorKey = #{majorId})
+        GROUP BY
+        users.Id
+        ORDER BY
+        CreateDate
+        ) AS t2;
+    </select>
+
+    <select id="seleAllUsersByPagemajor"  resultType="com.tdu.develop.user.pojo.MajorUser">
+       SELECT
+	`Id`,
+	`major` AS majorKey,
+	`UserName`,
+	`Name`,
+	`Sex`,
+	`createdateyear`,
+	`createdatemonth`,
+	`createdateday`,
+	IFNULL(
+		IFNULL(FIND_IN_SET(#{majorId}, `major`), 0),
+		0
+	) AS checked
+FROM
+	(
+		SELECT
+			users.Id,
+			GROUP_CONCAT(majorusers.MajorKey) AS `major`,
+			UserName,
+			`Name`,
+			Sex,
+			DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+			DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+			DATE_FORMAT(CreateDate, "%d") AS createdateday
+		FROM
+			users
+		LEFT JOIN majorusers ON majorusers.UserKey = users.Id
+		WHERE
+			users.id IN (
+				SELECT
+					UserKey
+				FROM
+					departmentusers
+				WHERE
+					DepartmentKey = #{collegeId}
+			)
+		GROUP BY
+			users.Id
+		ORDER BY
+			CreateDate
+	) AS t2 limit #{page},#{limit};
+    </select>
+
+    <select id="seleAllUsersByPagemajorLikeName"  resultType="com.tdu.develop.user.pojo.MajorUser">
+       SELECT
+	`Id`,
+	`major` AS majorKey,
+	`UserName`,
+	`Name`,
+	`Sex`,
+	`createdateyear`,
+	`createdatemonth`,
+	`createdateday`,
+	IFNULL(
+		IFNULL(FIND_IN_SET(#{majorId}, `major`), 0),
+		0
+	) AS checked
+FROM
+	(
+		SELECT
+			users.Id,
+			GROUP_CONCAT(majorusers.MajorKey) AS `major`,
+			UserName,
+			`Name`,
+			Sex,
+			DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+			DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+			DATE_FORMAT(CreateDate, "%d") AS createdateday
+		FROM
+			users
+		LEFT JOIN majorusers ON majorusers.UserKey = users.Id
+		WHERE
+			users.id IN (
+				SELECT
+					UserKey
+				FROM
+					departmentusers
+				WHERE
+					DepartmentKey = #{collegeId}
+			)
+		GROUP BY
+			users.Id
+		ORDER BY
+			CreateDate
+	) AS t2 WHERE
+        UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%')
+	 limit #{page},#{limit};
+    </select>
+
+    <select id="seleAllUsersByPagemajorLikeNameCount" resultType="int">
+        SELECT
+        count(1)
+        FROM
+	(
+		SELECT
+			users.Id,
+			GROUP_CONCAT(majorusers.MajorKey) AS `major`,
+			UserName,
+			`Name`,
+			Sex,
+			DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+			DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+			DATE_FORMAT(CreateDate, "%d") AS createdateday
+		FROM
+			users
+		LEFT JOIN majorusers ON majorusers.UserKey = users.Id
+		WHERE
+			users.id IN (
+				SELECT
+					UserKey
+				FROM
+					departmentusers
+				WHERE
+					DepartmentKey = #{collegeId}
+			)
+		GROUP BY
+			users.Id
+		ORDER BY
+			CreateDate
+	) AS t2 WHERE
+        UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%');
+    </select>
+
+    <select id="seleAllUsersByPagemajorCount" resultType="int">
+        SELECT
+        count(1)
+        FROM
+	(
+		SELECT
+			users.Id,
+			GROUP_CONCAT(majorusers.MajorKey) AS `major`,
+			UserName,
+			`Name`,
+			Sex,
+			DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+			DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+			DATE_FORMAT(CreateDate, "%d") AS createdateday
+		FROM
+			users
+		LEFT JOIN majorusers ON majorusers.UserKey = users.Id
+		WHERE
+			users.id IN (
+				SELECT
+					UserKey
+				FROM
+					departmentusers
+				WHERE
+					DepartmentKey = #{collegeId}
+			)
+		GROUP BY
+			users.Id
+		ORDER BY
+			CreateDate
+	) AS t2;
+    </select>
+
+    <select id="seleAllUsersByPagedepertment"  resultType="com.tdu.develop.user.pojo.DepartmentUser">
+       SELECT
+        `Id`,
+        `depertment` AS depertment,
+        `UserName`,
+        `Name`,
+        `Sex`,
+        `createdateyear`,
+        `createdatemonth`,
+        `createdateday`,
+        IFNULL(
+        IFNULL(
+        FIND_IN_SET(
+        #{depertmentId},
+        `depertment`
+        ),
+        0
+        ),
+        0
+        ) AS checked
+        FROM
+        (
+        SELECT
+        users.Id,
+        GROUP_CONCAT(departmentusers.DepartmentKey) AS `depertment`,
+        UserName,
+        `Name`,
+        Sex,
+        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+        DATE_FORMAT(CreateDate, "%d") AS createdateday
+        FROM
+        users
+        LEFT JOIN departmentusers ON departmentusers.UserKey = users.Id
+        GROUP BY
+        users.Id
+        ORDER BY
+        CreateDate
+        ) AS t2 limit #{page},#{limit};
+    </select>
+
+    <select id="seleUsersByPageDepertmentLikeName"  resultType="com.tdu.develop.user.pojo.DepartmentUser">
+       SELECT
+        `Id`,
+        `depertment` AS depertment,
+        `UserName`,
+        `Name`,
+        `Sex`,
+        `createdateyear`,
+        `createdatemonth`,
+        `createdateday`,
+        IFNULL(
+        IFNULL(
+        FIND_IN_SET(
+        #{depertmentId},
+        `depertment`
+        ),
+        0
+        ),
+        0
+        ) AS checked
+        FROM
+        (
+        SELECT
+        users.Id,
+        GROUP_CONCAT(departmentusers.DepartmentKey) AS `depertment`,
+        UserName,
+        `Name`,
+        Sex,
+        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+        DATE_FORMAT(CreateDate, "%d") AS createdateday
+        FROM
+        users
+        LEFT JOIN departmentusers ON departmentusers.UserKey = users.Id
+        GROUP BY
+        users.Id
+        ORDER BY
+        CreateDate
+        ) AS t2 WHERE
+        UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%')
+
+       <!-- CONCAT(`UserName`,`Name`) LIKE  '%#{userName}%' -->
+         limit #{page},#{limit};
+    </select>
+    <select id="seleUsersByPageDepertmentLikeNameCount" resultType="int" parameterType="String">
+        SELECT
+        count(1)
+        FROM
+        (
+        SELECT
+        users.Id,
+        GROUP_CONCAT(departmentusers.DepartmentKey) AS `depertment`,
+        UserName,
+        `Name`,
+        Sex,
+        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+        DATE_FORMAT(CreateDate, "%d") AS createdateday
+        FROM
+        users
+        LEFT JOIN departmentusers ON departmentusers.UserKey = users.Id
+        GROUP BY
+        users.Id
+        ORDER BY
+        CreateDate
+        ) AS t2 WHERE
+        UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%');
+    </select>
+    <select id="seleAllUsersByPagedepertmentCount" resultType="int">
+        SELECT
+        count(1)
+        FROM
+        (
+        SELECT
+        users.Id,
+        GROUP_CONCAT(departmentusers.DepartmentKey) AS `depertment`,
+        UserName,
+        `Name`,
+        Sex,
+        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+        DATE_FORMAT(CreateDate, "%d") AS createdateday
+        FROM
+        users
+        LEFT JOIN departmentusers ON departmentusers.UserKey = users.Id
+        GROUP BY
+        users.Id
+        ORDER BY
+        CreateDate
+        ) AS t2 ;
+    </select>
+    <select id="seleAllUsersByPageclassLileNameCount"  parameterType="String" resultType="int">
+         SELECT
+	count(1)
+FROM
+	(
+		SELECT
+			users.Id,
+			GROUP_CONCAT(classusers.Class) AS Class,
+			UserName,
+			`Name`,
+			Sex,
+        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+        DATE_FORMAT(CreateDate, "%d") AS createdateday
+		FROM
+			users
+		LEFT JOIN classusers ON classusers.`User` = users.Id
+		WHERE
+			users.id IN (
+				SELECT
+					UserKey
+				FROM
+					majorusers
+				WHERE
+					MajorKey = #{majorId}
+			)
+		GROUP BY
+			users.Id
+		ORDER BY
+			CreateDate
+	) AS t2
+	WHERE
+        UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%');
+    </select>
+    <select id="seleAllUsersByPageclassCount"  parameterType="String" resultType="int">
+         SELECT
+	count(1)
+FROM
+	(
+		SELECT
+			users.Id,
+			GROUP_CONCAT(classusers.Class) AS Class,
+			UserName,
+			`Name`,
+			Sex,
+        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+        DATE_FORMAT(CreateDate, "%d") AS createdateday
+		FROM
+			users
+		LEFT JOIN classusers ON classusers.`User` = users.Id
+		WHERE
+			users.id IN (
+				SELECT
+					UserKey
+				FROM
+					majorusers
+				WHERE
+					MajorKey = #{majorId}
+			)
+		GROUP BY
+			users.Id
+		ORDER BY
+			CreateDate
+	) AS t2;
+    </select>
+
+    <select id="seleAllUsersByPageCollege"  resultType="com.tdu.develop.user.pojo.Users">
+        select * from users where id in (select UserKey from departmentusers where DepartmentKey=#{departmentKey}) limit #{page},#{limit}
+    </select>
+
+    <!-- 11.28 南靖專用-->
+    <select id="getAllSub" resultType="com.tdu.develop.user.pojo.Subjects">
+		select * from subjects where Id='086e9c77-8f33-4b0a-b3a6-39f138f512a0'
+	</select>
+
+
+    <select id="getClass" parameterType="String" resultType="com.tdu.develop.user.pojo.Classes">
+        SELECT * FROM classes WHERE Id=#{classKey}
+    </select>
+
+    <select id="getClassList" resultType="com.tdu.develop.user.pojo.Classes">
+        SELECT * FROM classes WHERE Major_Id in
+        <foreach collection="ids" item="ids" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </select>
+
+    <select id="getMajorId" parameterType="String" resultType="String">
+       SELECT Id FROM majors WHERE College_Id =#{depertId}
+    </select>
+
+    <select id="getAllUsers"  resultType="com.tdu.develop.user.pojo.Users">
+      SELECT
+	`Id`,
+	`UserName`,
+	`Name`,
+	`Sex`,
+	CreateDate,
+	Idol
+FROM
+	users
+	 limit #{page},#{limit};
+    </select>
+
+    <select id="getAllUsersCount" resultType="int">
+        SELECT
+        count(1)
+        FROM
+       users
+    </select>
+
+
+    <select id="getAllUsersLikeName"  resultType="com.tdu.develop.user.pojo.Users">
+      SELECT
+	`Id`,
+	`UserName`,
+	`Name`,
+	`Sex`,
+	CreateDate,
+	Idol
+FROM
+	users
+	where UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%')
+
+	 limit #{page},#{limit};
+    </select>
+
+    <select id="getAllUsersLikeNameCount" resultType="int">
+        SELECT
+        count(1)
+        FROM
+       users
+       where UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%')
+    </select>
+
+    <update id="updateEndDay" parameterType="String">
+
+        UPDATE users
+         set
+         Idol=#{endDay} WHERE Id=#{userId}
+    </update>
+</mapper>

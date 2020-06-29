@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdu.develop.models.mapper.DevelopVoicesMapper">
+
+	<select id="getVoicesFis" parameterType="String"  resultType="com.tdu.develop.models.pojo.Voices" >
+     	Select * from voices where  SubjectTree_Id=#{subTreeId} and ParentVoice  is null
+     </select>
+
+	<select id="getVoicesSecond" parameterType="String"  resultType="com.tdu.develop.models.pojo.Voices" >
+     	Select * from voices where  ParentVoice=#{ParentVoice}
+     </select>
+
+	<select id="getKnowledgecontentsName" parameterType="String"  resultType="String" >
+     	Select nmae from Knowledgecontents where  knowledge_Id=#{knowledge_Id}
+     </select>
+	<select id="getVoiceContentName" parameterType="String" resultType="com.tdu.develop.models.pojo.Voicecontents">
+		 SELECT * from voicecontents WHERE `Id`=#{id}
+	</select>
+</mapper>

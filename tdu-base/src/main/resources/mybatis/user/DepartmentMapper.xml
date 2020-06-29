@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdu.develop.user.mapper.DepartmentMapper">
+	
+
+	
+	
+	<select id="getCollege_Id" parameterType="String" resultType="String">
+		
+select College_Id from majors where majors.id in(
+	SELECT MajorKey from majorusers where majorusers.UserKey = #{UserKey});
+	</select>
+	
+	<insert id="Adddepartment" parameterType="com.tdu.develop.user.pojo.Department">
+		INSERT INTO departments (`Id`, `Address`, `Briefintroduction`, `Email`, `Name`, `Phone`, `Photo`, `Website`) VALUES (#{Id},#{Address},#{Briefintroduction},#{Email},#{Name},#{Phone},#{Photo},#{Website});
+
+	</insert>
+	<insert id="Adddepartment2" parameterType="com.tdu.develop.user.pojo.Department">
+		INSERT INTO departments (`Id`, `Address`, `Briefintroduction`, `Email`, `Name`, `Phone`) VALUES (#{Id},#{Address},#{Briefintroduction},#{Email},#{Name},#{Phone});
+
+	</insert>
+	
+	<delete id="Deletedepartment" parameterType="String">
+		delete from departments where Id in (#{Id})
+	</delete>
+	    
+	<select id="DepartmentList" resultType="com.tdu.develop.user.pojo.Department" >
+		select * from departments  where id in (SELECT DepartmentKey from departmentusers where  UserKey= #{userId})
+	</select>
+
+	<select id="DepartmentListAll" resultType="com.tdu.develop.user.pojo.Department" >
+		select * from departments
+	</select>
+	
+	<select id="DepartmentListById" parameterType="String" resultType="com.tdu.develop.user.pojo.Department" >
+		select * from departments <where> Id=#{#id}</where>
+	</select>
+	
+	<update id="Updatedepartment" parameterType="com.tdu.develop.user.pojo.Department">
+			UPDATE departments SET `Id`=#{Id}, `Address`=#{Address}, `Briefintroduction`=#{Briefintroduction}, `Email`=#{Email}, `Name`=#{Name}, `Phone`=#{Phone}, `Photo`=#{Photo}, `Website`=#{Website} WHERE (`Id`=#{Id});
+
+	</update>
+
+	<update id="Updatedepartment2" parameterType="com.tdu.develop.user.pojo.Department">
+			UPDATE departments SET `Id`=#{Id}, `Address`=#{Address}, `Briefintroduction`=#{Briefintroduction}, `Email`=#{Email}, `Name`=#{Name}, `Phone`=#{Phone} WHERE (`Id`=#{Id});
+
+	</update>
+	<!-- Major -->
+	<insert id="AddMajor" parameterType="com.tdu.develop.user.pojo.Major">
+		INSERT INTO majors (`Id`, `MajorName`, `MajorOrder`, `College_Id`) VALUES (#{Id},#{MajorName},#{MajorOrder},#{College_Id});
+	</insert>
+	
+	<delete id="DeleteMajor" parameterType="String">
+		delete from majors where Id in (#{Id})
+	</delete> 
+	
+	<select id="getMajor" parameterType="String" resultType="com.tdu.develop.user.pojo.Major">
+		select * from majors where Id=#{Id}
+	</select> 
+	
+	<select id="getMajorIdList" parameterType="String" resultType="String">
+		SELECT MajorKey from majorusers where majorusers.UserKey = #{UserKey}
+	</select>
+	
+	<select id="MajorListByCollege_Id" parameterType="String" resultType="com.tdu.develop.user.pojo.Major" >
+	select * from majors <where> College_Id=#{College_Id}</where> order by MajorOrder
+</select>
+
+	<select id="MajorListByUserId" parameterType="String" resultType="com.tdu.develop.user.pojo.Major" >
+		SELECT
+	*
+FROM
+	majors
+WHERE
+	id IN (
+		SELECT
+			MajorKey
+		FROM
+			majorusers
+		WHERE
+			UserKey =#{userId}
+	)
+AND College_Id =#{college_id}
+ORDER BY
+	MajorOrder
+	</select>
+
+	<select id="MajorListById" parameterType="String" resultType="com.tdu.develop.user.pojo.Major" >
+		select * from majors <where> Id=#{Id}</where>
+	</select>
+	
+	<select id="getMajorCount" resultType="int" >
+		SELECT COUNT(*) FROM majors
+	</select>
+	<update id="UpdateMajor" parameterType="com.tdu.develop.user.pojo.Major">
+			UPDATE majors SET `MajorName`=#{MajorName}, `MajorOrder`=#{MajorOrder}, `College_Id`=#{College_Id} WHERE (`Id`=#{Id});
+ 
+	</update>
+	
+	<!-- Majoruser -->
+	<select id="getAllMajorUser" parameterType="String" resultType="com.tdu.develop.user.pojo.MajorUser">
+		 SELECT `Id`, `MajorKey`, `UserName`, `Name`, `Sex`, `createdateyear`, `createdatemonth`, `createdateday`,IFNULL(IFNULL(FIND_IN_SET(`MajorKey`,#{majorid}),0),0) AS checked from (SELECT  users.Id,majorusers.MajorKey,UserName,`Name`,Sex,DATE_FORMAT(CreateDate,"%Y") as createdateyear,DATE_FORMAT(CreateDate,"%m") as createdatemonth,DATE_FORMAT(CreateDate,"%d") as createdateday  FROM users
+ LEFT JOIN majorusers on majorusers.`UserKey`=users.Id GROUP BY users.Id ORDER BY CreateDate )  AS t2
+	</select>
+	
+	
+	<!-- Class -->
+	<select id="GetClasslistBydepartmentid" parameterType="String" resultType="com.tdu.develop.user.pojo.Classes" >
+		SELECT * FROM classes WHERE  Major_Id in(SELECT id FROM majors WHERE College_Id=#{departmentId});
+	</select>
+	<select id="ClassListByMajor_Id" parameterType="String" resultType="com.tdu.develop.user.pojo.Classes" >
+		select * from classes <where> Major_Id=#{major_id}</where>  
+	</select>
+	<select id="ClassListById" parameterType="String" resultType="com.tdu.develop.user.pojo.Classes" >
+		select * from classes <where> Id=#{id}</where>
+	</select>
+	<insert id="AddClass" parameterType="com.tdu.develop.user.pojo.Classes">
+		INSERT INTO classes (`Id`, `ClassName`, `Major_Id`) VALUES (#{id},#{className},#{major_id});
+	</insert>
+	
+	<delete id="DeleteClass" parameterType="String">
+		delete from classes where Id in (#{id})
+	</delete> 
+	<delete id="DeleteClassUser" parameterType="String">
+		delete from classusers where Class in (#{id})
+	</delete> 
+	<update id="UpdateClass" parameterType="com.tdu.develop.user.pojo.Classes">
+			UPDATE classes SET `ClassName`=#{className} WHERE (`Id`=#{id});
+ 
+	</update>
+	
+	<delete id="DelClassByMajor_Id" parameterType="String">
+		delete from classes where Major_Id in (#{major_id})
+	</delete>
+	
+	
+	
+	
+	<!-- Classuser -->
+	
+	<select id="getAllUser" parameterType="String" resultType="com.tdu.develop.user.pojo.ClassUser">
+		 <!-- SELECT `Id`, `Class` as ClassKey, `UserName`, `Name`, `Sex`, `createdateyear`, `createdatemonth`, `createdateday`,IFNULL(IFNULL(FIND_IN_SET(Class,#{classid}),0),0) AS checked from (SELECT  users.Id,classusers.Class,UserName,`Name`,Sex,DATE_FORMAT(CreateDate,"%Y") as createdateyear,DATE_FORMAT(CreateDate,"%m") as createdatemonth,DATE_FORMAT(CreateDate,"%d") as createdateday  FROM users
+ LEFT JOIN classusers on classusers.`User`=users.Id GROUP BY users.Id ORDER BY CreateDate )  AS t2 -->
+ SELECT
+	`Id`,
+	`Class` AS ClassKey,
+	`UserName`,
+	`Name`,
+	`Sex`,
+	`createdateyear`,
+	`createdatemonth`,
+	`createdateday`,
+	IFNULL(
+		IFNULL(FIND_IN_SET(#{classid},Class), 0),
+		0
+	) AS checked
+FROM
+	(
+		SELECT
+			users.Id,
+			GROUP_CONCAT(classusers.Class) AS Class,
+			UserName,
+			`Name`,
+			Sex,
+			DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+			DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+			DATE_FORMAT(CreateDate, "%d") AS createdateday
+		FROM
+			users
+		LEFT JOIN classusers ON classusers.`User` = users.Id
+		GROUP BY
+			users.Id
+		ORDER BY
+			CreateDate
+	) AS t2;
+ 
+	</select>
+	 
+	
+	
+	
+	<select id="SelectClassUser" parameterType="String" resultType="Integer">
+		select count(Id) from classusers  where `Class`=#{ClassId} and `User`=#{UserId}
+	</select>
+	<select id="SelectDepertmentUser" parameterType="String" resultType="Integer">
+		select count(Id) from departmentusers  where `DepartmentKey`=#{departmentId} and `UserKey`=#{userId}
+	</select>
+	<select id="SelectMajorUser" parameterType="String" resultType="Integer">
+		select count(Id) from majorusers  where `MajorKey`=#{majorId} and `UserKey`=#{userId}
+	</select>
+	<insert id="ClassAddUser" parameterType="String">
+		insert into classusers (`Id`, `Class`, `User`) values (#{Id},#{ClassId},#{UserId})
+	</insert>
+
+	<insert id="DepartmentUser" parameterType="String">
+		INSERT INTO `departmentusers` (`Id`, `UserKey`, `DepartmentKey`) VALUES (#{Id},#{userId},#{departmentId} );
+
+	</insert>
+	<insert id="MajorAddUser" parameterType="String">
+		INSERT INTO `majorusers` (`Id`, `UserKey`, `MajorKey`) VALUES (#{Id},#{userId},#{majorId} );
+	</insert>
+	
+	<delete id="ClassRemoveUser" parameterType="String">
+		delete from classusers where `Class`=#{ClassId} and `User`=#{UserId}
+	</delete>
+	<delete id="DepertmentRemoveUser" parameterType="String">
+		delete from departmentusers where `DepartmentKey`=#{departmentId} and `UserKey`=#{userkey}
+	</delete>
+
+	<delete id="MajorRemoveUser" parameterType="String">
+		delete from majorusers where `MajorKey`=#{majorId} and `UserKey`=#{userkey}
+	</delete>
+	
+	
+	<!-- Subjectuser -->
+
+
+	<update id="UpdateSubject" parameterType="com.tdu.develop.user.pojo.Subjects">
+		UPDATE subjects SET `SubjectName`=#{subjectName},`Money`=#{money} WHERE (`Id`=#{id});
+
+	</update>
+
+	<delete id="DelSubjectByMajor_Id" parameterType="String">
+		delete from subjects where Major_Id = (#{major_Id})
+	</delete>
+	
+	<select id="SubjectListById" parameterType="String" resultType="com.tdu.develop.user.pojo.Subjects" >
+		select * from subjects <where> Id=#{Id}</where>
+	</select>
+	
+	<select id="getMajorSubjects" parameterType="String" resultType="com.tdu.develop.user.pojo.Subjects">
+		select * from subjects where `Major_Id`=#{Major_Id}
+	</select>
+
+	<select id="getMajorSubjectsByUserId" parameterType="String" resultType="com.tdu.develop.user.pojo.Subjects">
+		SELECT
+	*
+FROM
+	subjects
+WHERE
+	id IN (
+		SELECT
+			SubjectKey
+		FROM
+			subjectusers
+		WHERE
+			UserKey = #{userId}
+	)
+AND `Major_Id` = #{majorId};
+	</select>
+	
+	<insert id="SubjectAddUser" parameterType="String">
+		insert into subjectusers (`Id`, `UserKey`, `SubjectKey`,`EndDate`) values (#{Id},#{UserKey},#{SubjectKey},#{EndDate})
+	</insert>
+	
+	<delete id="SubjectRemoveUser" parameterType="String">
+		delete from subjectusers where `UserKey`=#{UserKey} and `SubjectKey`=#{SubjectKey}
+	</delete>
+	
+	<select id="subjectCount" resultType="Integer">
+		select count(Id) from subjects
+	</select>
+	<insert id="AddSubject" parameterType="com.tdu.develop.user.pojo.Subjects">
+	 INSERT INTO subjects (`Id`, `SubjectName`, `SubjectIcon`, `Money`, `SubjectIntro`, `SubjectOrder`, `Major_Id`, `Date`) VALUES (#{id},#{subjectName},#{subjectIcon},#{money},#{subjectIntro},#{subjectOrder},#{major_Id},#{data})
+	</insert>
+	
+	<delete id="DeleteSubject" parameterType="String">
+		delete from subjects where Id in (#{subjectid})
+	</delete> 
+	<delete id="DeleteSubjectUser" parameterType="String">
+		delete from subjectusers where subjectKey in (#{subjectid})
+	</delete>  
+	 <select id="SelectSubjectUser" parameterType="String" resultType="Integer">
+		select count(Id) from subjectusers  where `Userkey`=#{Userkey} and `SubjectKey`=#{SubjectKey}
+	</select>
+	 
+	 <select id="getAllSubjectUser" parameterType="String" resultType="com.tdu.develop.user.pojo.SubjectUser">
+		  <!-- SELECT `Id`, `SubjectKey`, `UserName`, `Name`, `Sex`, `createdateyear`, `createdatemonth`, `createdateday`,IFNULL(IFNULL(FIND_IN_SET(`SubjectKey`,#{subjectid}),0),0) AS checked from (SELECT  users.Id,Subjectusers.SubjectKey,UserName,`Name`,Sex,DATE_FORMAT(CreateDate,"%Y") as createdateyear,DATE_FORMAT(CreateDate,"%m") as createdatemonth,DATE_FORMAT(CreateDate,"%d") as createdateday  FROM users
+ LEFT JOIN subjectusers on subjectusers.`UserKey`=users.Id GROUP BY users.Id ORDER BY CreateDate )  AS t2 -->
+ SELECT
+	`Id`,
+	`SubjectKey`,
+	`UserName`,
+	`Name`,
+	`Sex`,
+	`createdateyear`,
+	`createdatemonth`,
+	`createdateday`,
+	IFNULL(
+		IFNULL(
+			FIND_IN_SET(
+#{subjectid},
+				`SubjectKey`
+				
+			),
+			0
+		),
+		0
+	) AS checked
+FROM
+	(
+		SELECT
+			users.Id,
+			GROUP_CONCAT(Subjectusers.SubjectKey) AS SubjectKey,
+			UserName,
+			`Name`,
+			Sex,
+			DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+			DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+			DATE_FORMAT(CreateDate, "%d") AS createdateday
+		FROM
+			users
+		LEFT JOIN subjectusers ON subjectusers.`UserKey` = users.Id
+		GROUP BY
+			users.Id
+		ORDER BY
+			CreateDate
+	) AS t2;
+	</select>
+	 
+	 <select id="AllUserInfo" resultType="String">
+	 	select Id from users
+	 </select>
+	 
+	 <update id="SaveSubject" parameterType="String">
+	 	update subjects set SubjectName=#{SubjectName},Money=#{Money} where Id=#{subjectId}
+	 </update>
+	 
+	 <select id="GetUserJson" resultType="com.tdu.develop.user.pojo.UserJson">
+	 		SELECT  users.Id,UserName,`Name`,Sex,DATE_FORMAT(CreateDate,"%Y") as createdateyear,DATE_FORMAT(CreateDate,"%m") as createdatemonth,DATE_FORMAT(CreateDate,"%d") as createdateday  FROM users ORDER BY CreateDate  
+	 </select>
+	 
+	 
+	 <select id="GetAllRoles" resultType="com.tdu.develop.user.pojo.Roles">
+	 	select Id,RoleName from roles
+	 </select>
+	 
+	 <select id="GetUserRolesbyId" parameterType="String" resultType="com.tdu.develop.user.pojo.Roles">
+	 	select Id,RoleName from roles where Id in(select Role_Id from userroles where User_Id=#{userid})
+	 </select>
+	 
+	 <insert id="AddUserRole" parameterType="String">
+	 	insert into userroles (`User_Id`, `Role_Id`) VALUES  (#{userid},#{roleid})
+	 </insert>
+	 
+	 <delete id="DeleteUserRole" parameterType="String">
+	 	delete from userroles where User_Id=#{userid}
+	 </delete>
+	 
+
+	 <insert id="AddNewKnowledge" parameterType="com.tdu.develop.user.pojo.Knowledges">
+
+	 <!-- INSERT INTO `knowledges` (`Id`, `Content`, `ParentKnowledge`, `PreKnowledge`, `SubjectTree_Id`, `ImageIcons`, `KnowledgeContentId`, `BeforCondition`, `CheckDel`, `DelTime`, `userKey`)   VALUES  (#{id},#{content},#{parentKnowledge},#{preKnowledge},#{subjectTree_Id},#{imageIcons},#{knowledgecontentId},#{beforCondition},#{CheckDel},#{DelTime},#{userKey}) 	-->
+
+	 INSERT INTO `knowledges` VALUES  (#{id},#{content},#{parentKnowledge},#{preKnowledge},#{subjectTree_Id},#{imageIcons},#{knowledgecontentId},#{beforCondition},#{CheckDel},#{DelTime},#{userKey})
+
+	</insert>
+	 
+	 <select id="seleMajorName" parameterType="String" resultType="String">
+	 	select SubjectName from subjects where id=#{majorId}
+	 </select>
+	
+	
+	<update id="SaveClass" parameterType="String">
+	 	update classes set ClassName=#{className} where Id=#{id}
+	 </update>
+
+	<select id="getCollegeName" parameterType="String" resultType="String">
+		SELECT
+	`Name`
+FROM
+	departments
+WHERE
+	Id in (
+		SELECT
+			College_Id
+		FROM
+			majors
+		WHERE
+			Id IN (
+				SELECT
+					Major_Id
+				FROM
+					subjects
+				WHERE
+					Id IN (
+						SELECT
+							SubjectKey
+						FROM
+							`subjectusers`
+						WHERE
+							UserKey = #{userId}
+					)
+			)
+	)
+	</select>
+
+	<select id="getSubjectName" parameterType="String" resultType="String">
+		SELECT SubjectName from `develop_user`.`subjects` WHERE Id=#{subjectId}
+	</select>
+
+	<select id="getCollerId" parameterType="String" resultType="String">
+		select Major_Id from subjects where id =#{subjectId}
+	</select>
+</mapper>

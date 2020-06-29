@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdu.develop.resource.mapper.LinkMapper">
+	<resultMap id="BaseResultMap" type="com.tdu.develop.resource.pojo.Link">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="long_url" jdbcType="VARCHAR" property="longUrl" />
+		<result column="short_url" jdbcType="VARCHAR" property="shortUrl" />
+		<result column="time" jdbcType="DATE" property="time" />
+		<result column="yanzheng" jdbcType="VARCHAR" property="yanzheng" />
+		<result column="jiami" jdbcType="VARCHAR" property="jiami" />
+		<result column="sharetime" jdbcType="DATE" property="sharetime" />
+		<result column="userId" jdbcType="VARCHAR" property="userId" />
+		<result column="sharecount" jdbcType="INTEGER" property="sharecount" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+	</resultMap>
+	<sql id="Base_Column_List">
+        id, long_url, short_url
+    </sql>
+
+	<!-- 根据长链接查询 -->
+	<select id="findByLongUrl" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from link
+		where long_url = #{longUrl,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据短链接查询 -->
+	<select id="findByShortUrl" parameterType="java.lang.String" resultType="java.lang.String">
+        select long_url from link
+        where short_url = #{shortUrl,jdbcType=VARCHAR}
+    </select>
+
+	<select id="findLink" parameterType="java.lang.String" resultType="com.tdu.develop.resource.pojo.Link">
+        select * from link
+        where short_url = #{shortUrl,jdbcType=VARCHAR}
+    </select>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from link
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<insert id="insert" parameterType="com.tdu.develop.resource.pojo.Link">
+        insert into link (id, long_url, short_url,time,yanzheng,jiami,sharetime,userId,sharecount,name)
+        values (#{id,jdbcType=VARCHAR}, #{longUrl,jdbcType=VARCHAR}, #{shortUrl,jdbcType=VARCHAR}, #{time,jdbcType=DATE}, #{yanzheng,jdbcType=VARCHAR}, #{jiami,jdbcType=VARCHAR}, #{sharetime,jdbcType=DATE}, #{userId,jdbcType=VARCHAR}, #{sharecount,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
+    </insert>
+
+	<select id="getlink" parameterType="java.lang.String" resultType="com.tdu.develop.resource.pojo.Link">
+        select * from link
+        where userId = #{userId}
+    </select>
+</mapper>

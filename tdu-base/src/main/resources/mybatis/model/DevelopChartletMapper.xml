@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdu.develop.models.mapper.DevelopChartletMapper">
+	<select id="getChartletsFis" parameterType="String"  resultType="com.tdu.develop.models.pojo.Chartlets" >
+     	Select * from chartlets where  SubjectTree_Id=#{subTreeId} and ParentChartlet  is null
+     </select>
+
+	<select id="getChartletsSecond" parameterType="String"  resultType="com.tdu.develop.models.pojo.Chartlets" >
+     	Select * from chartlets where  ParentChartlet=#{ParentChartlet}
+     </select>
+
+	<select id="getChartletContentName" parameterType="String" resultType="com.tdu.develop.models.pojo.Chartlets">
+		 SELECT * from chartletcontents WHERE `Id`=#{id}
+	</select>
+	<update id="delChartletcontents" parameterType="com.tdu.develop.models.pojo.Chartletcontents">
+		UPDATE chartletcontents
+				 SET `CheckDel`=#{CheckDel},`DelTime`=#{DelTime}
+ WHERE `Chartlet_Id`=#{Chartlet_Id}
+	</update>
+
+	<update id="delChartlets" parameterType="com.tdu.develop.models.pojo.Chartlets">
+		UPDATE chartlets
+				 SET `CheckDel`=#{CheckDel},`DelTime`=#{DelTime}
+ WHERE `Id`=#{Id}
+	</update>
+</mapper>

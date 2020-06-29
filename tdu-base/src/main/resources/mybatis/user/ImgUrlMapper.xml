@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdu.develop.mapper.user.TestUserMapper">
+    <select id="seleImgURL" resultType="com.tdu.develop.user.pojo.ImgURL">
+		select * from imgURL
+	</select>
+
+    <update id="upImgURL" parameterType="String">
+        update imgURL set imgURL=#{imgURL} <where> id=#{id} </where>
+    </update>
+
+    <select id="seleLoginBackground" resultType="String">
+        select imgURL from imgurl <where> name='loginBackground' </where>
+    </select>
+
+    <select id="seleLoginBackgroundAgain" resultType="String">
+        select imgURL from imgurl <where> name='loginBackground' </where>
+    </select>
+
+    <select id="seleSchoolNameImg" resultType="String">
+		select imgURL from imgurl where name='schoolNameImg'
+	</select>
+
+    <select id="seleSchoolLogo1" resultType="String">
+		select imgURL from imgurl where name='schoolLogo1'
+	</select>
+
+    <select id="seleSchoolLogo2" resultType="String">
+		select imgURL from imgurl where name='schoolLogo2'
+	</select>
+
+</mapper>

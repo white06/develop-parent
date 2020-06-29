@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdu.develop.resource.mapper.QuestionMapper">	
+	<select id="GetFillblankQuestionJson" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
+		select Id,Title,Type,Content,QuestionImg,fenshu from questions where Type='填空题' and knowledgeid=#{knowledgeid}
+	</select>
+
+	<select id="GetSingleChoiceQuestionJson" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
+			select Id,Title,Type,Content,QuestionImg,fenshu from questions where Type='单选题' and knowledgeid=#{knowledgeid}
+	</select>	
+	
+	<select id="GetMulChoiceQuestionJson" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
+			select Id,Title,Type,Content,QuestionImg,fenshu from questions where Type='多选题' and knowledgeid=#{knowledgeid}
+	</select>	
+	
+	<select id="GetIsTureQuestionJson" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
+			select Id,Title,Type,Content,QuestionImg,fenshu from questions where Type='判断题' and knowledgeid=#{knowledgeid}
+	</select>	
+	
+	<select id="GetTextAreaQuestionJson" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
+			select Id,Title,Type,Content,QuestionImg,fenshu from questions where Type='问答题' and knowledgeid=#{knowledgeid}
+	</select>	
+	
+	<select id="Get3DQuestionJson" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
+			select Id,Title,Type,Content,QuestionImg,fenshu from questions where Type='3D仿真实验题' and knowledgeid=#{knowledgeid}
+	</select>	
+	<select id="GetcompreQuestionJson" parameterType="String" resultType="com.tdu.develop.resource.pojo.QuestionComprehensives">
+			select Id,QuestionStem,QuestionKeyArray,'综合题' as type from questioncomprehensives where KnowledgeId=#{knowledgeid}
+	</select>
+	
+	<insert id="addKnowledge" parameterType="com.tdu.develop.resource.pojo.Knowledges">
+		INSERT INTO `knowledges` (`Id`, `Content`, `ParentKnowledge`, `PreKnowledge`, `SubjectTree_Id`, `ImageIcons`, `KnowledgeContentId`, `BeforCondition`) VALUES (#{id},#{content},#{parentKnowledge},#{preKnowledge},#{subjectTree_Id},#{imageIcons},#{knowledgecontentId},#{beforCondition});
+
+	</insert>
+	
+	<select id="GetPrevSourceList" parameterType="String" resultType="com.tdu.develop.resource.pojo.PrevKnowledgeContentInfor">
+		select Id as knowledgecontentid,CustomName as customname,Type as type from knowledgecontents where knowledge_Id=#{knowledge_Id} order by `Order`
+	</select>
+	
+	<select id="seektestQuestion" resultMap="questionMap">
+		
+		select qu.*,know.Content as point,know.id as k_id
+		FROM questions AS qu, knowledges AS know
+		WHERE
+			qu.KnowledgeId = know.Id
+and qu.Type=#{question.type} and qu.QuestionImg=#{question.questionImg} 
+		and qu.KnowledgeId=#{question.knowledgeId} order by RAND() LIMIT #{number}
+	</select>
+	
+	
+	<!-- <select id="seektestQuestion"  resultType="seekResult">
+		select * from questions where Type=#{question.type} and QuestionImg=#{question.questionImg} and KnowledgeId=#{question.knowledgeId} order by RAND() LIMIT #{number}
+	</select> -->
+	
+	
+	<resultMap type="com.tdu.develop.resource.pojo.Question" id="questionMap">
+		<id column="Id" property="id"/>
+		<result column="Content" property="content"/>
+		<result column="KnowledgeId" property="knowledgeId"/>
+		<result column="Time" property="time"/>
+		<result column="Title" property="title"/>
+		<result column="Type" property="type"/>
+		<result column="QuestionImg" property="questionImg"/>
+		<result column="fenshu" property="fenshu"/>
+		<association property="knowledges" javaType="com.tdu.develop.resource.pojo.Knowledges" resultMap="knowResult"></association>
+	</resultMap>
+	<resultMap type="com.tdu.develop.resource.pojo.Knowledges" id="knowResult">
+		<id column="k_id" property="id"/>
+		<result column="point" property="content"/>
+	</resultMap>
+	
+</mapper>

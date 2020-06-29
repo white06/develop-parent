@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdu.develop.models.mapper.DevelopModelMapper">
+	
+	<select id="getFirstModelId" parameterType="String" resultType="String">
+		select Id from models where ParentModel=#{ParentModel} and userKey=#{userKey} and PreModel is null
+	</select>
+	
+<!--	<select id="getSubjectModelsRootId2" parameterType="String" resultType="String">
+		select Id from subjecttrees where SubjectKey=#{SubjectKey} and TreeName='模型库'
+	</select>-->
+	
+	<update id="delmodels" parameterType="String">
+		update models set CheckDel=1,DelTime=#{DelTime}  where Id=#{Id}
+	</update>
+	<update id="delmodelContets" parameterType="String">
+		update modelcontents set CheckDel=1,DelTime=#{DelTime} where Id=#{Id}
+	</update>
+	
+	
+	<update id="updateModelName" parameterType="String">
+		update models set Content=#{Content} where ModelContentId=#{ModelContentId}
+	</update>
+	<update id="updateModelContentName" parameterType="String">
+		update modelcontents set CustomName=#{CustomName} where Id=#{Id}
+	</update>
+	
+	<select id="getFisModels" resultType="com.tdu.develop.models.pojo.Models">
+    	select * from models where SubjectTree_Id=#{subUpId} and ModelContentId='00000000-0000-0000-0000-000000000000' and parentModel=#{parentModel} and userKey=#{userKey}
+    </select>
+    
+    <select id="getSubModels"   parameterType="String"  resultType="com.tdu.develop.models.pojo.Models">
+    	select * from models where SubjectTree_Id=#{subUpId} and parentModel=#{parentId} and modelContentId='00000000-0000-0000-0000-000000000000' and CheckDel='0' and userKey=#{userKey};
+    </select>
+    
+    <insert id="addSubModels" parameterType="String">
+		<!-- insert into models (id,content,parentModel,preModel,SubjectTree_id,ImageIcons,ModelContentId,BeforCondition,Name) values(#{Id},#{content},#{parentModel},'00',#{subUpId},'../../../Source/imgicon/tag_orange.png','00000000-0000-0000-0000-000000000000','0',#{content}); -->
+		insert into models (id,content,parentModel,preModel,SubjectTree_id,ImageIcons,ModelContentId,BeforCondition,CheckDel,DelTime,userKey) values(#{Id},#{content},#{parentModel},#{preModel},#{subUpId},'../../../Source/imgicon/tag_orange.png','00000000-0000-0000-0000-000000000000','0',0,null,#{userKey});
+	</insert>
+	
+	  <!--<select id="getSubId"   parameterType="String"  resultType="String">-->
+    	<!--select id from subjecttrees where SubjectKey=#{subId} and TreeName=#{treeName}-->
+    <!--</select>-->
+    
+    <update id="upFirModelTree" parameterType="String">
+		<!--&lt;!&ndash; update models set content=#{content},name=#{content} where Id=#{Id} &ndash;&gt;-->
+		update models set content=#{content} where Id=#{Id}
+	</update>
+	
+	<delete id="deleteModel" parameterType="String">
+	DELETE FROM models WHERE Id=#{Id}
+	</delete>
+	
+	 <insert id="addFisModels" parameterType="String">
+		<!-- insert into models (id,content,parentModel,preModel,SubjectTree_id,ImageIcons,ModelContentId,BeforCondition,Name) values(#{Id},#{content},#{parentId},'00',#{subId},'../../../Source/imgicon/tag_orange.png','00000000-0000-0000-0000-000000000000','0',#{content}); -->
+		insert into models (id,content,parentModel,preModel,SubjectTree_id,ImageIcons,ModelContentId,BeforCondition,CheckDel,DelTime,userKey) values(#{Id},#{content},#{parentId},'00',#{subId},'../../../Source/imgicon/tag_orange.png','00000000-0000-0000-0000-000000000000','0',0,null,#{userKey});
+	</insert>
+	
+	<insert id="addFisModels2" parameterType="String">
+		insert into models (id,content,parentModel,preModel,SubjectTree_id,ImageIcons,ModelContentId,BeforCondition,CheckDel,DelTime,userKey) values(#{Id},#{content},#{parentId},#{PreModel},#{subId},'../../../Source/imgicon/tag_orange.png','00000000-0000-0000-0000-000000000000','0',0,null,#{userKey});
+	</insert>
+	
+	<select id="getRootId"   parameterType="String"  resultType="String">
+    	select id from models where SubjectTree_id=#{subId} and content='Root'
+    </select>
+    
+    <select id="getModelcontents"   parameterType="String"  resultType="com.tdu.develop.models.pojo.Models">
+    	select * from models where parentModel=#{modelId} and userKey=#{userKey};
+    </select>
+    
+    <select id="getModelcontentsInfos"   parameterType="String"  resultType="com.tdu.develop.models.pojo.Modelcontents">
+    	select * from modelcontents where model_Id=#{modelId}
+    </select>
+    
+     <select id="getSubId1"  parameterType="String"  resultType="String">
+    	select SubjectTree_Id from models where id=#{modelId}
+    </select>
+    
+    	<select id="getModelsMaxOrder" resultType="Integer">
+		select MAX(`Order`) from modelcontents
+	</select>
+	
+		
+	<insert id="addModelsModel" parameterType="com.tdu.develop.models.pojo.Modelcontents">
+		insert into modelcontents values (#{Id},#{Nmae},#{Type},#{Introduce},#{CustomName},#{CustomStyle},#{Model_Id},#{ImageContentIcons},#{Order},#{userKey},#{PhotoName},#{Url},#{CheckDel},#{DelTime})
+	</insert>
+	
+	<select id="alterModelContent_Id" parameterType="com.tdu.develop.models.pojo.Modelcontents">
+		update models set ModelContentId=#{Id},Content=#{CustomName} where Id=#{Model_Id}
+	</select>
+	
+	<insert id="addLastModelsNode" parameterType="com.tdu.develop.models.pojo.Models">
+		insert into models values(#{Id},#{Content},#{ParentModel},#{PreModel},#{SubjectTree_Id},#{ImageIcons},#{ModelContentId},#{BeforCondition},#{CheckDel},#{DelTime},#{userKey})
+	</insert>
+	
+	<select id="getSubjectModelsRootId" parameterType="String" resultType="String">
+		select Id from models where SubjectTree_Id=#{subjectTree_Id} and Content='Root' and ParentModel is null
+	</select>
+	
+	
+	
+	<select id="seleModelsNum" parameterType="String" resultType="Integer">
+		select COUNT(1) from models where SubjectTree_Id=#{id} and ParentModel=#{rootId} AND userKey = #{userKey};
+	</select>
+	
+	<select id="getModelsNextNodeId" parameterType="String" resultType="String">
+		select Id from models where PreModel=#{firstId}
+	</select>
+	<select id="getAllModelsclass" parameterType="String" resultType="com.tdu.develop.models.pojo.Models">
+		select * from models where ParentModel=#{treeNodeId}
+	</select>
+	
+	<select id="getFileModelsContent" parameterType="String" resultType="com.tdu.develop.models.pojo.Modelcontents">
+		select * from modelcontents where Model_Id=#{Model_Id}
+	</select>
+		<delete id="deleteSimulateModels" parameterType="String">
+		delete from modelcontents where Id=#{sourceId}
+	</delete>
+		<select id="getModelsPreNodeId" parameterType="String" resultType="String">
+		select PreModel from models where Id=#{currentNodeId}
+	</select>
+		<update id="alterModelsNextPreNodeId" parameterType="String" >
+		update models set PreModel=#{preId} where Id=#{nextId}
+	</update>
+		<delete id="deleteModelsKnowledges" parameterType="String" >
+		delete from models where Id=#{id}
+	</delete>
+		<select id="getModelsTreeId" parameterType="String" resultType="String">
+		select SubjectTree_Id from models where Id=#{Model_Id}
+	</select>
+		
+	<select id="childModelsNum" parameterType="String" resultType="Integer">
+		select COUNT(1) from models where ParentModel=#{id}
+	</select>
+		<select id="seleModelsKnow" parameterType="String" resultType="com.tdu.develop.models.pojo.Models">
+		select * from models where id=#{knowId}
+	</select>
+	<delete id="delModelContact" parameterType="String">
+	DELETE FROM modelcontact WHERE Id=#{Id};
+	</delete>
+		<delete id="delModels2" parameterType="String">
+		DELETE FROM model WHERE `Content` = #{Content}
+	</delete>
+	
+	<select id="seleModelsFirst" parameterType="String" resultType="com.tdu.develop.models.pojo.Models">
+		select * from models where SubjectTree_Id=#{treeId} and ParentModel=#{rootId} and PreModel is null AND userKey = #{userKey};
+	</select>
+	
+	<select id="seleModelsForP" parameterType="String" resultType="com.tdu.develop.models.pojo.Models">
+		SELECT * FROM  models WHERE ParentModel=#{parentId} and userKey=#{userKey}  and CheckDel=0 and 1 ORDER BY CONVERT( Content USING gbk ) COLLATE gbk_chinese_ci ASC
+	</select>
+	
+	<resultMap type="com.tdu.develop.models.pojo.Models" id="modelslist">
+		<id column="Id" property="Id" />
+		<result column="Content" property="Content" />
+		<result column="ParentModel" property="ParentModel" />
+		<result property="PreModel" column="PreModel" />
+		<result property="SubjectTree_Id" column="SubjectTree_Id" />
+		<result property="ImageIcons" column="ImageIcons" />
+		<result property="ModelContentId" column="ModelContentId" />
+		<result property="BeforCondition" column="BeforCondition" />
+		
+		<result property="CheckDel" column="CheckDel" />
+		<result property="DelTime" column="DelTime" />
+		
+		<result property="photoName" column="PhotoName" />
+		<result property="userKey" column="userKey" />
+		<result property="fileName" column="Name" />
+		<result property="Type" column="Type" />
+	</resultMap>
+	
+
+	<select id="getSubModelByTreeClick" resultMap="modelslist" parameterType="String">
+SELECT
+	model.*, modcontent.PhotoName as photoName,modcontent.Nmae AS fileName,modcontent.Type
+FROM
+	`models` AS model,
+	`modelcontents` AS modcontent
+WHERE
+ model.ParentModel =#{ParentModel}
+AND model.Id = modcontent.Model_Id		
+	</select>
+	
+	<select id="getModelsByTreeClick" resultMap="modelslist" parameterType="String">
+SELECT
+	model.*, modcontent.PhotoName as photoName,modcontent.Nmae AS fileName,modcontent.Type
+FROM
+	`models` AS model,
+	`modelcontents` AS modcontent
+WHERE
+ model.Id =#{Id}
+AND model.Content =#{Content}
+AND model.Id = modcontent.Model_Id		
+	</select>
+	<select id="getModelsparentId" parameterType="String" resultType="com.tdu.develop.models.pojo.Models">
+		SELECT *FROM models WHERE Id=( SELECT ParentModel FROM `models` WHERE Id=#{Id});
+	</select>
+
+	<select id="getModelsFis" parameterType="String"  resultType="com.tdu.develop.models.pojo.Models" >
+     	Select * from models where  SubjectTree_Id=#{subTreeId} and ParentModel  is null
+     </select>
+
+	<select id="getModelsSecond" parameterType="String"  resultType="com.tdu.develop.models.pojo.Models" >
+     	Select * from models where  ParentModel=#{ParentModel} and userKey=#{userKey}
+     </select>
+
+	<select id="getModelContentName" parameterType="String" resultType="com.tdu.develop.models.pojo.Modelcontents">
+		 SELECT * from modelcontents WHERE `Id`=#{id}
+	</select>
+
+	<select id="getModelsType" parameterType="String" resultType="String">
+		select Type from modelcontents where Id=#{ModelContentId}
+	</select>
+
+	<select id="getModelByAllUsers" parameterType="String" resultType="com.tdu.develop.models.pojo.Models">
+		SELECT
+	*
+FROM
+	models
+WHERE
+	Content LIKE CONCAT('%',#{Content}, '%')
+AND SubjectTree_Id = #{SubjectTree_Id}
+	</select>
+	<update id="delModelcontents" parameterType="com.tdu.develop.models.pojo.Modelcontents">
+		UPDATE modelcontents
+				 SET `CheckDel`=#{CheckDel},`DelTime`=#{DelTime}
+ WHERE `Model_Id`=#{Model_Id}
+	</update>
+
+	<update id="delModels" parameterType="com.tdu.develop.models.pojo.Models">
+		UPDATE models
+				 SET `CheckDel`=#{CheckDel},`DelTime`=#{DelTime}
+ WHERE `Id`=#{Id}
+	</update>
+
+	<select id="getModelByTeamUserModels" parameterType="String" resultType="com.tdu.develop.models.pojo.Models">
+		SELECT
+	*
+FROM
+	models
+WHERE
+	Content LIKE CONCAT('%',#{Content}, '%')
+AND userKey = #{userKey}
+AND SubjectTree_Id = #{SubjectTree_Id}
+	</select>
+
+	<select id="getParentModels" parameterType="String" resultType="com.tdu.develop.models.pojo.Models">
+		select * from models where parentModel=#{Id}
+	</select>
+
+	<!--<select id="getModelContacts2" resultType="com.tdu.develop.models.pojo.ModelContact">-->
+		<!--select *from `modelcontact` where parentId='7fb53e8f-baf1-4c1e-8868-bad634e81461';&lt;!&ndash; '0af7206e-30ae-4142-9902-9bbe30eef886'; &ndash;&gt;-->
+	<!--</select>-->
+	<!--<select id="getModelListMapper2" parameterType="String" resultType="com.tdu.develop.models.pojo.Models">-->
+		<!--SELECT * FROM `model` WHERE ContactKey=#{ContactKey}  AND userKey=#{userKey} AND Type='场景';-->
+	<!--</select>-->
+
+	<!--<select id="getModelsList" resultMap="modelslist" parameterType="String">-->
+<!--SELECT-->
+	<!--model.*, modcontent.PhotoName as photoName,modcontent.Nmae AS fileName-->
+<!--FROM-->
+	<!--`models` AS model,-->
+	<!--`modelcontents` AS modcontent-->
+<!--WHERE-->
+	<!--model.Id = modcontent.Model_Id-->
+<!--AND modcontent.Type = '模型'-->
+<!--AND model.ParentModel =#{Id}-->
+<!--AND model.userKey =#{userKey};-->
+	<!--</select>-->
+
+
+	<select id="getModelListMapper" parameterType="String" resultType="com.tdu.develop.models.pojo.Models">
+		SELECT * FROM `model` WHERE ContactKey=#{ContactKey} AND userKey=#{userKey} AND Type='模型';
+	</select>
+	<update id="updateModelFileName" parameterType="String">
+
+		UPDATE `model` SET `FileName`=#{FileName} WHERE `Id`= #{Id};
+	</update>
+
+	<update id="updateModel" parameterType="com.tdu.develop.models.pojo.Models">
+
+		UPDATE `models`
+		<trim prefix="set" suffixOverrides="," suffix="WHERE `Id` = #{Id}">
+			<if test="Id!=null">`Id`= #{Id} ,</if>
+			<if test="Content!=null">`Content`= #{Content} ,</if>
+			<if test="PhotoName!=null">`PhotoName`= #{PhotoName} ,</if>
+			<if test="userKey!=null">`userKey`= #{userKey} ,</if>
+			<if test="ContactKey!=null">`ContactKey`= #{ContactKey} ,</if>
+			<if test="Type!=null">`Type`= #{Type} ,</if>
+			<if test="Name!=null">`Name`= #{Name},</if>
+			<if test="Url!=null">`Url`= #{Url},</if>
+			<if test="FileName!=null">`FileName`= #{FileName},</if>
+		</trim>
+
+		<!-- SET `Name`=#{Name} WHERE `Id`=#{Id}; -->
+	</update>
+	<select id="getModel" parameterType="String" resultType="com.tdu.develop.models.pojo.Models">
+		select * from models where  `Id` = #{Id}
+	</select>
+
+	<update id="updateModelsContent" parameterType="String">
+		UPDATE modelcontents
+				 SET `Nmae`=#{name},`PhotoName`=#{PhotoName}
+ WHERE `Id`=#{id}
+	</update>
+	<resultMap type="com.tdu.develop.models.pojo.Models" id="modelslist2">
+		<id column="Id" property="Id" />
+		<result column="Content" property="Content" />
+		<result column="ParentModel" property="ParentModel" />
+		<result property="PreModel" column="PreModel" />
+		<result property="SubjectTree_Id" column="SubjectTree_Id" />
+		<result property="ImageIcons" column="ImageIcons" />
+		<result property="ModelContentId" column="ModelContentId" />
+		<result property="BeforCondition" column="BeforCondition" />
+
+		<result property="checkDel" column="CheckDel" />
+		<result property="delTime" column="DelTime" />
+
+		<result property="photoName" column="PhotoName" />
+		<result property="userKey" column="userKey" />
+		<result property="fileName" column="Name" />
+	</resultMap>
+
+	<select id="getModelsList" resultMap="modelslist2" parameterType="String">
+    SELECT
+    model.*, modcontent.PhotoName as photoName,modcontent.Nmae AS fileName
+    FROM
+    `models` AS model,
+    `modelcontents` AS modcontent
+    WHERE
+    model.ModelContentId = modcontent.Id
+    AND modcontent.Type = '模型'
+    AND model.ParentModel =#{Id}
+    AND model.userKey =#{userKey};
+  </select>
+
+	<select id="getModelcontentsInfos2"   parameterType="String"  resultType="com.tdu.develop.models.pojo.Modelcontents">
+    	select * from modelcontents where id=#{id}
+    </select>
+
+	<select id="seleModelsNum2" parameterType="String" resultType="Integer">
+		select COUNT(1) from models where SubjectTree_Id=#{id} and ParentModel=#{rootId} and userKey=#{userKey}
+	</select>
+
+	<select id="seleModelsFirst2" parameterType="String" resultType="com.tdu.develop.models.pojo.Models">
+		select * from models where SubjectTree_Id=#{treeId} and ParentModel=#{rootId} and PreModel is null and userKey=#{userKey}
+	</select>
+
+	<insert id="inknowModels" parameterType="com.tdu.develop.models.pojo.Models">
+		insert into models(Id,Content,ParentModel,PreModel,SubjectTree_Id,ImageIcons,ModelContentId,BeforCondition,CheckDel,DelTime,userKey)
+	 values(#{Id},#{Content},#{ParentModel},#{PreModel},#{SubjectTree_Id},#{ImageIcons},#{ModelContentId},#{BeforCondition},0,null,#{userKey})
+	</insert>
+
+	<select id="seleRootModels" parameterType="String" resultType="String">
+	SELECT id FROM (SELECT * from models where SubjectTree_Id=#{id}) k WHERE k.Content='Root' AND k.ParentModel is NULL
+	</select>
+
+	<insert id="AddNewModle" parameterType="com.tdu.develop.models.pojo.Models">
+		INSERT INTO `models` (`Id`, `Content`, `ParentModel`, `PreModel`, `SubjectTree_Id`, `ImageIcons`, `ModelContentId`, `BeforCondition`,`CheckDel`,`DelTime`,`userKey`) VALUES(#{id},#{content},#{ParentModel},#{PreModel},#{subjectTree_Id},#{imageIcons},#{ModelContentId},#{beforCondition},0,null,null) ;
+	</insert>
+
+	<select id="getContentModels" parameterType="String" resultType="com.tdu.develop.models.pojo.Models">
+		SELECT * from models WHERE SubjectTree_Id=#{subjectId} AND ModelContentId!='00000000-0000-0000-0000-000000000000' AND Content like CONCAT('%',#{sarchStr},'%')
+	</select>
+</mapper>

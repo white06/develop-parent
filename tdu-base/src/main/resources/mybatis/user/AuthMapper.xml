@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdu.develop.user.mapper.AuthMapper">
+     
+	<select id="AuthList" resultType="com.tdu.develop.user.pojo.Auth" >
+		select * from auths order by Num 		 
+	</select>
+	<select id="AuthInfo" resultType="com.tdu.develop.user.pojo.Auth" parameterType="String">
+		select * from auths where Id=#{authId}	 
+	</select>
+	
+	<delete id="DeleteInfo" parameterType="String">
+		delete from auths where Id in (#{authId})
+	</delete>
+	
+	<insert id="AddAuth" parameterType="com.tdu.develop.user.pojo.Auth">
+		insert into auths(`Id`,`PageName`,`Num`,`Link`,`Children`,`ParametersType`) values (#{Id},#{PageName},#{Num},#{Link},#{Children},#{ParametersType})
+	</insert>
+	
+	<update id="UpdateAuth" parameterType="com.tdu.develop.user.pojo.Auth">
+			update auths set PageName=#{PageName},Num=#{Num},Link=#{Link},Children=#{Children},ParametersType=#{ParametersType} <where>Id=#{Id}</where>
+	</update>
+	<insert id="addRoleByAuthId" parameterType="String">
+		insert into roleauths(Auth_Id,Role_Id) values (#{authId},'9c8c0815-3968-45d0-9fae-0d42885973fc')
+	</insert>
+
+
+	<insert id="addRoleAuth" parameterType="String">
+		insert into roleauths(Auth_Id,Role_Id) values (#{authId},#{roldId})
+	</insert>
+
+	<select id="queryRoleAuths"  resultType="String">
+		select Auth_Id from roleauths where Role_Id=#{roleId}
+	</select>
+
+	<select id="queryCount"  resultType="int" parameterType="String">
+		SELECT count(1) FROM roleauths WHERE Role_Id=#{roldId} AND Auth_Id=#{authId}
+	</select>
+
+	<delete id="delRoleAuth" parameterType="String" >
+		DELETE FROM roleauths WHERE Role_Id=#{roldId} AND Auth_Id=#{authId}
+	</delete>
+</mapper>

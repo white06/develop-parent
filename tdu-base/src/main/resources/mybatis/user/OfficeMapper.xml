@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdu.develop.user.mapper.OfficeMapper">
+    <select id="getclasses" resultType="com.tdu.develop.user.pojo.Classes">
+        select Id,ClassName from classes
+    </select>
+    <select id="getUsersId" parameterType="String" resultType="String">
+        select User from classusers where Class=#{classId}
+    </select>
+
+    <select id="getUsersIdByCollege" parameterType="String" resultType="String">
+        select UserKey from departmentusers where DepartmentKey=#{departmentKey}
+    </select>
+
+    <select id="getUsersInfos" parameterType="String" resultType="com.tdu.develop.user.pojo.Member">
+       <!--select Brithdate,Constellation,FamilyAddress,FamilyPhoneNum,MobilePhoneNum,
+		MSN,Name,OfficePhoneNum,PassWord,QQNum,Sex,UserName,CreateDate,Email
+		from users where Id=#{str}-->
+		select `Brithdate`,`Constellation`,`FamilyAddress`,`FamilyPhoneNum`,`MobilePhoneNum`,
+		`MSN`,`Name`,`OfficePhoneNum`,`PassWord`,`QQNum`,`Sex`,`UserName`,`CreateDate`,`Email`
+		from users where Id=#{str}
+		<!--select
+		from users where Id=#{str}-->
+    </select>
+    <select id="getAllStudents" resultType="String">
+        select User_Id from userroles where Role_Id='0c494961-fc3c-41b3-992a-4f9b0d0f57eb'
+    </select>
+    <select id="getAllTeachers" resultType="String">
+        select User_Id from userroles where Role_Id='0f7b183d-4606-4874-8f36-566d8792403d'
+    </select>
+    <select id="getclassesOfClassName" resultType="String">
+        select ClassName from classes
+    </select>
+    <insert id="createClass" parameterType="com.tdu.develop.user.pojo.Classes" >
+        insert into classes(Id,ClassName) values (#{id},#{className})
+    </insert>
+
+
+
+
+
+    <select id="getKnowledgeContentId" parameterType="String" resultType="String">
+		SELECT
+			knowledgeContentId
+		FROM
+			knowledges
+		WHERE
+			SubjectTree_Id = #{subjectTree_Id}
+		AND content = '仿真考核';
+	</select>
+    <select id="getSubTreeId" parameterType="String" resultType="String">
+
+SELECT
+					id
+				FROM
+					subjecttrees
+				WHERE
+					SubjectKey = #{subjectKey}
+				AND TreeName = '来闯关'
+	</select>
+
+
+    <select id="getNurseScore" parameterType="com.tdu.develop.resource.pojo.StuQueInfors" resultType="String">
+        SELECT
+        QuesScore
+        FROM
+        develop_resource.stuqueinfors
+        WHERE
+        PagerKey = (
+        SELECT
+        knowledgeContentId
+        FROM
+        develop_resource.knowledges
+        WHERE
+        SubjectTree_Id = (
+        SELECT
+        id
+        FROM
+        develop_resource.subjecttrees
+        WHERE
+        SubjectKey = #{pagerKey}
+        AND TreeName = '来闯关'
+        )
+        AND content = '仿真考核'
+        )
+        AND StuKey =#{stuKey};
+    </select>
+
+    <select id="getchengji" parameterType="com.tdu.develop.resource.pojo.StuQueInfors" resultType="String">
+        <!-- SELECT
+        QuesScore
+    FROM
+        stuqueinfors
+    WHERE
+        PagerKey = #{pagerKey}
+    AND StuKey =#{stuKey}; -->
+        SELECT
+        QuesScore
+        FROM
+        stuqueinfors
+        WHERE
+        PagerKey = (
+        SELECT
+        knowledgeContentId
+        FROM
+        knowledges
+        WHERE
+        SubjectTree_Id = (
+        SELECT
+        id
+        FROM
+        subjecttrees
+        WHERE
+        SubjectKey = #{subjectKey}
+        AND TreeName = '来闯关'
+        )
+        AND content = '仿真考核'
+        )
+        AND StuKey =#{stuKey};
+    </select>
+
+    <select id="getSubject" resultType="com.tdu.develop.user.pojo.Subjects">
+		SELECT * FROM `subjects`;
+	</select>
+
+    <select id="getNurseSubject" resultType="com.tdu.develop.user.pojo.Subjects">
+		SELECT * FROM subjects WHERE Major_Id in(
+'12e99095-89ed-4009-91a9-2c2fd5a6710c',
+'54698515-e16b-4231-a75c-bf3b0d954b1f',
+'5787f3c7-0651-4d4a-bc4e-ce548b2f773c',
+'debefa3a-e401-40c6-b642-ce197d7d3c19',
+'f9e46952-146f-4b18-a010-89af788eb917')
+	</select>
+
+    <select id="getclasses2" resultType="com.tdu.develop.user.pojo.Classes">
+		select Id,ClassName from classes WHERE Id='327d1845-8f5e-4da6-8e6e-c216ae24c175' OR Id='34bec0cf-73ca-4584-ad0e-ae72f259f02d';
+	</select>
+
+    <select id="getNurseClasses" resultType="com.tdu.develop.user.pojo.Classes">
+		select Id,ClassName from classes WHERE Id='1eccb9eb-8445-4875-9bb9-4cf56e258fbd' OR Id='6fde77c9-ace9-4346-ba73-4c5a17b12619' OR Id='69e42396-a1ec-4c68-85a3-6e4d043752af'
+	OR Id='d476d93a-0735-4674-b7bd-b57f9f05d32d'OR Id='e71e6aa8-efbf-44c0-8632-c89ff3d1516c';
+	</select>
+
+    <select id="getUsersId2" parameterType="String" resultType="String">
+        SELECT
+        Id
+        FROM
+        `users`
+        WHERE
+        Id IN (
+        SELECT
+        `User`
+        FROM
+        `classusers`
+        WHERE
+        Class = #{classId}
+        );
+        <!-- select User from classusers where Class=#{classId} -->
+    </select>
+
+    <select id="getUsersInfos2" parameterType="String" resultType="com.tdu.develop.user.pojo.Member">
+		select Id, Brithdate,Constellation,FamilyAddress,FamilyPhoneNum,MobilePhoneNum,
+		MSN,Name,OfficePhoneNum,PassWord,QQNum,Sex,UserName,CreateDate,Email
+		from users where Id=#{str} order BY UserName
+	</select>
+
+    <select id="getAllNurseStudents" resultType="String">
+		SELECT
+	Id
+FROM
+	`users`
+WHERE
+	Id IN (
+		SELECT
+			`User`
+		FROM
+			`classusers`
+		WHERE
+			Class = '1eccb9eb-8445-4875-9bb9-4cf56e258fbd'
+		OR Class = '6fde77c9-ace9-4346-ba73-4c5a17b12619'
+		OR class ='69e42396-a1ec-4c68-85a3-6e4d043752af'
+		OR class ='d476d93a-0735-4674-b7bd-b57f9f05d32d'
+		OR class ='e71e6aa8-efbf-44c0-8632-c89ff3d1516c'
+	);
+	</select>
+
+
+    <select id="getAllStudents2" resultType="String">
+		SELECT
+	Id
+FROM
+	`users`
+WHERE
+	Id IN (
+		SELECT
+			`User`
+		FROM
+			`classusers`
+		WHERE
+			Class = '34bec0cf-73ca-4584-ad0e-ae72f259f02d'
+		OR Class = '327d1845-8f5e-4da6-8e6e-c216ae24c175'
+	);
+	</select>
+</mapper>

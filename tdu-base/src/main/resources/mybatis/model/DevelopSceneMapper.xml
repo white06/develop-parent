@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdu.develop.models.mapper.DevelopSceneMapper">
+
+	<resultMap type="com.tdu.develop.models.pojo.Scenes" id="sceneslist">
+		<id column="Id" property="Id" />
+		<result column="Content" property="Content" />
+		<result column="ParentScene" property="ParentScene" />
+		<result property="PreScene" column="PreScene" />
+		<result property="SubjectTree_Id" column="SubjectTree_Id" />
+		<result property="ImageIcons" column="ImageIcons" />
+		<result property="SceneContentId" column="SceneContentId" />
+		<result property="BeforCondition" column="BeforCondition" />
+
+		<result property="CheckDel" column="CheckDel" />
+		<result property="DelTime" column="DelTime" />
+
+		<result property="photoName" column="PhotoName" />
+		<result property="userKey" column="userKey" />
+		<result property="fileName" column="Name" />
+	</resultMap>
+
+	<select id="getFirstSceneId" parameterType="String" resultType="String">
+		select Id from scenes where ParentScene=#{ParentScene} and userKey=#{userKey} and PreScene is null
+	</select>
+	
+	<!--<select id="getSubjectScenesRootId2" parameterType="String" resultType="String">-->
+		<!--select Id from subjecttrees where SubjectKey=#{SubjectKey} and TreeName='场景库'-->
+	<!--</select>-->
+	
+	<update id="delScenes" parameterType="String">
+		update scenes set CheckDel=1,DelTime=#{DelTime}  where Id=#{Id}
+	</update>
+	<update id="delSceneContets" parameterType="String">
+		update scenecontents set CheckDel=1,DelTime=#{DelTime} where Id=#{Id}
+	</update>
+	
+	<update id="updateSceneName" parameterType="String">
+		update scenes set Content=#{Content} where SceneContentId=#{SceneContentId}
+	</update>
+	<update id="updateSceneContentName" parameterType="String">
+		update scenecontents set CustomName=#{CustomName} where Id=#{Id}
+	</update>
+	
+	<select id="getFisScenes" resultType= "com.tdu.develop.models.pojo.Scenes">
+    	select * from scenes where SubjectTree_Id=#{subUpId} and SceneContentId='00000000-0000-0000-0000-000000000000' and parentScene=#{parentScene} and userKey=#{userKey}
+    </select>
+    
+    <select id="getSubScenes"   parameterType="String"  resultType= "com.tdu.develop.models.pojo.Scenes">
+    	select * from scenes where SubjectTree_Id=#{subUpId} and parentScene=#{parentId} and sceneContentId='00000000-0000-0000-0000-000000000000' and CheckDel='0' and userKey=#{userKey};
+    </select>
+    
+    <insert id="addSubScenes" parameterType="String">
+		<!-- insert into scenes (id,content,parentScene,preScene,SubjectTree_id,ImageIcons,SceneContentId,BeforCondition,Name) values(#{Id},#{content},#{parentScene},'00',#{subUpId},'../../../Source/imgicon/tag_orange.png','00000000-0000-0000-0000-000000000000','0',#{content}); -->
+		insert into scenes (id,content,parentScene,preScene,SubjectTree_id,ImageIcons,SceneContentId,BeforCondition,CheckDel,DelTime,userKey) values(#{Id},#{content},#{parentScene},#{preScene},#{subUpId},'../../../Source/imgicon/tag_orange.png','00000000-0000-0000-0000-000000000000','0',0,null,#{userKey});
+	</insert>
+	
+	  <select id="getSubId"   parameterType="String"  resultType="String">
+    	select id from subjecttrees where SubjectKey=#{subId} and TreeName=#{treeName}
+    </select>
+    <!---->
+    <update id="upFirSceneTree" parameterType="String">
+		<!--&lt;!&ndash; update scenes set content=#{content},name=#{content} where Id=#{Id} &ndash;&gt;-->
+		update scenes set content=#{content} where Id=#{Id}
+	</update>
+	
+	<delete id="deleteScene" parameterType="String">
+	DELETE FROM scenes WHERE Id=#{Id}
+	</delete>
+	
+	 <insert id="addFisScenes" parameterType="String">
+		<!-- insert into scenes (id,content,parentScene,preScene,SubjectTree_id,ImageIcons,SceneContentId,BeforCondition,Name) values(#{Id},#{content},#{parentId},'00',#{subId},'../../../Source/imgicon/tag_orange.png','00000000-0000-0000-0000-000000000000','0',#{content}); -->
+		insert into scenes (id,content,parentScene,preScene,SubjectTree_id,ImageIcons,SceneContentId,BeforCondition,CheckDel,DelTime,userKey) values(#{Id},#{content},#{parentId},'00',#{subId},'../../../Source/imgicon/tag_orange.png','00000000-0000-0000-0000-000000000000','0',0,null,#{userKey});
+	</insert>
+	
+	<insert id="addFisScenes2" parameterType="String">
+		<!-- insert into scenes (id,content,parentScene,preScene,SubjectTree_id,ImageIcons,SceneContentId,BeforCondition,Name) values(#{Id},#{content},#{parentId},'00',#{subId},'../../../Source/imgicon/tag_orange.png','00000000-0000-0000-0000-000000000000','0',#{content}); -->
+		insert into scenes (id,content,parentScene,preScene,SubjectTree_id,ImageIcons,SceneContentId,BeforCondition,CheckDel,DelTime,userKey) values(#{Id},#{content},#{parentId},#{PreScene},#{subId},'../../../Source/imgicon/tag_orange.png','00000000-0000-0000-0000-000000000000','0',0,null,#{userKey});
+	</insert>
+	
+	<select id="getRootId"   parameterType="String"  resultType="String">
+    	select id from scenes where SubjectTree_id=#{subId} and content='Root'
+    </select>
+    
+    <select id="getScenecontents"   parameterType="String"  resultType= "com.tdu.develop.models.pojo.Scenes">
+    	select * from scenes where parentScene=#{sceneId} and userKey=#{userKey}
+    </select>
+    
+    <select id="getScenecontentsInfos"   parameterType="String"  resultType="com.tdu.develop.models.pojo.Scenecontents">
+    	select * from scenecontents where scene_Id=#{sceneId}
+    </select>
+    
+     <select id="getSubId1"  parameterType="String"  resultType="String">
+    	select SubjectTree_Id from scenes where id=#{sceneId}
+    </select>
+    
+    	<select id="getScenesMaxOrder" resultType="Integer">
+		select MAX(`Order`) from scenecontents
+	</select>
+	
+		
+	<insert id="addScenesModel" parameterType="com.tdu.develop.models.pojo.Scenecontents">
+		insert into scenecontents values (#{Id},#{Nmae},#{Type},#{Introduce},#{CustomName},#{CustomStyle},#{Scene_Id},#{ImageContentIcons},#{Order},#{userKey},#{PhotoName},#{Url},#{CheckDel},#{DelTime})
+	</insert>
+	
+	<select id="alterSceneContent_Id" parameterType="com.tdu.develop.models.pojo.Scenecontents">
+		update scenes set SceneContentId=#{Id},Content=#{CustomName} where Id=#{Scene_Id}
+	</select>
+	
+	<insert id="addLastScenesNode" parameterType= "com.tdu.develop.models.pojo.Scenes">
+		insert into scenes values(#{Id},#{Content},#{ParentScene},#{PreScene},#{SubjectTree_Id},#{ImageIcons},#{SceneContentId},#{BeforCondition},#{CheckDel},#{DelTime},#{userKey})
+	</insert>
+	
+	<select id="getSubjectScenesRootId" parameterType="String" resultType="String">
+		select Id from scenes where SubjectTree_Id=#{subjectTree_Id} and Content='Root' and ParentScene is null
+	</select>
+	
+	<select id="seleScenesNum" parameterType="String" resultType="Integer">
+		select COUNT(1) from scenes where SubjectTree_Id=#{id} and ParentScene=#{rootId} AND userKey = #{userKey};
+	</select>
+	
+	<select id="getScenesNextNodeId" parameterType="String" resultType="String">
+		select Id from scenes where PreScene=#{firstId}
+	</select>
+	<select id="getAllScenesclass" parameterType="String" resultType= "com.tdu.develop.models.pojo.Scenes">
+		select * from scenes where ParentScene=#{treeNodeId}
+	</select>
+	
+	<select id="getFileScenesContent" parameterType="String" resultType="com.tdu.develop.models.pojo.Scenecontents">
+		select * from scenecontents where Scene_Id=#{Scene_Id}
+	</select>
+		<delete id="deleteSimulateScenes" parameterType="String">
+		delete from scenecontents where Id=#{sourceId}
+	</delete>
+		<select id="getScenesPreNodeId" parameterType="String" resultType="String">
+		select PreScene from scenes where Id=#{currentNodeId}
+	</select>
+		<update id="alterScenesNextPreNodeId" parameterType="String" >
+		update scenes set PreScene=#{preId} where Id=#{nextId}
+	</update>
+		<delete id="deleteScenesKnowledges" parameterType="String" >
+		delete from scenes where Id=#{id}
+	</delete>
+		<select id="getScenesTreeId" parameterType="String" resultType="String">
+		select SubjectTree_Id from scenes where Id=#{Scene_Id}
+	</select>
+		
+	<select id="childScenesNum" parameterType="String" resultType="Integer">
+		select COUNT(1) from scenes where ParentScene=#{id}
+	</select>
+		<select id="seleScenesKnow" parameterType="String" resultType= "com.tdu.develop.models.pojo.Scenes">
+		select * from scenes where id=#{knowId}
+	</select>
+	<delete id="delSceneContact" parameterType="String">
+	DELETE FROM scenecontact WHERE Id=#{Id};
+	</delete>
+		<delete id="delScenes2" parameterType="String">
+		DELETE FROM scene WHERE `Content` = #{Content}
+	</delete>
+	
+	<select id="seleScenesFirst" parameterType="String" resultType= "com.tdu.develop.models.pojo.Scenes">
+		select * from scenes where SubjectTree_Id=#{treeId} and ParentScene=#{rootId} and PreScene is null AND userKey =#{userKey};
+	</select>
+	
+	<select id="seleScenesForP" parameterType="String" resultType= "com.tdu.develop.models.pojo.Scenes">
+		SELECT * FROM  scenes WHERE ParentScene=#{parentId} and userKey=#{userKey} and CheckDel=0 and 1 ORDER BY CONVERT( Content USING gbk ) COLLATE gbk_chinese_ci ASC
+	</select>
+	
+	<select id="getScenesparentId" parameterType="String" resultType= "com.tdu.develop.models.pojo.Scenes">
+		SELECT *FROM scenes WHERE Id=( SELECT ParentScene FROM `scenes` WHERE Id=#{Id});
+	</select>
+
+
+	<select id="getSceneByTeamUserScenes" parameterType="String" resultType="com.tdu.develop.models.pojo.Scenes">
+		SELECT
+	*
+FROM
+	scenes
+WHERE
+	Content LIKE CONCAT('%',#{Content}, '%')
+AND userKey = #{userKey}
+AND SubjectTree_Id = #{SubjectTree_Id}
+	</select>
+
+	<select id="getSceneByAllUsers" parameterType="String" resultType="com.tdu.develop.models.pojo.Scenes">
+		SELECT
+	*
+FROM
+	scenes
+WHERE
+	Content LIKE CONCAT('%',#{Content}, '%')
+AND SubjectTree_Id = #{SubjectTree_Id}
+	</select>
+
+	<select id="getSceneContentName" parameterType="String" resultType="com.tdu.develop.models.pojo.Scenecontents">
+		 SELECT * from scenecontents WHERE `Id`=#{id}
+	</select>
+
+	<select id="getScenesFis" parameterType="String"  resultType="com.tdu.develop.models.pojo.Scenes" >
+     	Select * from scenes where  SubjectTree_Id=#{subTreeId} and ParentScene  is null
+     </select>
+
+	<select id="getScenesSecond" parameterType="String"  resultType="com.tdu.develop.models.pojo.Scenes" >
+     	Select * from scenes where  ParentScene=#{ParentScene} and userKey=#{userKey}
+     </select>
+
+	<select id="getScenesType" parameterType="String" resultType="String">
+		select Type from scenecontents where Id=#{SceneContentId}
+	</select>
+
+	<update id="delScenecontents" parameterType="com.tdu.develop.models.pojo.Scenecontents">
+		UPDATE scenecontents
+				 SET `CheckDel`=#{CheckDel},`DelTime`=#{DelTime}
+ WHERE `Scene_Id`=#{Scene_Id}
+	</update>
+
+	<update id="delScenes_1" parameterType="com.tdu.develop.models.pojo.Scenes">
+		UPDATE scenes
+				 SET `CheckDel`=#{CheckDel},`DelTime`=#{DelTime}
+ WHERE `Id`=#{Id}
+	</update>
+
+	<select id="getParentScenes" parameterType="String" resultType="com.tdu.develop.models.pojo.Scenes">
+		select * from scenes where ParentScene=#{Id}
+	</select>
+
+	<select id="getScenesList" resultMap="sceneslist" parameterType="String">
+SELECT
+	scene.*, scecontent.PhotoName AS photoName,
+	scecontent.Nmae AS fileName
+FROM
+	`scenes` AS scene,
+	`scenecontents` AS scecontent
+WHERE
+	scene.Id = scecontent.Scene_Id
+AND scecontent.Type = '场景'
+AND scene.ParentScene = #{Id}
+AND scene.userKey =#{userKey};
+	</select>
+
+	<update id="updateScenesContent" parameterType="String">
+		UPDATE scenecontents
+				 SET `Nmae`=#{name},`PhotoName`=#{PhotoName}
+ WHERE `Id`=#{id}
+	</update>
+
+	<select id="seleScenesNum2" parameterType="String" resultType="Integer">
+		select COUNT(1) from scenes where SubjectTree_Id=#{id} and ParentScene=#{rootId} and userKey=#{userKey}
+	</select>
+
+	<select id="seleScenesFirst2" parameterType="String" resultType="com.tdu.develop.models.pojo.Scenes">
+		select * from scenes where SubjectTree_Id=#{treeId} and ParentScene=#{rootId} and PreScene is null and userKey=#{userKey}
+	</select>
+
+	<insert id="inknowScenes" parameterType="com.tdu.develop.models.pojo.Scenes">
+		insert into scenes(Id,Content,ParentScene,PreScene,SubjectTree_Id,ImageIcons,SceneContentId,BeforCondition,CheckDel,DelTime,userKey)
+	 values(#{Id},#{Content},#{ParentScene},#{PreScene},#{SubjectTree_Id},#{ImageIcons},#{SceneContentId},#{BeforCondition},0,null,#{userKey})
+	</insert>
+
+	<select id="seleRootScenes" parameterType="String" resultType="String">
+	SELECT id FROM (SELECT * from scenes where SubjectTree_Id=#{id}) k WHERE k.Content='Root' AND k.ParentScene is NULL
+	</select>
+
+	<insert id="AddNewScene" parameterType="com.tdu.develop.models.pojo.Scenes">
+		INSERT INTO `scenes` (`Id`, `Content`, `ParentScene`, `PreScene`, `SubjectTree_Id`, `ImageIcons`, `SceneContentId`, `BeforCondition`,`CheckDel`,`DelTime`,`userKey`) VALUES(#{id},#{content},#{ParentScene},#{PreScene},#{subjectTree_Id},#{imageIcons},#{SceneContentId},#{beforCondition},0,null,null) ;
+	</insert>
+
+	<select id="getContentScenes" parameterType="String" resultType="com.tdu.develop.models.pojo.Scenes">
+		SELECT * from scenes WHERE SubjectTree_Id=#{subjectId} AND SceneContentId!='00000000-0000-0000-0000-000000000000' AND Content like CONCAT('%',#{sarchStr},'%')
+	</select>
+
+	<select id="getSceneName" parameterType="String" resultType="String">
+		select Content from scenes where Id=#{sceneId}
+	</select>
+</mapper>
