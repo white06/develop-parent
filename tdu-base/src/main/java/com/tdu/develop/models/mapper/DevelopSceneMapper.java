@@ -14,6 +14,11 @@ import java.util.List;
 @Repository
 public interface DevelopSceneMapper {
 
+
+    public List<Scenes> getScenesByRank();
+
+    public  String getSceneId(@Param("sceneContentId")String sceneContentId );
+
     public void AddNewScene(Scenes knowledges);
 
     public String getFirstSceneId(@Param("ParentScene") String ParentScene, @Param("userKey") String userKey);
@@ -275,17 +280,17 @@ public interface DevelopSceneMapper {
 //     * @param id
 //     * @return
 //     */
-    public List<Scenes> getScenesList(@Param("Id")String Id,@Param("userKey")String userKey);
-    public int updateScenesContent(@Param("id")String knowlegcontentId,@Param("name")String name,@Param("PhotoName")String PhotoName);
+    public List<Scenes> getScenesList(@Param("Id") String Id, @Param("userKey") String userKey);
+    public int updateScenesContent(@Param("id") String knowlegcontentId, @Param("name") String name, @Param("PhotoName") String PhotoName);
 
-    public int seleScenesNum2(@Param("id") String id,@Param("rootId") String rootId,@Param("userKey") String userKey);
+    public int seleScenesNum2(@Param("id") String id, @Param("rootId") String rootId, @Param("userKey") String userKey);
 
-    public Scenes seleScenesFirst2(@Param("treeId")String id,@Param("rootId")String rootId,@Param("userKey") String userKey);
+    public Scenes seleScenesFirst2(@Param("treeId") String id, @Param("rootId") String rootId, @Param("userKey") String userKey);
 
     public void inknowScenes(Scenes knowledges);//添加功能
     public String seleRootScenes(String id);
 
-    List<Scenes> getContentScenes(@Param("subjectId")String subjectId,@Param("sarchStr")String sarchStr);
+    List<Scenes> getContentScenes(@Param("subjectId") String subjectId, @Param("sarchStr") String sarchStr);
 
-    public String getSceneName(@Param("sceneId")String sceneId);
+    public String getSceneName(@Param("sceneId") String sceneId);
 }

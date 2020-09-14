@@ -1,7 +1,6 @@
 package com.tdu.develop.resource.service;
 
-import com.tdu.develop.resource.pojo.*;
-import com.tdu.develop.user.pojo.Subjects;
+import com.tdu.develop.resource.pojo.Interpret;
 
 import java.util.List;
 
@@ -9,5 +8,7 @@ import java.util.List;
 public interface InterpretService {
 
     public  void addInterpret(Interpret interpret);
+
+    public List<Interpret> getInterResultList(String nandu,  String page,String userKey,String pageKey);
 
 }

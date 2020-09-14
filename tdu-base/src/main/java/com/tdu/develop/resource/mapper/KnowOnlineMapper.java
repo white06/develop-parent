@@ -16,15 +16,15 @@ import java.util.List;
 public interface KnowOnlineMapper {
     public void insetKnowOnline(KnowOnline knowOnline);
 
-    public Date getKnowOnlineTime(@Param("loginId")String loginId);
+    public Date getKnowOnlineTime(@Param("loginId") String loginId);
 
-    public void setKnowOnlineTime(@Param("onlineTime")int onlineTime,@Param("outTime")Date outTime,@Param("loginId")String loginId);
+    public void setKnowOnlineTime(@Param("onlineTime") int onlineTime, @Param("outTime") Date outTime, @Param("loginId") String loginId);
 
     List<Object> getHalfYear();
 
-    knowOnlineUtil getKnoUserOnLine(@Param("knowContId")String knowContId, @Param("userId")String userId);
+    knowOnlineUtil getKnoUserOnLine(@Param("knowContId") String knowContId, @Param("userId") String userId);
 
-    knowOnlineUtil getKnoOnLine(@Param("knowContId")String knowContId);
+    knowOnlineUtil getKnoOnLine(@Param("knowContId") String knowContId);
 
-    List<knowOnlineUtil> getKnoLineGroupUser(@Param("knowContId")String knowContId);
+    List<knowOnlineUtil> getKnoLineGroupUser(@Param("knowContId") String knowContId);
 }

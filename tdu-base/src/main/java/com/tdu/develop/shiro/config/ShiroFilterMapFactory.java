@@ -44,10 +44,12 @@ user:例如/admins/user/**=user没有参数表示必须存在用户，当登入�
 
 		filterChainDefinitionMap.put("/KnowOnlineController/insertKnowOutline.action", "anon");
 		filterChainDefinitionMap.put("/LinkController/**", "anon");
+		filterChainDefinitionMap.put("/ItemController/**", "anon");
 		filterChainDefinitionMap.put("/YunyinController/yuyin.action", "anon");
 		filterChainDefinitionMap.put("/UsersController/login.action", "anon");
 		filterChainDefinitionMap.put("/UsersController/login.action", "anon");
 		filterChainDefinitionMap.put("/UsersController/loginExport.action", "anon");
+		filterChainDefinitionMap.put("/LinkController/ins.action", "anon");
 		//监听器
 		filterChainDefinitionMap.put("/user", "anon");
 //		filterChainDefinitionMap.put("/login.php", "anon");

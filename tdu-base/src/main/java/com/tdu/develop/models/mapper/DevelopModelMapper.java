@@ -141,14 +141,14 @@ public interface DevelopModelMapper {
      * @param rootId
      * @return
      */
-    public int seleModelsNum(@Param("id") String id, @Param("rootId") String rootId,@Param("userKey") String userKey);
+    public int seleModelsNum(@Param("id") String id, @Param("rootId") String rootId, @Param("userKey") String userKey);
     /**
      * 查询第一个模型信息
      * @param id
      * @param rootId
      * @return
      */
-    public Models seleModelsFirst(@Param("treeId") String id, @Param("rootId") String rootId,@Param("userKey") String userKey);
+    public Models seleModelsFirst(@Param("treeId") String id, @Param("rootId") String rootId, @Param("userKey") String userKey);
     /**
      * 获取下一个NodeId
      * @param firstId
@@ -273,18 +273,18 @@ public interface DevelopModelMapper {
      * @param id
      * @return
      */
-    public List<Models> getModelsList(@Param("Id")String Id,@Param("userKey")String userKey);
+    public List<Models> getModelsList(@Param("Id") String Id, @Param("userKey") String userKey);
 
-    public List<Models> getModelListMapper(@Param("ContactKey")String ContactKey,@Param("userKey") String userKey);
+    public List<Models> getModelListMapper(@Param("ContactKey") String ContactKey, @Param("userKey") String userKey);
 
 
-    public int updateModelFileName(@Param("Id")String Id,@Param("FileName") String FileName);
+    public int updateModelFileName(@Param("Id") String Id, @Param("FileName") String FileName);
 
 
     public int updateModel(Models model);
 
     public Models getModel(String Id);
-    public int updateModelsContent(@Param("id")String knowlegcontentId,@Param("name")String name,@Param("PhotoName")String PhotoName);
+    public int updateModelsContent(@Param("id") String knowlegcontentId, @Param("name") String name, @Param("PhotoName") String PhotoName);
 
     /**
      * 获取模型信息
@@ -293,9 +293,9 @@ public interface DevelopModelMapper {
      */
     public Modelcontents getModelcontentsInfos2(@Param("id") String id);
 
-    public int seleModelsNum2(@Param("id") String id,@Param("rootId") String rootId,@Param("userKey") String userKey);
+    public int seleModelsNum2(@Param("id") String id, @Param("rootId") String rootId, @Param("userKey") String userKey);
 
-    public Models seleModelsFirst2(@Param("treeId")String id,@Param("rootId")String rootId,@Param("userKey") String userKey);
+    public Models seleModelsFirst2(@Param("treeId") String id, @Param("rootId") String rootId, @Param("userKey") String userKey);
 
     /**
      * 新增功能
@@ -304,5 +304,5 @@ public interface DevelopModelMapper {
 
     public String seleRootModels(String id);
 
-    List<Models> getContentModels(@Param("subjectId")String subjectId,@Param("sarchStr")String sarchStr);
+    List<Models> getContentModels(@Param("subjectId") String subjectId, @Param("sarchStr") String sarchStr);
 }

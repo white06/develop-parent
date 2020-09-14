@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -34,6 +34,240 @@ public class DevelopScenesController {
 
     @Autowired
     DevelopSceneService developSceneService=new DevelopSceneServiceImpl();
+
+
+    public void addChild(String NodeId,String operateID,String preScene,String sceneName,String subjectTreeId,String sceneKey,String fileType){
+        Scenes scenesChild = new Scenes();
+        String scenesChildId = UUID.randomUUID().toString();
+        scenesChild.setId(scenesChildId);
+        scenesChild.setContent(sceneName);
+        scenesChild.setParentScene(NodeId);
+        scenesChild.setSubjectTree_Id(subjectTreeId);
+        scenesChild.setImageIcons("../../../Source/imgicon/tag_orange.png");
+        scenesChild.setSceneContentId(sceneKey);
+        scenesChild.setBeforCondition(fileType);
+        scenesChild.setPreScene(preScene);
+        scenesChild.setUserKey(operateID);
+        developSceneService.addScenes(scenesChild);
+
+        Scenecontents Scenecontents = new Scenecontents();
+        Scenecontents.setNmae(sceneKey+".EXM");
+        Scenecontents.setCustomName(sceneName);
+        Scenecontents.setId(sceneKey);
+        Scenecontents.setIntroduce(null);
+        Scenecontents.setImageContentIcons(null);
+        Scenecontents.setScene_Id(scenesChildId);
+        Scenecontents.setType("场景");
+        Scenecontents.setOrder(145);
+        Scenecontents.setUrl("D:\\working\\TDuClub\\TDu\\Data\\3D");
+        developSceneService.addScenecontents(Scenecontents);
+    }
+
+    public void addScene(String rootId,String operateID,String sceneName,String subjectTreeId,String sceneKey,String fileType){
+        List<Scenes> sList=developSceneService.getScenesSecond(rootId,operateID);
+        System.out.println(sList);
+        if(sList.size()<1){
+            Scenes scenes = new Scenes();
+            String NodeId = UUID.randomUUID().toString();
+            scenes.setId(NodeId);
+            scenes.setContent(sceneName);
+            scenes.setParentScene(rootId);
+            scenes.setSubjectTree_Id(subjectTreeId);
+            scenes.setImageIcons("../../../Source/imgicon/tag_orange.png");
+            scenes.setSceneContentId("00000000-0000-0000-0000-000000000000");
+            scenes.setBeforCondition("<root><beforesee></beforesee><userkey></userkey><grades></grades></root>");
+            scenes.setPreScene(null);
+            scenes.setUserKey(operateID);
+            developSceneService.addScenes(scenes);
+
+            List<Scenes> sListChild=developSceneService.getScenesSecond(NodeId,operateID);
+            if(sListChild.size()<1){
+                String preScene=null;
+                addChild(NodeId,operateID,preScene,sceneName,subjectTreeId,sceneKey,fileType);
+            }else{
+                String preScene=sListChild.get(sListChild.size()-1).getId();
+                addChild(NodeId,operateID,preScene,sceneName,subjectTreeId,sceneKey,fileType);
+            }
+
+        }else{
+            List<Scenes> sListChild=developSceneService.getScenesSecond(sList.get(0).getId(),operateID);
+
+            if(sListChild.size()<1){
+                String preScene=null;
+                addChild(sList.get(0).getId(),operateID,preScene,sceneName,subjectTreeId,sceneKey,fileType);
+            }else{
+                String preScene=sListChild.get(sListChild.size()-1).getId();
+                addChild(sList.get(0).getId(),operateID,preScene,sceneName,subjectTreeId,sceneKey,fileType);
+            }
+        }
+    }
+
+    public void copyExm(String xmStr,String operateID,String sceneKey,String testUrl){
+        try {
+            // 保存路径
+            String path = "C:\\Users\\TDU\\Desktop";
+            path=testUrl;
+            String content = xmStr;
+            // 防止文件建立或读取失败，用catch捕捉错误并打印，也可以throw
+            File mkdirsName = new File(path);// 相对路径，如果没有则要建立一个新的output。txt文件
+            if(!mkdirsName.exists()){
+                mkdirsName.mkdirs();
+            }
+            //   operateID-- 操作人Userkey     sceneKey --场景Key
+            File writename = new File(path+"/"+operateID+"/"+sceneKey+"/"+sceneKey+".EXM");// 相对路径，如果没有则要建立一个exm文件
+            File mulu = new File(path+"/"+operateID+"/"+sceneKey);
+            if(!mulu.exists()){
+                mulu.mkdirs();
+            }
+            // 判断文件是否存在，不存在即新建
+            // 存在即根据操作系统添加换行符
+            if(!writename.exists()) {
+                writename.createNewFile(); // 创建新文件
+            } else {
+                String osName = System.getProperties().getProperty("os.name");
+                if (osName.equals("Linux")) {
+                    content = "\r" + content;
+                } else {
+                    content = "\r\n" + content;
+                }
+            }
+            // 如果是在原有基础上写入则append属性为true，默认为false
+            BufferedWriter out = new BufferedWriter(new FileWriter(writename,true));
+            out.write(content); // 写入TXT
+            out.flush(); // 把缓存区内容压入文件
+            out.close(); // 最后记得关闭文件
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping("xmlTest.action")
+    @ResponseBody
+    public String xmlTest(@RequestParam("xmStr") String xmStr,
+                          @RequestParam("userID") String userID,
+                          @RequestParam("sceneID") String sceneID,
+                          @RequestParam("operateID") String operateID,
+                          @RequestParam("fileType") String fileType,
+                          @RequestParam("sceneName") String sceneName,
+                          @RequestParam("rootId") String rootId,
+                          @RequestParam("subjectTreeId") String subjectTreeId,
+                          HttpSession session) throws Exception {
+
+        String sceneKey= UUID.randomUUID().toString();
+        //System.out.println("  xmStr  :  "+xmStr);
+        System.out.println("   userID  :  "+userID);
+        System.out.println("   sceneID  :  "+sceneID);
+        System.out.println("   operateID  :  "+operateID);
+        System.out.println("   sceneKey  :  "+sceneKey);
+        System.out.println("   fileType  :  "+fileType);
+        System.out.println("   sceneName  :  "+sceneName);
+        System.out.println("   rootId  :  "+rootId);
+        System.out.println("   subjectTreeId  :  "+subjectTreeId);
+
+        // 公司服务器路径
+        String testUrl = "/home/working/tdu.tduvr.club/Data/3D/Scene/";
+
+         /*
+        fileType: 1--新建  2--更改;
+        * */
+         //新增  场景
+        if(fileType.equals("1")){
+            addScene(rootId,operateID,sceneName,subjectTreeId,sceneKey,fileType);
+        }else {
+            if(!userID.equals(operateID)){
+                addScene(rootId,operateID,sceneName,subjectTreeId,sceneKey,fileType);
+            }
+        }
+
+        //  copyExm  新增EXM 文件
+        if(fileType.equals("1")){
+            copyExm(xmStr,operateID,sceneKey,testUrl);
+        }else if(fileType.equals("2")){
+            if(!userID.equals(operateID)){
+                copyExm(xmStr,operateID,sceneKey,testUrl);
+            }else{
+                copyExm(xmStr,operateID,sceneID,testUrl);
+            }
+        }
+
+
+        //  userID 和 sceneID 用于 sourcePath  获取资源路径地址
+        // 拷贝 exm以外资源文件
+        String  sourcePath =testUrl+"/"+userID+"/"+sceneID;
+        String  targetPath =testUrl+"/"+operateID+"/"+sceneKey;
+        if(fileType.equals("1")){
+            /*
+            * "C:\\Users\\TDU\\Desktop\\9c9ebfc0-a2a8-4aab-aa8f-c7134df956e4"
+            * "C:\\Users\\TDU\\Desktop"+"\\"+operateID+"\\"+sceneKey
+            * */
+        copyFolder(sourcePath,targetPath);
+        }else if(fileType.equals("2")){
+            if(!userID.equals(operateID)){
+                copyFolder(sourcePath,targetPath);
+            }
+        }
+        return "111";
+    }
+    /**
+     * 复制文件夹(使用缓冲字节流)
+     * @param sourcePath 源文件夹路径
+     * @param targetPath 目标文件夹路径
+     */
+    public void copyFolder(String sourcePath,String targetPath) throws Exception{
+        //源文件夹路径
+        File sourceFile = new File(sourcePath);
+        //目标文件夹路径
+        File targetFile = new File(targetPath);
+
+        if(!sourceFile.exists()){
+            throw new Exception("文件夹不存在");
+        }
+        if(!sourceFile.isDirectory()){
+            throw new Exception("源文件夹不是目录");
+        }
+        if(!targetFile.exists()){
+            targetFile.mkdirs();
+        }
+        if(!targetFile.isDirectory()){
+            throw new Exception("目标文件夹不是目录");
+        }
+
+        File[] files = sourceFile.listFiles();
+        if(files == null || files.length == 0){
+            return;
+        }
+
+        for(File file : files){
+            //文件要移动的路径
+            String movePath = targetFile+ File.separator+file.getName();
+            if(file.isDirectory()){
+                //如果是目录则递归调用
+                copyFolder(file.getAbsolutePath(),movePath);
+            }else {
+
+                String fileName =  file.getName();
+                String suffix = fileName.substring(fileName.lastIndexOf("."));
+                System.out.println("fileName = " + fileName);
+
+                if(!suffix.equals(".EXM")&&!suffix.equals(".exm")){
+                    //如果是文件则复制文件
+                    BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+                    BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(movePath));
+
+                    byte[] b = new byte[1024];
+                    int temp = 0;
+                    while((temp = in.read(b)) != -1){
+                        out.write(b,0,temp);
+                    }
+                    out.close();
+                    in.close();
+                }
+            }
+        }
+    }
+
+
+
 
 
     /**

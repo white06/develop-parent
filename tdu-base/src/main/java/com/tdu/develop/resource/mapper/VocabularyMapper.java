@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface VocabularyMapper {
 
-    public List<Vocabulary> getVocabularyList(@Param("knowledgeId")String knowledgeId, @Param("type")String type);
+    public List<Vocabulary> getVocabularyList(@Param("knowledgeId") String knowledgeId, @Param("type") String type);
 }

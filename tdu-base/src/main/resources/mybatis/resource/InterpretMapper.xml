@@ -3,6 +3,12 @@
 <mapper namespace="com.tdu.develop.resource.mapper.InterpretMapper">
 
 	<insert id="addInterpret" parameterType="com.tdu.develop.resource.pojo.Interpret">
-		INSERT INTO `interpret` (`Id`, `name`, `userKey`, `pageKey`, `number`) VALUES (#{id}, #{name}, #{userKey}, #{pageKey}, #{number});
+		INSERT INTO `interpret`(`Id`, `name`, `userKey`, `pageKey`, `number`, `page`, `nandu`,`yuanju`,`yiju`,`wenti`)
+		VALUES
+		 (#{id}, #{name}, #{userKey}, #{pageKey}, #{number},#{page},#{nandu},#{yuanju},#{yiju},#{wenti});
 	</insert>
+
+	<select id="getInterResultList" parameterType="String" resultType="com.tdu.develop.resource.pojo.Interpret">
+		SELECT * FROM interpret WHERE nandu=#{nandu} and page =#{page} AND userKey=#{userKey} AND pageKey=#{pageKey} ORDER BY `number`
+	</select>
 </mapper>

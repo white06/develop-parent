@@ -9,7 +9,7 @@ import java.util.List;
  * @create 2019-08-07-15:25
  */
 public interface EmailService {
-    public void addEmail(String id, String username, String email, String password, String state, String code,String telephone,String ziyuan);
+    public void addEmail(String id, String username, String email, String password, String state, String code, String telephone, String ziyuan);
 
     public Users seleUsers(String username);
 

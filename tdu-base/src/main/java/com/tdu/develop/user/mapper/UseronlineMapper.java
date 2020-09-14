@@ -19,8 +19,8 @@ public interface UseronlineMapper {
      */
     public void insetUserLogin(UserOnline userOnline);
 
-    public String getLoginTime(@Param("loginId")String loginId);
+    public String getLoginTime(@Param("loginId") String loginId);
 
-    public void setOnlineTime(@Param("onlineTime")int onlineTime,@Param("outTime")String outTime,@Param("loginId")String loginId);
+    public void setOnlineTime(@Param("onlineTime") int onlineTime, @Param("outTime") String outTime, @Param("loginId") String loginId);
 
 }

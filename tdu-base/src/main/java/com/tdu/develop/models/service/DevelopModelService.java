@@ -119,7 +119,7 @@ public interface DevelopModelService {
      * 获取最后一个节点的id
      * @return
      */
-    public String lastModelsNodeId(String treeId, String clickNodeId,String userId);
+    public String lastModelsNodeId(String treeId, String clickNodeId, String userId);
 
     //复制方法
     public  void copy(String src, String des, String id) throws Exception ;
@@ -206,12 +206,12 @@ public Models getModelsparentId(String id);
 //
 //    public List<Models> getModelListMapper2(String Id,String userId);
 
-    public List<Models> getModelsList(String id,String userkey);
+    public List<Models> getModelsList(String id, String userkey);
 
     /*
      * 展示模型
      * */
-    public List<Models> getModelListMapper(String Id,String userId);
+    public List<Models> getModelListMapper(String Id, String userId);
 
     public int updateModelFileName(String Id, String FileName);
 
@@ -232,7 +232,7 @@ public Models getModelsparentId(String id);
     /*
      * 修改模型的名字
      * */
-    public int updateModelscontentCustomName(String id,String CustomName,String PhotoName) ;
+    public int updateModelscontentCustomName(String id, String CustomName, String PhotoName) ;
 
     /**
      * 生成版本文件内容
@@ -244,9 +244,9 @@ public Models getModelsparentId(String id);
      * 生成版本文件
      * @param nameList
      */
-    public void setVersionFile(List<String> nameList,List<String> fileList,String path) throws Exception ;
+    public void setVersionFile(List<String> nameList, List<String> fileList, String path) throws Exception ;
 
-    public String lastModelsNodeIdInAll(String treeId,String clickNodeId,String userKey);
+    public String lastModelsNodeIdInAll(String treeId, String clickNodeId, String userKey);
 
     /**
      * 新增功能

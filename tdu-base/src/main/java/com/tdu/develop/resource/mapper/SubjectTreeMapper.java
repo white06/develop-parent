@@ -137,7 +137,7 @@ public interface SubjectTreeMapper {
      * 根据id删除数据
      * @param knowledgecontentId
      */
-    public void updateknow(@Param("content")String content,@Param("knowledgecontentId")String knowledgecontentId);
+    public void updateknow(@Param("content") String content, @Param("knowledgecontentId") String knowledgecontentId);
     /**
      * 保存参数
      * @param kt

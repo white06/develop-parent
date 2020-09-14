@@ -1,4 +1,4 @@
-//package com.tdu.develop.user.controller;
+package com.tdu.develop.user.controller;//package com.tdu.develop.user.controller;
 //
 //import com.baidu.aip.util.Base64Util;
 //import com.tdu.develop.util.ConnUtil;

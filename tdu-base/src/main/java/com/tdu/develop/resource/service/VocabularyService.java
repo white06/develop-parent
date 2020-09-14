@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface VocabularyService {
 
-    public List<Vocabulary> getVocabularyList(String knowledgeId,String type);
+    public List<Vocabulary> getVocabularyList(String knowledgeId, String type);
 }

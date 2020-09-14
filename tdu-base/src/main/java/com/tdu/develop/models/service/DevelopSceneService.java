@@ -4,6 +4,7 @@ import com.tdu.develop.models.pojo.Scenecontents;
 import com.tdu.develop.models.pojo.Scenes;
 import com.tdu.develop.resource.pojo.Knowlegcontent;
 import com.tdu.develop.util.FilModle;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -13,6 +14,15 @@ import java.util.List;
  * @create 2019-08-15-15:06
  */
 public interface DevelopSceneService {
+
+/*音乐厅首页排名
+* */
+    public List<Scenes> getScenesByRank();
+
+    /*根据 sceneContentId获取 SceneId
+    * */
+    public  String getSceneId(String sceneContentId );
+
     public String getFirstSceneId(String rootId, String userId) ;
 
     /**
@@ -209,7 +219,7 @@ public interface DevelopSceneService {
      * 根据父Id获取子节点
      */
     public List<Scenes> getParentScenes(String id) ;
-   public List<Scenes> getScenesList(String id,String userId) ;
+   public List<Scenes> getScenesList(String id, String userId) ;
 
     /*
      * 新增主页场景(上传)
@@ -219,9 +229,9 @@ public interface DevelopSceneService {
     /*
      * 修改场景的名字
      * */
-    public int updateScenescontentCustomName(String id,String CustomName,String PhotoName) ;
+    public int updateScenescontentCustomName(String id, String CustomName, String PhotoName) ;
 
-    public String lastScenesNodeIdInAll(String treeId,String clickNodeId,String userId);
+    public String lastScenesNodeIdInAll(String treeId, String clickNodeId, String userId);
 
     public Boolean inknowScenes(Scenes knowledges) ;
 
@@ -237,4 +247,8 @@ public interface DevelopSceneService {
 
 
     Scenes getScenes(String sceneId);
+
+    void addScenes(Scenes scenesChild);
+
+    void addScenecontents(Scenecontents scenecontents);
 }

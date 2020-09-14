@@ -114,5 +114,5 @@ public interface DepartmentMapper {
 
     List<Subjects> getMajorSubjectsByUserId(@Param("majorId") String majorId, @Param("userId") String userId);
 
-    List<Classes> GetClasslistBydepartmentid(@Param("departmentId") String  departmentId);
+    List<Classes> GetClasslistBydepartmentid(@Param("departmentId") String departmentId);
 }

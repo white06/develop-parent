@@ -52,7 +52,7 @@ public interface ExercisesService {
      * 根据知识点获取全部内容
      */
      
-    public List<Question> getAllQuestion(Knowlegcontent knowlegcontent,String chooseId) ;
+    public List<Question> getAllQuestion(Knowlegcontent knowlegcontent, String chooseId) ;
 
     /**
      * 根据subId获取首目录
@@ -79,11 +79,11 @@ public interface ExercisesService {
     public boolean addPersonal(String timuId, String useType, String userId) ;
     public boolean deleteShoucang(String timuId);
 
-    public boolean submit(String userId, String allscore, String examId,String id) ;
+    public boolean submit(String userId, String allscore, String examId, String id) ;
 
     /**
      * 根据题目id以及类型添加个人错题
      */
-    public boolean addError(String timuId, String useType,String userId) ;
+    public boolean addError(String timuId, String useType, String userId) ;
     public List<Question> getAllQuestion(String knowId) ;
 }

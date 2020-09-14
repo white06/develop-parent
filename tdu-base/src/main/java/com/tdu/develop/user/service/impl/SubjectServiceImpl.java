@@ -2,14 +2,12 @@ package com.tdu.develop.user.service.impl;
 
 import com.tdu.develop.common.exception.ServiceException;
 import com.tdu.develop.resource.mapper.SubjectTreeMapper;
-import com.tdu.develop.resource.pojo.SubjectTrees;
 import com.tdu.develop.user.mapper.AuthMapper;
 import com.tdu.develop.user.mapper.ClassMapper;
 import com.tdu.develop.user.mapper.SubjectMapper;
 import com.tdu.develop.user.mapper.UsersMapper;
 import com.tdu.develop.user.pojo.*;
 import com.tdu.develop.user.service.SubjectService;
-import com.tdu.develop.user.service.UsersService;
 import com.tdu.develop.util.OnlineUtil;
 import com.tdu.develop.util.PropertiesUtil;
 import com.tdu.develop.util.StringUtils;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -291,6 +288,11 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public List<ClassUsers> getClassUsersList(String userKey) {
         return classMapper.getClassUsersList(userKey);
+    }
+
+    @Override
+    public List<String> selClassUsers(String classId) {
+        return classMapper.selClassUsers(classId);
     }
 
     /**

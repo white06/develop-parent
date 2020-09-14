@@ -2,21 +2,19 @@ package com.tdu.develop.resource.controller;
 
 import com.tdu.develop.models.mapper.DevelopSceneMapper;
 import com.tdu.develop.resource.pojo.Link;
+import com.tdu.develop.resource.pojo.Linshi;
 import com.tdu.develop.resource.service.LinkService;
 import com.tdu.develop.util.Base64Util;
-import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author 志阳
@@ -28,6 +26,7 @@ import java.util.*;
 @Controller
 @RequestMapping(value="LinkController")
 public class LinkController {
+
     @Autowired
     private LinkService linkService;
 
@@ -128,5 +127,82 @@ public class LinkController {
         String userId= session.getAttribute("ID").toString();
 
         return linkService.getuserLink(userId);
+    }
+
+    @RequestMapping(value="ins.action",method={RequestMethod.POST})
+    @ResponseBody
+    public void ins(HttpServletRequest request, HttpSession session) throws Exception{
+        String UserID = request.getParameter("UserID");
+        String lixingzhuanshu = request.getParameter("lixingzhuanshu");
+        String lixingshichang = request.getParameter("lixingshichang");
+        String lixingwendu = request.getParameter("lixingwendu");
+        String lixingdelv = request.getParameter("lixingdelv");
+        String lixingcaozuoshichang = request.getParameter("lixingcaozuoshichang");
+        String lixingchundu = request.getParameter("lixingchundu");
+        String lixingdefen = request.getParameter("lixingdefen");
+        String posuigonglv = request.getParameter("posuigonglv");
+        String posuizongshichang = request.getParameter("posuizongshichang");
+        String posuidelv = request.getParameter("posuidelv");
+        String posuicaozuoshichang = request.getParameter("posuicaozuoshichang");
+        String posuichundu = request.getParameter("posuichundu");
+        String posuidefen = request.getParameter("posuidefen");
+        String guolvfangshi = request.getParameter("guolvfangshi");
+        String guolvmo = request.getParameter("guolvmo");
+        String guolvdelv = request.getParameter("guolvdelv");
+        String guolvcaozuoshichang = request.getParameter("guolvcaozuoshichang");
+        String guolvchundu = request.getParameter("guolvchundu");
+        String guolvdefen = request.getParameter("guolvdefen");
+        String cengxifangshi = request.getParameter("cengxifangshi");
+        String cengxipinghengye = request.getParameter("cengxipinghengye");
+        String cengxixituoye = request.getParameter("cengxixituoye");
+        String cengxijieheye = request.getParameter("cengxijieheye");
+        String cengxidelv = request.getParameter("cengxidelv");
+        String cengxicaozuoshichang = request.getParameter("cengxicaozuoshichang");
+        String cengxichundu = request.getParameter("cengxichundu");
+        String cengxifengshu = request.getParameter("cengxifengshu");
+        String fenxitaolun = request.getParameter("fenxitaolun");
+        Linshi linshi=new Linshi();
+        linshi.setUserID(UserID);
+        linshi.setLixingzhuanshu(lixingzhuanshu);
+        linshi.setLixingshichang(lixingshichang);
+        linshi.setLixingwendu(lixingwendu);
+        linshi.setLixingdelv(lixingdelv);
+        linshi.setLixingcaozuoshichang(lixingcaozuoshichang);
+        linshi.setLixingchundu(lixingchundu);
+        linshi.setLixingdefen(lixingdefen);
+        linshi.setPosuigonglv(posuigonglv);
+        linshi.setPosuizongshichang(posuizongshichang);
+        linshi.setPosuidelv(posuidelv);
+        linshi.setPosuicaozuoshichang(posuicaozuoshichang);
+        linshi.setPosuichundu(posuichundu);
+        linshi.setPosuidefen(posuidefen);
+        linshi.setGuolvfangshi(guolvfangshi);
+        linshi.setGuolvmo(guolvmo);
+        linshi.setGuolvdelv(guolvdelv);
+        linshi.setGuolvcaozuoshichang(guolvcaozuoshichang);
+        linshi.setGuolvchundu(guolvchundu);
+        linshi.setGuolvdefen(guolvdefen);
+        linshi.setCengxifangshi(cengxifangshi);
+        linshi.setCengxipinghengye(cengxipinghengye);
+        linshi.setCengxixituoye(cengxixituoye) ;
+        linshi.setCengxijieheye(cengxijieheye);
+        linshi.setFenxitaolun(fenxitaolun);
+        linshi.setCengxidelv(cengxidelv);
+        linshi.setCengxicaozuoshichang(cengxicaozuoshichang) ;
+        linshi.setCengxifengshu(cengxifengshu);
+        linshi.setCengxichundu(cengxichundu);
+
+
+
+
+        linkService.ins(linshi);
+    }
+
+
+    @RequestMapping(value="get.action",method={RequestMethod.POST})
+    @ResponseBody
+    public Linshi get(HttpServletRequest request, HttpSession session) throws Exception{
+        String userId=(String) session.getAttribute("ID");
+      return   linkService.get(userId);
     }
 }

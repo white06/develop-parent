@@ -4,7 +4,7 @@ spring :
       driverClassName : com.mysql.jdbc.Driver
       url: jdbc:mysql://localhost:3306/develop_user?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;testWhileIdle = true&amp;validationQuery=SELECT 1&amp;timeBetweenEvictionRunsMillis = 3600000
       username: root
-      password:
+      password: tdu123
       hikari:
         maxLifetime: 1765000
         maximumPoolSize: 15

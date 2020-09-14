@@ -1,4 +1,4 @@
-//package com.tdu.develop.common.conf;
+package com.tdu.develop.common.conf;//package com.tdu.develop.common.conf;
 //
 //import org.springframework.boot.context.properties.ConfigurationProperties;
 //import org.springframework.util.MimeType;

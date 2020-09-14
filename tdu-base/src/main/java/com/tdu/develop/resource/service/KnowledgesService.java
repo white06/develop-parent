@@ -37,7 +37,7 @@ public interface KnowledgesService {
 
     public String getSubjectName(String Id);
 
-    public List<Knowlegcontent> getKnowledgesSecond2(String parentKnowledge,String userId);
+    public List<Knowlegcontent> getKnowledgesSecond2(String parentKnowledge, String userId);
 
     public Knowlegcontent getContent(String knowId);
 

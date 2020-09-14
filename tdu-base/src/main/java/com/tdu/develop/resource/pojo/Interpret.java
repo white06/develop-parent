@@ -6,6 +6,53 @@ public class Interpret {
     private String  userKey;
     private String  pageKey;
     private int  number;
+    private int  page;
+    private String  nandu;
+
+    private String yuanju;
+    private String yiju;
+
+    private String wenti;
+
+    public String getWenti() {
+        return wenti;
+    }
+
+    public void setWenti(String wenti) {
+        this.wenti = wenti;
+    }
+
+    public String getYuanju() {
+        return yuanju;
+    }
+
+    public void setYuanju(String yuanju) {
+        this.yuanju = yuanju;
+    }
+
+    public String getYiju() {
+        return yiju;
+    }
+
+    public void setYiju(String yiju) {
+        this.yiju = yiju;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public String getNandu() {
+        return nandu;
+    }
+
+    public void setNandu(String nandu) {
+        this.nandu = nandu;
+    }
 
     public String getId() {
         return id;

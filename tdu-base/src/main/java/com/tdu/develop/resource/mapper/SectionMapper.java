@@ -21,7 +21,7 @@ public interface SectionMapper {
 
     List<Map<String,Object>> selAllChilds(String id);
 
-    List<Map<String, Object>> selAllWords(@Param("sectionId")String sectionId, @Param("startIndex")int startIndex,@Param("rows") Integer rows);
+    List<Map<String, Object>> selAllWords(@Param("sectionId") String sectionId, @Param("startIndex") int startIndex, @Param("rows") Integer rows);
 
     void doUpdateWord(Word word);
 
@@ -39,7 +39,7 @@ public interface SectionMapper {
 
     int selCounts(String parentId);
 
-    List<Map<String, Object>> loadErrorQueBySection(@Param("knowId")String knowId,@Param("userId") String userId);
+    List<Map<String, Object>> loadErrorQueBySection(@Param("knowId") String knowId, @Param("userId") String userId);
 
     List<Map<String, Object>> errorAllQue(String userId);
 
@@ -47,7 +47,7 @@ public interface SectionMapper {
 
     List<Map<String, Object>> selAllCollect();
 
-    List<Map<String, Object>> loadcollectQueBySection(@Param("knowId")String knowId,@Param("userId") String userId);
+    List<Map<String, Object>> loadcollectQueBySection(@Param("knowId") String knowId, @Param("userId") String userId);
 
-    Map<String, Object> queryWordInfos(@Param("page")int page, @Param("level")String level);
+    Map<String, Object> queryWordInfos(@Param("page") int page, @Param("level") String level);
 }

@@ -1,6 +1,8 @@
 package com.tdu.develop.user.pojo;
 
 
+import com.tdu.develop.resource.pojo.InterpretScore;
+
 /**
  * 
  * @author 
@@ -30,7 +32,17 @@ public class  Users{
 	private String createDate;
 	private String email;
 	private String wx;
-	
+
+	private InterpretScore interpretScore;
+
+	public InterpretScore getInterpretScore() {
+		return interpretScore;
+	}
+
+	public void setInterpretScore(InterpretScore interpretScore) {
+		this.interpretScore = interpretScore;
+	}
+
 	/*增加的date类型的出生日期
 	private Date birthdate;*/
 	

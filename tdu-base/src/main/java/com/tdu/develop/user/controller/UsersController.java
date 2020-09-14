@@ -11,10 +11,10 @@ import com.tdu.develop.user.service.UsersService;
 import com.tdu.develop.user.service.impl.DepartmentServiceImpl;
 import com.tdu.develop.user.service.impl.MajorServiceImpl;
 import com.tdu.develop.user.service.impl.UserServiceImpl;
-import com.tdu.develop.util.*;
+import com.tdu.develop.util.Config;
+import com.tdu.develop.util.HttpUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -474,6 +473,26 @@ public class UsersController {
             e.printStackTrace();
         }
     }
+
+
+    //登录，核实用户以及姓名，返回判断
+    @RequestMapping(value="loginForWebGL.action",method={RequestMethod.POST})
+    @ResponseBody
+    public String loginForWebGL(HttpServletRequest request, HttpServletResponse response, HttpSession session, Model model){
+        String  userName = request.getParameter("userName");
+        String  passWord = request.getParameter("passWord");
+        users.setUserName(userName);
+        users.setPassWord(passWord);
+        UsernamePasswordToken token = new UsernamePasswordToken(userName, passWord);
+        Users users2=usersService.longin(users);
+        if(users2!=null){
+            String userKey = users2.getId();
+            System.out.println("users2.getId(  : "+users2.getId());
+            return userKey;
+        }
+        return null;
+    }
+
     //登录，核实用户以及姓名，返回判断（用于编辑工具的）
  /*   @RequestMapping(value="loginTool.action",method={RequestMethod.POST})
     @ResponseBody

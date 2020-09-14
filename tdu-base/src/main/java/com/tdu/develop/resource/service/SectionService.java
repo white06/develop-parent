@@ -20,7 +20,7 @@ public interface SectionService {
     
     public List<Map<String,Object>> loadSectionsTree(String subjectId) ;
     
-    public Map<String,Object> doLoadWords(String sectionId,Integer page,Integer rows) ;
+    public Map<String,Object> doLoadWords(String sectionId, Integer page, Integer rows) ;
     
     public void doUpdateWord(Word word) ;
     
@@ -30,7 +30,7 @@ public interface SectionService {
     
     public List<Map<String, Object>> loadChildNodes(String id) ;
     
-    public List<Map<String, Object>> loadErrorQueBySection(String knowId,String userId) ;
+    public List<Map<String, Object>> loadErrorQueBySection(String knowId, String userId) ;
     
     public List<Map<String, Object>> errorAllQue(String userId) ;
     

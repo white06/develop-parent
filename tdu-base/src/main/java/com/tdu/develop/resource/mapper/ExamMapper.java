@@ -156,7 +156,7 @@ public interface ExamMapper {
 
     void delExamReally(String id);
 
-    List<Question> getPageQue(@Param("examId")String examId);
+    List<Question> getPageQue(@Param("examId") String examId);
 
     String getPageKey(String examId);
 

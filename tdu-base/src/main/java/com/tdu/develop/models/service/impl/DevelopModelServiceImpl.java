@@ -7,7 +7,6 @@ import com.tdu.develop.models.pojo.Models;
 import com.tdu.develop.models.pojo.Scenes;
 import com.tdu.develop.models.service.DevelopModelService;
 import com.tdu.develop.resource.mapper.SubjectTreeMapper;
-import com.tdu.develop.resource.pojo.Knowlegcontent;
 import com.tdu.develop.user.mapper.SubjectMapper;
 import com.tdu.develop.user.mapper.UsersMapper;
 import com.tdu.develop.util.EncodingDecodingUtil;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -227,7 +225,7 @@ public class DevelopModelServiceImpl implements DevelopModelService {
 
         String id = UUID.randomUUID().toString();
 
-        modelcontents.setNmae(id+".tdc");
+        modelcontents.setNmae(id+".tdb");
 
         modelcontents.setId(id);
         modelcontents.setIntroduce(null);
@@ -298,7 +296,7 @@ public class DevelopModelServiceImpl implements DevelopModelService {
 
         String id = UUID.randomUUID().toString();
 
-        modelcontents.setNmae(id+".tdc");
+        modelcontents.setNmae(id+".tdb");
 
         modelcontents.setId(id);
         modelcontents.setIntroduce(null);

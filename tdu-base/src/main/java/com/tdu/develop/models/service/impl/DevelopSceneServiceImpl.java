@@ -5,7 +5,6 @@ import com.tdu.develop.models.pojo.Scenecontents;
 import com.tdu.develop.models.pojo.Scenes;
 import com.tdu.develop.models.service.DevelopSceneService;
 import com.tdu.develop.resource.mapper.SubjectTreeMapper;
-import com.tdu.develop.resource.pojo.Knowlegcontent;
 import com.tdu.develop.user.mapper.SubjectMapper;
 import com.tdu.develop.user.mapper.UsersMapper;
 import com.tdu.develop.util.EncodingDecodingUtil;
@@ -47,6 +46,24 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
     public static final String SceneType="场景";
     //图标
     public static final String ImageIcon="../../../Source/imgicon/tag_orange.png";
+
+
+    @Override
+    public List<Scenes> getScenesByRank() {
+        return developSceneMapper.getScenesByRank();
+    }
+
+    @Override
+    public String getSceneId(String sceneContentId) {
+        return developSceneMapper.getSceneId(sceneContentId);
+    }
+
+    public void addScenecontents(Scenecontents scenecontents){
+        developSceneMapper.addScenesModel(scenecontents);
+    }
+    public void addScenes(Scenes scenes){
+        developSceneMapper.addLastScenesNode(scenes);
+    }
 
 
     public String getFirstSceneId(String rootId, String userId) {
@@ -973,6 +990,7 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         String userId;
         for(int j=0;j<userList.size();j++){
             List<Scenes> itemList=developSceneMapper.getScenesSecond(parentKnowledge,userList.get(j));
+            itemList = getScneesList(itemList);
             for(int k=0;k<itemList.size();k++){
                 userId=itemList.get(k).getUserKey();
                 username=usersMapper.getUserName(userId);
@@ -985,6 +1003,35 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
 
         return ksList;
     }
+
+    //排序
+    public List<Scenes> getScneesList( List<Scenes> ksList){
+        List<Scenes> getKsList=new ArrayList<Scenes>();
+        String preId="";
+        for(int i=0;i<ksList.size();){
+            if(preId==""){
+                for(int j=0;j<ksList.size();j++){
+                    if(ksList.get(j).getPreScene()==null){
+                        getKsList.add(ksList.get(j));
+                        preId=ksList.get(j).getId();
+                        i++;
+                    }
+                }
+            }else if(preId!=null){
+                for(int j=0;j<ksList.size();j++){
+                    if(ksList.get(j).getPreScene()!=null){
+                        if(ksList.get(j).getPreScene().equals(preId)){
+                            getKsList.add(ksList.get(j));
+                            preId=ksList.get(j).getId();
+                            i++;
+                        }
+                    }
+                }
+            }
+        }
+        return getKsList;
+    }
+
     /**
      * 获取次节点
      */

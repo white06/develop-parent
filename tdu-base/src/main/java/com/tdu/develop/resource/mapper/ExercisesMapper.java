@@ -116,5 +116,5 @@ public interface ExercisesMapper {
      * @param examId
      * @param id
      */
-    public void submit(@Param("userId")String userId,@Param("allscore")String allscore,@Param("examId")String examId,@Param("id")String id);
+    public void submit(@Param("userId") String userId, @Param("allscore") String allscore, @Param("examId") String examId, @Param("id") String id);
 }

@@ -35,7 +35,7 @@ public interface KnowOnlineService {
      * @param date
      * @throws Exception
      */
-    public void insertKnowOutline(String  loginId, Date date) throws Exception;
+    public void insertKnowOutline(String loginId, Date date) throws Exception;
 
     knowOnlineUtil getKnoUserOnLine(String knowContId, String userId);
 

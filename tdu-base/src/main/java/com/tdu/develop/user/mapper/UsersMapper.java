@@ -192,7 +192,7 @@ public interface UsersMapper {
      * @param userName
      */
     public void insUserPersonl(@Param("userId") String userId, @Param("rePassWord") String rePassWord, @Param("name") String name,
-                               @Param("passWord") String passWord, @Param("sex") String sex, @Param("userName") String userName,@Param("mobilePhoneNum") String telphone,@Param("idol") String endDay);
+                               @Param("passWord") String passWord, @Param("sex") String sex, @Param("userName") String userName, @Param("mobilePhoneNum") String telphone, @Param("idol") String endDay);
     /**
      * 获取用户是否存在
      * @param userName

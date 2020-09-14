@@ -91,4 +91,11 @@ public interface SubjectService {
     List<OnlineUtil> getClassUsersOnLine(String classId);
 
     List<ClassUsers> getClassUsersList(String userKey);
+
+    /**
+     * 根据班级id获取该班级用户id
+     * @param classId
+     * @return
+     */
+    public List<String> selClassUsers(String classId);
 }

@@ -114,10 +114,10 @@ public interface UsersService {
      */
     public String getUserClass(String userId) ;
     public boolean insUserPersonl(String userId, String rePassWord, String name, String passWord, String sex,
-                                  String userName,String telphone) ;
+                                  String userName, String telphone) ;
 
     public boolean ziyuaninsUserPersonl(String userId, String rePassWord, String name, String passWord, String sex,
-                                        String userName,String telphone) ;
+                                        String userName, String telphone) ;
 
     public Users getTemp(String userName) ;
 

@@ -540,7 +540,7 @@ public class TreesController {
 	public void upRandom(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		String id=request.getParameter("id");
 		String name=request.getParameter("name");
-		name = java.net.URLDecoder.decode(name,"UTF-8");
+		name = URLDecoder.decode(name,"UTF-8");
 		if (knowledgesServiceImp.seleKContent(id)!=null) {
 			Knowlegcontent knowlegcontent=new Knowlegcontent();
 			knowlegcontent=knowledgesServiceImp.seleKContent(id);

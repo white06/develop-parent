@@ -88,5 +88,5 @@ public interface KnowledgesMapper {
      * @param knowId
      * @return
      */
-    public Knowlegcontent getContent(@Param("knowId")String knowId);
+    public Knowlegcontent getContent(@Param("knowId") String knowId);
 }

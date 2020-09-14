@@ -2,7 +2,9 @@ package com.tdu.develop.resource.service.impl;
 
 import com.tdu.develop.models.mapper.DevelopSceneMapper;
 import com.tdu.develop.resource.mapper.LinkMapper;
+import com.tdu.develop.resource.mapper.LinshiMapper;
 import com.tdu.develop.resource.pojo.Link;
+import com.tdu.develop.resource.pojo.Linshi;
 import com.tdu.develop.resource.service.LinkService;
 import com.tdu.develop.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ public class LinkServiceImpl implements LinkService {
 
     @Autowired
     private LinkMapper linkMapper;
+    @Autowired
+    private LinshiMapper linshiMapper;
 
     @Autowired
     private DevelopSceneMapper developSceneMapper;
@@ -160,5 +164,13 @@ public class LinkServiceImpl implements LinkService {
 
     public  List<Link> getuserLink(String userId){
         return linkMapper.getlink(userId);
+    }
+
+    public  void ins(Linshi linshi){
+        linshiMapper.insert(linshi);
+    }
+
+    public Linshi get(String userId){
+        return      linshiMapper.get(userId);
     }
 }

@@ -26,5 +26,5 @@ public interface DevelopVoicesMapper {
      * @return
      */
     public String getKnowledgecontentsName(String knowledge_Id);
-    public Voicecontents getVoiceContentName(@Param("id")String id);
+    public Voicecontents getVoiceContentName(@Param("id") String id);
 }

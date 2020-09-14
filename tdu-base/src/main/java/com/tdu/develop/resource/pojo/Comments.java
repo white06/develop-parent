@@ -1,5 +1,7 @@
 package com.tdu.develop.resource.pojo;
 
+import com.tdu.develop.user.pojo.Users;
+
 public class Comments {
 
     private String  id;
@@ -12,6 +14,65 @@ public class Comments {
     private String  overall;    //整体评分
     private String  type;    // 0-->自评     1-->他评
     private String  stuKey;    //学生ID
+
+    private String  creatData;    //创建时间
+
+    private String nandu;
+    private  String page;
+    private  String content;
+
+    private String toUser;
+
+
+    private Users users;
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public String getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
+    }
+
+    public String getNandu() {
+        return nandu;
+    }
+
+    public void setNandu(String nandu) {
+        this.nandu = nandu;
+    }
+
+    public String getPage() {
+        return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getCreatData() {
+        return creatData;
+    }
+
+    public void setCreatData(String creatData) {
+        this.creatData = creatData;
+    }
 
     public String getId() {
         return id;
