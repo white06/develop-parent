@@ -56,8 +56,8 @@ public class MyWebAppConfigurer  extends WebMvcConfigurationSupport {
 				.addResourceLocations("classpath:/static/")
 				.addResourceLocations("classpath:/public/")
 				.addResourceLocations("file:d:/webstorm/")
-				.addResourceLocations("file:/home/working/")
-				.addResourceLocations("classpath:/home/working/");
+				.addResourceLocations("file:/www/wwwroot/")
+				.addResourceLocations("classpath:/www/wwwroot/");
 		super.addResourceHandlers(registry);
     }
 	/** 默认静态资源处理器 **/

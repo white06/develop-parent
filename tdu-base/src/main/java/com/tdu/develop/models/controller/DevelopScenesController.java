@@ -165,7 +165,7 @@ public class DevelopScenesController {
         System.out.println("   subjectTreeId  :  "+subjectTreeId);
 
         // 公司服务器路径
-        String testUrl = "/home/working/tdu.tduvr.club/Data/3D/Scene/";
+        String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/";
 
          /*
         fileType: 1--新建  2--更改;

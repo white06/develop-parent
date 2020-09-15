@@ -570,7 +570,7 @@ public class YunyinController {
             interpret.setWenti(objStr);
             interpretService.addInterpret(interpret);
 
-            String path = "/home/working/tdu.tduvr.club/Data/video/"+userKey+"/";
+            String path = "/www/wwwroot/tdu.tduvr.club/Data/video/"+userKey+"/";
             //String path = "D:\\wamp\\www\\Data\\video\\"+userKey+"\\";
 
             InputStream is = null;

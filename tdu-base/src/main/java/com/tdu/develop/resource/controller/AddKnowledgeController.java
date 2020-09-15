@@ -259,7 +259,7 @@ public class AddKnowledgeController {
      */
     public static File multipartFileToFile(MultipartFile file) throws Exception {
         InputStream ins = null;
-        String path = "/home/working/tdu.tduvr.club/Data/pic/";
+        String path = "/www/wwwroot/tdu.tduvr.club/Data/pic/";
         //String path = "D:\\wamp\\www\\Data\\pic\\";
         if (!new File(path).exists()) {
             System.out.println(" fileUrlPath :"+path);
@@ -470,7 +470,7 @@ public class AddKnowledgeController {
         File f = null;
         try {
             // 创建临时文件
-            f = File.createTempFile("tmp", ".png", new File("/home/working/tdu.tduvr.club/Data/pic/"));
+            f = File.createTempFile("tmp", ".png", new File("/www/wwwroot/tdu.tduvr.club/Data/pic/"));
             // 输出绝对路径
             System.out.println("File path: "+f.getAbsolutePath());
         } catch(Exception e) {
@@ -484,7 +484,7 @@ public class AddKnowledgeController {
 
         String UUid = UUID.randomUUID().toString();
         // 公司服务器路径
-        String saveFilePath = "/home/working/tdu.tduvr.club/Data/pic/";
+        String saveFilePath = "/www/wwwroot/tdu.tduvr.club/Data/pic/";
         //String saveFilePath = "D:\\wamp\\www\\Data\\pic\\";
         saveFilePath = saveFilePath +UUid+".png";
         // 构建叠加层

@@ -482,7 +482,7 @@ public class UserExcelController {
         //String testUrl="D:/working/TDuClub/TDu/Data/3D/";
 
         // 公司服务器路径 D:\working\TDuClub\TDu\Data\3D
-        String testUrl = "/home/working/tdu.tduvr.club/Data/3D/";
+        String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/";
 
         // 测试路径
      //   String testUrl="D:/testup/";

@@ -833,7 +833,7 @@ public class UsersController {
             //本机路径  wamp  www
         //writeFile = new File("D:/wamp/www/newTdu/57/"+userId+suffix);
             //服务器路径
-            writeFile = new File("/home/working/file.tduvr.org/pp/"+userId+suffix);
+            writeFile = new File("/www/wwwroot/file.tduvr.org/pp/"+userId+suffix);
 
         if(!writeFile.exists()){
             //创建指定文件

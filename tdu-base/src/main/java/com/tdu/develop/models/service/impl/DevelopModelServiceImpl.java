@@ -321,7 +321,7 @@ public class DevelopModelServiceImpl implements DevelopModelService {
         //String mubiao="D:\\working\\TDuClub\\TDu\\Data\\3D\\Model\\"+modelcontents.getUserKey()+"\\"+id;
         //新
         //  String mubiao="D:/wamp/www/Data/3D/Model/"+modelcontents.getUserKey()+"/"+id;
-        String mubiao="/home/working/tdu.tduvr.club/Data/3D/Model/"+modelcontents.getUserKey()+"/"+id;
+        String mubiao="/www/wwwroot/tdu.tduvr.club/Data/3D/Model/"+modelcontents.getUserKey()+"/"+id;
 
 
 
@@ -396,7 +396,7 @@ public class DevelopModelServiceImpl implements DevelopModelService {
 
         //新
         //  String filePar = "D:/wamp/www/Data/3D/Model/"+userKey+wenjianPath;
-        String filePar = "/home/working/tdu.tduvr.club/Data/3D/Model/"+userKey+wenjianPath;
+        String filePar = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model/"+userKey+wenjianPath;
 
         /*File myPath = new File( filePar );
         if ( !myPath.exists()){//若此目录不存在，则创建之
@@ -419,13 +419,13 @@ public class DevelopModelServiceImpl implements DevelopModelService {
 
         //新
         //  String filename = "D:/wamp/www/Data/3D/Model/"+""+userKey+""+"/"+realPath;;// 文件名
-        String filename = "/home/working/tdu.tduvr.club/Data/3D/Model/"+""+userKey+""+"/"+realPath;;// 文件名
+        String filename = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model/"+""+userKey+""+"/"+realPath;;// 文件名
 
         //String filename = "\\home\\working\\tdu.tduvr.club\\Data\\3D\\Model\\"+""+userKey+""+"\\"+realPath;;// 文件名
 //String name = "D:/working/TDuClub/TDu/Data/3D/Model/"+""+userKey+""+"/"+realPath;
         //新
         //String name = "D:/wamp/www/Data/3D/Model/"+""+userKey+""+"/"+realPath;
-        String name = "/home/working/tdu.tduvr.club/Data/3D/Model/"+""+userKey+""+"/"+realPath;
+        String name = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model/"+""+userKey+""+"/"+realPath;
         String creatFileName  = unicodeToUtf8(name);
          File writeFile=new File(creatFileName);
         //File writeFile=new File("\\home\\working\\tdu.tduvr.club\\Data\\3D\\Model\\"+""+userKey+""+"\\"+realPath);

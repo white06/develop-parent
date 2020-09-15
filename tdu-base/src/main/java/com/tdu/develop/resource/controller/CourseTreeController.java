@@ -143,8 +143,8 @@ public class CourseTreeController {
         //delFile = new File("D:/wamp/www/develop/QZ/PDF/"+preNmae);
 
         //writeFile = new File("D:/wamp/www/newTdu/"+newIcon);
-        //服务器String testUrl = "/home/working/tdu.tduvr.club/Data/3D/";
-        writeFile = new File("/home/working/computer.tduvr.org/newTdu/"+newIcon);
+        //服务器String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/";
+        writeFile = new File("/www/wwwroot/computer.tduvr.org/newTdu/"+newIcon);
 
         if (delFile.isFile()){
             delFile.delete();
