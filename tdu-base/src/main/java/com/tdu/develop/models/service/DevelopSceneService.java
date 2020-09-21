@@ -251,4 +251,9 @@ public interface DevelopSceneService {
     void addScenes(Scenes scenesChild);
 
     void addScenecontents(Scenecontents scenecontents);
+
+    /*
+    * xmlForEditor
+    * */
+    String AddScenesContentFileModel(Scenecontents scenecontents, String treeId1, String nodeId, Scenes scene);
 }

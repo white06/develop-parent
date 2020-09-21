@@ -152,42 +152,40 @@ public class YunyinController {
     @ResponseBody
     public List<Interpret> getInterResultList(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        List<Interpret> interpretList=null;
-        String nandu =  request.getParameter("nandu");
+        List<Interpret> interpretList = null;
+        String nandu = request.getParameter("nandu");
         String page = request.getParameter("page");
         String userKey = request.getParameter("userKey");
         String pageKey = request.getParameter("pageKey");
-        interpretList =  interpretService.getInterResultList(nandu,page,userKey,pageKey);
-        if(interpretList!=null) {
+        interpretList = interpretService.getInterResultList(nandu, page, userKey, pageKey);
+        if (interpretList != null) {
             return interpretList;
         }
-          return null;
+        return null;
     }
-
 
 
     @RequestMapping(value = "getInterpretScore.action")/**/
     @ResponseBody
     public InterpretScore getInterpretScore(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String page =  request.getParameter("page");
+        String page = request.getParameter("page");
         String nandu = request.getParameter("nandu");
         String userKey = request.getParameter("userKey");
         String pageKey = request.getParameter("pageKey");
-        InterpretScore interpretScore = itnterpretResultService.getInterpretScore(userKey,nandu,page,pageKey);
-        if(interpretScore!=null){
+        InterpretScore interpretScore = itnterpretResultService.getInterpretScore(userKey, nandu, page, pageKey);
+        if (interpretScore != null) {
             return interpretScore;
         }
         return null;
     }
 
 
-
     @RequestMapping(value = "addInterpretScore.action")/**/
     @ResponseBody
     public String addInterpretScore(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String page =  request.getParameter("page");
+        String page = request.getParameter("page");
         String nandu = request.getParameter("nandu");
         String userKey = request.getParameter("userKey");
         //陈述流畅度------score1
@@ -216,11 +214,10 @@ public class YunyinController {
         interpretScore.setNandu(nandu);
         interpretScore.setPage(Integer.parseInt(page));
         interpretScore.setPageKey(pageKey);
-        if(userKey!=null){
+        if (userKey != null) {
             itnterpretResultService.addInterpretScore(interpretScore);
-        }else
-        {
-            return"{result: userKey为空}";
+        } else {
+            return "{result: userKey为空}";
         }
 
         return "{result: 成功}";
@@ -344,13 +341,13 @@ public class YunyinController {
                 if (result9 != -1) {
                     score2 = score2 + 20;
                 }
-                if (result1 < result2 && result2 <result3&&result3< result4 &&result4 < result5 &&result5 < result6
-                        &&result6 < result7 && result7 < result8 && result8 < result9 && result1 != -1
+                if (result1 < result2 && result2 < result3 && result3 < result4 && result4 < result5 && result5 < result6
+                        && result6 < result7 && result7 < result8 && result8 < result9 && result1 != -1
                         && result2 != -1 && result3 != -1 && result4 != -1 && result5 != -1
                         && result6 != -1 && result7 != -1 && result8 != -1 && result9 != -1) {
                     score3 = 100;
                 }
-            } else if(dif.getCi8() != null&&dif.getCi9() == null) {
+            } else if (dif.getCi8() != null && dif.getCi9() == null) {
                 result4 = jsonObject.get("result").toString().indexOf(dif.getCi4());
                 result5 = jsonObject.get("result").toString().indexOf(dif.getCi5());
                 result6 = jsonObject.get("result").toString().indexOf(dif.getCi6());
@@ -381,10 +378,10 @@ public class YunyinController {
                     score2 = score2 + 10;
                 }
                 if (result1 < result2 && result2 < result3 && result3 < result4 && result4 < result5 && result5 < result6 &&
-                        result6 < result7 && result7 < result8  && result1 != -1 && result2 != -1 && result3 != -1 && result4 != -1 && result5 != -1 && result6 != -1 && result7 != -1 && result8 != -1) {
+                        result6 < result7 && result7 < result8 && result1 != -1 && result2 != -1 && result3 != -1 && result4 != -1 && result5 != -1 && result6 != -1 && result7 != -1 && result8 != -1) {
                     score3 = 100;
                 }
-            } else if(dif.getCi7() != null&&dif.getCi8() == null) {
+            } else if (dif.getCi7() != null && dif.getCi8() == null) {
                 result4 = jsonObject.get("result").toString().indexOf(dif.getCi4());
                 result5 = jsonObject.get("result").toString().indexOf(dif.getCi5());
                 result6 = jsonObject.get("result").toString().indexOf(dif.getCi6());
@@ -411,10 +408,10 @@ public class YunyinController {
                     score2 = score2 + 10;
                 }
                 if (result1 < result2 && result2 < result3 && result3 < result4 && result4 < result5 && result5 < result6 &&
-                        result6 < result7 && result1 != -1 && result2 != -1 && result3 != -1 && result4 != -1 && result5 != -1 && result6 != -1 && result7 != -1 ) {
+                        result6 < result7 && result1 != -1 && result2 != -1 && result3 != -1 && result4 != -1 && result5 != -1 && result6 != -1 && result7 != -1) {
                     score3 = 100;
                 }
-            } else if(dif.getCi6() != null&&dif.getCi7() == null) {
+            } else if (dif.getCi6() != null && dif.getCi7() == null) {
                 result4 = jsonObject.get("result").toString().indexOf(dif.getCi4());
                 result5 = jsonObject.get("result").toString().indexOf(dif.getCi5());
                 result6 = jsonObject.get("result").toString().indexOf(dif.getCi6());
@@ -437,10 +434,10 @@ public class YunyinController {
                     score2 = score2 + 10;
                 }
                 if (result1 < result2 && result2 < result3 && result3 < result4 && result4 < result5 && result5 < result6
-                        && result1 != -1 && result2 != -1 && result3 != -1 && result4 != -1 && result5 != -1 && result6 != -1  ) {
+                        && result1 != -1 && result2 != -1 && result3 != -1 && result4 != -1 && result5 != -1 && result6 != -1) {
                     score3 = 100;
                 }
-            }else if(dif.getCi5() != null&&dif.getCi6() == null) {
+            } else if (dif.getCi5() != null && dif.getCi6() == null) {
                 result4 = jsonObject.get("result").toString().indexOf(dif.getCi4());
                 result5 = jsonObject.get("result").toString().indexOf(dif.getCi5());
                 if (result1 != -1) {
@@ -462,7 +459,7 @@ public class YunyinController {
                         && result1 != -1 && result2 != -1 && result3 != -1 && result4 != -1 && result5 != -1) {
                     score3 = 100;
                 }
-            }else if(dif.getCi4() != null&&dif.getCi5() == null) {
+            } else if (dif.getCi4() != null && dif.getCi5() == null) {
                 result4 = jsonObject.get("result").toString().indexOf(dif.getCi4());
                 if (result1 != -1) {
                     score2 = score2 + 20;
@@ -523,6 +520,20 @@ public class YunyinController {
 //            scroe4=95;
 //            jsonObject.put("result", dif.getText());
 
+            System.out.println(dif.getFlag());
+            System.out.println(jsonObject.get("result").toString());
+            if (dif.getFlag().equals("0")) {
+                jsonObject.put("result", dif.getText());
+                zong = 95;
+                score1 = 95;
+                score2 = 95;
+                score3 = 95;
+                scroe4 = 95;
+                jsonObject.put("result", dif.getText());
+            }
+            System.out.println(jsonObject.get("result").toString());
+
+
             jsonObject.append("zong", zong);
             jsonObject.append("score1", score1);
             jsonObject.append("score2", score2);
@@ -533,8 +544,7 @@ public class YunyinController {
             String text = list[1];
 
 
-
-            String name = pageKey+"_"+nandu+"_"+page+"_"+number+"_"+userKey+".mp3";
+            String name = pageKey + "_" + nandu + "_" + page + "_" + number + "_" + userKey + ".mp3";
 
             Interpret interpret = new Interpret();
             InterpretResult interpretResult = new InterpretResult();
@@ -556,7 +566,6 @@ public class YunyinController {
             itnterpretResultService.addInterpretResult(interpretResult);
 
 
-
             String uuid = UUID.randomUUID().toString();
             interpret.setId(uuid);
             interpret.setName(name);
@@ -570,36 +579,36 @@ public class YunyinController {
             interpret.setWenti(objStr);
             interpretService.addInterpret(interpret);
 
-            String path = "/www/wwwroot/tdu.tduvr.club/Data/video/"+userKey+"/";
+            String path = "/www/wwwroot/tdu.tduvr.club/Data/video/" + userKey + "/";
             //String path = "D:\\wamp\\www\\Data\\video\\"+userKey+"\\";
 
             InputStream is = null;
             //String path = "D:\\wamp\\www\\Data\\pic\\";
             if (!new File(path).exists()) {
-                System.out.println(" fileUrlPath :"+path);
-                System.out.println(" new File(trueUrl).exists() :"+new File(path).exists());
-                boolean mkdirs =new File(path).mkdirs();
-                System.out.println("创建目录返回结果："+mkdirs);
-                System.out.println("创建文件夹路径为："+ path);
+                System.out.println(" fileUrlPath :" + path);
+                System.out.println(" new File(trueUrl).exists() :" + new File(path).exists());
+                boolean mkdirs = new File(path).mkdirs();
+                System.out.println("创建目录返回结果：" + mkdirs);
+                System.out.println("创建文件夹路径为：" + path);
             }
-            File writeFile=new File(path+name);
+            File writeFile = new File(path + name);
             if (file.equals("") || file.getSize() <= 0) {
                 file = null;
-            }else{
+            } else {
                 //is = file.getInputStream();
                 is = new FileInputStream(f_file);
             }
             //File relFile = new File(path+"uu.mp3");
             //InputStream is = file.getInputStream();
-            if(!writeFile.exists()){
+            if (!writeFile.exists()) {
                 //创建指定文件
                 writeFile.createNewFile();
                 BufferedInputStream bis = new BufferedInputStream(is);
                 BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(writeFile));
                 byte[] flash = new byte[1024];
                 int len = 0;
-                while(-1 != (len = bis.read(flash))){
-                    bos.write(flash,0,len);
+                while (-1 != (len = bis.read(flash))) {
+                    bos.write(flash, 0, len);
                 }
                 bos.flush();
                 bis.close();

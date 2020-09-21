@@ -314,6 +314,27 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         return Scenecontents.getId();
     }
     /*
+    xmlForEditor
+    * */
+    public String AddScenesContentFileModel(Scenecontents Scenecontents, String treeId, String nodeId, Scenes scenes) {
+
+        //System.out.println(" treeId："+treeId+" nodeId："+nodeId);
+        addLastScenesNode(treeId, nodeId,Scenecontents.getUserKey());
+        //String id = UUID.randomUUID().toString();
+        Scenecontents.setNmae(Scenecontents.getId()+".EXM");
+        //Scenecontents.setId(id);
+        Scenecontents.setIntroduce(null);
+        Scenecontents.setImageContentIcons(SceneImage);
+        Scenecontents.setScene_Id(lastScenesNodeId(treeId, nodeId,Scenecontents.getUserKey()));
+        Scenecontents.setType(SceneType);
+        Scenecontents.setOrder(developSceneMapper.getScenesMaxOrder()+1);
+        Scenecontents.setUrl("D:\\working\\TDuClub\\TDu\\Data\\3D");
+        developSceneMapper.addScenesModel(Scenecontents);
+        developSceneMapper.alterSceneContent_Id(Scenecontents);
+        System.out.println(Scenecontents.getScene_Id());
+        return Scenecontents.getScene_Id();
+    }
+    /*
      * 新增主页模型
      * */
     public String AddScenesContentFileModel(Scenecontents Scenecontents, String treeId, String nodeId, Scenes scenes,MultipartFile[] file,List<FilModle> models) {

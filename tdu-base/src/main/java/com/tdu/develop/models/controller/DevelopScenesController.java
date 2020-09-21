@@ -8,6 +8,7 @@ import com.tdu.develop.models.pojo.Scenes;
 import com.tdu.develop.models.service.DevelopSceneService;
 import com.tdu.develop.models.service.impl.DevelopSceneServiceImpl;
 import com.tdu.develop.resource.pojo.ZNodes;
+import com.tdu.develop.resource.yuyin.util.xmlEditor;
 import com.tdu.develop.util.Base64Util;
 import com.tdu.develop.util.FilModle;
 import com.tdu.develop.util.StringUtils;
@@ -35,6 +36,94 @@ public class DevelopScenesController {
     @Autowired
     DevelopSceneService developSceneService=new DevelopSceneServiceImpl();
 
+
+    @RequestMapping(value = "xmlFofEditor.action",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String xmlFofEditor(@RequestBody xmlEditor xmleditor,
+//                        @RequestParam("xmStr") String xmStr,
+//                               @RequestParam("userID") String userID,
+//                               @RequestParam("sceneID") String sceneID,
+//                               @RequestParam("fileType") String fileType,
+//                          @RequestParam("operateID") String operateID,
+//                          @RequestParam("sceneName") String sceneName,
+//                          @RequestParam("parentNoneId") String rootId,
+//                          @RequestParam("subjectTreeId") String subjectTreeId,
+                          HttpSession session) throws Exception {
+
+        String xmStr = xmleditor.getXmStr();
+        String userID = xmleditor.getUserID();
+        String sceneID = xmleditor.getSceneID();
+        String fileType = xmleditor.getFileType();
+        //sceneContentId
+        String sceneKey= UUID.randomUUID().toString();
+        //System.out.println("  xmStr  :  "+xmStr);
+//        System.out.println("   userID  :  "+userID);
+//        System.out.println("   sceneID  :  "+sceneID);
+//        System.out.println("   operateID  :  "+operateID);
+//        System.out.println("   sceneKey  :  "+sceneKey);
+//        System.out.println("   fileType  :  "+fileType);
+//        System.out.println("   sceneName  :  "+sceneName);
+//        System.out.println("   rootId  :  "+rootId);
+//        System.out.println("   subjectTreeId  :  "+subjectTreeId);
+
+        // 公司服务器路径
+        //String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/";
+        String testUrl = "D:/wamp/www/Data/3D/Scene/";
+
+//        Scenecontents Scenecontents = new Scenecontents();
+//        Scenecontents.setId(sceneKey);
+//        Scenecontents.setCustomName(sceneName);
+//        Scenecontents.setCustomStyle("cusstyle");
+//        Scenes scene = new Scenes();
+//        scene.setUserKey(operateID);
+//        Scenecontents.setUserKey(operateID);
+
+         /*
+        fileType: 1--新建  2--更改;
+        * */
+        //新增  场景
+        if(fileType.equals("1")){
+            //String sceneId = developSceneService.AddScenesContentFileModel(Scenecontents, subjectTreeId, rootId, scene);
+            //addScene(rootId,operateID,sceneName,subjectTreeId,sceneKey,fileType);
+        }else {
+//            if(!userID.equals(operateID)){
+//                String sceneId = developSceneService.AddScenesContentFileModel(Scenecontents, subjectTreeId, rootId, scene);
+//                //addScene(rootId,operateID,sceneName,subjectTreeId,sceneKey,fileType);
+//            }
+        }
+
+        //  copyExm  新增EXM 文件
+        if(fileType.equals("1")){
+            //copyExm(xmStr,operateID,sceneKey,testUrl);
+        }else if(fileType.equals("2")){
+//            if(!userID.equals(operateID)){
+//                copyExm(xmStr,operateID,sceneKey,testUrl);
+//            }else{
+//                copyExm(xmStr,operateID,sceneID,testUrl);
+//            }
+            //修改场景 -->所有人ID；
+            copyExm(xmStr,userID,sceneID,testUrl);
+        }
+
+
+        //  userID 和 sceneID 用于 sourcePath  获取资源路径地址
+        // 拷贝 exm以外资源文件
+        String  sourcePath =testUrl+"/"+userID+"/"+sceneID;
+        //目标路径
+        //String  targetPath =testUrl+"/"+operateID+"/"+sceneKey;
+        if(fileType.equals("1")){
+            /*
+             * "C:\\Users\\TDU\\Desktop\\9c9ebfc0-a2a8-4aab-aa8f-c7134df956e4"
+             * "C:\\Users\\TDU\\Desktop"+"\\"+operateID+"\\"+sceneKey
+             * */
+            //copyFolder(sourcePath,targetPath);
+        }else if(fileType.equals("2")){
+//            if(!userID.equals(operateID)){
+//                //copyFolder(sourcePath,targetPath);
+//            }
+        }
+        return "111";
+    }
 
     public void addChild(String NodeId,String operateID,String preScene,String sceneName,String subjectTreeId,String sceneKey,String fileType){
         Scenes scenesChild = new Scenes();
@@ -102,7 +191,7 @@ public class DevelopScenesController {
         }
     }
 
-    public void copyExm(String xmStr,String operateID,String sceneKey,String testUrl){
+    public void copyExm(String xmStr,String userID,String sceneKey,String testUrl){
         try {
             // 保存路径
             String path = "C:\\Users\\TDU\\Desktop";
@@ -114,8 +203,8 @@ public class DevelopScenesController {
                 mkdirsName.mkdirs();
             }
             //   operateID-- 操作人Userkey     sceneKey --场景Key
-            File writename = new File(path+"/"+operateID+"/"+sceneKey+"/"+sceneKey+".EXM");// 相对路径，如果没有则要建立一个exm文件
-            File mulu = new File(path+"/"+operateID+"/"+sceneKey);
+            File writename = new File(path+"/"+userID+"/"+sceneKey+"/"+sceneKey+".EXM");// 相对路径，如果没有则要建立一个exm文件
+            File mulu = new File(path+"/"+userID+"/"+sceneKey);
             if(!mulu.exists()){
                 mulu.mkdirs();
             }
@@ -124,12 +213,12 @@ public class DevelopScenesController {
             if(!writename.exists()) {
                 writename.createNewFile(); // 创建新文件
             } else {
-                String osName = System.getProperties().getProperty("os.name");
-                if (osName.equals("Linux")) {
-                    content = "\r" + content;
-                } else {
-                    content = "\r\n" + content;
-                }
+//                String osName = System.getProperties().getProperty("os.name");
+//                if (osName.equals("Linux")) {
+//                    content = "\r" + content;
+//                } else {
+//                    content = "\r\n" + content;
+//                }
             }
             // 如果是在原有基础上写入则append属性为true，默认为false
             BufferedWriter out = new BufferedWriter(new FileWriter(writename,true));
@@ -166,7 +255,6 @@ public class DevelopScenesController {
 
         // 公司服务器路径
         String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/";
-
          /*
         fileType: 1--新建  2--更改;
         * */

@@ -1,6 +1,7 @@
 package com.tdu.develop.resource.yuyin.util;
 
 public class kouyi {
+    private String flag;
     private  String text;
     private  String ci1;
     private  String ci2;
@@ -11,6 +12,14 @@ public class kouyi {
     private  String ci7;
     private  String ci8;
     private  String ci9;
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
 
     public String getCi4() {
         return ci4;
