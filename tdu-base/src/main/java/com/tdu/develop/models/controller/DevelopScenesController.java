@@ -67,8 +67,8 @@ public class DevelopScenesController {
 //        System.out.println("   subjectTreeId  :  "+subjectTreeId);
 
         // 公司服务器路径
-        //String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/";
-        String testUrl = "D:/wamp/www/Data/3D/Scene/";
+        String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/";
+        //String testUrl = "D:/wamp/www/Data/3D/Scene/";
 
 //        Scenecontents Scenecontents = new Scenecontents();
 //        Scenecontents.setId(sceneKey);
