@@ -1,5 +1,6 @@
 package com.tdu.develop.resource.controller;
 
+import com.tdu.develop.models.pojo.Scenecontents;
 import com.tdu.develop.models.pojo.Scenes;
 import com.tdu.develop.models.service.DevelopSceneService;
 import com.tdu.develop.models.service.impl.DevelopSceneServiceImpl;
@@ -56,7 +57,13 @@ public class EvaluationController {
         }
     }
 
-
+    @RequestMapping(value="getScenecontentsInfos.action",method={RequestMethod.POST})
+    @ResponseBody
+    public Scenecontents getScenecontentsInfos(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+        String sceneId =  request.getParameter("sceneId");
+        Scenecontents scenecontents= developSceneService.getScenecontentsInfos(sceneId);
+        return  scenecontents;
+    }
     @RequestMapping(value="getOneByTimen.action",method={RequestMethod.POST})
     @ResponseBody
     public Evaluation getOneByTimen(HttpServletRequest request, HttpServletResponse response, HttpSession session){

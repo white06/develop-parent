@@ -179,14 +179,30 @@ public class DevelopScenesController {
             }
 
         }else{
-            List<Scenes> sListChild=developSceneService.getScenesSecond(sList.get(0).getId(),operateID);
+            int count = 0;
+            int countstr=0;
+            for(int i =0;i<sList.size();i++){
+                if(sList.get(i).getSceneContentId().equals("00000000-0000-0000-0000-000000000000")){
+                    if(i==0){
+                        count=0;
+                        countstr++;
+                    }else {
+                        if(countstr==0){
+                            count=i;
+                        }
+                        countstr++;
+                    }
+                }
+            }
+
+            List<Scenes> sListChild=developSceneService.getScenesSecond(sList.get(count).getId(),operateID);
 
             if(sListChild.size()<1){
                 String preScene=null;
-                addChild(sList.get(0).getId(),operateID,preScene,sceneName,subjectTreeId,sceneKey,fileType);
+                addChild(sList.get(count).getId(),operateID,preScene,sceneName,subjectTreeId,sceneKey,fileType);
             }else{
                 String preScene=sListChild.get(sListChild.size()-1).getId();
-                addChild(sList.get(0).getId(),operateID,preScene,sceneName,subjectTreeId,sceneKey,fileType);
+                addChild(sList.get(count).getId(),operateID,preScene,sceneName,subjectTreeId,sceneKey,fileType);
             }
         }
     }
