@@ -38,20 +38,19 @@ import java.util.*;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="UserExcelController")
+@RequestMapping(value = "UserExcelController")
 public class UserExcelController {
     @Autowired
-    UsersService usersService=new UserServiceImpl();
+    UsersService usersService = new UserServiceImpl();
 
     @Autowired
-    ExamService examService=new ExamServiceImpl();
+    ExamService examService = new ExamServiceImpl();
 
     @Autowired
-    DevelopModelService developModelService=new DevelopModelServiceImpl();
+    DevelopModelService developModelService = new DevelopModelServiceImpl();
 
     @Autowired
-    DevelopSceneService developSceneService=new DevelopSceneServiceImpl();
-
+    DevelopSceneService developSceneService = new DevelopSceneServiceImpl();
 
 
     public static final String ModelsSubId = "36c8c7c2-8aaf-44c9-b6c8-53e0e3fa3a68";
@@ -61,9 +60,8 @@ public class UserExcelController {
     private static final Logger logger = LogManager.getLogger(UserExcelController.class);
 
 
-
     // 用户信息批量导入
-    @RequestMapping(value = "getFile.action", method = { RequestMethod.POST })
+    @RequestMapping(value = "getFile.action", method = {RequestMethod.POST})
     @ResponseBody
     public void getFile(HttpServletRequest request, HttpServletResponse response,
                         @RequestParam("file") MultipartFile file) {
@@ -140,7 +138,7 @@ public class UserExcelController {
     }
 
     // 试题信息批量导入
-    @RequestMapping(value = "getQuestion.action", method = { RequestMethod.POST })
+    @RequestMapping(value = "getQuestion.action", method = {RequestMethod.POST})
     @ResponseBody
     public void getQuestion2(HttpServletRequest request, HttpServletResponse response,
                              @RequestParam("file") MultipartFile file, @RequestParam("knowId") String knowId) {
@@ -209,7 +207,7 @@ public class UserExcelController {
                             + "</文字><图片></图片></题干><选项列表>";
                     if (type.equals("单选题") || type.equals("多选题") || type.equals("选择题")) {
                         String option = cellMap.get("选项A").toString();
-                        System.out.println(cellMap.get("选项B")+"--"+cellMap.get("选项C")+"--"+cellMap.get("题干"));
+                        System.out.println(cellMap.get("选项B") + "--" + cellMap.get("选项C") + "--" + cellMap.get("题干"));
                         option = option + ";" + cellMap.get("选项B").toString() + ";" + cellMap.get("选项C").toString()
                                 + ";" + cellMap.get("选项D").toString();
                         if (cellMap.get("选项E") != null) {
@@ -223,17 +221,17 @@ public class UserExcelController {
                             for (int i = 0; i < xuanxiang.length; i++) {
                                 /*content += "<选项" + (i + 1) + "><图片></图片><文字><![CDATA[" + xuanxiang[i] + "]]></文字><选项"
                                         + (i + 1) + ">";*/
-                                if(i==0){
+                                if (i == 0) {
                                     content += "<选项A><图片></图片><文字>" + xuanxiang[i] + "</文字></选项A>";
-                                }else if(i==1){
+                                } else if (i == 1) {
                                     content += "<选项B><图片></图片><文字>" + xuanxiang[i] + "</文字></选项B>";
-                                }else if(i==2){
+                                } else if (i == 2) {
                                     content += "<选项C><图片></图片><文字>" + xuanxiang[i] + "</文字></选项C>";
-                                }else if(i==3){
+                                } else if (i == 3) {
                                     content += "<选项D><图片></图片><文字>" + xuanxiang[i] + "</文字></选项D>";
-                                }else if(i==4){
+                                } else if (i == 4) {
                                     content += "<选项E><图片></图片><文字>" + xuanxiang[i] + "</文字></选项E>";
-                                }else if(i==5){
+                                } else if (i == 5) {
                                     content += "<选项F><图片></图片><文字>" + xuanxiang[i] + "</文字></选项F>";
                                 }
                             }
@@ -380,7 +378,7 @@ public class UserExcelController {
      * @param file
      */
 
-    @RequestMapping(value = "getFileForModel.action", method = { RequestMethod.POST })
+    @RequestMapping(value = "getFileForModel.action", method = {RequestMethod.POST})
     @ResponseBody
     public void getFileForModel(HttpServletRequest request, HttpServletResponse response,
                                 @RequestParam("file") MultipartFile file) {
@@ -451,6 +449,7 @@ public class UserExcelController {
             e.printStackTrace();
         }
     }
+
     /**
      * 编辑器开发者平台上传功能
      *
@@ -458,7 +457,7 @@ public class UserExcelController {
      * @param response
      * @param file
      */
-    @RequestMapping(value = "getFileForTdu.action", method = { RequestMethod.POST })
+    @RequestMapping(value = "getFileForTdu.action", method = {RequestMethod.POST})
     @ResponseBody
     public void getFileForTdu(HttpServletRequest request, HttpServletResponse response, HttpSession session,
                               @RequestParam("file") MultipartFile file) {
@@ -475,8 +474,8 @@ public class UserExcelController {
         //System.out.println(fileName);
         String modelinfo = request.getParameter("modelinfo");
         //System.out.println(modelinfo);
-        logger.info(" fileName :"+fileName);
-        logger.info(" modelinfo :"+modelinfo);
+        logger.info(" fileName :" + fileName);
+        logger.info(" modelinfo :" + modelinfo);
 
         // 固定服务器路径
         //String testUrl="D:/working/TDuClub/TDu/Data/3D/";
@@ -485,7 +484,7 @@ public class UserExcelController {
         String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/";
 
         // 测试路径
-     //   String testUrl="D:/testup/";
+        //   String testUrl="D:/testup/";
         String[] nameArray = fileName.split("\\|");
         String[] modelArray = modelinfo.split("\\|");
 
@@ -497,7 +496,7 @@ public class UserExcelController {
         String[] gethouzhui = fileName.split("\\.");
         String str = gethouzhui[(gethouzhui.length - 1)];
         //System.out.println("str   :" + str);
-        logger.info(" str :"+str);
+        logger.info(" str :" + str);
         // System.out.println("nameArray[4] :"+nameArray[4]);
         // System.out.println("modelArray[4] :"+modelArray[4]);
         if (nameArray.length > 3) {
@@ -540,12 +539,12 @@ public class UserExcelController {
             // String studentId=usersServiceImp.selRole();
 
             // 文件路径
-            String fileUrlPath = trueUrl  + LatFileName;
-            logger.info(" fileUrlPath :"+fileUrlPath);
+            String fileUrlPath = trueUrl + LatFileName;
+            logger.info(" fileUrlPath :" + fileUrlPath);
             // String studentId=usersServiceImp.selRole();
             if (!new File(trueUrl).exists()) {
-                logger.info(" fileUrlPath :"+fileUrlPath);
-                logger.info(" new File(trueUrl).exists() :"+new File(trueUrl).exists());
+                logger.info(" fileUrlPath :" + fileUrlPath);
+                logger.info(" new File(trueUrl).exists() :" + new File(trueUrl).exists());
                 new File(trueUrl).mkdirs();
             }
             try {
@@ -555,11 +554,11 @@ public class UserExcelController {
                 String ContactKey = modelArray[3];
                 String subtreeId = modelArray[4];
 
-                if (str.equals("tdc") || str.equals("tdb")|| str.equals("exm")|| str.equals("EXM")) {
-                    LatFileName=modelOrView+"."+str;
-                    fileUrlPath =trueUrl + "/" + LatFileName;
+                if (str.equals("tdc") || str.equals("tdb") || str.equals("exm") || str.equals("EXM")) {
+                    LatFileName = modelOrView + "." + str;
+                    fileUrlPath = trueUrl + "/" + LatFileName;
                 }
-                logger.info(" fileUrlPath :"+fileUrlPath);
+                logger.info(" fileUrlPath :" + fileUrlPath);
                 // 添加文件
                 file.transferTo(new File(fileUrlPath));
                 /* 模型和Knowleg 以及Knowlegcontent 同步添加 */
@@ -694,19 +693,20 @@ public class UserExcelController {
 
         }
     }
-    @RequestMapping(value="setVersion.action",method={RequestMethod.GET})
+
+    @RequestMapping(value = "setVersion.action", method = {RequestMethod.GET})
     @ResponseBody
-    public void setVersion(HttpServletRequest request,HttpServletResponse response) throws Exception{
+    public void setVersion(HttpServletRequest request, HttpServletResponse response) throws Exception {
         //只需关注路径
         //String path="D:\\wamp\\www\\TDu\\Data\\3D\\Model\\4d272f66-9dac-4b87-a2a1-22b6e5910779\\f540168f-1a32-bc3b-6b36-3d9b399034c1";//"D:\\working\\TDuClub\\TDu\\Data\\3D\\Model\\4d272f66-9dac-4b87-a2a1-22b6e5910779\\a3a673d6-a69e-42b0-9c42-e8eaa507746c";
         String path = request.getParameter("LocalPath");
-        String name="";
-        System.out.println("  path :"+path);
-        List<String> nList=new ArrayList<String>();
-        List<String> fList=new ArrayList<String>();
-        Map<String,List<String>> versionMap=developModelService.setVersion(path, name,nList,fList);
-        List<String> nameList=versionMap.get("nameList");
-        List<String> fileList=versionMap.get("fileList");
+        String name = "";
+        System.out.println("  path :" + path);
+        List<String> nList = new ArrayList<String>();
+        List<String> fList = new ArrayList<String>();
+        Map<String, List<String>> versionMap = developModelService.setVersion(path, name, nList, fList);
+        List<String> nameList = versionMap.get("nameList");
+        List<String> fileList = versionMap.get("fileList");
         developModelService.setVersionFile(nameList, fileList, path);
     }
 

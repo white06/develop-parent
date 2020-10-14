@@ -24,6 +24,7 @@ public interface OfficeMapper {
     List<String> getAllStudents();
 
     List<String> getAllTeachers();
+
     @Select("SELECT User_Id FROM userroles WHERE Role_Id='9c8c0815-3968-45d0-9fae-0d42885973fc'")
     List<String> getAllAdmins();
 
@@ -32,30 +33,26 @@ public interface OfficeMapper {
     void createClass(Classes cl);
 
 
+    String getKnowledgeContentId(String SubjectTree_Id);
 
+    String getSubTreeId(String SubjectKey);
 
+    String getchengji(StuQueInfors stuQueInfors);
 
-
-	String getKnowledgeContentId(String SubjectTree_Id);
-
-	String getSubTreeId(String SubjectKey);
-
-	String getchengji(StuQueInfors stuQueInfors);
-
-	List<Subjects> getSubject();
+    List<Subjects> getSubject();
 
     List<Subjects> getNurseSubject();
 
 
-	List<Classes> getclasses2();
+    List<Classes> getclasses2();
 
-	List<String> getUsersId2(String classId);
-
-
-	Member getUsersInfos2(String str);
+    List<String> getUsersId2(String classId);
 
 
-	List<String> getAllStudents2();
+    Member getUsersInfos2(String str);
+
+
+    List<String> getAllStudents2();
 
 
     List<String> getAllNurseStudents();

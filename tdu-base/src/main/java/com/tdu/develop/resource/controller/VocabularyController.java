@@ -17,27 +17,28 @@ import java.util.List;
 
 @CrossOrigin
 @Controller
-@RequestMapping(value="VocabularyController")
+@RequestMapping(value = "VocabularyController")
 public class VocabularyController {
 
     @Autowired
-    VocabularyService vocabularyService=new VocabularyServiceImpl();
+    VocabularyService vocabularyService = new VocabularyServiceImpl();
 
 
     /**
      * 得到第二节点信息
+     *
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value="getVocabularyList.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getVocabularyList.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<Vocabulary> getVocabularyList(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+    public List<Vocabulary> getVocabularyList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         String knowledgeId = request.getParameter("knowledgeId");
         String type = request.getParameter("type");
-         knowledgeId="1";
-         type="词汇";
-        List<Vocabulary> vocabularyList =  vocabularyService.getVocabularyList(knowledgeId,type);
+        knowledgeId = "1";
+        type = "词汇";
+        List<Vocabulary> vocabularyList = vocabularyService.getVocabularyList(knowledgeId, type);
         return vocabularyList;
     }
 

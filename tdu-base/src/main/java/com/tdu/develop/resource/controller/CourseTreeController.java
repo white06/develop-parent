@@ -25,18 +25,20 @@ import static com.tdu.develop.resource.service.impl.AddKnowledgeServiceImpl.Docu
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="CourseTreeController")
+@RequestMapping(value = "CourseTreeController")
 public class CourseTreeController {
     @Resource
-    public CourseTreeService courseTreeService=new CourseTreeServiceImpl();
+    public CourseTreeService courseTreeService = new CourseTreeServiceImpl();
+
     @RequestMapping("getSubjectTrees.action")
     @ResponseBody
-    public List<SubjectTrees> getSubjectTrees(String subjectKey){
+    public List<SubjectTrees> getSubjectTrees(String subjectKey) {
         List<SubjectTrees> list = courseTreeService.geSubjectTrees(subjectKey);
         return list;
     }
+
     @RequestMapping("submitTree.action")
-    public void submitTree(HttpServletRequest request,HttpServletResponse response){
+    public void submitTree(HttpServletRequest request, HttpServletResponse response) {
         try {
             request.setCharacterEncoding("utf-8");
         } catch (UnsupportedEncodingException e) {
@@ -50,13 +52,13 @@ public class CourseTreeController {
         subjectTrees.setSubjectKey(request.getParameter("subjectId"));
 
         /*
-        * 0-模型库 1-场景库 2-题库 3-考试 4-资源类
-        * */
-        if(style.equals("0")){
+         * 0-模型库 1-场景库 2-题库 3-考试 4-资源类
+         * */
+        if (style.equals("0")) {
             courseTreeService.insertTreeModel(subjectTrees);
-        }else  if(style.equals("1")){
+        } else if (style.equals("1")) {
             courseTreeService.insertTreeScene(subjectTrees);
-        }else{
+        } else {
             courseTreeService.insertTree(subjectTrees);
         }
         try {
@@ -65,15 +67,16 @@ public class CourseTreeController {
             e.printStackTrace();
         }
     }
+
     @RequestMapping("getTreeSourse.action")
     @ResponseBody
-    public SubjectTrees editTree(String treeid){
+    public SubjectTrees editTree(String treeid) {
         return courseTreeService.getTreeSource(treeid);
     }
 
 
     @RequestMapping("updateTreeNoFile.action")
-    public void updateTreeNoFile(HttpServletRequest request, HttpServletResponse response){
+    public void updateTreeNoFile(HttpServletRequest request, HttpServletResponse response) {
         SubjectTrees subjectTrees = new SubjectTrees();
         subjectTrees.setTreeName(request.getParameter("subjectTree"));
         subjectTrees.setStatus(request.getParameter("treeStatus"));
@@ -90,9 +93,9 @@ public class CourseTreeController {
 
     @RequestMapping("updateTree.action")
     public void updateTree(@RequestParam("file") MultipartFile file, @RequestParam("subjectTree") String subjectTree,
-                           @RequestParam("treeStyle") String treeStyle,@RequestParam("treeStatus") String treeStatus,
-                           @RequestParam("treeId") String treeId,@RequestParam("iconName") String iconName,
-                           HttpServletRequest request, HttpServletResponse response){
+                           @RequestParam("treeStyle") String treeStyle, @RequestParam("treeStatus") String treeStatus,
+                           @RequestParam("treeId") String treeId, @RequestParam("iconName") String iconName,
+                           HttpServletRequest request, HttpServletResponse response) {
         SubjectTrees subjectTrees = new SubjectTrees();
         subjectTrees.setTreeName(subjectTree);
         subjectTrees.setStatus(treeStatus);
@@ -100,27 +103,27 @@ public class CourseTreeController {
         subjectTrees.setId(treeId);
         String[] str = null;
         String newIcon = "";
-        if(!iconName.equals("")&&iconName!=null&&!iconName.equals("null")){
-            str =  iconName.split("/");
-            for (int i = 0; i <str.length ; i++) {
-                if(i==0){
-                    newIcon=str[i];
+        if (!iconName.equals("") && iconName != null && !iconName.equals("null")) {
+            str = iconName.split("/");
+            for (int i = 0; i < str.length; i++) {
+                if (i == 0) {
+                    newIcon = str[i];
                 }
-                if(i==1){
-                    newIcon =newIcon+ "/"+str[i];
+                if (i == 1) {
+                    newIcon = newIcon + "/" + str[i];
                 }
-                if(i==str.length-1){
-                    str[i]=file.getOriginalFilename();
-                    newIcon =newIcon+ "/"+str[i];
+                if (i == str.length - 1) {
+                    str[i] = file.getOriginalFilename();
+                    newIcon = newIcon + "/" + str[i];
                 }
             }
             subjectTrees.setIcon(newIcon);
-        }else {
-            newIcon="img/ico/"+file.getOriginalFilename();
+        } else {
+            newIcon = "img/ico/" + file.getOriginalFilename();
             subjectTrees.setIcon(newIcon);
         }
         try {
-            updatePdf(file,newIcon);
+            updatePdf(file, newIcon);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -133,34 +136,34 @@ public class CourseTreeController {
         }
     }
 
-    public void updatePdf(MultipartFile mf,String newIcon) throws IOException {
+    public void updatePdf(MultipartFile mf, String newIcon) throws IOException {
 
         //File file = new File(filePath+File.separator+knowlegcontent.getType());
         InputStream is = mf.getInputStream();
-        File delFile=new File("");
-        File writeFile=new File("");
+        File delFile = new File("");
+        File writeFile = new File("");
         System.out.println(newIcon);
         //delFile = new File("D:/wamp/www/develop/QZ/PDF/"+preNmae);
 
         //writeFile = new File("D:/wamp/www/newTdu/"+newIcon);
         //服务器String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/";
-        writeFile = new File("/www/wwwroot/computer.tduvr.org/newTdu/"+newIcon);
+        writeFile = new File("/www/wwwroot/computer.tduvr.org/newTdu/" + newIcon);
 
-        if (delFile.isFile()){
+        if (delFile.isFile()) {
             delFile.delete();
         }
         System.out.println(writeFile.exists());
         //在指定目录下添加文件
-        if(!writeFile.exists()){
+        if (!writeFile.exists()) {
             //创建指定文件
-            boolean flag =  writeFile.createNewFile();
+            boolean flag = writeFile.createNewFile();
             System.out.println(flag);
             BufferedInputStream bis = new BufferedInputStream(is);
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(writeFile));
             byte[] flash = new byte[1024];
             int len = 0;
-            while(-1 != (len = bis.read(flash))){
-                bos.write(flash,0,len);
+            while (-1 != (len = bis.read(flash))) {
+                bos.write(flash, 0, len);
             }
             bos.flush();
             bis.close();
@@ -169,9 +172,8 @@ public class CourseTreeController {
     }
 
 
-
     @RequestMapping("deleteTree.action")
-    public void deleteTree(String treeid,HttpServletResponse response){
+    public void deleteTree(String treeid, HttpServletResponse response) {
         courseTreeService.deleteTree(treeid);
         try {
             response.getWriter().println("js");

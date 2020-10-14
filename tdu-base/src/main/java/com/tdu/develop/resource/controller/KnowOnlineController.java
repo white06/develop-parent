@@ -26,57 +26,60 @@ import java.util.UUID;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="KnowOnlineController")
+@RequestMapping(value = "KnowOnlineController")
 public class KnowOnlineController {
     @Autowired
-    private KnowOnlineService knowOnlineService=new KnowOnlineServiceImpl();
+    private KnowOnlineService knowOnlineService = new KnowOnlineServiceImpl();
 
 
-    @RequestMapping(value="getClassUsersOnLine.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getClassUsersOnLine.action", method = {RequestMethod.POST})
     @ResponseBody
-    public knowOnlineUtil getKnoUserOnLine(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        String knowContId=request.getParameter("knowContId");
-        String userId=request.getParameter("userId");
-        knowOnlineUtil knowOnline =knowOnlineService.getKnoUserOnLine(knowContId,userId);
+    public knowOnlineUtil getKnoUserOnLine(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String knowContId = request.getParameter("knowContId");
+        String userId = request.getParameter("userId");
+        knowOnlineUtil knowOnline = knowOnlineService.getKnoUserOnLine(knowContId, userId);
         System.out.println(knowOnline);
         return knowOnline;
     }
-    @RequestMapping(value="getKnoOnLine.action",method={RequestMethod.POST})
+
+    @RequestMapping(value = "getKnoOnLine.action", method = {RequestMethod.POST})
     @ResponseBody
-    public knowOnlineUtil getKnoOnLine(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        String knowContId=request.getParameter("knowContId");
-        knowOnlineUtil knowOnline =knowOnlineService.getKnoOnLine(knowContId);
+    public knowOnlineUtil getKnoOnLine(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String knowContId = request.getParameter("knowContId");
+        knowOnlineUtil knowOnline = knowOnlineService.getKnoOnLine(knowContId);
         System.out.println(knowOnline);
         return knowOnline;
     }
-    @RequestMapping(value="getKnoLineGroupUser.action",method={RequestMethod.POST})
+
+    @RequestMapping(value = "getKnoLineGroupUser.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<knowOnlineUtil> getKnoLineGroupUser(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        String knowContId=request.getParameter("knowContId");
-        List<knowOnlineUtil> knowOnline =knowOnlineService.getKnoLineGroupUser(knowContId);
+    public List<knowOnlineUtil> getKnoLineGroupUser(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String knowContId = request.getParameter("knowContId");
+        List<knowOnlineUtil> knowOnline = knowOnlineService.getKnoLineGroupUser(knowContId);
         System.out.println(knowOnline);
         return knowOnline;
     }
+
     /**
      * 触发打开时间
      */
     @RequestMapping("insertKnowOnline.action")
     @ResponseBody
-    public String insertKnowOnline(HttpServletRequest request, HttpSession session) throws Exception{
-        String userId=session.getAttribute("ID").toString();
-        String loginId= UUID.randomUUID().toString();
-        String knowId=request.getParameter("knowContentId");
+    public String insertKnowOnline(HttpServletRequest request, HttpSession session) throws Exception {
+        String userId = session.getAttribute("ID").toString();
+        String loginId = UUID.randomUUID().toString();
+        String knowId = request.getParameter("knowContentId");
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateNowStr = sdf.format(d);
-        Date sd1=sdf.parse(dateNowStr);
-        KnowOnline knowOnline=new KnowOnline();
+        Date sd1 = sdf.parse(dateNowStr);
+        KnowOnline knowOnline = new KnowOnline();
         knowOnline.setId(loginId);
         knowOnline.setKnowId(knowId);
         knowOnline.setPlayTime(sd1);
         knowOnline.setUserId(userId);
         knowOnline.setOnlineTime(30);
-        if(knowId!=null){
+        if (knowId != null) {
             knowOnlineService.insertKnowOnline(knowOnline);
         }
         return loginId;
@@ -85,14 +88,14 @@ public class KnowOnlineController {
 
     @RequestMapping("insertKnowOutline.action")
     @ResponseBody
-    public void insertKnowOutline(HttpServletRequest request, HttpSession session) throws Exception{
+    public void insertKnowOutline(HttpServletRequest request, HttpSession session) throws Exception {
         Date d = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateNowStr = df.format(d);
-        Date sd1=df.parse(dateNowStr);
-        String loginId=request.getParameter("loginId");
-        if(loginId!=null){
-            knowOnlineService.insertKnowOutline(loginId,sd1);
+        Date sd1 = df.parse(dateNowStr);
+        String loginId = request.getParameter("loginId");
+        if (loginId != null) {
+            knowOnlineService.insertKnowOutline(loginId, sd1);
         }
     }
 }

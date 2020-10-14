@@ -19,7 +19,7 @@ public interface SectionMapper {
 
     List<Map<String, Object>> queryAllSections(String subjectId);
 
-    List<Map<String,Object>> selAllChilds(String id);
+    List<Map<String, Object>> selAllChilds(String id);
 
     List<Map<String, Object>> selAllWords(@Param("sectionId") String sectionId, @Param("startIndex") int startIndex, @Param("rows") Integer rows);
 

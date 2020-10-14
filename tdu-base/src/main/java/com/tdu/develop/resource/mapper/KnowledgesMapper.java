@@ -15,9 +15,11 @@ import java.util.List;
 public interface KnowledgesMapper {
     /**
      * 获取首节点信息
+     *
      * @return
      */
     public List<Knowledges> getKnowledgesFis(@Param("subTreeId") String subTreeId);
+
     public Knowledges getKnow(String id);
 
     public String seleRoot(String id);
@@ -60,6 +62,7 @@ public interface KnowledgesMapper {
 
     /**
      * 获取次节点信息
+     *
      * @param parentKnowledge
      * @return
      */
@@ -68,12 +71,15 @@ public interface KnowledgesMapper {
 
     /**
      * 获取知识点type
+     *
      * @param knowledgecontentId
      * @return
      */
     public String getKnowType(@Param("knowledgecontentId") String knowledgecontentId);
+
     /**
      * 获取知识点nmae
+     *
      * @param knowledgecontentId
      * @return
      */
@@ -83,8 +89,10 @@ public interface KnowledgesMapper {
     public List<Knowledges> getSubjectsTree(@Param("SubjectKey") String SubjectKey);
 
     public String getSubjectId(String id);
-/**
+
+    /**
      * 通过知识点id获取知识内容
+     *
      * @param knowId
      * @return
      */

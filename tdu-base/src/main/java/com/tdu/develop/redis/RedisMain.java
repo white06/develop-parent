@@ -18,10 +18,10 @@ import java.util.List;
 @Component
 public class RedisMain {
     @Autowired
-    UsersService usersService=new UserServiceImpl();
+    UsersService usersService = new UserServiceImpl();
 
     @PostConstruct // 构造函数之后执行
-    public void init(){
+    public void init() {
         System.out.println("容器启动后执行");
         final long timeInterval = 86400000;//一天
         Runnable runnable = new Runnable() {
@@ -40,34 +40,32 @@ public class RedisMain {
         thread.start();
 
 
-
-
     }
 
-    public void startJob(){
+    public void startJob() {
 
         //饼图数据获取存入redis
         HashMap<String, Integer> resultMap = new HashMap<String, Integer>();
-        String dayCount =  usersService.getUserOnLineDay()+"";
-        String monthCount =  usersService.getUserOnLineMonth()+"";
-        String preMonthCount =  usersService.getUserOnLinePreMonth()+"";
-        boolean flag1 = RedisUtil.set("dayCount", dayCount,Long.parseLong("86400"));
-        boolean flag2 =RedisUtil.set("monthCount", monthCount,Long.parseLong("86400"));
-        boolean flag3 = RedisUtil.set("preMonthCount", preMonthCount,Long.parseLong("86400"));
+        String dayCount = usersService.getUserOnLineDay() + "";
+        String monthCount = usersService.getUserOnLineMonth() + "";
+        String preMonthCount = usersService.getUserOnLinePreMonth() + "";
+        boolean flag1 = RedisUtil.set("dayCount", dayCount, Long.parseLong("86400"));
+        boolean flag2 = RedisUtil.set("monthCount", monthCount, Long.parseLong("86400"));
+        boolean flag3 = RedisUtil.set("preMonthCount", preMonthCount, Long.parseLong("86400"));
 
         //曲线图数据获取
-        List<Object> monthInYearUtil =  usersService.getMonthInYear();
+        List<Object> monthInYearUtil = usersService.getMonthInYear();
         /*List<Object> monthInYearCount = usersService.getMonthInYearCount();*/
 
-        List<Object> halfYearUtil =  usersService.getHalfYear();
+        List<Object> halfYearUtil = usersService.getHalfYear();
 
-        List<Object> halfYearUserUtil =  usersService.getHalfYearUser();
+        List<Object> halfYearUserUtil = usersService.getHalfYearUser();
 
-        boolean flag4 = RedisUtil.setList("getMonthInYear", monthInYearUtil,Long.parseLong("86400"));
-        boolean flag5 = RedisUtil.setList("getHalfYear", halfYearUtil,Long.parseLong("86400"));
-        boolean flag6 = RedisUtil.setList("getHalfYearUser", halfYearUserUtil,Long.parseLong("86400"));
-       /* boolean flag5 = RedisUtil.setList("getMonthInYearCount", monthInYearCount,Long.parseLong("86400"));*/
-        if (flag1&&flag2&flag3) {
+        boolean flag4 = RedisUtil.setList("getMonthInYear", monthInYearUtil, Long.parseLong("86400"));
+        boolean flag5 = RedisUtil.setList("getHalfYear", halfYearUtil, Long.parseLong("86400"));
+        boolean flag6 = RedisUtil.setList("getHalfYearUser", halfYearUserUtil, Long.parseLong("86400"));
+        /* boolean flag5 = RedisUtil.setList("getMonthInYearCount", monthInYearCount,Long.parseLong("86400"));*/
+        if (flag1 && flag2 & flag3) {
             // 读取缓存
             System.out.println("成功写入缓存");
         } else {
@@ -81,7 +79,7 @@ public class RedisMain {
         System.out.println(RedisUtil.getList("getHalfYear"));
         System.out.println(RedisUtil.getList("getHalfYearUser"));
         List<?> list = RedisUtil.getList("getMonthInYear");
-       /* System.out.println(RedisUtil.getList("getMonthInYearCount"));*/
+        /* System.out.println(RedisUtil.getList("getMonthInYearCount"));*/
         /**
          * 测试模板
          */

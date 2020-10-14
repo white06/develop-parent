@@ -12,7 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 
-public class MySessionManager  extends DefaultWebSessionManager {
+public class MySessionManager extends DefaultWebSessionManager {
     private static final Logger log = LoggerFactory.getLogger(MySessionManager.class);
     private String authorization = "Authorization";
 

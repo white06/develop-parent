@@ -30,11 +30,11 @@ import java.util.UUID;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="AddKnowledgeController")
+@RequestMapping(value = "AddKnowledgeController")
 public class AddKnowledgeController {
 
     @Autowired
-    public AddKnowledgeService addKnowledgeService=new AddKnowledgeServiceImpl();
+    public AddKnowledgeService addKnowledgeService = new AddKnowledgeServiceImpl();
 
     @Autowired
     public HtmlPageService htmlPageService = new HtmlPageServiceImpl();
@@ -42,11 +42,11 @@ public class AddKnowledgeController {
     /*
      *  添加报告
      * */
-    @RequestMapping(value = "insertPageForJY.action",method = RequestMethod.POST)
+    @RequestMapping(value = "insertPageForJY.action", method = RequestMethod.POST)
     @ResponseBody
-    public void insertPageForJY(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException {
+    public void insertPageForJY(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
         HtmlPage htmlPage = new HtmlPage();
-        String userKey=(String) session.getAttribute("ID");
+        String userKey = (String) session.getAttribute("ID");
         //String userKey = request.getParameter("userkey");
         String htmlStr = request.getParameter("htmlstr");
         String name = request.getParameter("name");
@@ -127,12 +127,13 @@ public class AddKnowledgeController {
         htmlPage.setCreattime(dateNowStr);
         htmlPageService.insertHtmlPage(htmlPage);
     }
+
     /*
      *  添加报告
      * */
-    @RequestMapping(value = "insertPage.action",method = RequestMethod.POST)
+    @RequestMapping(value = "insertPage.action", method = RequestMethod.POST)
     @ResponseBody
-    public void insertPage(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public void insertPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HtmlPage htmlPage = new HtmlPage();
         String userKey = request.getParameter("userkey");
         String htmlStr = request.getParameter("htmlstr");
@@ -214,34 +215,36 @@ public class AddKnowledgeController {
         htmlPage.setCreattime(dateNowStr);
         htmlPageService.insertHtmlPage(htmlPage);
     }
+
     /*
      *  查询报告
      * */
-    @RequestMapping(value = "getPageForJY.action",method = RequestMethod.POST)
+    @RequestMapping(value = "getPageForJY.action", method = RequestMethod.POST)
     @ResponseBody
-    public HtmlPage getPageForJY(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException {
+    public HtmlPage getPageForJY(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
         //String userKey = request.getParameter("userkey");
-        String userKey=(String) session.getAttribute("ID");
+        String userKey = (String) session.getAttribute("ID");
         String name = request.getParameter("name");
-        HtmlPage htmlPage =  htmlPageService.getHtmlPage(userKey,name);
-        return htmlPage;
-    }
-    /*
-     *  查询报告
-     * */
-    @RequestMapping(value = "getPage.action",method = RequestMethod.POST)
-    @ResponseBody
-    public HtmlPage getPage(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        String userKey = request.getParameter("userkey");
-        String name = request.getParameter("name");
-        HtmlPage htmlPage =  htmlPageService.getHtmlPage(userKey,name);
+        HtmlPage htmlPage = htmlPageService.getHtmlPage(userKey, name);
         return htmlPage;
     }
 
+    /*
+     *  查询报告
+     * */
+    @RequestMapping(value = "getPage.action", method = RequestMethod.POST)
+    @ResponseBody
+    public HtmlPage getPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String userKey = request.getParameter("userkey");
+        String name = request.getParameter("name");
+        HtmlPage htmlPage = htmlPageService.getHtmlPage(userKey, name);
+        return htmlPage;
+    }
 
 
     /**
      * 删除本地临时文件
+     *
      * @param file
      */
     public static void delteTempFile(File file) {
@@ -262,14 +265,14 @@ public class AddKnowledgeController {
         String path = "/www/wwwroot/tdu.tduvr.club/Data/pic/";
         //String path = "D:\\wamp\\www\\Data\\pic\\";
         if (!new File(path).exists()) {
-            System.out.println(" fileUrlPath :"+path);
-            System.out.println(" new File(trueUrl).exists() :"+new File(path).exists());
-            boolean mkdirs =new File(path).mkdirs();
-            System.out.println("创建目录返回结果："+mkdirs);
-            System.out.println("创建文件夹路径为："+ path);
+            System.out.println(" fileUrlPath :" + path);
+            System.out.println(" new File(trueUrl).exists() :" + new File(path).exists());
+            boolean mkdirs = new File(path).mkdirs();
+            System.out.println("创建目录返回结果：" + mkdirs);
+            System.out.println("创建文件夹路径为：" + path);
         }
 
-        File writeFile=new File(path+file.getOriginalFilename());
+        File writeFile = new File(path + file.getOriginalFilename());
         if (file.equals("") || file.getSize() <= 0) {
             file = null;
         } else {
@@ -279,8 +282,8 @@ public class AddKnowledgeController {
                 BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(writeFile));
                 byte[] flash = new byte[1024];
                 int len = 0;
-                while(-1 != (len = bis.read(flash))){
-                    bos.write(flash,0,len);
+                while (-1 != (len = bis.read(flash))) {
+                    bos.write(flash, 0, len);
                 }
                 System.out.println(bos.toString());
                 bos.flush();
@@ -303,23 +306,17 @@ public class AddKnowledgeController {
     }
 
     /**
-     *
-     * @Title: 构造图片
-     * @Description: 生成水印并返回java.awt.image.BufferedImage
-     * @param file
-     *            源文件(图片)
-     * @param waterFile
-     *            水印文件(图片)
-     * @param x
-     *            距离右下角的X偏移量
-     * @param y
-     *            距离右下角的Y偏移量
-     * @param alpha
-     *            透明度, 选择值从0.0~1.0: 完全透明~完全不透明
+     * @param file      源文件(图片)
+     * @param waterFile 水印文件(图片)
+     * @param x         距离右下角的X偏移量
+     * @param y         距离右下角的Y偏移量
+     * @param alpha     透明度, 选择值从0.0~1.0: 完全透明~完全不透明
      * @return BufferedImage
      * @throws IOException
+     * @Title: 构造图片
+     * @Description: 生成水印并返回java.awt.image.BufferedImage
      */
-    public  BufferedImage watermark(File file, File waterFile, int x, int y, float alpha) throws IOException {
+    public BufferedImage watermark(File file, File waterFile, int x, int y, float alpha) throws IOException {
         // 获取底图
         BufferedImage buffImg = ImageIO.read(file);
         // 获取层图
@@ -339,10 +336,8 @@ public class AddKnowledgeController {
     /**
      * 输出水印图片
      *
-     * @param buffImg
-     *            图像加水印之后的BufferedImage对象
-     * @param savePath
-     *            图像加水印之后的保存路径
+     * @param buffImg  图像加水印之后的BufferedImage对象
+     * @param savePath 图像加水印之后的保存路径
      */
     private void generateWaterFile(BufferedImage buffImg, String savePath) {
         int temp = savePath.lastIndexOf(".") + 1;
@@ -356,15 +351,15 @@ public class AddKnowledgeController {
     /*
      * 色度键控图片下载
      * */
-    @RequestMapping(value = "downloadImage.action",method = RequestMethod.POST)
+    @RequestMapping(value = "downloadImage.action", method = RequestMethod.POST)
     @ResponseBody
-    public void downloadImage(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public void downloadImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String imgPath = request.getParameter("imgPath");
-        System.out.println(" imgPath : "+imgPath);
+        System.out.println(" imgPath : " + imgPath);
         BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(new File(imgPath)));
         //3下载名称
         String filename = "";
-        filename = System.currentTimeMillis()+".png";
+        filename = System.currentTimeMillis() + ".png";
         //4设置下载头
         response.addHeader("Content-Disposition", "attachment;filename=" + filename);
         //5设置文件contentType类型
@@ -382,16 +377,16 @@ public class AddKnowledgeController {
 
 
     /*
-    * 色度键控处理图片以及合成
-    * */
-    @RequestMapping(value = "testAdd.action",method = RequestMethod.POST)
+     * 色度键控处理图片以及合成
+     * */
+    @RequestMapping(value = "testAdd.action", method = RequestMethod.POST)
     @ResponseBody
-    public String testAdd(@RequestParam("file0") MultipartFile file1,@RequestParam("file1") MultipartFile file2,@RequestParam("mubucolor") String color,HttpServletRequest request) throws Exception {
+    public String testAdd(@RequestParam("file0") MultipartFile file1, @RequestParam("file1") MultipartFile file2, @RequestParam("mubucolor") String color, HttpServletRequest request) throws Exception {
 
         File newFile1 = multipartFileToFile(file1);
         File newFile2 = multipartFileToFile(file2);
 
-        System.out.println(" color------ :"+ color);
+        System.out.println(" color------ :" + color);
 
         int[] rgb = new int[3];
         BufferedImage bi = null;
@@ -425,38 +420,38 @@ public class AddKnowledgeController {
                 rgb[1] = (pixel & 0xff00) >> 8;
                 rgb[2] = (pixel & 0xff);
                 //绿色   0 128 0
-                if(color.equals("green")){
+                if (color.equals("green")) {
                     if (rgb[1] - rgb[0] > 30 && rgb[1] - rgb[2] > 30) {
                         bufferedImage.setRGB(i, j, 0x00ffffff);
                     }
                 }
                 //蓝色   0 0 255
-                if(color.equals("blue")){
+                if (color.equals("blue")) {
                     if (rgb[2] - rgb[1] > 60 && rgb[2] - rgb[0] > 60) {
                         bufferedImage.setRGB(i, j, 0x00ffffff);
                     }
                 }
-				//红色  255 0 0
-                if(color.equals("red")){
-                    if (rgb[0] - rgb[1] > 60 && rgb[0]- rgb[2] > 60) {
+                //红色  255 0 0
+                if (color.equals("red")) {
+                    if (rgb[0] - rgb[1] > 60 && rgb[0] - rgb[2] > 60) {
                         bufferedImage.setRGB(i, j, 0x00ffffff);
                     }
                 }
-				//黄色 255 255 0
-                if(color.equals("yellow")){
+                //黄色 255 255 0
+                if (color.equals("yellow")) {
                     if (rgb[0] - rgb[2] > 60 && rgb[1] - rgb[2] > 60) {
                         bufferedImage.setRGB(i, j, 0x00ffffff);
                     }
                 }
                 //白色 255 255 255
-                if(color.equals("white")){
-                    if (rgb[0]>230&&rgb[1]>230&&rgb[2]>230) {
+                if (color.equals("white")) {
+                    if (rgb[0] > 230 && rgb[1] > 230 && rgb[2] > 230) {
                         bufferedImage.setRGB(i, j, 0x00ffffff);
                     }
                 }
                 //黑色 0 0 0
-                if(color.equals("black")){
-                    if (rgb[0]<40&&rgb[1]<40&&rgb[2]<40) {
+                if (color.equals("black")) {
+                    if (rgb[0] < 40 && rgb[1] < 40 && rgb[2] < 40) {
                         bufferedImage.setRGB(i, j, 0x00ffffff);
                     }
                 }
@@ -472,8 +467,8 @@ public class AddKnowledgeController {
             // 创建临时文件
             f = File.createTempFile("tmp", ".png", new File("/www/wwwroot/tdu.tduvr.club/Data/pic/"));
             // 输出绝对路径
-            System.out.println("File path: "+f.getAbsolutePath());
-        } catch(Exception e) {
+            System.out.println("File path: " + f.getAbsolutePath());
+        } catch (Exception e) {
             // 如果有错误输出内容
             e.printStackTrace();
         }
@@ -486,9 +481,9 @@ public class AddKnowledgeController {
         // 公司服务器路径
         String saveFilePath = "/www/wwwroot/tdu.tduvr.club/Data/pic/";
         //String saveFilePath = "D:\\wamp\\www\\Data\\pic\\";
-        saveFilePath = saveFilePath +UUid+".png";
+        saveFilePath = saveFilePath + UUid + ".png";
         // 构建叠加层
-        BufferedImage buffImg  =  watermark(newFile1, f, 0, 0, 1.0f);
+        BufferedImage buffImg = watermark(newFile1, f, 0, 0, 1.0f);
         // 输出水印图片
         generateWaterFile(buffImg, saveFilePath);
 
@@ -498,7 +493,7 @@ public class AddKnowledgeController {
         newFile2.delete();
         f.deleteOnExit();
         // 公司服务器路径
-        String result="https://tdu.tduvr.club/Data/pic/"+UUid+".png";
+        String result = "https://tdu.tduvr.club/Data/pic/" + UUid + ".png";
         //String result="http://192.168.0.55/Data/pic/"+UUid+".png";
         return result;
     }
@@ -507,36 +502,37 @@ public class AddKnowledgeController {
     @RequestMapping("addUploading.action")
     @ResponseBody
     public String addUploading(@RequestParam("file") MultipartFile file, @RequestParam("customname") String customName, @RequestParam("introduce") String introduce, @RequestParam("customstyle") String customStyle, @RequestParam("subjectTreeId") String treeId,
-                               @RequestParam("brosweFile") String fileName, @RequestParam("type") String contentType, @RequestParam("treeNodeId") String clickNodeId, HttpSession session){
+                               @RequestParam("brosweFile") String fileName, @RequestParam("type") String contentType, @RequestParam("treeNodeId") String clickNodeId, HttpSession session) {
         String string;
-        String userId=session.getAttribute("ID").toString();
-        try{
+        String userId = session.getAttribute("ID").toString();
+        try {
             Knowlegcontent knowlegcontent = new Knowlegcontent();
             knowlegcontent.setCustomname(customName);
             knowlegcontent.setIntroduce(introduce);
             knowlegcontent.setCustomstyle(customStyle);
             knowlegcontent.setUserKey(userId);
-            string = addKnowledgeService.addUploading(knowlegcontent,contentType,fileName,treeId,clickNodeId,file);
+            string = addKnowledgeService.addUploading(knowlegcontent, contentType, fileName, treeId, clickNodeId, file);
             return string;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             String result = "fail";
             return result;
         }
     }
+
     @RequestMapping("editorLoading.action")
     @ResponseBody
     public String editorLoading(@RequestParam("file") MultipartFile file, @RequestParam("customname") String customName, @RequestParam("introduce") String introduce, @RequestParam("customstyle") String customStyle, @RequestParam("subjectTreeId") String treeId,
-                                @RequestParam("brosweFile") String fileName, @RequestParam("type") String contentType, @RequestParam("treeNodeId") String clickNodeId){
+                                @RequestParam("brosweFile") String fileName, @RequestParam("type") String contentType, @RequestParam("treeNodeId") String clickNodeId) {
         String string;
-        try{
+        try {
             Knowlegcontent knowlegcontent = new Knowlegcontent();
             knowlegcontent.setCustomname(customName);
             knowlegcontent.setIntroduce(introduce);
             knowlegcontent.setCustomstyle(customStyle);
-            string = addKnowledgeService.editorLoading(knowlegcontent,contentType,fileName,treeId,clickNodeId,file);
+            string = addKnowledgeService.editorLoading(knowlegcontent, contentType, fileName, treeId, clickNodeId, file);
             return string;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             String result = "fail";
             return result;
@@ -545,21 +541,22 @@ public class AddKnowledgeController {
 
     @RequestMapping("IsKnowledgeContent.action")
     @ResponseBody
-    public String isKnowledgeContent(HttpServletRequest request){
+    public String isKnowledgeContent(HttpServletRequest request) {
         String nodeId = request.getParameter("id");
         String result = addKnowledgeService.isKnowledgeContent(nodeId);
         return result;
     }
+
     @RequestMapping("AddSimulateModel.action")
     @ResponseBody
-    public String addSimulateModel(HttpServletRequest request,HttpSession session){
+    public String addSimulateModel(HttpServletRequest request, HttpSession session) {
         try {
             request.setCharacterEncoding("utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        String userId=session.getAttribute("ID").toString();
+        String userId = session.getAttribute("ID").toString();
 
         Knowlegcontent knowledgecontent = new Knowlegcontent();
         knowledgecontent.setNmae(request.getParameter("simulate"));
@@ -569,13 +566,14 @@ public class AddKnowledgeController {
         knowledgecontent.setUserKey(userId);
         String nodeId = request.getParameter("KnowledgeId");
         String treeId = request.getParameter("treeId");
-        String knowledgesId = addKnowledgeService.addSimulateModel(knowledgecontent,treeId,nodeId);
+        String knowledgesId = addKnowledgeService.addSimulateModel(knowledgecontent, treeId, nodeId);
         return knowledgesId;
     }
+
     @RequestMapping("AddQuesModel.action")
     @ResponseBody
-    public String addQuesModel(HttpServletRequest request,HttpSession session){
-        String userId=session.getAttribute("ID").toString();
+    public String addQuesModel(HttpServletRequest request, HttpSession session) {
+        String userId = session.getAttribute("ID").toString();
         Knowlegcontent knowlegcontent = new Knowlegcontent();
         knowlegcontent.setNmae(request.getParameter("errorques"));
         knowlegcontent.setCustomname(request.getParameter("name"));
@@ -583,18 +581,20 @@ public class AddKnowledgeController {
         knowlegcontent.setUserKey(userId);
         String nodeId = request.getParameter("KnowledgeId");
         String treeId = request.getParameter("treeId");
-        String knowledgesId = addKnowledgeService.addQuesModel(knowlegcontent,treeId,nodeId);
+        String knowledgesId = addKnowledgeService.addQuesModel(knowlegcontent, treeId, nodeId);
         return knowledgesId;
     }
+
     /**
      * 添加考试页面
+     *
      * @param request
      * @return
      */
     @RequestMapping("addExamModel.action")
     @ResponseBody
-    public String addExamModel(HttpServletRequest request,HttpSession session){
-        String userId=session.getAttribute("ID").toString();
+    public String addExamModel(HttpServletRequest request, HttpSession session) {
+        String userId = session.getAttribute("ID").toString();
         Knowlegcontent knowlegcontent = new Knowlegcontent();
         knowlegcontent.setNmae(request.getParameter("examId"));
         knowlegcontent.setCustomname(request.getParameter("name"));
@@ -602,13 +602,14 @@ public class AddKnowledgeController {
         String nodeId = request.getParameter("KnowledgeId");
         String treeId = request.getParameter("treeId");
         knowlegcontent.setUserKey(userId);
-        String knowledgesId = addKnowledgeService.addExamModel(knowlegcontent,treeId,nodeId);
+        String knowledgesId = addKnowledgeService.addExamModel(knowlegcontent, treeId, nodeId);
         return knowledgesId;
     }
+
     @RequestMapping("AddCustomModel.action")
     @ResponseBody
-    public String addCustomModel(HttpServletRequest request,HttpSession session){
-        String userId=session.getAttribute("ID").toString();
+    public String addCustomModel(HttpServletRequest request, HttpSession session) {
+        String userId = session.getAttribute("ID").toString();
         Knowlegcontent knowlegcontent = new Knowlegcontent();
         knowlegcontent.setNmae(request.getParameter("errorques"));
         knowlegcontent.setCustomname(request.getParameter("name"));
@@ -616,12 +617,13 @@ public class AddKnowledgeController {
         knowlegcontent.setUserKey(userId);
         String nodeId = request.getParameter("KnowledgeId");
         String treeId = request.getParameter("treeId");
-        String knowledgesId = addKnowledgeService.addCustomModel(knowlegcontent,treeId,nodeId);
+        String knowledgesId = addKnowledgeService.addCustomModel(knowlegcontent, treeId, nodeId);
         return knowledgesId;
     }
+
     @RequestMapping("AddHtmlEditorContent.action")
     @ResponseBody
-    public String addHtmlEditorContent(HttpServletRequest request){
+    public String addHtmlEditorContent(HttpServletRequest request) {
         Knowlegcontent knowlegcontent = new Knowlegcontent();
         knowlegcontent.setIntroduce(request.getParameter("introduce"));
         knowlegcontent.setCustomname(request.getParameter("name"));
@@ -629,25 +631,28 @@ public class AddKnowledgeController {
         String nodeId = request.getParameter("KnowledgeId");
         String treeId = request.getParameter("treeId");
         String htmlcontent = request.getParameter("htmlcontent");
-        String knowledgesId = addKnowledgeService.addHtmlEditorContent(knowlegcontent,htmlcontent,treeId,nodeId);
+        String knowledgesId = addKnowledgeService.addHtmlEditorContent(knowlegcontent, htmlcontent, treeId, nodeId);
         return knowledgesId;
     }
+
     @RequestMapping("getknowidbycontentid.action")
     @ResponseBody
-    public String getknowidbycontentid(HttpServletRequest request){
+    public String getknowidbycontentid(HttpServletRequest request) {
         String contentId = request.getParameter("id");
         String knowId = addKnowledgeService.getKnowIdbycontentId(contentId);
         return knowId;
     }
+
     /**
      * 查询考试名称
+     *
      * @param request
      * @return
      * @throws Exception
      */
-    @RequestMapping(value="getExamName.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getExamName.action", method = {RequestMethod.POST})
     @ResponseBody
-    public Knowlegcontent getExamName(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public Knowlegcontent getExamName(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String examId = request.getParameter("examId");
         return addKnowledgeService.getExamName(examId);
     }

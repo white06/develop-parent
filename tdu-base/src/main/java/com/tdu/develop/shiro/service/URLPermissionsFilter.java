@@ -1,10 +1,10 @@
 /**
-* @Title: URLPermissionsFilter.java
-* @Package com.fc.test.shiro.service
-* @author Administrator
-* @date 2018年8月26日
-* @version V1.0
-*/
+ * @Title: URLPermissionsFilter.java
+ * @Package com.fc.test.shiro.service
+ * @author Administrator
+ * @date 2018年8月26日
+ * @version V1.0
+ */
 package com.tdu.develop.shiro.service;
 
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
@@ -20,8 +20,8 @@ import java.io.IOException;
  * @date 2018年8月26日
  *
  */
-public class URLPermissionsFilter  extends PermissionsAuthorizationFilter {
-	/**
+public class URLPermissionsFilter extends PermissionsAuthorizationFilter {
+    /**
      * mappedValue 访问该url时需要的权限
      * subject.isPermitted 判断访问的用户是否拥有mappedValue权限
      * 重写拦截器，只要符合配置的一个权限，即可通过

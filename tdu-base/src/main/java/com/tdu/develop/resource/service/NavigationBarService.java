@@ -20,6 +20,7 @@ public interface NavigationBarService {
 
     /**
      * 新增导航栏的功能，因为有级别和排序，所以采用了比较慢的多次查询，查询出新增的这个数据的上一级这个属性的值
+     *
      * @param navigationBar
      * @return
      */
@@ -27,38 +28,48 @@ public interface NavigationBarService {
 
     /**
      * 使用递归的方法，让导航栏有序地被查出，然后有序排列，方便前端进行使用
+     *
      * @return
      */
     //递归父部分
     public List<NavigationBar> selePid();
+
     //递归子部分
     public List<NavigationBar> seleLevel2(String rootId, int pidL);
 
     /**
      * 使用递归的方法，让导航栏有序地被查出，然后有序排列，方便前端进行使用
+     *
      * @param subjectId
      * @return
      */
     //递归父部分
     public List<ZNodes> selePid_other(String subjectId);
+
     /**
      * 获取子树
+     *
      * @return
      */
     public List<SubjectTrees> getChildTrees(String treeId);
-    public List<ZNodes> seleknowledges(String treeid) ;
-    public    List<ZNodes> seleChild(String id);
-    public String getSubjectRootId(String subjectTree_Id) ;
+
+    public List<ZNodes> seleknowledges(String treeid);
+
+    public List<ZNodes> seleChild(String id);
+
+    public String getSubjectRootId(String subjectTree_Id);
     //递归子部分
+
     /**
-     *
-     * @param rootId	节点id
-     * @param pidL 该节点下的子节点数
+     * @param rootId 节点id
+     * @param pidL   该节点下的子节点数
      * @return
      */
     public List<Navigation_other> seleLevel2_other(String rootId, int pidL);
+
     /**
      * 将navigation对象转换成navigation_other对象
+     *
      * @param navigationBar
      * @return
      */
@@ -69,11 +80,13 @@ public interface NavigationBarService {
 
     //删除功能
     public boolean delNav(String id);
+
     /**
      * 递归删除树
+     *
      * @param parentId
      */
-    public void deleteTrees(String parentId) ;
+    public void deleteTrees(String parentId);
 
     public String seleRoot(String subjectId);
 
@@ -91,10 +104,11 @@ public interface NavigationBarService {
 
     /**
      * 新建按钮功能
+     *
      * @param subjectId
      * @return
      */
-    public ZNodes insTrees(String subjectId) ;
+    public ZNodes insTrees(String subjectId);
 
-    public ZNodes insertTree(String subjectId, String treeId) ;
+    public ZNodes insertTree(String subjectId, String treeId);
 }

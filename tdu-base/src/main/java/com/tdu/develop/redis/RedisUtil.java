@@ -84,12 +84,12 @@ public final class RedisUtil {
     public static boolean setList(final String key, List<Object> list, Long expireSecond) {
         boolean result = false;
         try {
-            if(list == null || list.size() == 0){
+            if (list == null || list.size() == 0) {
                 jedisxuan.set(key.getBytes(), "".getBytes());
-            }else{//如果list为空,则设置一个空
-                byte[] baty =  SerializeUtil.serializeList(list);
+            } else {//如果list为空,则设置一个空
+                byte[] baty = SerializeUtil.serializeList(list);
                 List<?> Userlist = SerializeUtil.unserializeList(baty);
-                jedisxuan.set(key.getBytes(),baty,"NX".getBytes(),"EX".getBytes(),expireSecond);
+                jedisxuan.set(key.getBytes(), baty, "NX".getBytes(), "EX".getBytes(), expireSecond);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,8 +100,8 @@ public final class RedisUtil {
         return result;
     }
 
-    public static List<?> getList(String key){
-        if(jedisxuan == null || !jedisxuan.exists(key)){
+    public static List<?> getList(String key) {
+        if (jedisxuan == null || !jedisxuan.exists(key)) {
             return null;
         }
         byte[] data = jedisxuan.get(key.getBytes());

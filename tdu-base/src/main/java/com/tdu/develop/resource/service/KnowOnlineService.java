@@ -18,12 +18,14 @@ public interface KnowOnlineService {
 
     /**
      * 添加知识点打开时间
+     *
      * @param knowOnline
      */
-    public void  insertKnowOnline(KnowOnline knowOnline);
+    public void insertKnowOnline(KnowOnline knowOnline);
 
     /**
      * 获取登录信息
+     *
      * @param id
      * @return
      */
@@ -31,6 +33,7 @@ public interface KnowOnlineService {
 
     /**
      * 添加离线时间，计算总时间
+     *
      * @param loginId
      * @param date
      * @throws Exception

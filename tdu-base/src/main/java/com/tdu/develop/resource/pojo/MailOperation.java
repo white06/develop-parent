@@ -19,20 +19,21 @@ import java.util.Properties;
 public class MailOperation {
     /**
      * 发送邮件
-     * @param user 发件人邮箱
+     *
+     * @param user     发件人邮箱
      * @param password 授权码（注意不是邮箱登录密码）
      * @param host
-     * @param from 发件人
-     * @param to 接收者邮箱
-     * @param subject 邮件主题
-     * @param content 邮件内容
+     * @param from     发件人
+     * @param to       接收者邮箱
+     * @param subject  邮件主题
+     * @param content  邮件内容
      * @return success 发送成功 failure 发送失败
      * @throws Exception
      */
     public String sendMail(String user, String password, String host,
                            String from, String to, String subject, String content)
             throws Exception {
-        if (to != null){
+        if (to != null) {
             Properties props = System.getProperties();
             props.put("mail.smtp.host", host);
             props.put("mail.smtp.auth", "true");
@@ -59,12 +60,12 @@ public class MailOperation {
                 Transport trans = session.getTransport("smtp");
                 trans.send(message);
                 System.out.println(message.toString());
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 return "failure";
             }
             return "success";
-        }else{
+        } else {
             return "failure";
         }
     }

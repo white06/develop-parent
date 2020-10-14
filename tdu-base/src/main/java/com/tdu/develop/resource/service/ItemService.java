@@ -14,15 +14,15 @@ import java.util.Map;
  */
 public interface ItemService {
 
-    void yuxi(String yuxi,String userId);
+    void yuxi(String yuxi, String userId);
 
     String getyuxi(String userId);
 
     blue getblue(String userId);
 
-    void tijiaocaozuo(String userId,String caozuo);
+    void tijiaocaozuo(String userId, String caozuo);
 
-    void tijiaobaogao(String userId,String baogao);
+    void tijiaobaogao(String userId, String baogao);
 
     blue get(String userId);
 }

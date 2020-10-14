@@ -12,17 +12,21 @@ import java.util.List;
 public interface DevelopChartletService {
     /**
      * 获取 Chartlets 首节点信息
+     *
      * @return
      */
     public List<Chartlets> getChartletsFis(String subTreeId);
+
     /**
      * 获取次节点信息
+     *
      * @param parentKnowledge
      * @return
      */
     public List<Chartlets> getChartletsSecond(String parentKnowledge);
 
     Chartletcontents getChartletContentName(String id);
+
     public int delChartletcontents(Chartletcontents chartletcontents);
 
     public int delChartlets(Chartlets chartlets);

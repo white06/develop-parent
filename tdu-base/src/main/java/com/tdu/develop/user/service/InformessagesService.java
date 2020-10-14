@@ -24,9 +24,6 @@ public interface InformessagesService {
     public boolean deleInforMessage(String id);
 
 
-
-
-
     //保存教师的回复
     public boolean teaHuifu(Reply reply);
 

@@ -27,27 +27,22 @@ import java.util.Map;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="SubjectController")
+@RequestMapping(value = "SubjectController")
 public class SubjectController {
 
     @Autowired
-    SubjectService subjectService=new SubjectServiceImpl();
+    SubjectService subjectService = new SubjectServiceImpl();
     @Autowired
-    KnowledgesService knowledgesService=new KnowledgesServiceImpl();
-    public static String Null=null;
+    KnowledgesService knowledgesService = new KnowledgesServiceImpl();
+    public static String Null = null;
 
 
-
-
-
-
-
-
-    @RequestMapping(value="getSubject.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getSubject.action", method = {RequestMethod.POST})
     @ResponseBody
-    public Subjects getSubject(@RequestParam("id")String id){
+    public Subjects getSubject(@RequestParam("id") String id) {
         return subjectService.getSubject(id);
     }
+
     @RequestMapping("loadgroundImg.action")
     @ResponseBody
     public JsonResult loadgroundImg(HttpServletRequest request) {
@@ -55,19 +50,22 @@ public class SubjectController {
         String imgUrl = subjectService.loadgroundImg();
         return new JsonResult(imgUrl);
     }
+
     @RequestMapping("editSubjectBackground.action")
     @ResponseBody
-    public JsonResult editSubjectBackground(@RequestParam("id") int id , @RequestParam("background") MultipartFile background, @RequestParam("logo") MultipartFile logo) {
+    public JsonResult editSubjectBackground(@RequestParam("id") int id, @RequestParam("background") MultipartFile background, @RequestParam("logo") MultipartFile logo) {
         try {
-            subjectService.editSubjectBackground(background,logo,id);
+            subjectService.editSubjectBackground(background, logo, id);
         } catch (IOException e) {
             e.printStackTrace();
             return new JsonResult(e);
         }
         return new JsonResult();
     }
+
     /**
      * ��������ѯ��Ŀ�ı���ͼƬ��logo����Ϣ
+     *
      * @return
      */
     @RequestMapping("querySubjectInfos.action")
@@ -80,20 +78,21 @@ public class SubjectController {
     //
 
 
-
-    @RequestMapping(value="subjectChange.action",method={RequestMethod.POST})
+    @RequestMapping(value = "subjectChange.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List TreeChange(HttpServletRequest request,HttpServletResponse response){
-        String SubjectKey=request.getParameter("Id");
-        String treetype=request.getParameter("treetype");
+    public List TreeChange(HttpServletRequest request, HttpServletResponse response) {
+        String SubjectKey = request.getParameter("Id");
+        String treetype = request.getParameter("treetype");
 
-        List<ZNodes> rList=new ArrayList<ZNodes>();
-        rList=knowledgesService.seleknowledges(treetype);
+        List<ZNodes> rList = new ArrayList<ZNodes>();
+        rList = knowledgesService.seleknowledges(treetype);
         return rList;
 
     }
+
     /**
      * ��ѯ��̨����ͼƬ·��
+     *
      * @return
      */
     @RequestMapping("showtopimg.action")
@@ -106,14 +105,15 @@ public class SubjectController {
 
     /**
      * 获取nmae
+     *
      * @param request
      * @param response
      */
-    @RequestMapping(value="getKnowNmae.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getKnowNmae.action", method = {RequestMethod.POST})
     @ResponseBody
-    public void getKnowNmae(HttpServletRequest request,HttpServletResponse response){
-        String knowledgecontentId=request.getParameter("knowledgecontentId");
-        String type=subjectService.getKnowNmae(knowledgecontentId);
+    public void getKnowNmae(HttpServletRequest request, HttpServletResponse response) {
+        String knowledgecontentId = request.getParameter("knowledgecontentId");
+        String type = subjectService.getKnowNmae(knowledgecontentId);
         response.setContentType("text/html;charset=UTF-8");
         try {
             response.getWriter().print(type);
@@ -122,34 +122,38 @@ public class SubjectController {
             e.printStackTrace();
         }
     }
+
     /**
      * 获取科目树第一个科目
+     *
      * @param request
      * @param response
      * @param response
      */
-    @RequestMapping(value="getSubIdOne.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getSubIdOne.action", method = {RequestMethod.POST})
     @ResponseBody
-    public String getSubIdOne(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        String userId=session.getAttribute("ID").toString();
-        return 	subjectService.getSubIdOne(userId);
-    }
-    /**
-     * 获取科目树第一个科目
-     * @param request
-     * @param response
-     * @param response
-     */
-    @RequestMapping(value="getSubIdOne_develop.action",method={RequestMethod.POST})
-    @ResponseBody
-    public String getSubIdOne_develop(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        String userId=session.getAttribute("ID").toString();
-        return 	subjectService.getSubIdOne_develop(userId);
+    public String getSubIdOne(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String userId = session.getAttribute("ID").toString();
+        return subjectService.getSubIdOne(userId);
     }
 
-    @RequestMapping(value="getMajors.action",method={RequestMethod.POST})
+    /**
+     * 获取科目树第一个科目
+     *
+     * @param request
+     * @param response
+     * @param response
+     */
+    @RequestMapping(value = "getSubIdOne_develop.action", method = {RequestMethod.POST})
     @ResponseBody
-    public Map<String,Object> getMajors(HttpServletRequest request, HttpServletResponse response){
+    public String getSubIdOne_develop(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String userId = session.getAttribute("ID").toString();
+        return subjectService.getSubIdOne_develop(userId);
+    }
+
+    @RequestMapping(value = "getMajors.action", method = {RequestMethod.POST})
+    @ResponseBody
+    public Map<String, Object> getMajors(HttpServletRequest request, HttpServletResponse response) {
         return subjectService.getMajors();
     }
 }

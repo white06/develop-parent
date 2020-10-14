@@ -10,14 +10,16 @@ import java.util.List;
 public interface CommentsMapper {
 
     /**
-     *  新增评论
+     * 新增评论
+     *
      * @param comments
      */
-    public  void addComments(Comments comments);
-    /*
-    * 获取自我评价
-    * */
-    public Comments getAssessment(@Param("stuKey")String stuKey);
+    public void addComments(Comments comments);
 
-    List<Comments> getUsersment(@Param("nandu")String nandu,@Param("page")String page,@Param("type")String type,@Param("toUser")String toUser);
+    /*
+     * 获取自我评价
+     * */
+    public Comments getAssessment(@Param("stuKey") String stuKey);
+
+    List<Comments> getUsersment(@Param("nandu") String nandu, @Param("page") String page, @Param("type") String type, @Param("toUser") String toUser);
 }

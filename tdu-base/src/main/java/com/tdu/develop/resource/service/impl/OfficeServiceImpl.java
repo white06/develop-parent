@@ -30,7 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tdu.develop.util.ExcelUtil;
 import com.tdu.develop.user.mapper.OfficeMapper;
-import com.tdu.develop.user.mapper.RolesMapper ;
+import com.tdu.develop.user.mapper.RolesMapper;
 import com.tdu.develop.user.mapper.UsersMapper;
 
 @Service
@@ -49,27 +49,25 @@ public class OfficeServiceImpl implements OfficeService {
     StuQueInforsMapper stuQueInforsMapper;
 
 
-
-
     /**
      * 根据用户ld集合获取集合内所有的用户信息
      */
-    public List<Member> getUsersInfos2(List<String> usersId){
+    public List<Member> getUsersInfos2(List<String> usersId) {
         List<Member> lm = new ArrayList<Member>();
-        for(String str : usersId){
+        for (String str : usersId) {
             Member member = officeMapper.getUsersInfos2(str);
-            if(member==null){
+            if (member == null) {
                 continue;
             }
             lm.add(member);
         }
 
-        for(int i=0;i<lm.size();i++){
-            for(int j=i;j<lm.size();j++){
+        for (int i = 0; i < lm.size(); i++) {
+            for (int j = i; j < lm.size(); j++) {
                 BigInteger a = new BigInteger(lm.get(i).getUserName());
                 BigInteger b = new BigInteger(lm.get(j).getUserName());
-                if(a.compareTo(b)==1){
-                    Member member=lm.get(i);
+                if (a.compareTo(b) == 1) {
+                    Member member = lm.get(i);
                     lm.set(i, lm.get(j));
                     lm.set(j, member);
                 }
@@ -77,43 +75,46 @@ public class OfficeServiceImpl implements OfficeService {
         }
         return lm;
     }
+
     /**
      * 获取所有的学生信息
+     *
      * @param students
      * @return
      */
-    public List<Map<String,List<Member>>> getMemberOfAll2(String students){
-        if("false".equals(students)){
+    public List<Map<String, List<Member>>> getMemberOfAll2(String students) {
+        if ("false".equals(students)) {
             return null;
         }
         //获取所有的学生
         //获取所有的学生id
         List<String> stuIds = officeMapper.getAllNurseStudents();
         List<Member> lm = getUsersScores(stuIds);
-        Map<String,List<Member>> map = new HashMap<String,List<Member>>();
+        Map<String, List<Member>> map = new HashMap<String, List<Member>>();
         map.put("护理仿真总成绩", lm);
-        List<Map<String,List<Member>>> list = new ArrayList<Map<String,List<Member>>>();
+        List<Map<String, List<Member>>> list = new ArrayList<Map<String, List<Member>>>();
         list.add(map);
         return list;
     }
+
     /**
      * 根据用户ld集合获取集合内所有的用户信息
      */
-    public List<Member> getUsersScores(List<String> usersId){
+    public List<Member> getUsersScores(List<String> usersId) {
         List<Member> lm = new ArrayList<Member>();
-        for(String str : usersId){
+        for (String str : usersId) {
             Member member = officeMapper.getUsersInfos2(str);
-            if(member==null){
+            if (member == null) {
                 continue;
             }
             lm.add(member);
         }
-        for(int i=0;i<lm.size();i++){
-            for(int j=i;j<lm.size();j++){
+        for (int i = 0; i < lm.size(); i++) {
+            for (int j = i; j < lm.size(); j++) {
                 BigInteger a = new BigInteger(lm.get(i).getUserName());
                 BigInteger b = new BigInteger(lm.get(j).getUserName());
-                if(a.compareTo(b)==1){
-                    Member member=lm.get(i);
+                if (a.compareTo(b) == 1) {
+                    Member member = lm.get(i);
                     lm.set(i, lm.get(j));
                     lm.set(j, member);
                 }
@@ -125,10 +126,10 @@ public class OfficeServiceImpl implements OfficeService {
     public List<HSSFWorkbook> exportAll(String classes, String students) {
         List<HSSFWorkbook> listAll = new ArrayList<>();
         //对按班级导出的处理
-        List<Map<String,List<Member>>> lces = getMemberByClasses2(classes);
+        List<Map<String, List<Member>>> lces = getMemberByClasses2(classes);
         HSSFWorkbook hwb1 = exportExcel2(lces);
         //对直接导出所有学生进行处理
-        List<Map<String,List<Member>>> lces1 = getMemberOfAll2(students);
+        List<Map<String, List<Member>>> lces1 = getMemberOfAll2(students);
         HSSFWorkbook hwb2 = exportExcel2(lces1);
 		/*//对老师信息的导出处理
 		List<Map<String,List<Member>>> loes2 = getTeachers(teachers);
@@ -136,9 +137,9 @@ public class OfficeServiceImpl implements OfficeService {
 		//对管理员信息的导出处理
 		List<Map<String,List<Member>>> loes3 = getadminsOfAll(admins);
 		HSSFWorkbook hwb4 = exportExcel(loes3);*/
-        if(null != hwb1)
+        if (null != hwb1)
             listAll.add(hwb1);
-        if(null != hwb2)
+        if (null != hwb2)
             listAll.add(hwb2);
 		/*if(null != hwb3)
 			listAll.add(hwb3);
@@ -146,27 +147,28 @@ public class OfficeServiceImpl implements OfficeService {
 			listAll.add(hwb4);*/
         return listAll;
     }
+
     /**
      * 根据班级获取所有学生信息
-     * @param	classes	值为“true”或“false”
-     * 表示是否按班级获取学生信息
+     *
      * @return 返回所有的班级和学生信息
+     * @param    classes    值为“true”或“false” 表示是否按班级获取学生信息
      */
-    public List<Map<String,List<Member>>> getMemberByClasses2(String classes){
-        if("false".equals(classes)){
+    public List<Map<String, List<Member>>> getMemberByClasses2(String classes) {
+        if ("false".equals(classes)) {
             return null;
         }
         //获取所有的班级
         List<Classes> list = officeMapper.getNurseClasses();
-        List<Map<String,List<Member>>> listAll = new ArrayList<Map<String,List<Member>>>();
+        List<Map<String, List<Member>>> listAll = new ArrayList<Map<String, List<Member>>>();
         //遍历所有的班级
-        for(Classes cl : list){
+        for (Classes cl : list) {
             //根据班级id找到所在的所有学生信息
             List<Member> lm = getStudentsInfos2(cl.getId());
-            if(lm==null){
+            if (lm == null) {
                 continue;
             }
-            Map<String,List<Member>> map = new HashMap<String,List<Member>>();
+            Map<String, List<Member>> map = new HashMap<String, List<Member>>();
             map.put(cl.getClassName(), lm);
             listAll.add(map);
         }
@@ -175,49 +177,52 @@ public class OfficeServiceImpl implements OfficeService {
 
     /**
      * 获取班级内所有学生的信息
+     *
      * @param classId
      * @return 返回班级内所有的学生信息
      */
-    public List<Member> getStudentsInfos2(String classId){
+    public List<Member> getStudentsInfos2(String classId) {
         //班级全部学生id
         List<String> list = officeMapper.getUsersId2(classId);
-        if(list.size()==0){
+        if (list.size() == 0) {
             return null;
         }
         List<Member> lm = getUsersInfos2(list);
         return lm;
     }
+
     /**
      * 将用户信息导出到excel上并保存到桌面
-     * @param list	导出信息的集合
+     *
+     * @param list 导出信息的集合
      */
-    public HSSFWorkbook exportExcel2(List<Map<String,List<Member>>> list){
-        if(list == null){
+    public HSSFWorkbook exportExcel2(List<Map<String, List<Member>>> list) {
+        if (list == null) {
             return null;
         }
         List<Subjects> strList = officeMapper.getNurseSubject();
 
         for (int i = 0; i < strList.size(); i++) {
-            if(strList.get(i).getSubjectName().equals("开发者平台")||strList.get(i).getSubjectName().equals("理论知识")){
+            if (strList.get(i).getSubjectName().equals("开发者平台") || strList.get(i).getSubjectName().equals("理论知识")) {
                 strList.remove(i);
             }
         }
         for (int i = 0; i < strList.size(); i++) {
-            if(strList.get(i).getSubjectName().equals("开发者平台")||strList.get(i).getSubjectName().equals("理论知识")){
+            if (strList.get(i).getSubjectName().equals("开发者平台") || strList.get(i).getSubjectName().equals("理论知识")) {
                 strList.remove(i);
             }
         }
 
-        DecimalFormat    df   = new DecimalFormat("######0.00");
+        DecimalFormat df = new DecimalFormat("######0.00");
 
         //创建一个webbook,对应一个Excel文件
         HSSFWorkbook wb = new HSSFWorkbook();
-        for(Map<String,List<Member>> map:list){
-            for(String key : map.keySet()){
+        for (Map<String, List<Member>> map : list) {
+            for (String key : map.keySet()) {
                 //在webbook中添加一个sheet，对应Excel文件中的sheet
                 HSSFSheet sheet = wb.createSheet(key);
                 //在sheet中添加表头第0行
-                HSSFRow row = sheet.createRow((int)0);
+                HSSFRow row = sheet.createRow((int) 0);
                 //创建单元格，并设置值表头，设置表头居中
                 HSSFCellStyle style = wb.createCellStyle();
                 //设置对其方式，居中对齐
@@ -228,7 +233,7 @@ public class OfficeServiceImpl implements OfficeService {
                 cell.setCellValue("姓名");
 
                 for (int i = 0; i < strList.size(); i++) {
-                    cell = row.createCell((i+2));
+                    cell = row.createCell((i + 2));
                     cell.setCellValue(strList.get(i).getSubjectName());
                         /*if(i!=strList.size()-1){
                             cell = row.createCell((i+2));
@@ -238,43 +243,43 @@ public class OfficeServiceImpl implements OfficeService {
                             cell.setCellValue("平均分");
                         }*/
                 }
-                cell = row.createCell(strList.size()+2);
+                cell = row.createCell(strList.size() + 2);
                 cell.setCellValue("平均分");
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
                 //获取班级内的学生信息
                 List<Member> value = map.get(key);
-                for(int j=0;j<value.size();j++){
+                for (int j = 0; j < value.size(); j++) {
 
-                    row = sheet.createRow(j+1);
+                    row = sheet.createRow(j + 1);
                     Member member = value.get(j);
                     row.createCell(1).setCellValue(member.getName());
                     row.createCell(0).setCellValue(member.getUserName());
 
-                    double count=0.00;
+                    double count = 0.00;
                     for (int i = 0; i < strList.size(); i++) {
-                            //String obj =officeMapper.getSubTreeId(strList.get(i).getId());
-                            //String obj2 =officeMapper.getKnowledgeContentId(obj);
-                            StuQueInfors stuQueInfors = new StuQueInfors();
-                            //stuQueInfors.setPagerKey(obj2);
-                            /*stuQueInfors.setSubjectKey(strList.get(i).getId());*/
-                            stuQueInfors.setPagerKey(strList.get(i).getId());
-                            stuQueInfors.setStuKey(member.getId());
-                            String chengji =officeMapper.getNurseScore(stuQueInfors);
-                            if(chengji==null){
-                                chengji="0";
-                            }
+                        //String obj =officeMapper.getSubTreeId(strList.get(i).getId());
+                        //String obj2 =officeMapper.getKnowledgeContentId(obj);
+                        StuQueInfors stuQueInfors = new StuQueInfors();
+                        //stuQueInfors.setPagerKey(obj2);
+                        /*stuQueInfors.setSubjectKey(strList.get(i).getId());*/
+                        stuQueInfors.setPagerKey(strList.get(i).getId());
+                        stuQueInfors.setStuKey(member.getId());
+                        String chengji = officeMapper.getNurseScore(stuQueInfors);
+                        if (chengji == null) {
+                            chengji = "0";
+                        }
 
-                            double  cji = Double.parseDouble(chengji);
+                        double cji = Double.parseDouble(chengji);
 
-                        count+=cji;
+                        count += cji;
 
                             /*if(i!=strList.size()-1){
                                 count+=cji;
                             }*/
-                            //row.createCell((i+2)).setCellValue(chengji);
+                        //row.createCell((i+2)).setCellValue(chengji);
 
-                        row.createCell((i+2)).setCellValue(chengji);
+                        row.createCell((i + 2)).setCellValue(chengji);
 
                             /*if(i!=strList.size()-1){
                                 row.createCell((i+2)).setCellValue(chengji);
@@ -282,7 +287,7 @@ public class OfficeServiceImpl implements OfficeService {
                                 row.createCell((i+2)).setCellValue(df.format(count/(strList.size()-1)));
                             }*/
                     }
-                    row.createCell((strList.size()+2)).setCellValue(df.format(count/(strList.size())));
+                    row.createCell((strList.size() + 2)).setCellValue(df.format(count / (strList.size())));
                 }
             }
         }
@@ -328,46 +333,38 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
 
-
-
-
-
-
-
-
-
-    public List<String> quchong(List<String> list){
+    public List<String> quchong(List<String> list) {
         HashSet h = new HashSet(list);
         list.clear();
         list.addAll(h);
         return list;
     }
 
-    public List<HSSFWorkbook> daoFangzhen(String depertId, List<Knowledges> knoList){
+    public List<HSSFWorkbook> daoFangzhen(String depertId, List<Knowledges> knoList) {
         List<HSSFWorkbook> listAll = new ArrayList<>();
         //对按班级导出的处理
-        List<Map<String,List<Member>>> lces = daoFangzhen(depertId);
-        HSSFWorkbook hwb1 = exportExcelFangzhen(lces,knoList);
-        if(null != hwb1){
+        List<Map<String, List<Member>>> lces = daoFangzhen(depertId);
+        HSSFWorkbook hwb1 = exportExcelFangzhen(lces, knoList);
+        if (null != hwb1) {
             listAll.add(hwb1);
         }
         return listAll;
     }
 
-    public HSSFWorkbook exportExcelFangzhen(List<Map<String,List<Member>>> list,List<Knowledges> strList){
-        if(list == null){
+    public HSSFWorkbook exportExcelFangzhen(List<Map<String, List<Member>>> list, List<Knowledges> strList) {
+        if (list == null) {
             return null;
         }
         //List<Subjects> strList = officeMapper.getSubject();
-        DecimalFormat df   = new DecimalFormat("######0.00");
+        DecimalFormat df = new DecimalFormat("######0.00");
         //创建一个webbook,对应一个Excel文件
         HSSFWorkbook wb = new HSSFWorkbook();
-        for(Map<String,List<Member>> map:list){
-            for(String key : map.keySet()){
+        for (Map<String, List<Member>> map : list) {
+            for (String key : map.keySet()) {
                 //在webbook中添加一个sheet，对应Excel文件中的sheet
                 HSSFSheet sheet = wb.createSheet(key);
                 //在sheet中添加表头第0行
-                HSSFRow row = sheet.createRow((int)0);
+                HSSFRow row = sheet.createRow((int) 0);
                 //创建单元格，并设置值表头，设置表头居中
                 HSSFCellStyle style = wb.createCellStyle();
                 //设置对其方式，居中对齐
@@ -377,21 +374,21 @@ public class OfficeServiceImpl implements OfficeService {
                 cell = row.createCell(1);
                 cell.setCellValue("姓名");
                 for (int i = 0; i < strList.size(); i++) {
-                    cell = row.createCell((i+2));
+                    cell = row.createCell((i + 2));
                     cell.setCellValue(strList.get(i).getContent());
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
                 //获取班级内的学生信息
                 List<Member> value = map.get(key);
-                for(int j=0;j<value.size();j++){
+                for (int j = 0; j < value.size(); j++) {
 
-                    row = sheet.createRow(j+1);
+                    row = sheet.createRow(j + 1);
                     Member member = value.get(j);
                     row.createCell(1).setCellValue(member.getName());
                     row.createCell(0).setCellValue(member.getUserName());
 
-                    double count=0.00;
+                    double count = 0.00;
                     for (int i = 0; i < strList.size(); i++) {
                         //StuQueInfors.cut();
                         //String obj =officeMapper.getSubTreeId(strList.get(i).getId());
@@ -400,16 +397,16 @@ public class OfficeServiceImpl implements OfficeService {
                         StuQueInfors stuQueInfors = new StuQueInfors();
                         stuQueInfors.setPagerKey(strList.get(i).getKnowledgecontentId());
                         stuQueInfors.setStuKey(member.getId());
-                        Integer chengji =zongfen(strList.get(i).getKnowledgecontentId(),member.getId());
-                        if(chengji==null){
-                            chengji=0;
+                        Integer chengji = zongfen(strList.get(i).getKnowledgecontentId(), member.getId());
+                        if (chengji == null) {
+                            chengji = 0;
                         }
 
-                        double  cji = chengji;
-                        if(i!=strList.size()-1){
-                            count+=cji;
+                        double cji = chengji;
+                        if (i != strList.size() - 1) {
+                            count += cji;
                         }
-                        row.createCell((i+2)).setCellValue(chengji);
+                        row.createCell((i + 2)).setCellValue(chengji);
                     }
                 }
             }
@@ -417,80 +414,83 @@ public class OfficeServiceImpl implements OfficeService {
         return wb;
     }
 
-    public List<Map<String,List<Member>>> daoFangzhen(String depertId){
-        if(depertId==null){
+    public List<Map<String, List<Member>>> daoFangzhen(String depertId) {
+        if (depertId == null) {
             return null;
         }
         //获取所有的班级
-        List<Classes> list=new ArrayList<>();
+        List<Classes> list = new ArrayList<>();
 
         List<String> majorIdList = usersMapper.getMajorId(depertId);
-         list=usersMapper.getClassList(majorIdList);
+        list = usersMapper.getClassList(majorIdList);
         /*for (String majorKey:majorId) {
             Classes classes = usersMapper.getClassList(majorKey);
             if(classes!=null){
                 list.add(classes);
             }
         }*/
-        List<Map<String,List<Member>>> listAll = new ArrayList<Map<String,List<Member>>>();
+        List<Map<String, List<Member>>> listAll = new ArrayList<Map<String, List<Member>>>();
         //遍历所有的班级
-        for(Classes cl : list){
+        for (Classes cl : list) {
             //根据班级id找到所在的所有学生信息
             List<Member> lm = getStudentsInfos(cl.getId());
-            if(lm==null){
+            if (lm == null) {
                 continue;
             }
-            Map<String,List<Member>> map = new HashMap<String,List<Member>>();
+            Map<String, List<Member>> map = new HashMap<String, List<Member>>();
             map.put(cl.getClassName(), lm);
             listAll.add(map);
         }
         return listAll;
     }
+
     public List<HSSFWorkbook> daoByClass(List<Exams> examList) {
 
         List<String> classList = new ArrayList<String>();
 
-        for (int i = 0; i <examList.size() ; i++) {
-           String str =  examList.get(i).getClassKey();
+        for (int i = 0; i < examList.size(); i++) {
+            String str = examList.get(i).getClassKey();
             boolean status = str.contains("______");
-            if(status){
+            if (status) {
                 String[] strArr = str.split("\\______");
-                for (int j = 0; j < strArr.length; ++j){
+                for (int j = 0; j < strArr.length; ++j) {
                     classList.add(strArr[j]);
                 }
-            }else{
+            } else {
                 classList.add(str);
             }
         }
         classList = quchong(classList);
         List<HSSFWorkbook> listAll = new ArrayList<>();
         //对按班级导出的处理
-        List<Map<String,List<Member>>> lces = daoMemberByClasses(classList);
-        HSSFWorkbook hwb1 = exportExcel2(lces,examList);
-        if(null != hwb1)
+        List<Map<String, List<Member>>> lces = daoMemberByClasses(classList);
+        HSSFWorkbook hwb1 = exportExcel2(lces, examList);
+        if (null != hwb1)
             listAll.add(hwb1);
         return listAll;
     }
+
     /**
      * 将用户信息导出到excel上并保存到桌面
-     * @param list	导出信息的集合
+     *
+     * @param list 导出信息的集合
      */
-    public HSSFWorkbook exportExcel2(List<Map<String,List<Member>>> list,List<Exams> strList){
-        if(list == null){
+    public HSSFWorkbook exportExcel2(List<Map<String, List<Member>>> list, List<Exams> strList) {
+        if (list == null) {
             return null;
         }
         //List<Subjects> strList = officeMapper.getSubject();
 
-        DecimalFormat df   = new DecimalFormat("######0.00");
+        DecimalFormat df = new DecimalFormat("######0.00");
 
         //创建一个webbook,对应一个Excel文件
         HSSFWorkbook wb = new HSSFWorkbook();
-        for(Map<String,List<Member>> map:list){
-            for(String key : map.keySet()){
+        for (Map<String, List<Member>> map : list) {
+            for (String key : map.keySet()) {
                 //在webbook中添加一个sheet，对应Excel文件中的sheet
                 HSSFSheet sheet = wb.createSheet(key);
                 //在sheet中添加表头第0行
-                HSSFRow row = sheet.createRow((int)0);
+                HSSFRow row = sheet.createRow((int) 0);
                 //创建单元格，并设置值表头，设置表头居中
                 HSSFCellStyle style = wb.createCellStyle();
                 //设置对其方式，居中对齐
@@ -501,7 +501,7 @@ public class OfficeServiceImpl implements OfficeService {
                 cell.setCellValue("姓名");
 
                 for (int i = 0; i < strList.size(); i++) {
-                    cell = row.createCell((i+2));
+                    cell = row.createCell((i + 2));
                     cell.setCellValue(strList.get(i).getName());
                    /* if(i!=strList.size()-1){
                         cell = row.createCell((i+2));
@@ -515,14 +515,14 @@ public class OfficeServiceImpl implements OfficeService {
                 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
                 //获取班级内的学生信息
                 List<Member> value = map.get(key);
-                for(int j=0;j<value.size();j++){
+                for (int j = 0; j < value.size(); j++) {
 
-                    row = sheet.createRow(j+1);
+                    row = sheet.createRow(j + 1);
                     Member member = value.get(j);
                     row.createCell(1).setCellValue(member.getName());
                     row.createCell(0).setCellValue(member.getUserName());
 
-                    double count=0.00;
+                    double count = 0.00;
                     for (int i = 0; i < strList.size(); i++) {
                         //StuQueInfors.cut();
                         //String obj =officeMapper.getSubTreeId(strList.get(i).getId());
@@ -532,17 +532,17 @@ public class OfficeServiceImpl implements OfficeService {
                         //stuQueInfors.setPagerKey(obj2);
                         stuQueInfors.setPagerKey(strList.get(i).getExamPager());
                         stuQueInfors.setStuKey(member.getId());
-                        Integer chengji =zongfen(strList.get(i).getExamPager(),member.getId());
-                        if(chengji==null){
-                            chengji=0;
+                        Integer chengji = zongfen(strList.get(i).getExamPager(), member.getId());
+                        if (chengji == null) {
+                            chengji = 0;
                         }
 
-                        double  cji = chengji;
-                        if(i!=strList.size()-1){
-                            count+=cji;
+                        double cji = chengji;
+                        if (i != strList.size() - 1) {
+                            count += cji;
                         }
                         //row.createCell((i+2)).setCellValue(chengji);
-                        row.createCell((i+2)).setCellValue(chengji);
+                        row.createCell((i + 2)).setCellValue(chengji);
                         /*if(i!=strList.size()-1){
                             row.createCell((i+2)).setCellValue(chengji);
                         }else{
@@ -556,40 +556,41 @@ public class OfficeServiceImpl implements OfficeService {
         //Classes.cut();
         return wb;
     }
-    public int zongfen(String pagerKey,String stuKey){
 
-        int zongfen=0;
-        List<Double> list=stuQueInforsMapper.seleQuesScore(pagerKey, stuKey);
-        if(list!=null){
+    public int zongfen(String pagerKey, String stuKey) {
+
+        int zongfen = 0;
+        List<Double> list = stuQueInforsMapper.seleQuesScore(pagerKey, stuKey);
+        if (list != null) {
             for (Double double1 : list) {
-                double d=double1.doubleValue();
-                zongfen+=(int)d;
+                double d = double1.doubleValue();
+                zongfen += (int) d;
             }
         }
         return zongfen;
     }
 
-    public List<Map<String,List<Member>>> daoMemberByClasses(List<String> classList){
-        if(classList.size()<1){
+    public List<Map<String, List<Member>>> daoMemberByClasses(List<String> classList) {
+        if (classList.size() < 1) {
             return null;
         }
         //获取所有的班级
-        List<Classes> list=new ArrayList<>();
-        for (String classKey:classList) {
-            Classes classes =usersMapper.getClass(classKey);
-            if(classes!=null){
+        List<Classes> list = new ArrayList<>();
+        for (String classKey : classList) {
+            Classes classes = usersMapper.getClass(classKey);
+            if (classes != null) {
                 list.add(classes);
             }
         }
-        List<Map<String,List<Member>>> listAll = new ArrayList<Map<String,List<Member>>>();
+        List<Map<String, List<Member>>> listAll = new ArrayList<Map<String, List<Member>>>();
         //遍历所有的班级
-        for(Classes cl : list){
+        for (Classes cl : list) {
             //根据班级id找到所在的所有学生信息
             List<Member> lm = getStudentsInfos(cl.getId());
-            if(lm==null){
+            if (lm == null) {
                 continue;
             }
-            Map<String,List<Member>> map = new HashMap<String,List<Member>>();
+            Map<String, List<Member>> map = new HashMap<String, List<Member>>();
             map.put(cl.getClassName(), lm);
             listAll.add(map);
         }
@@ -597,29 +598,28 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
 
-
     @Override
     public List<HSSFWorkbook> exportInfos(String classes, String students, String teachers, String admins) {
         List<HSSFWorkbook> listAll = new ArrayList<>();
         //对按班级导出的处理
-        List<Map<String,List<Member>>> lces = getMemberByClasses(classes);
+        List<Map<String, List<Member>>> lces = getMemberByClasses(classes);
         HSSFWorkbook hwb1 = exportExcel(lces);
         //对直接导出所有学生进行处理
-        List<Map<String,List<Member>>> lces1 = getMemberOfAll(students);
+        List<Map<String, List<Member>>> lces1 = getMemberOfAll(students);
         HSSFWorkbook hwb2 = exportExcel(lces1);
         //对老师信息的导出处理
-        List<Map<String,List<Member>>> loes2 = getTeachers(teachers);
+        List<Map<String, List<Member>>> loes2 = getTeachers(teachers);
         HSSFWorkbook hwb3 = exportExcel(loes2);
         //对管理员信息的导出处理
-        List<Map<String,List<Member>>> loes3 = getadminsOfAll(admins);
+        List<Map<String, List<Member>>> loes3 = getadminsOfAll(admins);
         HSSFWorkbook hwb4 = exportExcel(loes3);
-        if(null != hwb1)
+        if (null != hwb1)
             listAll.add(hwb1);
-        if(null != hwb2)
+        if (null != hwb2)
             listAll.add(hwb2);
-        if(null != hwb3)
+        if (null != hwb3)
             listAll.add(hwb3);
-        if(null != hwb4)
+        if (null != hwb4)
             listAll.add(hwb4);
         return listAll;
     }
@@ -628,30 +628,32 @@ public class OfficeServiceImpl implements OfficeService {
     public List<HSSFWorkbook> exportInfoByCollege(String college) {
         List<HSSFWorkbook> listAll = new ArrayList<>();
         //对按學院导出的处理
-        List<Map<String,List<Member>>> lces = getMemberByCollege(college);
+        List<Map<String, List<Member>>> lces = getMemberByCollege(college);
         HSSFWorkbook hwb1 = exportExcel(lces);
-        if(null != hwb1)
+        if (null != hwb1)
             listAll.add(hwb1);
         return listAll;
     }
+
     /**
      * 根据學院获取所有学生信息
-     * @param	college	值为“true”或“false”
+     *
      * @return 返回所有的学院和学生信息
+     * @param    college    值为“true”或“false”
      */
-    public List<Map<String,List<Member>>> getMemberByCollege(String college){
+    public List<Map<String, List<Member>>> getMemberByCollege(String college) {
 
         //获取该学院
         List<Department> list = departmentMapper.DepartmentListById(college);
-        List<Map<String,List<Member>>> listAll = new ArrayList<Map<String,List<Member>>>();
+        List<Map<String, List<Member>>> listAll = new ArrayList<Map<String, List<Member>>>();
         //遍历所有的学院
-        for(Department cl : list){
+        for (Department cl : list) {
             //根据班级id找到所在的所有学生信息
             List<Member> lm = getStudentsInfosByCollege(cl.getId());
-            if(lm==null){
+            if (lm == null) {
                 continue;
             }
-            Map<String,List<Member>> map = new HashMap<String,List<Member>>();
+            Map<String, List<Member>> map = new HashMap<String, List<Member>>();
             map.put(cl.getName(), lm);
             listAll.add(map);
         }
@@ -660,48 +662,51 @@ public class OfficeServiceImpl implements OfficeService {
 
     /**
      * 获取学院内所有学生的信息
+     *
      * @param collegeId
      * @return 返回学院内所有的学生信息
      */
-    public List<Member> getStudentsInfosByCollege(String collegeId){
+    public List<Member> getStudentsInfosByCollege(String collegeId) {
         //班级全部学生id
         List<String> list = officeMapper.getUsersIdByCollege(collegeId);
-        if(list.size()==0){
+        if (list.size() == 0) {
             return null;
         }
         List<Member> lm = getUsersInfos(list);
         return lm;
     }
 
-    public List<Map<String,List<Member>>> getadminsOfAll(String admins){
-        if("false".equals(admins)){
+    public List<Map<String, List<Member>>> getadminsOfAll(String admins) {
+        if ("false".equals(admins)) {
             return null;
         }
         //获取所有的管理员id
         List<String> list = officeMapper.getAllAdmins();
         List<Member> lm = getUsersInfos(list);
-        Map<String,List<Member>> map = new HashMap<String,List<Member>>();
+        Map<String, List<Member>> map = new HashMap<String, List<Member>>();
         map.put("管理员信息表", lm);
-        List<Map<String,List<Member>>> lf = new ArrayList<Map<String,List<Member>>>();
+        List<Map<String, List<Member>>> lf = new ArrayList<Map<String, List<Member>>>();
         lf.add(map);
         return lf;
     }
+
     /**
      * 将用户信息导出到excel上并保存到桌面
-     * @param list	导出信息的集合
+     *
+     * @param list 导出信息的集合
      */
-    public HSSFWorkbook exportExcel(List<Map<String,List<Member>>> list){
-        if(list == null){
+    public HSSFWorkbook exportExcel(List<Map<String, List<Member>>> list) {
+        if (list == null) {
             return null;
         }
         //创建一个webbook,对应一个Excel文件
         HSSFWorkbook wb = new HSSFWorkbook();
-        for(Map<String,List<Member>> map:list){
-            for(String key : map.keySet()){
+        for (Map<String, List<Member>> map : list) {
+            for (String key : map.keySet()) {
                 //在webbook中添加一个sheet，对应Excel文件中的sheet
                 HSSFSheet sheet = wb.createSheet(key);
                 //在sheet中添加表头第0行
-                HSSFRow row = sheet.createRow((int)0);
+                HSSFRow row = sheet.createRow((int) 0);
                 //创建单元格，并设置值表头，设置表头居中
                 HSSFCellStyle style = wb.createCellStyle();
                 //设置对其方式，居中对齐
@@ -737,13 +742,13 @@ public class OfficeServiceImpl implements OfficeService {
                 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
                 //获取班级内的学生信息
                 List<Member> value = map.get(key);
-                for(int j=0;j<value.size();j++){
-                    row = sheet.createRow(j+1);
+                for (int j = 0; j < value.size(); j++) {
+                    row = sheet.createRow(j + 1);
                     Member member = value.get(j);
                     row.createCell(1).setCellValue(member.getSex());
                     row.createCell(0).setCellValue(member.getName());
                     System.err.println(member.getBirthDate());
-                    if(member.getBirthDate()==null)
+                    if (member.getBirthDate() == null)
                         row.createCell(2).setCellValue("");
                     else
                         row.createCell(2).setCellValue(sdf1.format(new Date(member.getBirthDate().getTime())));
@@ -763,91 +768,99 @@ public class OfficeServiceImpl implements OfficeService {
         System.err.println(wb);
         return wb;
     }
+
     /**
      * 根据班级获取所有学生信息
-     * @param	classes	值为“true”或“false”
-     * 表示是否按班级获取学生信息
+     *
      * @return 返回所有的班级和学生信息
+     * @param    classes    值为“true”或“false” 表示是否按班级获取学生信息
      */
-    public List<Map<String,List<Member>>> getMemberByClasses(String classes){
-        if("false".equals(classes)){
+    public List<Map<String, List<Member>>> getMemberByClasses(String classes) {
+        if ("false".equals(classes)) {
             return null;
         }
         //获取所有的班级
         List<Classes> list = officeMapper.getclasses();
-        List<Map<String,List<Member>>> listAll = new ArrayList<Map<String,List<Member>>>();
+        List<Map<String, List<Member>>> listAll = new ArrayList<Map<String, List<Member>>>();
         //遍历所有的班级
-        for(Classes cl : list){
+        for (Classes cl : list) {
             //根据班级id找到所在的所有学生信息
             List<Member> lm = getStudentsInfos(cl.getId());
-            if(lm==null){
+            if (lm == null) {
                 continue;
             }
-            Map<String,List<Member>> map = new HashMap<String,List<Member>>();
+            Map<String, List<Member>> map = new HashMap<String, List<Member>>();
             map.put(cl.getClassName(), lm);
             listAll.add(map);
         }
         return listAll;
     }
+
     /**
      * 获取班级内所有学生的信息
+     *
      * @param classId
      * @return 返回班级内所有的学生信息
      */
-    public List<Member> getStudentsInfos(String classId){
+    public List<Member> getStudentsInfos(String classId) {
         //班级全部学生id
         List<String> list = officeMapper.getUsersId(classId);
-        if(list.size()==0){
+        if (list.size() == 0) {
             return null;
         }
         List<Member> lm = getUsersInfos(list);
         return lm;
     }
+
     /**
      * 获取所有的学生信息
+     *
      * @param students
      * @return
      */
-    public List<Map<String,List<Member>>> getMemberOfAll(String students){
-        if("false".equals(students)){
+    public List<Map<String, List<Member>>> getMemberOfAll(String students) {
+        if ("false".equals(students)) {
             return null;
         }
         //获取所有的学生
         //获取所有的学生id
         List<String> stuIds = officeMapper.getAllStudents();
         List<Member> lm = getUsersInfos(stuIds);
-        Map<String,List<Member>> map = new HashMap<String,List<Member>>();
+        Map<String, List<Member>> map = new HashMap<String, List<Member>>();
         map.put("学生信息表", lm);
-        List<Map<String,List<Member>>> list = new ArrayList<Map<String,List<Member>>>();
+        List<Map<String, List<Member>>> list = new ArrayList<Map<String, List<Member>>>();
         list.add(map);
         return list;
     }
+
     /**
      * 查询所有的老师信息
+     *
      * @param teachers
      * @return
      */
-    public List<Map<String,List<Member>>> getTeachers(String teachers){
-        if("false".equals(teachers)){
+    public List<Map<String, List<Member>>> getTeachers(String teachers) {
+        if ("false".equals(teachers)) {
             return null;
         }
         //获取所有老师id
         List<String> teaIds = officeMapper.getAllTeachers();
         List<Member> lm = getUsersInfos(teaIds);
-        Map<String,List<Member>> map = new HashMap<String,List<Member>>();
-        List<Map<String,List<Member>>> list = new ArrayList<Map<String,List<Member>>>();
+        Map<String, List<Member>> map = new HashMap<String, List<Member>>();
+        List<Map<String, List<Member>>> list = new ArrayList<Map<String, List<Member>>>();
         map.put("老师信息表", lm);
         list.add(map);
         return list;
     }
+
     /**
      * 根据用户ld集合获取集合内所有的用户信息
      */
-    public List<Member> getUsersInfos(List<String> usersId){
+    public List<Member> getUsersInfos(List<String> usersId) {
         List<Member> lm = new ArrayList<Member>();
-        for(String str : usersId){
+        for (String str : usersId) {
             Member member = officeMapper.getUsersInfos(str);
-            if(member==null){
+            if (member == null) {
                 continue;
             }
             member.setId(str);
@@ -868,17 +881,17 @@ public class OfficeServiceImpl implements OfficeService {
         //从数据库中获取所有的班级名
         List<Classes> classes = officeMapper.getclasses();
         //建立班级名与id之间的映射关系
-        Map<String,String> map1 = new HashMap<String,String>();
-        for(Classes cs : classes){
+        Map<String, String> map1 = new HashMap<String, String>();
+        for (Classes cs : classes) {
             map1.put(cs.getClassName(), cs.getId());
         }
         Set<String> classNames = map1.keySet();
         //遍历班级名
         String classId = null;
         ClassUsers cu = new ClassUsers();
-        for(String className : map.keySet()){
+        for (String className : map.keySet()) {
             boolean key = false;
-            if(!classNames.contains(className)){
+            if (!classNames.contains(className)) {
                 Classes cl = new Classes();
                 classId = UUID.randomUUID().toString();
                 cl.setId(classId);
@@ -888,21 +901,21 @@ public class OfficeServiceImpl implements OfficeService {
             }
             List<Member> list = map.get(className);
             //遍历班级内所有的学生
-            for(Member member : list){
+            for (Member member : list) {
                 //插入学生信息
                 usersMapper.creUser(member);
                 cu.setId(UUID.randomUUID().toString());
                 cu.setUser(member.getId());
-                if(key)
+                if (key)
                     cu.setClassId(classId);
-                else{
+                else {
                     cu.setClassId(map1.get(className));
                 }
                 //在数据库中建立学生与班级的关联关系
                 usersMapper.creClassUser(cu);
                 //建立学生与权限之间的关系
                 String roleId = rolesMapper.selIdByRoleName("student");
-                rolesMapper.insUsersRoles(cu.getUser(),roleId);
+                rolesMapper.insUsersRoles(cu.getUser(), roleId);
             }
         }
     }

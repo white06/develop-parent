@@ -8,13 +8,13 @@ import java.io.IOException;
 
 /**
  * 通过角色验证权限
- * @ClassName: ExtendRolesAuthorizationFilter
- * @author fuce
- * @date 2018年8月26日
  *
+ * @author fuce
+ * @ClassName: ExtendRolesAuthorizationFilter
+ * @date 2018年8月26日
  */
-public class ExtendRolesAuthorizationFilter  extends RolesAuthorizationFilter{
-    
+public class ExtendRolesAuthorizationFilter extends RolesAuthorizationFilter {
+
     public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response, Object mappedValue) throws IOException {
 //        
 //        System.out.println(ExtendRolesAuthorizationFilter.class.toString());

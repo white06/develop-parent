@@ -34,50 +34,51 @@ import java.util.*;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="PhoneExamController")
+@RequestMapping(value = "PhoneExamController")
 public class PhoneExamController {
     @Autowired
-    private ExercisesService ecs=new ExercisesServiceImpl();
+    private ExercisesService ecs = new ExercisesServiceImpl();
     @Autowired
-    ExamService es =new ExamServiceImpl();
+    ExamService es = new ExamServiceImpl();
     @Autowired
-    ExamService examServiceImp =new ExamServiceImpl();
+    ExamService examServiceImp = new ExamServiceImpl();
     @Autowired
     UsersService usersServiceImp = new UserServiceImpl();
     @Autowired
-    SubjectService ss =new SubjectServiceImpl();
+    SubjectService ss = new SubjectServiceImpl();
 
     /**
      * 针对单一科目实现。移动端
+     *
      * @param session
      * @param request
      * @return
      */
-    @RequestMapping(value="seleExams.action",method={RequestMethod.POST})
+    @RequestMapping(value = "seleExams.action", method = {RequestMethod.POST})
     @ResponseBody
     public List<Exams> seleExams(HttpSession session, HttpServletRequest request) throws ParseException {
-        String userId=session.getAttribute("ID").toString();
+        String userId = session.getAttribute("ID").toString();
 
         //南靖项目写死
         //String subId=ss.getSubId(userId);
-        String subId="086e9c77-8f33-4b0a-b3a6-39f138f512a0";
-        List<QuestionPagers> pagersList=examServiceImp.selSubPage(subId);
+        String subId = "086e9c77-8f33-4b0a-b3a6-39f138f512a0";
+        List<QuestionPagers> pagersList = examServiceImp.selSubPage(subId);
 
-        if(pagersList.size()!=0){
+        if (pagersList.size() != 0) {
 
-            List<String> classIdList=usersServiceImp.seleClassIdList(userId);
-            List<Exams> examsList=new ArrayList<>();
+            List<String> classIdList = usersServiceImp.seleClassIdList(userId);
+            List<Exams> examsList = new ArrayList<>();
 
             for (QuestionPagers questionPagers : pagersList) {
                 //过滤所有未发布的以及超过试卷答题日期的考试以及未到达开始答题日期的试卷
-                for (String classId:classIdList){
-                    Exams exams=examServiceImp.getExam(questionPagers.getId(),classId);
+                for (String classId : classIdList) {
+                    Exams exams = examServiceImp.getExam(questionPagers.getId(), classId);
 
-                    if (exams!=null) {
-                        Date taday=new Date();
-                        DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date endDate=sdf.parse(exams.getEndTime());
-                        Date startDate=sdf.parse(exams.getStartTime());
+                    if (exams != null) {
+                        Date taday = new Date();
+                        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date endDate = sdf.parse(exams.getEndTime());
+                        Date startDate = sdf.parse(exams.getStartTime());
                         if (startDate.before(taday)) {
                             if (taday.before(endDate)) {
                                 examsList.add(exams);
@@ -87,12 +88,10 @@ public class PhoneExamController {
                 }
 
 
-
-
             }
             examsList = removeDupliById(examsList);
             return examsList;
-        }else{
+        } else {
             return null;
         }
     }
@@ -100,6 +99,7 @@ public class PhoneExamController {
 
     /**
      * 根据对象属性去重  属性：userId
+     *
      * @param persons
      * @return
      */
@@ -111,21 +111,22 @@ public class PhoneExamController {
 
     /**
      * 移动端，获取考试题目，返回值json格式。给试卷ID查询试卷中的所有题目，然后包装4层，返回jsonArray，方便前台解析
+     *
      * @param request
      * @param response
      * @throws IOException
      */
-    @RequestMapping(value="timu.action",method={RequestMethod.POST})
+    @RequestMapping(value = "timu.action", method = {RequestMethod.POST})
     @ResponseBody
     public void timu(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        JSONArray jsArray=new JSONArray();
-        JSONArray danxuanti=new JSONArray();
-        JSONArray duoxuanti=new JSONArray();
-        JSONArray tiankongti=new JSONArray();
-        JSONArray panduanti=new JSONArray();
-        JSONArray wendati=new JSONArray();
+        JSONArray jsArray = new JSONArray();
+        JSONArray danxuanti = new JSONArray();
+        JSONArray duoxuanti = new JSONArray();
+        JSONArray tiankongti = new JSONArray();
+        JSONArray panduanti = new JSONArray();
+        JSONArray wendati = new JSONArray();
 
-        List<QuestionPagerContents> list=examServiceImp.timu(request.getParameter("id"));
+        List<QuestionPagerContents> list = examServiceImp.timu(request.getParameter("id"));
         for (QuestionPagerContents questionPagerContents : list) {
             if (questionPagerContents.getQuestionType().equals("单选题")) {
                 danxuanti.add(getQuestionPagerContents(questionPagerContents));
@@ -140,36 +141,36 @@ public class PhoneExamController {
             }
         }
 
-        if (danxuanti.size()!=0) {
-            JSONObject o=new JSONObject();
+        if (danxuanti.size() != 0) {
+            JSONObject o = new JSONObject();
             o.put("type", "单选题");
             o.put("neirong", danxuanti.toString());
             o.put("size", danxuanti.size());
             jsArray.add(o);
         }
-        if (duoxuanti.size()!=0) {
-            JSONObject o=new JSONObject();
+        if (duoxuanti.size() != 0) {
+            JSONObject o = new JSONObject();
             o.put("type", "多选题");
             o.put("neirong", duoxuanti.toString());
             o.put("size", duoxuanti.size());
             jsArray.add(o);
         }
-        if (tiankongti.size()!=0) {
-            JSONObject o=new JSONObject();
+        if (tiankongti.size() != 0) {
+            JSONObject o = new JSONObject();
             o.put("type", "填空题");
             o.put("neirong", tiankongti.toString());
             o.put("size", tiankongti.size());
             jsArray.add(o);
         }
-        if (panduanti.size()!=0) {
-            JSONObject o=new JSONObject();
+        if (panduanti.size() != 0) {
+            JSONObject o = new JSONObject();
             o.put("type", "判断题");
             o.put("neirong", panduanti.toString());
             o.put("size", panduanti.size());
             jsArray.add(o);
         }
-        if (wendati.size()!=0) {
-            JSONObject o=new JSONObject();
+        if (wendati.size() != 0) {
+            JSONObject o = new JSONObject();
             o.put("type", "问答题");
             o.put("neirong", wendati.toString());
             o.put("size", wendati.size());
@@ -178,13 +179,15 @@ public class PhoneExamController {
         response.setCharacterEncoding("utf-8");
         response.getWriter().print(jsArray);
     }
+
     /**
      * 移动端，将questionPagerContents转化为JSONObject，方便储存
+     *
      * @param questionPagerContents
      * @return
      */
-    public JSONObject getQuestionPagerContents(QuestionPagerContents questionPagerContents){
-        JSONObject o=new JSONObject();
+    public JSONObject getQuestionPagerContents(QuestionPagerContents questionPagerContents) {
+        JSONObject o = new JSONObject();
         o.put("id", questionPagerContents.getId());
         o.put("questionKey", questionPagerContents.getQuestionKey());
         o.put("questionContent", questionPagerContents.getQuestionContent());
@@ -194,20 +197,22 @@ public class PhoneExamController {
         o.put("questionPager_Id", questionPagerContents.getQuestionPager_Id());
         return o;
     }
+
     /**
      * 移动端，提交考卷成绩存储后台
+     *
      * @param request
      * @param response
      * @param session
      * @throws IOException
      */
-    @RequestMapping(value="getScores.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getScores.action", method = {RequestMethod.POST})
     @ResponseBody
-    public void getScores(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-        String userId=session.getAttribute("ID").toString();
-        String pageId=request.getParameter("pageId");
-        int scores=Integer.parseInt(request.getAttribute("scores").toString());
-        StutotalScores userScores=new StutotalScores();
+    public void getScores(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+        String userId = session.getAttribute("ID").toString();
+        String pageId = request.getParameter("pageId");
+        int scores = Integer.parseInt(request.getAttribute("scores").toString());
+        StutotalScores userScores = new StutotalScores();
         userScores.setId(UUID.randomUUID().toString());
         userScores.setPagerKey(pageId);
         userScores.setChecked(1);
@@ -218,31 +223,33 @@ public class PhoneExamController {
             response.getWriter().print("ture");
         }
     }
+
     /**
      * 移动端随机题(全部章节）
+     *
      * @param request
      * @param session
      * @return
      */
-    @RequestMapping(value="getRandomQuestion.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getRandomQuestion.action", method = {RequestMethod.POST})
     @ResponseBody
-    public Map<String,Object> getRandomQuestion(HttpServletRequest request,HttpSession session){
-        Map<String,Object> resultMap = new HashMap<String, Object>();
+    public Map<String, Object> getRandomQuestion(HttpServletRequest request, HttpSession session) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
         String knowId = request.getParameter("knowId");
-        String contId =	ecs.getKnowContentId(knowId);
-        Knowlegcontent knowlegcontent=ecs.getKnowContent(contId);
-        String nmae=knowlegcontent.getNmae();
-        String type="";
-        if(nmae.indexOf("userShoucangId")!=-1){
-            type="收藏";
-            List<QuestionPersonal> shoucangList=ecs.perQuestion(knowlegcontent,type);
+        String contId = ecs.getKnowContentId(knowId);
+        Knowlegcontent knowlegcontent = ecs.getKnowContent(contId);
+        String nmae = knowlegcontent.getNmae();
+        String type = "";
+        if (nmae.indexOf("userShoucangId") != -1) {
+            type = "收藏";
+            List<QuestionPersonal> shoucangList = ecs.perQuestion(knowlegcontent, type);
             resultMap.put("1", shoucangList);
-        }else if(nmae.indexOf("userErrorId")!=-1){
-            type="错题";
-            List<QuestionPersonal> errorList=ecs.perQuestion(knowlegcontent,type);
+        } else if (nmae.indexOf("userErrorId") != -1) {
+            type = "错题";
+            List<QuestionPersonal> errorList = ecs.perQuestion(knowlegcontent, type);
             resultMap.put("1", errorList);
-        }else{
-            List<Question> randomList=ecs.getRandomQuestion(knowlegcontent);
+        } else {
+            List<Question> randomList = ecs.getRandomQuestion(knowlegcontent);
             resultMap.put("1", randomList);
         }
         return resultMap;
@@ -250,75 +257,81 @@ public class PhoneExamController {
 
     /**
      * 移动端随机题（全部章节）
+     *
      * @param request
      * @param session
      * @return
      */
-    @RequestMapping(value="getAllQuestion.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getAllQuestion.action", method = {RequestMethod.POST})
     @ResponseBody
-    public Map<String,Object> getAllQuestion(HttpServletRequest request,HttpSession session){
-        Map<String,Object> resultMap = new HashMap<String, Object>();
+    public Map<String, Object> getAllQuestion(HttpServletRequest request, HttpSession session) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
         String knowId = request.getParameter("knowId");
-        String chooseId=request.getParameter("chooseId");
-        String contId =	ecs.getKnowContentId(knowId);
-        Knowlegcontent knowlegcontent=ecs.getKnowContent(contId);
-        String nmae=knowlegcontent.getNmae();
-        String type="";
-        if(nmae.indexOf("userShoucangId")!=-1){
-            type="收藏";
-            List<QuestionPersonal> shoucangList=ecs.perQuestion(knowlegcontent,type);
+        String chooseId = request.getParameter("chooseId");
+        String contId = ecs.getKnowContentId(knowId);
+        Knowlegcontent knowlegcontent = ecs.getKnowContent(contId);
+        String nmae = knowlegcontent.getNmae();
+        String type = "";
+        if (nmae.indexOf("userShoucangId") != -1) {
+            type = "收藏";
+            List<QuestionPersonal> shoucangList = ecs.perQuestion(knowlegcontent, type);
             resultMap.put("1", shoucangList);
-        }else if(nmae.indexOf("userErrorId")!=-1){
-            type="错题";
-            List<QuestionPersonal> errorList=ecs.perQuestion(knowlegcontent,type);
+        } else if (nmae.indexOf("userErrorId") != -1) {
+            type = "错题";
+            List<QuestionPersonal> errorList = ecs.perQuestion(knowlegcontent, type);
             resultMap.put("1", errorList);
-        }else{
-            List<Question> randomList=ecs.getAllQuestion(knowlegcontent,chooseId);
+        } else {
+            List<Question> randomList = ecs.getAllQuestion(knowlegcontent, chooseId);
             resultMap.put("1", randomList);
         }
         return resultMap;
     }
+
     /**
      * 提交成绩
+     *
      * @param request
      * @param session
      * @return
      */
-    @RequestMapping(value="submit.action",method={RequestMethod.POST})
+    @RequestMapping(value = "submit.action", method = {RequestMethod.POST})
     @ResponseBody
-    public boolean submit(HttpServletRequest request,HttpSession session){
-        String examId=request.getParameter("examId");
-        String allscore=request.getParameter("allscore");
-        String userId=session.getAttribute("ID").toString();
-        String id= UUID.randomUUID().toString();
+    public boolean submit(HttpServletRequest request, HttpSession session) {
+        String examId = request.getParameter("examId");
+        String allscore = request.getParameter("allscore");
+        String userId = session.getAttribute("ID").toString();
+        String id = UUID.randomUUID().toString();
         return ecs.submit(userId, allscore, examId, id);
     }
+
     /**
      * 添加错题库
+     *
      * @param request
      * @param session
      * @return
      */
-    @RequestMapping(value="addError.action",method={RequestMethod.POST})
+    @RequestMapping(value = "addError.action", method = {RequestMethod.POST})
     @ResponseBody
-    public boolean addError(HttpServletRequest request, HttpSession session){
-        String userId=(String) session.getAttribute("ID");
-        String timuId=request.getParameter("timuId");
-        String useType=request.getParameter("useType");
-        return ecs.addError(timuId, useType,userId);
+    public boolean addError(HttpServletRequest request, HttpSession session) {
+        String userId = (String) session.getAttribute("ID");
+        String timuId = request.getParameter("timuId");
+        String useType = request.getParameter("useType");
+        return ecs.addError(timuId, useType, userId);
     }
 
     /**
      * 移动端随机题（全部章节）
+     *
      * @param request
      * @param session
      * @return
      */
-    @RequestMapping(value="getQuestionAll.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getQuestionAll.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<Question> getQuestionAll(HttpServletRequest request,HttpSession session){
+    public List<Question> getQuestionAll(HttpServletRequest request, HttpSession session) {
         String knowId = request.getParameter("chooseId");
-        List<Question> allList=ecs.getAllQuestion(knowId);
+        List<Question> allList = ecs.getAllQuestion(knowId);
         return allList;
     }
 }

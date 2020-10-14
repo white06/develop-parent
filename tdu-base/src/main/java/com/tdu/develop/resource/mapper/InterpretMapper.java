@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface InterpretMapper {
 
-    public  void addInterpret(Interpret interpret);
+    public void addInterpret(Interpret interpret);
 
     public List<Interpret> getInterResultList(@Param("nandu") String nandu, @Param("page") String page,
                                               @Param("userKey") String userKey, @Param("pageKey") String pageKey);

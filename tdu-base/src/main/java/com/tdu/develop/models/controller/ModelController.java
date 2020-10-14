@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="ModelController")
+@RequestMapping(value = "ModelController")
 public class ModelController {
 
 }

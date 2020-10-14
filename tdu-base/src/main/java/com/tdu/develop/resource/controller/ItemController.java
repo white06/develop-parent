@@ -20,61 +20,61 @@ import javax.servlet.http.HttpSession;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="ItemController")
+@RequestMapping(value = "ItemController")
 public class ItemController {
     @Autowired
-    ItemService itemService=new ItemServiceImpl();
+    ItemService itemService = new ItemServiceImpl();
 
 
-    @RequestMapping(value="yuxi.action",method={RequestMethod.POST})
+    @RequestMapping(value = "yuxi.action", method = {RequestMethod.POST})
     @ResponseBody
-    public void yuxi(HttpServletRequest request, HttpSession session) throws Exception{
+    public void yuxi(HttpServletRequest request, HttpSession session) throws Exception {
         String userId = request.getParameter("userId");
         String yuxi = request.getParameter("yuxi");
 
-        itemService.yuxi(yuxi,userId);
+        itemService.yuxi(yuxi, userId);
 
     }
 
-    @RequestMapping(value="getyuxi.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getyuxi.action", method = {RequestMethod.POST})
     @ResponseBody
-    public String getyuxi(HttpServletRequest request, HttpSession session) throws Exception{
+    public String getyuxi(HttpServletRequest request, HttpSession session) throws Exception {
         String userId = request.getParameter("userId");
 
         return itemService.getyuxi(userId);
 
     }
 
-    @RequestMapping(value="getblue.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getblue.action", method = {RequestMethod.POST})
     @ResponseBody
-    public blue getblue(HttpServletRequest request, HttpSession session) throws Exception{
+    public blue getblue(HttpServletRequest request, HttpSession session) throws Exception {
         String userId = request.getParameter("userId");
 
         return itemService.getblue(userId);
 
     }
 
-    @RequestMapping(value="tijiao.action",method={RequestMethod.POST})
+    @RequestMapping(value = "tijiao.action", method = {RequestMethod.POST})
     @ResponseBody
-    public void tijiao(HttpServletRequest request, HttpSession session) throws Exception{
+    public void tijiao(HttpServletRequest request, HttpSession session) throws Exception {
         String userId = request.getParameter("userId");
         String caozuo = request.getParameter("caozuo");
-        itemService.tijiaocaozuo(userId,caozuo);
+        itemService.tijiaocaozuo(userId, caozuo);
 
     }
 
-    @RequestMapping(value="tijiaobaogao.action",method={RequestMethod.POST})
+    @RequestMapping(value = "tijiaobaogao.action", method = {RequestMethod.POST})
     @ResponseBody
-    public void tijiaobaogao(HttpServletRequest request, HttpSession session) throws Exception{
+    public void tijiaobaogao(HttpServletRequest request, HttpSession session) throws Exception {
         String userId = request.getParameter("userId");
         String baogao = request.getParameter("baogao");
-        itemService.tijiaobaogao(userId,baogao);
+        itemService.tijiaobaogao(userId, baogao);
 
     }
 
-    @RequestMapping(value="get.action",method={RequestMethod.POST})
+    @RequestMapping(value = "get.action", method = {RequestMethod.POST})
     @ResponseBody
-    public blue get(HttpServletRequest request, HttpSession session) throws Exception{
+    public blue get(HttpServletRequest request, HttpSession session) throws Exception {
         String userId = request.getParameter("userId");
 
         return itemService.get(userId);

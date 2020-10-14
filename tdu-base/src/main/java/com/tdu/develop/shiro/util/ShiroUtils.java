@@ -14,41 +14,34 @@ import org.apache.shiro.subject.Subject;
 
 /**
  * shiro 工具类
- *	
+ *
  * @author fuce
  */
-public class ShiroUtils
-{
+public class ShiroUtils {
 
-    public static Subject getSubjct()
-    {
+    public static Subject getSubjct() {
         return SecurityUtils.getSubject();
     }
 
-    public static Session getSession()
-    {
+    public static Session getSession() {
         return SecurityUtils.getSubject().getSession();
     }
 
-    public static void logout()
-    {
+    public static void logout() {
         getSubjct().logout();
     }
 
-    public static TsysUser getUser()
-    {
-    	TsysUser user = null;
+    public static TsysUser getUser() {
+        TsysUser user = null;
         Object obj = getSubjct().getPrincipal();
-        if (StringUtils.isNotNull(obj))
-        {
+        if (StringUtils.isNotNull(obj)) {
             user = new TsysUser();
             BeanUtils.copyBeanProp(user, obj);
         }
         return user;
     }
 
-    public static void setUser(TsysUser user)
-    {
+    public static void setUser(TsysUser user) {
         Subject subject = getSubjct();
         PrincipalCollection principalCollection = subject.getPrincipals();
         String realmName = principalCollection.getRealmNames().iterator().next();
@@ -57,30 +50,25 @@ public class ShiroUtils
         subject.runAs(newPrincipalCollection);
     }
 
-    public static void clearCachedAuthorizationInfo()
-    {
+    public static void clearCachedAuthorizationInfo() {
         RealmSecurityManager rsm = (RealmSecurityManager) SecurityUtils.getSecurityManager();
         MyShiroRealm realm = (MyShiroRealm) rsm.getRealms().iterator().next();
         realm.clearCachedAuthorizationInfo();
     }
 
-    public static String getUserId()
-    {
+    public static String getUserId() {
         return getUser().getId().trim();
     }
 
-    public static String getLoginName()
-    {
+    public static String getLoginName() {
         return getUser().getUsername();
     }
 
-    public static String getIp()
-    {
+    public static String getIp() {
         return getSubjct().getSession().getHost();
     }
 
-    public static String getSessionId()
-    {
+    public static String getSessionId() {
         return String.valueOf(getSubjct().getSession().getId());
     }
 }

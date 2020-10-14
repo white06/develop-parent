@@ -19,7 +19,7 @@ import javax.sql.DataSource;
  * @create 2019-08-05-17:33
  */
 @Configuration
-@MapperScan(basePackages = "com.tdu.develop.user.mapper",sqlSessionFactoryRef = "userSqlSessionFactory")
+@MapperScan(basePackages = "com.tdu.develop.user.mapper", sqlSessionFactoryRef = "userSqlSessionFactory")
 public class UserDataSourceConfig {
     private static final String PACKAGE = "com.tdu.develop.user.mapper";
     private static final String MAPPER_LOCATION = "classpath:mybatis/user/*.xml";

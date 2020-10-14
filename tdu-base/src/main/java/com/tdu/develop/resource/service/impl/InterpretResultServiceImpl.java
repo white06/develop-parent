@@ -24,7 +24,7 @@ public class InterpretResultServiceImpl implements InterpretResultService {
     }
 
     @Override
-    public InterpretScore getInterpretScore(String userKey, String nandu, String page,String pageKey) {
-        return interpretResultMapper.getInterpretScore(userKey,  nandu,  page,pageKey);
+    public InterpretScore getInterpretScore(String userKey, String nandu, String page, String pageKey) {
+        return interpretResultMapper.getInterpretScore(userKey, nandu, page, pageKey);
     }
 }

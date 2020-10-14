@@ -42,23 +42,23 @@ import java.util.*;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="nanjingController")
+@RequestMapping(value = "nanjingController")
 public class nanjingController {
 
     @Autowired
-    KnowledgesService knowledgesService=new KnowledgesServiceImpl();
+    KnowledgesService knowledgesService = new KnowledgesServiceImpl();
 
     @Autowired
-    SubjectTreeService subjectTreeService=new SubjectTreeServiceImpl();
+    SubjectTreeService subjectTreeService = new SubjectTreeServiceImpl();
 
     @Autowired
-    OfficeService officeService=new OfficeServiceImpl();
+    OfficeService officeService = new OfficeServiceImpl();
 
 
     @Autowired
-    ExamService examService=new ExamServiceImpl();
+    ExamService examService = new ExamServiceImpl();
     @Autowired
-    UsersService usersService=new UserServiceImpl();
+    UsersService usersService = new UserServiceImpl();
 
     @RequestMapping("daoFangzhenByClass.action")
     @ResponseBody
@@ -66,17 +66,17 @@ public class nanjingController {
         String fileName = "导出文件";
         response.setContentType("application/vnd.ms-excel");
         response.addHeader("Content-Disposition", "attachment; filename=\""
-                + new String((fileName).getBytes("GB2312"),"iso8859-1")+".xls"+"\"");
+                + new String((fileName).getBytes("GB2312"), "iso8859-1") + ".xls" + "\"");
         //response.addHeader("Content-Length", "C://导出文件.xls");
         String subjectId = request.getParameter("subjectId");
         String depertId = request.getParameter("depertId");
         String majorId = request.getParameter("majorId");
         OutputStream outputStream = response.getOutputStream();
 
-        List<Knowledges> knoList= getFangzhen(subjectId);
+        List<Knowledges> knoList = getFangzhen(subjectId);
 
-        List<HSSFWorkbook> list=officeService.daoFangzhen(depertId,knoList);
-        for(HSSFWorkbook hwb:list) {
+        List<HSSFWorkbook> list = officeService.daoFangzhen(depertId, knoList);
+        for (HSSFWorkbook hwb : list) {
             hwb.write(outputStream);
             outputStream.flush();
             outputStream.close();
@@ -84,15 +84,15 @@ public class nanjingController {
         return new JsonResult();
     }
 
-    public List<Knowledges> getFangzhen(String SubjectKey){
-        List<Knowledges> list=new ArrayList<Knowledges>();
-        List<Knowledges> rList=new ArrayList<Knowledges>();
-        list=subjectTreeService.GetSubjectTreePage(SubjectKey);
+    public List<Knowledges> getFangzhen(String SubjectKey) {
+        List<Knowledges> list = new ArrayList<Knowledges>();
+        List<Knowledges> rList = new ArrayList<Knowledges>();
+        list = subjectTreeService.GetSubjectTreePage(SubjectKey);
         Knowlegcontent knowlegcontent = null;
         for (int i = 0; i < list.size(); i++) {
-            if(!list.get(i).getKnowledgecontentId().equals("00000000-0000-0000-0000-000000000000")){
-                knowlegcontent  = subjectTreeService.getSimulateParams(list.get(i).getKnowledgecontentId());
-                if(knowlegcontent.getType().equals("仿真考核")){
+            if (!list.get(i).getKnowledgecontentId().equals("00000000-0000-0000-0000-000000000000")) {
+                knowlegcontent = subjectTreeService.getSimulateParams(list.get(i).getKnowledgecontentId());
+                if (knowlegcontent.getType().equals("仿真考核")) {
                     rList.add(list.get(i));
                 }
             }
@@ -107,16 +107,16 @@ public class nanjingController {
         String fileName = "导出文件";
         response.setContentType("application/vnd.ms-excel");
         response.addHeader("Content-Disposition", "attachment; filename=\""
-                + new String((fileName).getBytes("GB2312"),"iso8859-1")+".xls"+"\"");
+                + new String((fileName).getBytes("GB2312"), "iso8859-1") + ".xls" + "\"");
         //response.addHeader("Content-Length", "C://导出文件.xls");
         String classes = request.getParameter("classes");
         String students = request.getParameter("students");
         String teachers = request.getParameter("teacheres");
         String admins = request.getParameter("admines");
-        System.out.println(classes+":"+students+":"+teachers+":"+admins);
+        System.out.println(classes + ":" + students + ":" + teachers + ":" + admins);
         OutputStream outputStream = response.getOutputStream();
-        List<HSSFWorkbook> list=officeService.exportInfos(classes,students,teachers,admins);
-        for(HSSFWorkbook hwb:list) {
+        List<HSSFWorkbook> list = officeService.exportInfos(classes, students, teachers, admins);
+        for (HSSFWorkbook hwb : list) {
             hwb.write(outputStream);
             outputStream.flush();
             outputStream.close();
@@ -127,22 +127,22 @@ public class nanjingController {
 
     @RequestMapping("daoByClass.action")
     @ResponseBody
-    public JsonResult daoByClass(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
+    public JsonResult daoByClass(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
         String fileName = "导出文件";
         response.setContentType("application/vnd.ms-excel");
         response.addHeader("Content-Disposition", "attachment; filename=\""
-                + new String((fileName).getBytes("GB2312"),"iso8859-1")+".xls"+"\"");
+                + new String((fileName).getBytes("GB2312"), "iso8859-1") + ".xls" + "\"");
         //response.addHeader("Content-Length", "C://导出文件.xls");
 
-        String userId=session.getAttribute("ID").toString();
+        String userId = session.getAttribute("ID").toString();
 
         String subjectId = request.getParameter("subjectId");
 
-        List<Exams> examList =  kaoshi(userId,subjectId);
+        List<Exams> examList = kaoshi(userId, subjectId);
 
         OutputStream outputStream = response.getOutputStream();
-        List<HSSFWorkbook> list=officeService.daoByClass(examList);
-        for(HSSFWorkbook hwb:list) {
+        List<HSSFWorkbook> list = officeService.daoByClass(examList);
+        for (HSSFWorkbook hwb : list) {
             hwb.write(outputStream);
             outputStream.flush();
             outputStream.close();
@@ -150,27 +150,27 @@ public class nanjingController {
         return new JsonResult();
     }
 
-    public List<Exams> kaoshi(String userId, String subId){
-        List<QuestionPagers> pagersList=examService.selSubPage(subId);
-        if(pagersList.size()!=0){
-            List<String> classIdList=usersService.seleClassIdList(userId);
-            List<Exams> examsList=new ArrayList<>();
+    public List<Exams> kaoshi(String userId, String subId) {
+        List<QuestionPagers> pagersList = examService.selSubPage(subId);
+        if (pagersList.size() != 0) {
+            List<String> classIdList = usersService.seleClassIdList(userId);
+            List<Exams> examsList = new ArrayList<>();
             for (QuestionPagers questionPagers : pagersList) {
                 //过滤所有未发布的以及超过试卷答题日期的考试以及未到达开始答题日期的试卷
-                for (String classId :classIdList){
-                    Exams exams=examService.getExam(questionPagers.getId(),classId);
-                    if (exams!=null) {
-                        Date taday=new Date();
-                        DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date endDate=null;
+                for (String classId : classIdList) {
+                    Exams exams = examService.getExam(questionPagers.getId(), classId);
+                    if (exams != null) {
+                        Date taday = new Date();
+                        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date endDate = null;
                         try {
-                            endDate =  sdf.parse(exams.getEndTime());
+                            endDate = sdf.parse(exams.getEndTime());
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-                        Date startDate=null;
+                        Date startDate = null;
                         try {
-                            startDate=sdf.parse(exams.getStartTime());
+                            startDate = sdf.parse(exams.getStartTime());
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -184,13 +184,14 @@ public class nanjingController {
             }
             examsList = removeDupliById(examsList);
             return examsList;
-        }else{
+        } else {
             return null;
         }
     }
 
     /**
      * 根据对象属性去重  属性：userId
+     *
      * @param persons
      * @return
      */
@@ -207,12 +208,12 @@ public class nanjingController {
         String fileName = "导出文件";
         response.setContentType("application/vnd.ms-excel");
         response.addHeader("Content-Disposition", "attachment; filename=\""
-                + new String((fileName).getBytes("GB2312"),"iso8859-1")+".xls"+"\"");
+                + new String((fileName).getBytes("GB2312"), "iso8859-1") + ".xls" + "\"");
         //response.addHeader("Content-Length", "C://导出文件.xls");
         String college = request.getParameter("rolename");
         OutputStream outputStream = response.getOutputStream();
-        List<HSSFWorkbook> list=officeService.exportInfoByCollege(college);
-        for(HSSFWorkbook hwb:list) {
+        List<HSSFWorkbook> list = officeService.exportInfoByCollege(college);
+        for (HSSFWorkbook hwb : list) {
             hwb.write(outputStream);
             outputStream.flush();
             outputStream.close();
@@ -223,48 +224,50 @@ public class nanjingController {
 
     /**
      * 导入excel文件
+     *
      * @param file
      * @param request
      * @return
      */
     @RequestMapping("importExcelInfos.action")
     @ResponseBody
-    public JsonResult importExcelInfos(@RequestParam("excelFile") MultipartFile file, HttpServletRequest request){
-        String filePath = request.getSession().getServletContext().getRealPath("/")+file.getOriginalFilename();
+    public JsonResult importExcelInfos(@RequestParam("excelFile") MultipartFile file, HttpServletRequest request) {
+        String filePath = request.getSession().getServletContext().getRealPath("/") + file.getOriginalFilename();
         officeService.importExcelInfos(file);
         return new JsonResult();
     }
 
 
     //使用科目树id查询整个科目树的子树
-    @RequestMapping(value="selTheKnow.action")
+    @RequestMapping(value = "selTheKnow.action")
     @ResponseBody
-    public List<ZNodes> selTheKnow(HttpServletRequest request, HttpServletResponse response){
-        List<ZNodes> list=knowledgesService.seleknowledges(request.getParameter("ChooseSubject"));
+    public List<ZNodes> selTheKnow(HttpServletRequest request, HttpServletResponse response) {
+        List<ZNodes> list = knowledgesService.seleknowledges(request.getParameter("ChooseSubject"));
         return list;
     }
 
-    @RequestMapping(value="GetSubjectRootId2.action",method={RequestMethod.GET})
+    @RequestMapping(value = "GetSubjectRootId2.action", method = {RequestMethod.GET})
     @ResponseBody
-    public HashMap<String, String> getSubjectRootId2(HttpServletRequest request, HttpSession session){
+    public HashMap<String, String> getSubjectRootId2(HttpServletRequest request, HttpSession session) {
         HashMap<String, String> resultMap = new HashMap<String, String>();
         String st = request.getParameter("treetype");
-        System.out.println("treetype  :"+st);
+        System.out.println("treetype  :" + st);
         String str = subjectTreeService.getSubjectRootId(st);
-        System.out.println("str  :"+str);
+        System.out.println("str  :" + str);
         resultMap.put("subjectId", str);
         return resultMap;
     }
 
     /**
      * 资源树文件树结构展示
+     *
      * @param request
      * @return
      */
-    @RequestMapping(value="seleKnowledgesNan.action",method={RequestMethod.GET})
+    @RequestMapping(value = "seleKnowledgesNan.action", method = {RequestMethod.GET})
     @ResponseBody
-    public List<ZNodes> seleKnowledgesNan(HttpServletRequest request,HttpSession session){
-        String userId=(String) session.getAttribute("ID");
+    public List<ZNodes> seleKnowledgesNan(HttpServletRequest request, HttpSession session) {
+        String userId = (String) session.getAttribute("ID");
         String id = request.getParameter("treetype");
         List<ZNodes> list = subjectTreeService.seleKnowledgesNan(id);
         return list;

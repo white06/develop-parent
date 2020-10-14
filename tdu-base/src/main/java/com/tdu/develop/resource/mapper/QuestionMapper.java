@@ -16,13 +16,23 @@ import java.util.List;
 @Repository
 public interface QuestionMapper {
     public List<Question> GetFillblankQuestionJson(String knowledgeid);
+
     public List<Question> GetSingleChoiceQuestionJson(String knowledgeid);
+
     public List<Question> GetMulChoiceQuestionJson(String knowledgeid);
-    public List<Question> GetIsTureQuestionJson(String knowledgeid);;
+
+    public List<Question> GetIsTureQuestionJson(String knowledgeid);
+
+    ;
+
     public List<Question> GetTextAreaQuestionJson(String knowledgeid);
+
     public List<Question> Get3DQuestionJson(String knowledgeid);
+
     public List<QuestionComprehensives> GetcompreQuestionJson(String knowledgeid);
-    public void addKnowledge(Knowledges knownew) ;
+
+    public void addKnowledge(Knowledges knownew);
+
     public List<PrevKnowledgeContentInfor> GetPrevSourceList(String knowledge_Id);
 
 

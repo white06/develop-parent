@@ -8,10 +8,11 @@ import java.util.List;
 public interface EvaluationService {
 
     /**
-     *  新增评论
+     * 新增评论
+     *
      * @param evaluation
      */
-    public  void addEvaluation(Evaluation evaluation);
+    public void addEvaluation(Evaluation evaluation);
 
     Evaluation getOneByTimen(String userKey, String sceneKey);
 

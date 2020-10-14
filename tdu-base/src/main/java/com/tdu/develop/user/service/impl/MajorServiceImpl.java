@@ -16,6 +16,7 @@ public class MajorServiceImpl implements MajorService {
 
     @Autowired
     MajorMapper majorMapper;
+
     public List<String> getMajorName(String userId) {
         // TODO Auto-generated method stub
         return majorMapper.getMajorName(userId);

@@ -19,17 +19,22 @@ public interface ClassMapper {
 
     /**
      * 查询表中所有的Id和班级名
+     *
      * @return
      */
     List<Classes> selClassesOfAll();
+
     /**
      * 根据用户id查询出用户所在班级
+     *
      * @param userId
      * @return
      */
     public String selUserClassId(@Param("userId") String userId);
+
     /**
      * 根据班级id获取该班级用户id
+     *
      * @param classId
      * @return
      */

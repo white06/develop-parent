@@ -28,7 +28,7 @@ public class KnowOnlineServiceImpl implements KnowOnlineService {
 
     @Override
     public void insertKnowOnline(KnowOnline knowOnline) {
-        if(knowOnline!=null){
+        if (knowOnline != null) {
             knowOnlineMapper.insetKnowOnline(knowOnline);
         }
     }
@@ -39,17 +39,17 @@ public class KnowOnlineServiceImpl implements KnowOnlineService {
     }
 
     @Override
-    public void insertKnowOutline(String loginId,Date date) throws Exception{
-        Date date1=knowOnlineMapper.getKnowOnlineTime(loginId);
+    public void insertKnowOutline(String loginId, Date date) throws Exception {
+        Date date1 = knowOnlineMapper.getKnowOnlineTime(loginId);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long  fen=(date.getTime()-date1.getTime())/(1000*60);
-        int onlinetime=(int)fen;
-        knowOnlineMapper.setKnowOnlineTime(onlinetime,date,loginId);
+        long fen = (date.getTime() - date1.getTime()) / (1000 * 60);
+        int onlinetime = (int) fen;
+        knowOnlineMapper.setKnowOnlineTime(onlinetime, date, loginId);
     }
 
     @Override
     public knowOnlineUtil getKnoUserOnLine(String knowContId, String userId) {
-        return knowOnlineMapper.getKnoUserOnLine(knowContId,userId);
+        return knowOnlineMapper.getKnoUserOnLine(knowContId, userId);
     }
 
     @Override

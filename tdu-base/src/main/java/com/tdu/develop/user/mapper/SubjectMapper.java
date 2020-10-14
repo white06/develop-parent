@@ -29,24 +29,30 @@ public interface SubjectMapper {
     /**
      * 将科目状态为1的改为0
      * subjectusers表
+     *
      * @param userId
      * @return
      */
     public int alterstatus(String userId);
+
     /**
      * 根据科目id修改状态为1
      * subjectusers表
+     *
      * @param subjectId
      * @param userId
      */
     public int updateStatus(@Param("subjectId") String subjectId, @Param("userId") String userId);
+
     /**
      * 根据用户id获取科目id
      * subjectusers表
+     *
      * @param userId
      * @return
      */
     public String getSubjectKey(String userId);
+
     /**
      * 根据用户id获取初始科目id
      *
@@ -54,56 +60,74 @@ public interface SubjectMapper {
      * @return
      */
     public String seleinitSubject(String userId);
+
     /**
      * 查询背景图片
      * subjectbackgrounds表
+     *
      * @return
      */
     public String queryBackground();
+
     /**
      * 查询logo
      * subjectbackgrounds表
+     *
      * @return
      */
     public String queryLogo();
+
     /**
      * 更新图片名
      * subjectbackgrounds表
+     *
      * @param sb
      */
     public void updateSubjectBackgrounds(SubjectBackgrounds sb);
+
     /**
      * 查询所有的科目的背景图片和logo等数据
      * subjectbackgrounds表
+     *
      * @return
      */
     public List<SubjectBackgrounds> querySubjectBackgrounds();
+
     /**
      * 查询用户所属科目，针对单一科目
+     *
      * @param userId
      * @return
      */
     public String getSubId(String userId);
+
     /**
      * 获取专业名字
+     *
      * @param majorId
      * @return
      */
     public String getMajorName(String majorId);
+
     /**
      * 获取所有科目包含专业
+     *
      * @param majorId
      * @return
      */
     public List<Subjects> getMajorSub(String majorId);
+
     /**
      * 获取知识点nmae
+     *
      * @param knowledgecontentId
      * @return
      */
     public String getKnowNmae(@Param("knowledgecontentId") String knowledgecontentId);
+
     /**
      * 获取科目树id第一个
+     *
      * @param userId
      * @return
      */
@@ -111,6 +135,7 @@ public interface SubjectMapper {
 
     /**
      * 获取科目树id第一个(开发者平台使用）
+     *
      * @param userId
      * @return
      */
@@ -121,9 +146,11 @@ public interface SubjectMapper {
 
     /**
      * 获取所有的科目信息
+     *
      * @return
      */
     public List<Major> getAllMajor();
+
     /**
      * 根据majorid获取subject
      *
@@ -134,13 +161,16 @@ public interface SubjectMapper {
 
     /**
      * 获取选修班级（固定后台写死）
+     *
      * @return
      */
     public List<Classes> getClasses();
 
     public List<String> getUserId(@Param("classId") String classId);
+
     /**
      * 获取班级学生
+     *
      * @param userId
      * @return
      */

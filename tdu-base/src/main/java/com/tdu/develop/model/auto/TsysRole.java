@@ -25,14 +25,14 @@ public class TsysRole implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
-	public TsysRole(String id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
-	}
+    public TsysRole(String id, String name) {
+        super();
+        this.id = id;
+        this.name = name;
+    }
 
-	public TsysRole() {
-		super();
-	}
-    
+    public TsysRole() {
+        super();
+    }
+
 }

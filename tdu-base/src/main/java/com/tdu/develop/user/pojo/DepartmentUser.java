@@ -39,42 +39,55 @@ public class DepartmentUser {
     public String getUserName() {
         return UserName;
     }
+
     public void setUserName(String userName) {
         UserName = userName;
     }
+
     public String getName() {
         return Name;
     }
+
     public void setName(String name) {
         Name = name;
     }
+
     public String getSex() {
         return Sex;
     }
+
     public void setSex(String sex) {
         Sex = sex;
     }
+
     public String getCreatedateyear() {
         return createdateyear;
     }
+
     public void setCreatedateyear(String createdateyear) {
         this.createdateyear = createdateyear;
     }
+
     public String getCreatedatemonth() {
         return createdatemonth;
     }
+
     public void setCreatedatemonth(String createdatemonth) {
         this.createdatemonth = createdatemonth;
     }
+
     public String getCreatedateday() {
         return createdateday;
     }
+
     public void setCreatedateday(String createdateday) {
         this.createdateday = createdateday;
     }
+
     public String getChecked() {
         return checked;
     }
+
     public void setChecked(String checked) {
         this.checked = checked;
     }

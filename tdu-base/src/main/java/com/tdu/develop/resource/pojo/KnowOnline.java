@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class KnowOnline {
     //主键id
-    private  String id;
+    private String id;
     //用户id
     private String userId;
 

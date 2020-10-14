@@ -28,29 +28,29 @@ import java.util.UUID;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="AuthController")
+@RequestMapping(value = "AuthController")
 public class AuthController {
     @Autowired
-    AuthService authService=new AuthServiceImpl();
-    public static String Null=null;
+    AuthService authService = new AuthServiceImpl();
+    public static String Null = null;
 
-    @RequestMapping(value="GetAuths.action",method={RequestMethod.POST})
+    @RequestMapping(value = "GetAuths.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<AuthDatas> GetAuths(HttpServletRequest request){
+    public List<AuthDatas> GetAuths(HttpServletRequest request) {
 
-        List<AuthDatas> returnJson=authService.GetAuths();
+        List<AuthDatas> returnJson = authService.GetAuths();
 
         return returnJson;
     }
 
-    @RequestMapping(value="GetNewId.action")
+    @RequestMapping(value = "GetNewId.action")
     @ResponseBody
-    public void GetNewId(HttpServletRequest request,HttpServletResponse response){
-        String id= UUID.randomUUID().toString();
+    public void GetNewId(HttpServletRequest request, HttpServletResponse response) {
+        String id = UUID.randomUUID().toString();
         try {
             response.setContentType("text/html;charset=utf-8");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().print("{\"Key\":true,\"Value\":\""+id+"\"}");
+            response.getWriter().print("{\"Key\":true,\"Value\":\"" + id + "\"}");
         } catch (Exception e) {
         }
 
@@ -58,12 +58,12 @@ public class AuthController {
     }
 
     @SuppressWarnings("rawtypes")
-    @RequestMapping(value="SubmitDatas.action")
+    @RequestMapping(value = "SubmitDatas.action")
     @ResponseBody
-    public void SubmitDatas(HttpServletRequest request, HttpServletResponse response){
+    public void SubmitDatas(HttpServletRequest request, HttpServletResponse response) {
 
-        String CustomXml=request.getParameter("xml");
-        String deleteddata=request.getParameter("deleteddata");
+        String CustomXml = request.getParameter("xml");
+        String deleteddata = request.getParameter("deleteddata");
 
         if (!deleteddata.equals("")) {
             String[] deleteidarray = deleteddata.split(";");
@@ -77,31 +77,31 @@ public class AuthController {
             int num = 0;
             Element rootElt = doc.getRootElement();
 
-            for(Iterator item = rootElt.elementIterator(); item.hasNext();) {
+            for (Iterator item = rootElt.elementIterator(); item.hasNext(); ) {
                 num++;
-                Element element=(Element)item.next();
+                Element element = (Element) item.next();
 
-                String authid=element.elementText("id").toString();
-                List<Auth> a=new ArrayList<Auth>();
-                a=authService.AuthInfo(authid);
+                String authid = element.elementText("id").toString();
+                List<Auth> a = new ArrayList<Auth>();
+                a = authService.AuthInfo(authid);
 
-                if(a.isEmpty()) {
+                if (a.isEmpty()) {
 
-                    Auth newAuth=new Auth();
+                    Auth newAuth = new Auth();
                     newAuth.setId(authid);
                     newAuth.setPageName(element.elementText("pagename").toString());
-                    newAuth.setChildren(element.elementText("children").toString()==""?Null:element.elementText("children").toString());
-                    newAuth.setLink(element.elementText("children").toString()==""?element.elementText("link").toString():Null);
+                    newAuth.setChildren(element.elementText("children").toString() == "" ? Null : element.elementText("children").toString());
+                    newAuth.setLink(element.elementText("children").toString() == "" ? element.elementText("link").toString() : Null);
                     newAuth.setParametersType(Integer.valueOf(element.elementText("ParametersType").toString()));
                     newAuth.setNum(num);
                     authService.AddAuth(newAuth);
 
-                }else {
-                    Auth newAuth2=new Auth();
+                } else {
+                    Auth newAuth2 = new Auth();
                     newAuth2.setId(authid);
                     newAuth2.setPageName(element.elementText("pagename").toString());
-                    newAuth2.setChildren(element.elementText("children").toString()==""?Null:element.elementText("children").toString());
-                    newAuth2.setLink(element.elementText("children").toString()==""?element.elementText("link").toString():Null);
+                    newAuth2.setChildren(element.elementText("children").toString() == "" ? Null : element.elementText("children").toString());
+                    newAuth2.setLink(element.elementText("children").toString() == "" ? element.elementText("link").toString() : Null);
                     newAuth2.setParametersType(Integer.valueOf(element.elementText("ParametersType").toString()));
                     newAuth2.setNum(num);
 
@@ -109,7 +109,6 @@ public class AuthController {
 
                 }
             }
-
 
 
         } catch (DocumentException e1) {

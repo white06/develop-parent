@@ -13,28 +13,27 @@ import java.util.List;
  * @create 2019-08-30-14:16
  */
 @Service
-public class ImgUrlServiceImpl  implements ImgUrlService {
-    
+public class ImgUrlServiceImpl implements ImgUrlService {
+
     @Autowired
     ImgUrlMapper imgUrlMapper;
-    
+
     /**
      * 后面的方法都是用于处理页面图片
-     *
      */
-    public List<ImgURL> seleImgURL(){
+    public List<ImgURL> seleImgURL() {
 
         List<ImgURL> list = imgUrlMapper.seleImgURL();
         return list;
     }
 
-    public boolean upImgURL(String imgURL,String id){
+    public boolean upImgURL(String imgURL, String id) {
 
         imgUrlMapper.upImgURL(imgURL, id);
         return true;
     }
 
-    public String seleLoginBackground(){
+    public String seleLoginBackground() {
 
         String loginBackground;
         try {
@@ -45,21 +44,21 @@ public class ImgUrlServiceImpl  implements ImgUrlService {
         return loginBackground;
     }
 
-    public String seleSchoolNameImg(){
+    public String seleSchoolNameImg() {
 
-        String schoolNameImg=imgUrlMapper.seleSchoolNameImg();
+        String schoolNameImg = imgUrlMapper.seleSchoolNameImg();
         return schoolNameImg;
     }
 
-    public String seleSchoolLogo1(){
+    public String seleSchoolLogo1() {
 
-        String schoolLogo1=imgUrlMapper.seleSchoolLogo1();
+        String schoolLogo1 = imgUrlMapper.seleSchoolLogo1();
         return schoolLogo1;
     }
 
-    public String seleSchoolLogo2(){
+    public String seleSchoolLogo2() {
 
-        String schoolLogo2=imgUrlMapper.seleSchoolLogo2();
+        String schoolLogo2 = imgUrlMapper.seleSchoolLogo2();
         return schoolLogo2;
     }
 }

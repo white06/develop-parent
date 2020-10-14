@@ -24,53 +24,57 @@ import java.util.List;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="DevelopChartletController")
+@RequestMapping(value = "DevelopChartletController")
 public class DevelopChartletController {
 
     @Autowired
-    DevelopChartletService developChartletService=new DevelopChartletServiceImpl();
+    DevelopChartletService developChartletService = new DevelopChartletServiceImpl();
+
     /**
      * 得到Chartlets数据首节点信息
+     *
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value="getChartletsFis.action", method={RequestMethod.POST})
+    @RequestMapping(value = "getChartletsFis.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<Chartlets> getChartletsFis(HttpServletRequest request, HttpServletResponse response){
-        String subTreeId=request.getParameter("subTreeId");
-        List<Chartlets> fList=developChartletService.getChartletsFis(subTreeId);
+    public List<Chartlets> getChartletsFis(HttpServletRequest request, HttpServletResponse response) {
+        String subTreeId = request.getParameter("subTreeId");
+        List<Chartlets> fList = developChartletService.getChartletsFis(subTreeId);
         return fList;
     }
 
     /**
      * 得到第二节点信息
+     *
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value="getChartletsSecond.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getChartletsSecond.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<Chartlets> getChartletsSecond(HttpServletRequest request, HttpServletResponse response){
-        String fId=request.getParameter("KnowledgesFisId");
-        List<Chartlets> sList=developChartletService.getChartletsSecond(fId);
+    public List<Chartlets> getChartletsSecond(HttpServletRequest request, HttpServletResponse response) {
+        String fId = request.getParameter("KnowledgesFisId");
+        List<Chartlets> sList = developChartletService.getChartletsSecond(fId);
         return sList;
     }
+
     /*
      * 获取贴图内容表
      * */
     @RequestMapping("getChartletsContentName.action")
     @ResponseBody
-    public Chartletcontents getChartletsContentName(HttpServletRequest request){
+    public Chartletcontents getChartletsContentName(HttpServletRequest request) {
         String id = request.getParameter("id");
         Chartletcontents scenecontents = developChartletService.getChartletContentName(id);
         return scenecontents;
     }
 
-    @RequestMapping(value="delChartletcontents.action",method={RequestMethod.POST})
+    @RequestMapping(value = "delChartletcontents.action", method = {RequestMethod.POST})
     @ResponseBody
-    public int delChartletcontents(HttpSession session, HttpServletRequest request, HttpServletResponse response){
-        String modelID=request.getParameter("Id");//session.getAttribute("ID").toString();
+    public int delChartletcontents(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+        String modelID = request.getParameter("Id");//session.getAttribute("ID").toString();
         Chartletcontents chartletcontents = new Chartletcontents();
         chartletcontents.setChartlet_Id(modelID);
         chartletcontents.setCheckDel(1);
@@ -83,8 +87,8 @@ public class DevelopChartletController {
         chartlets.setId(modelID);
         chartlets.setCheckDel(1);
         chartlets.setDelTime(timeFormat);
-        int count =developChartletService.delChartletcontents(chartletcontents);
-        int count2 =developChartletService.delChartlets(chartlets);
-        return (count+count2);
+        int count = developChartletService.delChartletcontents(chartletcontents);
+        int count2 = developChartletService.delChartlets(chartlets);
+        return (count + count2);
     }
 }

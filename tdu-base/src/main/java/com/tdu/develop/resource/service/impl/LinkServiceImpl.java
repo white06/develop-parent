@@ -27,58 +27,60 @@ public class LinkServiceImpl implements LinkService {
 
     @Autowired
     private DevelopSceneMapper developSceneMapper;
+
     /**
      * 转化url
      * 查询数据库是否已经存在 如果存在就返回数据库对应的短链接，如果不存在就查询一条新纪录并返回新的短链接
+     *
      * @param link
      * @return
      */
     @Override
-    public Map<String,String> save(Link link,String jiami,String yanzheng,String leixing,String knowIdmi) throws Exception{
-        String Id= UUID.randomUUID().toString();
+    public Map<String, String> save(Link link, String jiami, String yanzheng, String leixing, String knowIdmi) throws Exception {
+        String Id = UUID.randomUUID().toString();
         link.setId(Id);
         String shortUrl = "https://www.tduvr.club/vr";
         String longUrl = link.getLongUrl();
-        String name=developSceneMapper.getSceneName(knowIdmi);
+        String name = developSceneMapper.getSceneName(knowIdmi);
         System.out.println(longUrl);
-  //      Link link1 = linkMapper.findByLongUrl(longUrl);
+        //      Link link1 = linkMapper.findByLongUrl(longUrl);
         //获取当前日期加一个月
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Date d = new Date();
         String dateNowStr = sdf.format(d);
-        Date sd1=sdf.parse(dateNowStr);
+        Date sd1 = sdf.parse(dateNowStr);
         link.setSharetime(sd1);
         Calendar rightNow = Calendar.getInstance();
         rightNow.setTime(sd1);
         rightNow.add(Calendar.MONTH, 1);
-        Date sd2=rightNow.getTime();
+        Date sd2 = rightNow.getTime();
         link.setTime(sd2);
 
-        int count=0;
+        int count = 0;
         link.setSharecount(count);
         link.setName(name);
-        String mima=this.generateWord();
-        if(jiami.equals("true")){
+        String mima = this.generateWord();
+        if (jiami.equals("true")) {
 
 
             link.setJiami(mima);
         }
-        if(yanzheng.equals("true")){
+        if (yanzheng.equals("true")) {
             link.setYanzheng("1");
         }
 
-    //    if(link1 == null) {
-            shortUrl += this.gererateShortUrl(longUrl+dateNowStr);
-            link.setShortUrl(shortUrl);
-            linkMapper.insert(link);
-    //    }else{
-  //          shortUrl = link1.getShortUrl();
-  //      }
+        //    if(link1 == null) {
+        shortUrl += this.gererateShortUrl(longUrl + dateNowStr);
+        link.setShortUrl(shortUrl);
+        linkMapper.insert(link);
+        //    }else{
+        //          shortUrl = link1.getShortUrl();
+        //      }
 
-        Map<String,String> map=new HashMap<String,String>();
-        map.put("url",shortUrl);
-        map.put("mima",mima);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("url", shortUrl);
+        map.put("mima", mima);
         return map;
     }
 
@@ -88,18 +90,18 @@ public class LinkServiceImpl implements LinkService {
     }
 
     private String generateWord() {
-    String[] beforeShuffle = new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
-    "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i",
-    "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
-    List list = Arrays.asList(beforeShuffle);
-    Collections.shuffle(list);
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < list.size(); i++) {
-    sb.append(list.get(i));
-    }
-    String afterShuffle = sb.toString();
-    String result = afterShuffle.substring(5, 9);
-    return result;
+        String[] beforeShuffle = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
+                "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i",
+                "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+        List list = Arrays.asList(beforeShuffle);
+        Collections.shuffle(list);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            sb.append(list.get(i));
+        }
+        String afterShuffle = sb.toString();
+        String result = afterShuffle.substring(5, 9);
+        return result;
     }
 
     /**
@@ -107,32 +109,33 @@ public class LinkServiceImpl implements LinkService {
      */
     public static void main(String[] args) {
 
-        String sLongUrl = "http://474515923.qzone.qq.com" ; //长链接
+        String sLongUrl = "http://474515923.qzone.qq.com"; //长链接
         LinkServiceImpl link = new LinkServiceImpl();
         String result = link.gererateShortUrl(sLongUrl);
         // 打印出结果
-        System.out.println("短链接为： "+ result);
+        System.out.println("短链接为： " + result);
     }
 
     /**
      * 将长链接转换为短链接
+     *
      * @param url
      * @return
      */
     public String gererateShortUrl(String url) {
         // 可以自定义生成 MD5 加密字符传前的混合 KEY
-        String key = "caron" ;
+        String key = "caron";
         // 要使用生成 URL 的字符
-        String[] chars = new String[] { "a" , "b" , "c" , "d" , "e" , "f" , "g" , "h" ,
-                "i" , "j" , "k" , "l" , "m" , "n" , "o" , "p" , "q" , "r" , "s" , "t" ,
-                "u" , "v" , "w" , "x" , "y" , "z" , "0" , "1" , "2" , "3" , "4" , "5" ,
-                "6" , "7" , "8" , "9" , "A" , "B" , "C" , "D" , "E" , "F" , "G" , "H" ,
-                "I" , "J" , "K" , "L" , "M" , "N" , "O" , "P" , "Q" , "R" , "S" , "T" ,
-                "U" , "V" , "W" , "X" , "Y" , "Z"
+        String[] chars = new String[]{"a", "b", "c", "d", "e", "f", "g", "h",
+                "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
+                "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5",
+                "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H",
+                "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
+                "U", "V", "W", "X", "Y", "Z"
 
         };
         // 对传入网址进行 MD5 加密
-        String sMD5EncryptResult = MD5Util.MD5(key+url);
+        String sMD5EncryptResult = MD5Util.MD5(key + url);
         String hex = sMD5EncryptResult;
 
 //        String[] resUrl = new String[4];
@@ -142,13 +145,13 @@ public class LinkServiceImpl implements LinkService {
         String sTempSubString = hex.substring(2 * 8, 2 * 8 + 8);    //固定取第三组
 
         // 这里需要使用 long 型来转换，因为 Inteper .parseInt() 只能处理 31 位 , 首位为符号位 , 如果不用 long ，则会越界
-        long lHexLong = 0x3FFFFFFF & Long.parseLong (sTempSubString, 16);
-        String outChars = "" ;
-        for ( int j = 0; j < 6; j++) {
+        long lHexLong = 0x3FFFFFFF & Long.parseLong(sTempSubString, 16);
+        String outChars = "";
+        for (int j = 0; j < 6; j++) {
             // 把得到的值与 0x0000003D 进行位与运算，取得字符数组 chars 索引
             long index = 0x0000003D & lHexLong;
             // 把取得的字符相加
-            outChars += chars[( int ) index];
+            outChars += chars[(int) index];
             // 每次循环按位右移 5 位
             lHexLong = lHexLong >> 5;
         }
@@ -158,19 +161,19 @@ public class LinkServiceImpl implements LinkService {
         return outChars;
     }
 
-    public   Link getLink(String url){
+    public Link getLink(String url) {
         return linkMapper.findLink(url);
     }
 
-    public  List<Link> getuserLink(String userId){
+    public List<Link> getuserLink(String userId) {
         return linkMapper.getlink(userId);
     }
 
-    public  void ins(Linshi linshi){
+    public void ins(Linshi linshi) {
         linshiMapper.insert(linshi);
     }
 
-    public Linshi get(String userId){
-        return      linshiMapper.get(userId);
+    public Linshi get(String userId) {
+        return linshiMapper.get(userId);
     }
 }

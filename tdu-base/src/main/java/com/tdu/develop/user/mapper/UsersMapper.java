@@ -15,8 +15,10 @@ import java.util.List;
 public interface UsersMapper {
 
 
-    /**    11.28 南靖專用
+    /**
+     * 11.28 南靖專用
      * 获取所有科目
+     *
      * @return
      */
     public List<Subjects> getAllSub();
@@ -26,8 +28,10 @@ public interface UsersMapper {
 
 
     public String getUserName(@Param("Id") String id);
+
     /**
      * 获取所有科目Id
+     *
      * @return
      */
     public List<String> getSubjectId();
@@ -38,6 +42,7 @@ public interface UsersMapper {
     public Users userssele(Users users) throws Exception;
 
     public Users GetNowUser(@Param("userid") String userid);
+
     public void UpdateUserInfo(Users user);
 
 
@@ -88,11 +93,11 @@ public interface UsersMapper {
 
     public void insRoleList(CellObject cellList);
 
-    public List<String>  GetAuthListByUserName(String userName);
+    public List<String> GetAuthListByUserName(String userName);
 
-    public List<Auth>  GetAuthParent();
+    public List<Auth> GetAuthParent();
 
-    public List<Auth>  GetAuthById(String authid);
+    public List<Auth> GetAuthById(String authid);
 
     public String GetUidByuserName(String userName);
 
@@ -134,56 +139,74 @@ public interface UsersMapper {
     public void delTrial(String id);
 
     public String getuNameById(String createPerson);
+
     /**
      * 根据用户id获取他的权限值id，userroles表
+     *
      * @param userId 用户id
-     * @return	权限值id
+     * @return 权限值id
      */
     public String getroleIdByUserId(String userId);
+
     /**
      * 根据权限值id获取他的权限,roles表
+     *
      * @param roleId 权限值id
      * @return roleName 权限
      */
     public String getroleNameByRoleId(String roleId);
+
     /**
      * 插入用户信息
+     *
      * @param member
      */
     public void creUser(Member member);
+
     /**
      * 插入用户与班级的关联关系
-     *@param cu 表classusers
+     *
+     * @param cu 表classusers
      */
     public void creClassUser(ClassUsers cu);
+
     /**
      * 根据班级id查询班级内所有的学生
+     *
      * @param classId
      * @param pageObject
      * @return
      */
     public List<Users> selUsersForClassId(@Param("classId") String classId, @Param("pageObject") PageObject pageObject);
+
     /**
      * 查询班级内的学生数
      * users 、classes表
+     *
      * @param classId
      * @return
      */
     public int selusersOfAll(String classId);
+
     /**
      * 根据id查询班级名称
+     *
      * @param teamInfos
      * @return
      */
     public String selClassNameById(TeamInfos teamInfos);
+
     /**
      * 查询小组成员名
+     *
      * @param teamInfos
      * @return
      */
     public List<String> queryteamUsersName(TeamInfos teamInfos);
+
     /**
      * 注册用户
+     *
      * @param userId
      * @param rePassWord
      * @param name
@@ -193,30 +216,40 @@ public interface UsersMapper {
      */
     public void insUserPersonl(@Param("userId") String userId, @Param("rePassWord") String rePassWord, @Param("name") String name,
                                @Param("passWord") String passWord, @Param("sex") String sex, @Param("userName") String userName, @Param("mobilePhoneNum") String telphone, @Param("idol") String endDay);
+
     /**
      * 获取用户是否存在
+     *
      * @param userName
      * @return
      */
     public Users getTemp(@Param("userName") String userName);
+
     /**
      * 获取用户
+     *
      * @return
      */
     public List<Users> selUsers();
+
     /**
      * 获取登录电脑信息
+     *
      * @param userName
      * @return
      */
     public Userstool loginTool(@Param("userName") String userName);
+
     /**
      * 添加用户工具信息
+     *
      * @param userstool
      */
     public void setLoginTool(@Param("Userstool") Userstool userstool);
+
     /**
      * 修改登录电脑信息
+     *
      * @param userstool
      */
     public void upLoginTool(@Param("Userstool") Userstool userstool);
@@ -225,6 +258,7 @@ public interface UsersMapper {
 
     /**
      * 查询用户的角色
+     *
      * @param userId
      * @return
      */
@@ -232,43 +266,57 @@ public interface UsersMapper {
 
     /**
      * 根据用户id修改用户名
+     *
      * @param userId
      * @param userName
      */
     public void updateUsername(@Param("userId") String userId, @Param("userName") String userName);
+
     /**
      * 根据用户id修改用户性别
+     *
      * @param userId
      */
     public void updateUsersex(@Param("userId") String userId, @Param("userSex") String userSex);
+
     /**
      * 根据用户id修改用户生日
+     *
      * @param userId
      */
     public void updateUserBirthdate(@Param("userId") String userId, @Param("userBirthdate") String userBirthdate);
+
     /**
      * 根据用户id修改用户QQ
+     *
      * @param userId
      */
     public void updateUserQQ(@Param("userId") String userId, @Param("userQQ") String userQQ);
+
     /**
      * 根据用户id修改用户微信
+     *
      * @param userId
      */
     public void updateUserChat(@Param("userId") String userId, @Param("userChat") String userChat);
+
     /**
      * 根据用户id修改用户手机
+     *
      * @param userId
      */
     public void updateUserPhone(@Param("userId") String userId, @Param("userPhone") String userPhone);
+
     /**
      * 根据用户id修改用户邮箱
+     *
      * @param userId
      */
     public void updateUserMail(@Param("userId") String userId, @Param("userEmail") String userEmail);
 
     /**
      * 获取权限根据角色
+     *
      * @param authId
      * @return
      */
@@ -276,12 +324,14 @@ public interface UsersMapper {
 
     /**
      * 获取所有权限
+     *
      * @return
      */
     public List<Auth> getAllAuth();
 
     /**
      * 修改密码
+     *
      * @param userid
      * @param password
      */
@@ -289,6 +339,7 @@ public interface UsersMapper {
 
     /**
      * 分页查询账号
+     *
      * @param page
      * @param limit
      * @return

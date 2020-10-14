@@ -7,10 +7,11 @@ import java.util.List;
 public interface CommentsService {
 
     /**
-     *  新增评论
+     * 新增评论
+     *
      * @param comments
      */
-    public  void addComments(Comments comments);
+    public void addComments(Comments comments);
 
     /*
      * 获取自我评价

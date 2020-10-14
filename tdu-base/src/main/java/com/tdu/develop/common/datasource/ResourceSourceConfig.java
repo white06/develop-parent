@@ -18,7 +18,7 @@ import javax.sql.DataSource;
  * @create 2019-08-06-9:34
  */
 @Configuration
-@MapperScan(basePackages = "com.tdu.develop.resource.mapper",sqlSessionFactoryRef = "resourceSqlSessionFactory")
+@MapperScan(basePackages = "com.tdu.develop.resource.mapper", sqlSessionFactoryRef = "resourceSqlSessionFactory")
 public class ResourceSourceConfig {
 
     private static final String PACKAGE = "com.tdu.develop.mapper.resource";

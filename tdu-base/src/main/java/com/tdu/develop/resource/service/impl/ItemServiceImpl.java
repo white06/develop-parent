@@ -16,25 +16,25 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     ItemMapper itemMapper;
 
-    public void yuxi(String yuxi,String userId){
-        if(userId!=null){
-            blue Blue=itemMapper.get(userId);
+    public void yuxi(String yuxi, String userId) {
+        if (userId != null) {
+            blue Blue = itemMapper.get(userId);
             Blue.setYuxi(yuxi);
             itemMapper.yuxi(Blue);
         }
     }
 
 
-    public String getyuxi(String userId){
+    public String getyuxi(String userId) {
         return itemMapper.getyuxi(userId);
     }
 
-    public blue getblue(String userId){
+    public blue getblue(String userId) {
         return itemMapper.getblue(userId);
     }
 
 
-    public void tijiaocaozuo(String userId,String caozuo) {
+    public void tijiaocaozuo(String userId, String caozuo) {
         if (userId != null) {
             blue Blue = itemMapper.get(userId);
             Blue.setCaozuo(caozuo);
@@ -42,7 +42,7 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
-    public void tijiaobaogao(String userId,String baogao) {
+    public void tijiaobaogao(String userId, String baogao) {
         if (userId != null) {
             blue Blue = itemMapper.get(userId);
             Blue.setTi11(baogao);
@@ -51,6 +51,6 @@ public class ItemServiceImpl implements ItemService {
     }
 
     public blue get(String userId) {
-       return itemMapper.get(userId);
+        return itemMapper.get(userId);
     }
 }

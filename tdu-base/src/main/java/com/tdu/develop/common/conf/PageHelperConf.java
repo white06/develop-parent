@@ -7,18 +7,19 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Properties;
 
 /**
-* 分页插件配置类
-* @ClassName: PageHelperConf
-* @Description: TODO(这里用一句话描述这个类的作用)
-* @author fuce
-* @date 2018年6月3日
-*
+ * 分页插件配置类
+ *
+ * @author fuce
+ * @ClassName: PageHelperConf
+ * @Description: TODO(这里用一句话描述这个类的作用)
+ * @date 2018年6月3日
  */
 @Configuration
 public class PageHelperConf {
 
     /**
      * 分页插件处理
+     *
      * @return
      */
     @Bean

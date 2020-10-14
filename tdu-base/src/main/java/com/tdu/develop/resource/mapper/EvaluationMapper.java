@@ -11,17 +11,19 @@ import java.util.List;
 public interface EvaluationMapper {
 
     /**
-     *  新增评论
+     * 新增评论
+     *
      * @param evaluation
      */
-    public  void addEvaluation(Evaluation evaluation);
+    public void addEvaluation(Evaluation evaluation);
 
     /*
-    * 获取最近一次评价
-    * */
-    Evaluation getOneByTimen(@Param("userKey") String userKey, @Param("sceneKey")String sceneKey);
+     * 获取最近一次评价
+     * */
+    Evaluation getOneByTimen(@Param("userKey") String userKey, @Param("sceneKey") String sceneKey);
+
     /*
-    * 获取音质试听排名
-    * */
-   String  getRanking(@Param("userKey") String userKey, @Param("sceneKey")String sceneKey);
+     * 获取音质试听排名
+     * */
+    String getRanking(@Param("userKey") String userKey, @Param("sceneKey") String sceneKey);
 }

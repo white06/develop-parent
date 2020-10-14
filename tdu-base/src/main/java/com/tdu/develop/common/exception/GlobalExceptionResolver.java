@@ -13,37 +13,37 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 全局异常处理
- * @author fuce 
+ *
+ * @author fuce
  * @date: 2018年9月9日 下午10:52:55
  */
-public class GlobalExceptionResolver  implements HandlerExceptionResolver {
-	private static Logger logger = LoggerFactory.getLogger(GlobalExceptionResolver.class);
+public class GlobalExceptionResolver implements HandlerExceptionResolver {
+    private static Logger logger = LoggerFactory.getLogger(GlobalExceptionResolver.class);
 
-	@Override
-	public ModelAndView resolveException(HttpServletRequest request,
+    @Override
+    public ModelAndView resolveException(HttpServletRequest request,
                                          HttpServletResponse response, Object handler, Exception ex) {
-		
-		ModelAndView mv;
-		
-		//开发环境打印异常，正式环境请注销
-    	ex.printStackTrace();
-		
+
+        ModelAndView mv;
+
+        //开发环境打印异常，正式环境请注销
+        ex.printStackTrace();
+
         //shiro异常拦截 
-        if(ex instanceof UnauthorizedException){
-        	//未授权异常
+        if (ex instanceof UnauthorizedException) {
+            //未授权异常
             mv = new ModelAndView("/error/403");
             return mv;
-        }else if(ex instanceof UnauthenticatedException){
-        	//未认证异常
+        } else if (ex instanceof UnauthenticatedException) {
+            //未认证异常
             mv = new ModelAndView("/error/403");
             return mv;
-        }
-        else {
+        } else {
             mv = new ModelAndView();
             logger.error(ExceptionUtils.getFullStackTrace(ex));
             return mv;
 
         }
-	}
+    }
 
 }

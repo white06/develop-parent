@@ -22,26 +22,26 @@ public class QuestionPagerServiceImpl implements QuestionPagerService {
     @Autowired
     QuestionPagerMapper questionPagerMapper;
 
-    public Boolean DelPagerStoAndeAnswer(String questionPager_Id){
-        Boolean falg =false;
-        if(questionPagerMapper.DelPagerStoAndeAnswer(questionPager_Id)!=0){
-            if(questionPagerMapper.DelPagerchengji(questionPager_Id)!=0){
-                falg=true;
+    public Boolean DelPagerStoAndeAnswer(String questionPager_Id) {
+        Boolean falg = false;
+        if (questionPagerMapper.DelPagerStoAndeAnswer(questionPager_Id) != 0) {
+            if (questionPagerMapper.DelPagerchengji(questionPager_Id) != 0) {
+                falg = true;
             }
 
         }
         return falg;
     }
 
-    public Boolean DelQuesPagerContent(String questionPager_Id,String questionKey){
-        Boolean falg =false;
-        if(questionPagerMapper.DelQuesPagerContent(questionPager_Id, questionKey)==1){
-            falg=true;
+    public Boolean DelQuesPagerContent(String questionPager_Id, String questionKey) {
+        Boolean falg = false;
+        if (questionPagerMapper.DelQuesPagerContent(questionPager_Id, questionKey) == 1) {
+            falg = true;
         }
         return falg;
     }
 
-    public int updatePager(String testName,String id) {
+    public int updatePager(String testName, String id) {
         //System.out.println("testName:"+testName+"-id:"+id);
         
 		/*QuestionPagers pt = new QuestionPagers();
@@ -61,13 +61,13 @@ public class QuestionPagerServiceImpl implements QuestionPagerService {
     }
 
     public List<QuestionPagers> GetQuestionPagers(/*int page,int rowCount*/) {
-        
+
         return questionPagerMapper.GetQuestionPagers(/*page,rowCount*/);
     }
 
-    public String submitTest(String testName,String sessionId,String subjectKey) {
+    public String submitTest(String testName, String sessionId, String subjectKey) {
         //System.out.println("testName:"+testName+"-sessionId:"+sessionId+"-subjectKey:"+subjectKey);
-        
+
         QuestionPagers pt = new QuestionPagers();
         pt.setId(UUID.randomUUID().toString());
         pt.setName(testName);
@@ -85,9 +85,9 @@ public class QuestionPagerServiceImpl implements QuestionPagerService {
         return pt.getId();
     }
 
-    public String submitTestPaper(String id,String testId,String questionType,int order,int score) {
+    public String submitTestPaper(String id, String testId, String questionType, int order, int score) {
         //System.out.println("id:"+id+"-testId:"+testId+"-questionType:"+questionType+"-order:"+order+"-score:"+score);
-        
+
         Question question = new Question();
         String result = null;
         int i = 0;
@@ -102,9 +102,9 @@ public class QuestionPagerServiceImpl implements QuestionPagerService {
         ptc.setQuestionScore(question.getFenshu());
         ptc.setQuestionType(question.getType());
         i = questionPagerMapper.insertQuestionPagerContents(ptc);
-        if(i>0){
+        if (i > 0) {
             result = "true";
-        }else{
+        } else {
             result = "false";
         }
         return result;
@@ -112,14 +112,15 @@ public class QuestionPagerServiceImpl implements QuestionPagerService {
 
     /**
      * 删除数据以及试卷内的试题
+     *
      * @param id
      * @return
      */
-    public Boolean delPager(String id){
-        
-        Boolean flag=false;
-        if(questionPagerMapper.delPageCont(id)==true&&questionPagerMapper.delPager(id)==true){
-            flag =true;
+    public Boolean delPager(String id) {
+
+        Boolean flag = false;
+        if (questionPagerMapper.delPageCont(id) == true && questionPagerMapper.delPager(id) == true) {
+            flag = true;
         }
         return flag;
     }

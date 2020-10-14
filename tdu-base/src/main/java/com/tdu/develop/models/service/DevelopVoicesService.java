@@ -11,7 +11,10 @@ import java.util.List;
  */
 public interface DevelopVoicesService {
     public List<Voices> getVoicesFis(String subTreeId);
+
     public List<Voices> getVoicesSecond(String parentKnowledge);
+
     public String getKnowledgecontentsName(String knowledge_Id);
+
     Voicecontents getVoiceContentName(String id);
 }

@@ -4,22 +4,22 @@ import com.tdu.develop.user.pojo.Users;
 
 public class Comments {
 
-    private String  id;
-    private String  integrity;  //完整性
-    private String  standard;  //标准性
-    private String  grammar;    //语法
-    private String  fluency;    //流利度
-    private String  intonation;    //语调
-    private String  reaction;  //反应速度
-    private String  overall;    //整体评分
-    private String  type;    // 0-->自评     1-->他评
-    private String  stuKey;    //学生ID
+    private String id;
+    private String integrity;  //完整性
+    private String standard;  //标准性
+    private String grammar;    //语法
+    private String fluency;    //流利度
+    private String intonation;    //语调
+    private String reaction;  //反应速度
+    private String overall;    //整体评分
+    private String type;    // 0-->自评     1-->他评
+    private String stuKey;    //学生ID
 
-    private String  creatData;    //创建时间
+    private String creatData;    //创建时间
 
     private String nandu;
-    private  String page;
-    private  String content;
+    private String page;
+    private String content;
 
     private String toUser;
 

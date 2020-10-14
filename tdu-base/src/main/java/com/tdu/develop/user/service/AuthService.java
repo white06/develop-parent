@@ -12,13 +12,18 @@ import java.util.List;
 public interface AuthService {
     public List<AuthDatas> GetAuths();
 
-    public List<Auth> AuthInfo(String authId) ;
-    public void DeleteInfo(String authId) ;
-    public void AddAuth(Auth auth) ;
-    public void UpdateAuth(Auth auth) ;
+    public List<Auth> AuthInfo(String authId);
+
+    public void DeleteInfo(String authId);
+
+    public void AddAuth(Auth auth);
+
+    public void UpdateAuth(Auth auth);
+
     /**
      * 根据新增页面的id来设置权限
      * 默认权限为管理员
+     *
      * @param ruthId
      */
     public void addRole(String authId);

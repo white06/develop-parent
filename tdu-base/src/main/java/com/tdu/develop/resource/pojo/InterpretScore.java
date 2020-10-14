@@ -9,8 +9,8 @@ public class InterpretScore {
     private String creatData;
     private String userKey;
     private String nandu;
-    private  int page;
-    private  String zong;
+    private int page;
+    private String zong;
 
     private String pageKey;
 

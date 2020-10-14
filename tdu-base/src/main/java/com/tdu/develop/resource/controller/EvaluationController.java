@@ -28,7 +28,7 @@ import java.util.UUID;
 
 @CrossOrigin
 @Controller
-@RequestMapping(value="EvaluationController")
+@RequestMapping(value = "EvaluationController")
 public class EvaluationController {
 
     @Resource
@@ -37,56 +37,58 @@ public class EvaluationController {
     @Resource
     public DevelopSceneService developSceneService = new DevelopSceneServiceImpl();
 
-    @RequestMapping(value="addEvaluation.action",method={RequestMethod.POST})
+    @RequestMapping(value = "addEvaluation.action", method = {RequestMethod.POST})
     @ResponseBody
-    public void addEvaluation(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+    public void addEvaluation(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         Evaluation evaluation = new Evaluation();
         evaluation.setId(UUID.randomUUID().toString());
         evaluation.setClarity(request.getParameter("clarity"));
         evaluation.setFullness(request.getParameter("fullness"));
         evaluation.setArticulation(request.getParameter("articulation"));
-        evaluation.setKindness( request.getParameter("kindness"));
+        evaluation.setKindness(request.getParameter("kindness"));
         Date d = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateNowStr = df.format(d);
         evaluation.setCreatData(dateNowStr);
         evaluation.setUserKey(request.getParameter("userKey"));
         evaluation.setSceneKey(request.getParameter("sceneKey"));
-        if(evaluation!=null){
+        evaluation.setMusicName(request.getParameter("musicName"));
+        if (evaluation != null) {
             evaluationService.addEvaluation(evaluation);
         }
     }
 
-    @RequestMapping(value="getScenecontentsInfos.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getScenecontentsInfos.action", method = {RequestMethod.POST})
     @ResponseBody
-    public Scenecontents getScenecontentsInfos(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        String sceneId =  request.getParameter("sceneId");
-        Scenecontents scenecontents= developSceneService.getScenecontentsInfos(sceneId);
-        return  scenecontents;
-    }
-    @RequestMapping(value="getOneByTimen.action",method={RequestMethod.POST})
-    @ResponseBody
-    public Evaluation getOneByTimen(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        String userKey =  request.getParameter("userKey");
-        String sceneKey =  request.getParameter("sceneKey");
-        Evaluation evaluation =    evaluationService.getOneByTimen(userKey,sceneKey);
-        return  evaluation;
+    public Scenecontents getScenecontentsInfos(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String sceneId = request.getParameter("sceneId");
+        Scenecontents scenecontents = developSceneService.getScenecontentsInfos(sceneId);
+        return scenecontents;
     }
 
-    @RequestMapping(value="getRanking.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getOneByTimen.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<Scenes> getRanking(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        List<Scenes> scenesList =  null;
+    public Evaluation getOneByTimen(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String userKey = request.getParameter("userKey");
+        String sceneKey = request.getParameter("sceneKey");
+        Evaluation evaluation = evaluationService.getOneByTimen(userKey, sceneKey);
+        return evaluation;
+    }
+
+    @RequestMapping(value = "getRanking.action", method = {RequestMethod.POST})
+    @ResponseBody
+    public List<Scenes> getRanking(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        List<Scenes> scenesList = null;
         scenesList = developSceneService.getScenesByRank();
-        if(scenesList.size()>0){
+        if (scenesList.size() > 0) {
             for (int i = 0; i < scenesList.size(); i++) {
-                String count=evaluationService.getRanking(scenesList.get(i).getUserKey(),scenesList.get(i).getSceneContentId());
-                System.out.println("  -----  count :"+count);
-                if(count!=null){
+                String count = evaluationService.getRanking(scenesList.get(i).getUserKey(), scenesList.get(i).getSceneContentId());
+                System.out.println("  -----  count :" + count);
+                if (count != null) {
                     scenesList.get(i).setCheckDel(Integer.parseInt(count));
                 }
             }
         }
-        return  scenesList;
+        return scenesList;
     }
 }

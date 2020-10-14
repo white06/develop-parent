@@ -14,6 +14,7 @@ public interface EmailService {
     public Users seleUsers(String username);
 
     public Users getUser(String emailId);
+
     public String getState(String emailId);
 
     public EmailUser getEmailUser(String emailId);

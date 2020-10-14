@@ -27,14 +27,14 @@ import java.util.Map;
 
 /**
  * 操作日志记录处理
- * @author fuce 
+ *
+ * @author fuce
  * @date: 2018年9月30日 下午1:40:33
  */
 @Aspect
 @Component
 @EnableAsync
-public class LogAspect
-{
+public class LogAspect {
     private static final Logger log = LoggerFactory.getLogger(LogAspect.class);
 
     @Autowired
@@ -42,8 +42,7 @@ public class LogAspect
 
     // 配置织入点
     @Pointcut("@annotation(com.tdu.develop.common.log.Log)")
-    public void logPointCut()
-    {
+    public void logPointCut() {
     }
 
     /**
@@ -52,32 +51,27 @@ public class LogAspect
      * @param joinPoint 切点
      */
     @AfterReturning(pointcut = "logPointCut()")
-    public void doBefore(JoinPoint joinPoint)
-    {
+    public void doBefore(JoinPoint joinPoint) {
         handleLog(joinPoint, null);
     }
 
     /**
      * 拦截异常操作
-     * 
+     *
      * @param joinPoint
      * @param e
      */
     @AfterThrowing(value = "logPointCut()", throwing = "e")
-    public void doAfter(JoinPoint joinPoint, Exception e)
-    {
+    public void doAfter(JoinPoint joinPoint, Exception e) {
         handleLog(joinPoint, e);
     }
 
     @Async
-    protected void handleLog(final JoinPoint joinPoint, final Exception e)
-    {
-        try
-        {
+    protected void handleLog(final JoinPoint joinPoint, final Exception e) {
+        try {
             // 获得注解
             Log controllerLog = getAnnotationLog(joinPoint);
-            if (controllerLog == null)
-            {
+            if (controllerLog == null) {
                 return;
             }
 
@@ -86,7 +80,7 @@ public class LogAspect
 
             // *========数据库日志=========*//
             TsysOperLog operLog = new TsysOperLog();
-           
+
             //赋值操作
             /*String ip = ShiroUtils.getIp();
             operLog.setOperIp(ip);*/
@@ -94,8 +88,7 @@ public class LogAspect
             //operLog.setOperLocation(AddressUtils.getRealAddressByIP(ip));
             // 请求的地址
             operLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
-            if (currentUser != null)
-            {
+            if (currentUser != null) {
 //            	//操作人
                 operLog.setOperName(currentUser.getUsername());
 //                if (StringUtils.isNotNull(currentUser.getDept())
@@ -105,10 +98,9 @@ public class LogAspect
 //                }
             }
 
-            if (e != null)
-            {
-            	//错误日志
-            	operLog.setErrorMsg(StringUtils.substring(e.getMessage(), 0, 2000));
+            if (e != null) {
+                //错误日志
+                operLog.setErrorMsg(StringUtils.substring(e.getMessage(), 0, 2000));
             }
             // 设置方法名称
             String className = joinPoint.getTarget().getClass().getName();
@@ -122,9 +114,7 @@ public class LogAspect
             System.out.println(new Gson().toJson(operLog));
             System.out.println("-----------------");
             operLogService.insertSelective(operLog);
-        }
-        catch (Exception exp)
-        {
+        } catch (Exception exp) {
             // 记录本地异常日志
             log.error("==前置通知异常==");
             log.error("异常信息:{}", exp.getMessage());
@@ -134,22 +124,20 @@ public class LogAspect
 
     /**
      * 获取注解中对方法的描述信息 用于Controller层注解
-     * 
+     *
      * @param
      * @return 方法描述
      * @throws Exception
      */
-    public void getControllerMethodDescription(Log log, TsysOperLog operLog) throws Exception
-    {
+    public void getControllerMethodDescription(Log log, TsysOperLog operLog) throws Exception {
         // 设置action动作
-       // operLog.setAction(log.action());
+        // operLog.setAction(log.action());
         // 设置标题
         operLog.setTitle(log.title());
         // 设置channel
         //operLog.setChannel(log.channel());
         // 是否需要保存request，参数和值
-        if (log.isSaveRequestData())
-        {
+        if (log.isSaveRequestData()) {
             // 获取参数的信息，传入到数据库中。
             setRequestValue(operLog);
         }
@@ -157,14 +145,13 @@ public class LogAspect
 
     /**
      * 获取请求的参数，放到log中
-     * 
+     *
      * @param operLog
      * @param request
      */
-    private void setRequestValue(TsysOperLog operLog)
-    {
+    private void setRequestValue(TsysOperLog operLog) {
         Map<String, String[]> map = ServletUtils.getRequest().getParameterMap();
-        Gson gson=new Gson();
+        Gson gson = new Gson();
         String params = gson.toJson(map);
         operLog.setOperParam(StringUtils.substring(params, 0, 255));
     }
@@ -172,14 +159,12 @@ public class LogAspect
     /**
      * 是否存在注解，如果存在就获取
      */
-    private Log getAnnotationLog(JoinPoint joinPoint) throws Exception
-    {
+    private Log getAnnotationLog(JoinPoint joinPoint) throws Exception {
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
 
-        if (method != null)
-        {
+        if (method != null) {
             return method.getAnnotation(Log.class);
         }
         return null;

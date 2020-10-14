@@ -19,22 +19,22 @@ public class EvaluationServiceImpl implements EvaluationService {
     EvaluationMapper evaluationMapper;
 
     @Override
-    public  void addEvaluation(Evaluation evaluation) {
+    public void addEvaluation(Evaluation evaluation) {
         System.out.println(evaluation);
-        if(evaluation != null) {
+        if (evaluation != null) {
             evaluationMapper.addEvaluation(evaluation);
         }
     }
 
     @Override
     public Evaluation getOneByTimen(String userKey, String sceneKey) {
-        Evaluation  evaluation= evaluationMapper.getOneByTimen(userKey,sceneKey);
+        Evaluation evaluation = evaluationMapper.getOneByTimen(userKey, sceneKey);
         return evaluation;
     }
 
     @Override
     public String getRanking(String userKey, String sceneKey) {
-        String count= evaluationMapper.getRanking(userKey,sceneKey);
+        String count = evaluationMapper.getRanking(userKey, sceneKey);
         return count;
     }
 }

@@ -22,19 +22,21 @@ import java.util.UUID;
 public class EmailServiceImpl implements EmailService {
     @Autowired
     EmailUserMapper emailUserMapper;
-    public void addEmail(String id,String username,String email,String password,String state,String code,String telephone,String ziyuan){
-        emailUserMapper.addEmail(id,username,email,password,state,code,telephone,ziyuan);
+
+    public void addEmail(String id, String username, String email, String password, String state, String code, String telephone, String ziyuan) {
+        emailUserMapper.addEmail(id, username, email, password, state, code, telephone, ziyuan);
     }
 
-    public Users seleUsers(String username){
+    public Users seleUsers(String username) {
         return emailUserMapper.seleUser(username);
 
     }
-    public Users getUser(String emailId){
-        EmailUser emailUser=emailUserMapper.getEmailUser(emailId);
-        Users users=new Users();
-        String id= UUID.randomUUID().toString();
-        String sex="男";
+
+    public Users getUser(String emailId) {
+        EmailUser emailUser = emailUserMapper.getEmailUser(emailId);
+        Users users = new Users();
+        String id = UUID.randomUUID().toString();
+        String sex = "男";
         users.setId(id);
         users.setUserName(emailUser.getUserName());
         users.setName(emailUser.getUserName());
@@ -44,12 +46,13 @@ public class EmailServiceImpl implements EmailService {
         users.setConfirmPassword(emailUser.getPassword());
         return users;
     }
-    public EmailUser getEmailUser(String emailId){
-        EmailUser emailUser=emailUserMapper.getEmailUser(emailId);
+
+    public EmailUser getEmailUser(String emailId) {
+        EmailUser emailUser = emailUserMapper.getEmailUser(emailId);
         return emailUser;
     }
 
-    public String getState(String emailId){
+    public String getState(String emailId) {
 
         return emailUserMapper.getEmailUser(emailId).getState();
     }

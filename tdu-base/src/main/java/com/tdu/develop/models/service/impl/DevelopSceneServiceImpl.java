@@ -42,10 +42,10 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
     @Autowired
     UsersMapper usersMapper;
 
-    public static final String SceneImage="../../../Source/imgicon/仿真.png";
-    public static final String SceneType="场景";
+    public static final String SceneImage = "../../../Source/imgicon/仿真.png";
+    public static final String SceneType = "场景";
     //图标
-    public static final String ImageIcon="../../../Source/imgicon/tag_orange.png";
+    public static final String ImageIcon = "../../../Source/imgicon/tag_orange.png";
 
 
     @Override
@@ -58,33 +58,35 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         return developSceneMapper.getSceneId(sceneContentId);
     }
 
-    public void addScenecontents(Scenecontents scenecontents){
+    public void addScenecontents(Scenecontents scenecontents) {
         developSceneMapper.addScenesModel(scenecontents);
     }
-    public void addScenes(Scenes scenes){
+
+    public void addScenes(Scenes scenes) {
         developSceneMapper.addLastScenesNode(scenes);
     }
 
 
     public String getFirstSceneId(String rootId, String userId) {
         // TODO Auto-generated method stub
-        return developSceneMapper.getFirstSceneId(rootId,userId);
+        return developSceneMapper.getFirstSceneId(rootId, userId);
     }
 
     /**
-     *
      * 获取模型rootId的 subtreeid
      */
-    public String getSubjectScenesRootId(String treeId){
+    public String getSubjectScenesRootId(String treeId) {
 
         return subjectTreeMapper.getSubjectScenesRootId2(treeId);
     }
+
     /**
      * 获取rootId
+     *
      * @param treeId
      * @return
      */
-    public String gettScenesRootId(String treeId){
+    public String gettScenesRootId(String treeId) {
 
         return developSceneMapper.getSubjectScenesRootId(treeId);
     }
@@ -93,8 +95,7 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
     /**
      * knowledgecontents的type属性
      */
-    public static final String simulateType="仿真";
-
+    public static final String simulateType = "仿真";
 
 
     /**
@@ -106,72 +107,72 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
 
     /**
      * 删除模型(含文件夹)
+     *
      * @param id
      * @return
      */
-    public int delscenes(String id,String time) {
+    public int delscenes(String id, String time) {
 
-        return developSceneMapper.delScenes(id,time);
+        return developSceneMapper.delScenes(id, time);
     }
+
     /**
      * 删除模型contents
+     *
      * @param id
      * @return
      */
-    public int delsceneContets(String id,String time) {
+    public int delsceneContets(String id, String time) {
 
-        return developSceneMapper.delSceneContets(id,time);
+        return developSceneMapper.delSceneContets(id, time);
     }
+
     /**
      * 获取模型信息
+     *
      * @param modelId
      * @return
      */
-    public List<Scenes> getScenesscontents(String modelId, String userId){
+    public List<Scenes> getScenesscontents(String modelId, String userId) {
         // TODO 获取模型信息数据
 
-        List<Scenes> modelList=developSceneMapper.getScenecontents(modelId,userId);
+        List<Scenes> modelList = developSceneMapper.getScenecontents(modelId, userId);
         return modelList;
     }
 
 
-
     public boolean updateSceneName(String id, String name) {
-        int count1 = developSceneMapper.updateSceneName(id,name);
-        int count2 = developSceneMapper.updateSceneContentName(id,name);
-        boolean flag =false;
-        if(count1!=0&&count2!=0){
-            flag=true;
+        int count1 = developSceneMapper.updateSceneName(id, name);
+        int count2 = developSceneMapper.updateSceneContentName(id, name);
+        boolean flag = false;
+        if (count1 != 0 && count2 != 0) {
+            flag = true;
         }
         return flag;
     }
 
 
-
     public List<Scenes> getFirstScene(String subUpId, String rootId, String userId) {
         // TODO 获取首层目录
 
-        return developSceneMapper.getFisScenes(subUpId,rootId,userId);
+        return developSceneMapper.getFisScenes(subUpId, rootId, userId);
     }
-
 
 
     public List<Scenes> getSubScene(String parentId, String subUpId, String userId) {
         // TODO 获取第二层目录
 
-        return developSceneMapper.getSubScenes(parentId,subUpId,userId);
+        return developSceneMapper.getSubScenes(parentId, subUpId, userId);
     }
 
 
-
-    public void addSubScenes(String parentId, String content,String subUpId,String userId) {
+    public void addSubScenes(String parentId, String content, String subUpId, String userId) {
         // TODO 添加模型参数
 
-        String id= UUID.randomUUID().toString();
-        String  preScene =lastScenesNodeId(subUpId,parentId,userId);
-        developSceneMapper.addSubScenes(id, content, parentId,preScene,subUpId,userId);
+        String id = UUID.randomUUID().toString();
+        String preScene = lastScenesNodeId(subUpId, parentId, userId);
+        developSceneMapper.addSubScenes(id, content, parentId, preScene, subUpId, userId);
     }
-
 
 
     public String getSubId(String subId, String treeName) {
@@ -181,13 +182,11 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
     }
 
 
-
     public void upFirSceneTree(String id, String name) {
         // TODO Auto-generated method stub
 
         developSceneMapper.upFirSceneTree(id, name);
     }
-
 
 
     public void deleScene(String Id) {
@@ -197,40 +196,37 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
     }
 
 
-
-    public void addFisScene(String Id, String subId,String content,String userId) {
+    public void addFisScene(String Id, String subId, String content, String userId) {
         // TODO Auto-generated method stub
 
-        String rooyId=developSceneMapper.getRootId(subId);
-        String preModelId=lastScenesNodeId(subId,rooyId,userId);
-        developSceneMapper.addFisScenes2(Id, content, rooyId,preModelId, subId,userId);
+        String rooyId = developSceneMapper.getRootId(subId);
+        String preModelId = lastScenesNodeId(subId, rooyId, userId);
+        developSceneMapper.addFisScenes2(Id, content, rooyId, preModelId, subId, userId);
         //developSceneMapper.addFisScenes(Id, content, rooyId, subId);
     }
-
 
 
     public List<Scenecontents> getScenecontents(String SceneId, String userId) {
         // TODO 获取模型信息数据
 
-        List<Scenes> SceneList=developSceneMapper.getScenecontents(SceneId,userId);
-        List<Scenecontents> ScenecontentsList=new ArrayList<Scenecontents>();
+        List<Scenes> SceneList = developSceneMapper.getScenecontents(SceneId, userId);
+        List<Scenecontents> ScenecontentsList = new ArrayList<Scenecontents>();
 
-        List<Scenecontents> getKsList=new ArrayList<Scenecontents>();
+        List<Scenecontents> getKsList = new ArrayList<Scenecontents>();
 
-        for(int i=0;i<SceneList.size();i++){
+        for (int i = 0; i < SceneList.size(); i++) {
             Scenecontents scene = developSceneMapper.getScenecontentsInfos(SceneList.get(i).getId());
-            if(scene!=null){
+            if (scene != null) {
                 ScenecontentsList.add(scene);
             }
         }
         for (Scenecontents scenecontents : ScenecontentsList) {
-            if(scenecontents.getCheckDel()==0){
+            if (scenecontents.getCheckDel() == 0) {
                 getKsList.add(scenecontents);
             }
         }
         return getKsList;
     }
-
 
 
     public String getSubId1(String SceneId) {
@@ -247,23 +243,23 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
     public String AddScenesContent(Scenecontents Scenecontents, String treeId, String nodeId, Scenes scenes) {
 
         //System.out.println(" treeId："+treeId+" nodeId："+nodeId);
-        addLastScenesNode(treeId, nodeId,Scenecontents.getUserKey());
+        addLastScenesNode(treeId, nodeId, Scenecontents.getUserKey());
 
         String id = UUID.randomUUID().toString();
 
-        Scenecontents.setNmae(id+".tdc");
+        Scenecontents.setNmae(id + ".tdc");
 
         Scenecontents.setId(id);
         Scenecontents.setIntroduce(null);
         Scenecontents.setImageContentIcons(SceneImage);
-        Scenecontents.setScene_Id(lastScenesNodeId(treeId, nodeId,Scenecontents.getUserKey()));
+        Scenecontents.setScene_Id(lastScenesNodeId(treeId, nodeId, Scenecontents.getUserKey()));
         Scenecontents.setType(SceneType);
-        Scenecontents.setOrder(developSceneMapper.getScenesMaxOrder()+1);
+        Scenecontents.setOrder(developSceneMapper.getScenesMaxOrder() + 1);
         Scenecontents.setUrl("D:\\working\\TDuClub\\TDu\\Data\\3D");
         developSceneMapper.addScenesModel(Scenecontents);
         developSceneMapper.alterSceneContent_Id(Scenecontents);
         System.out.println(Scenecontents.getScene_Id());
-        String Name=Scenecontents.getNmae();
+        String Name = Scenecontents.getNmae();
 
 
         /*源文件路径  D:\wamp\www\develop\QZ\SceneExample
@@ -273,23 +269,23 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
 
 
         //服務器路徑
-        String path="\\home\\working\\https://www.tduvr.club\\tdu\\sceneExample";
+        String path = "\\home\\working\\https://www.tduvr.club\\tdu\\sceneExample";
         //String path="D:\\wamp\\www\\newTdu\\sceneExample";
 
         //服務器路徑
-        String mubiao="\\home\\working\\tdu.tduvr.club\\Data\\3D\\Scene\\"+Scenecontents.getUserKey()+"\\"+id;
+        String mubiao = "\\home\\working\\tdu.tduvr.club\\Data\\3D\\Scene\\" + Scenecontents.getUserKey() + "\\" + id;
         //String mubiao="D:\\working\\TDuClub\\TDu\\Data\\3D\\Scene\\"+Scenecontents.getUserKey()+"\\"+id;
 
         /*String path="D:\\working\\TDuClub\\develop\\QZ\\sceneExample";
         String mubiao="D:\\working\\TDuClub\\TDu\\Data\\3D\\Scene\\"+Scenecontents.getUserKey()+"\\"+id;*/
 
-        File files=new File(mubiao);
-        if(!files.exists()){
-            boolean str =files.mkdirs();
+        File files = new File(mubiao);
+        if (!files.exists()) {
+            boolean str = files.mkdirs();
             System.out.println(str);
         }
         try {
-            copy(path,mubiao,id);
+            copy(path, mubiao, id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -313,107 +309,110 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
 
         return Scenecontents.getId();
     }
+
     /*
     xmlForEditor
     * */
     public String AddScenesContentFileModel(Scenecontents Scenecontents, String treeId, String nodeId, Scenes scenes) {
 
         //System.out.println(" treeId："+treeId+" nodeId："+nodeId);
-        addLastScenesNode(treeId, nodeId,Scenecontents.getUserKey());
+        addLastScenesNode(treeId, nodeId, Scenecontents.getUserKey());
         //String id = UUID.randomUUID().toString();
-        Scenecontents.setNmae(Scenecontents.getId()+".EXM");
+        Scenecontents.setNmae(Scenecontents.getId() + ".EXM");
         //Scenecontents.setId(id);
         Scenecontents.setIntroduce(null);
         Scenecontents.setImageContentIcons(SceneImage);
-        Scenecontents.setScene_Id(lastScenesNodeId(treeId, nodeId,Scenecontents.getUserKey()));
+        Scenecontents.setScene_Id(lastScenesNodeId(treeId, nodeId, Scenecontents.getUserKey()));
         Scenecontents.setType(SceneType);
-        Scenecontents.setOrder(developSceneMapper.getScenesMaxOrder()+1);
+        Scenecontents.setOrder(developSceneMapper.getScenesMaxOrder() + 1);
         Scenecontents.setUrl("D:\\working\\TDuClub\\TDu\\Data\\3D");
         developSceneMapper.addScenesModel(Scenecontents);
         developSceneMapper.alterSceneContent_Id(Scenecontents);
         System.out.println(Scenecontents.getScene_Id());
         return Scenecontents.getScene_Id();
     }
+
     /*
      * 新增主页模型
      * */
-    public String AddScenesContentFileModel(Scenecontents Scenecontents, String treeId, String nodeId, Scenes scenes,MultipartFile[] file,List<FilModle> models) {
+    public String AddScenesContentFileModel(Scenecontents Scenecontents, String treeId, String nodeId, Scenes scenes, MultipartFile[] file, List<FilModle> models) {
 
         //System.out.println(" treeId："+treeId+" nodeId："+nodeId);
-        addLastScenesNode(treeId, nodeId,Scenecontents.getUserKey());
+        addLastScenesNode(treeId, nodeId, Scenecontents.getUserKey());
 
         String id = UUID.randomUUID().toString();
 
-        Scenecontents.setNmae(id+".EXM");
+        Scenecontents.setNmae(id + ".EXM");
 
         Scenecontents.setId(id);
         Scenecontents.setIntroduce(null);
         Scenecontents.setImageContentIcons(SceneImage);
-        Scenecontents.setScene_Id(lastScenesNodeId(treeId, nodeId,Scenecontents.getUserKey()));
+        Scenecontents.setScene_Id(lastScenesNodeId(treeId, nodeId, Scenecontents.getUserKey()));
         Scenecontents.setType(SceneType);
-        Scenecontents.setOrder(developSceneMapper.getScenesMaxOrder()+1);
+        Scenecontents.setOrder(developSceneMapper.getScenesMaxOrder() + 1);
         Scenecontents.setUrl("D:\\working\\TDuClub\\TDu\\Data\\3D");
         developSceneMapper.addScenesModel(Scenecontents);
         developSceneMapper.alterSceneContent_Id(Scenecontents);
         System.out.println(Scenecontents.getScene_Id());
-        String Name=Scenecontents.getNmae();
+        String Name = Scenecontents.getNmae();
 
         //服務器路徑
         //String mubiao="\\home\\working\\tdu.tduvr.club\\Data\\3D\\Scene\\"+Scenecontents.getUserKey()+"\\"+id;
         //String mubiao="D:\\working\\TDuClub\\TDu\\Data\\3D\\Scene\\"+Scenecontents.getUserKey()+"\\"+id;
         //新
         //String mubiao="D:/wamp/www/Data/3D/Scene/"+Scenecontents.getUserKey()+"/"+id;
-        String mubiao="/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/"+Scenecontents.getUserKey()+"/"+id;
-        for(MultipartFile f:file){
-            File file1 ;
-            String name="";
-            String suffix="";
+        String mubiao = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + Scenecontents.getUserKey() + "/" + id;
+        for (MultipartFile f : file) {
+            File file1;
+            String name = "";
+            String suffix = "";
             try {
                 System.out.println(f.getOriginalFilename() + "   iii         --------");
                 String path = f.getOriginalFilename();
                 suffix = path.substring(path.lastIndexOf("."));
                 //sence  /  model ID
                 String pp = id;
-                String realPath =pp;
-                System.out.println("  path : "+path);
+                String realPath = pp;
+                System.out.println("  path : " + path);
 
-                if(suffix.equals(".tdb")||suffix.equals(".tdc")||suffix.equals(".EXM")||suffix.equals(".exm")||suffix.equals(".glb")||suffix.equals(".GLB")){
-                    System.out.println(" suffix :"+suffix);
-                    realPath = pp+"/"+""+id+""+suffix;
-                    System.out.println("  realPath  :"+realPath);
-                }else{
+                if (suffix.equals(".tdb") || suffix.equals(".tdc") || suffix.equals(".EXM") || suffix.equals(".exm") || suffix.equals(".glb") || suffix.equals(".GLB")) {
+                    System.out.println(" suffix :" + suffix);
+                    realPath = pp + "/" + "" + id + "" + suffix;
+                    System.out.println("  realPath  :" + realPath);
+                } else {
                     String[] strArr = path.split("/");
                     System.out.println(strArr.length); //这里输出3
-                    for (int i = 0; i < strArr.length; ++i){
+                    for (int i = 0; i < strArr.length; ++i) {
                         System.out.println(strArr[i]);//这里输出a b c
-                        if(i!=0){
-                            realPath = realPath+"/"+strArr[i];
+                        if (i != 0) {
+                            realPath = realPath + "/" + strArr[i];
                         }
                     }
-                    System.out.println("  realPath  :"+realPath);
+                    System.out.println("  realPath  :" + realPath);
                 }
 
-                updatePdf(f,realPath,Scenecontents.getUserKey(),id);
-                if(suffix.equals(".EXM")||suffix.equals(".exm")){
+                updatePdf(f, realPath, Scenecontents.getUserKey(), id);
+                if (suffix.equals(".EXM") || suffix.equals(".exm")) {
                     // 文件夹路径存在的情况下
                     //String filename = "D:/wamp/www/Data/3D/Scene/"+""+Scenecontents.getUserKey()+""+"/"+realPath;;// 文件名
-                    String filename = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/"+""+Scenecontents.getUserKey()+""+"/"+realPath;;// 文件名
-                    if(models.size()>0){
-                        saveDocument(filename,models);//把改变的内存中的document真正保存到指定的文件中
+                    String filename = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + "" + Scenecontents.getUserKey() + "" + "/" + realPath;
+                    ;// 文件名
+                    if (models.size() > 0) {
+                        saveDocument(filename, models);//把改变的内存中的document真正保存到指定的文件中
                     }
                 }
                 System.out.println("sssss   ");
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
-        String name="";
-        List<String> nList=new ArrayList<String>();
-        List<String> fList=new ArrayList<String>();
-        Map<String,List<String>> versionMap =  setVersion(mubiao, name,nList,fList);
-        List<String> nameList=versionMap.get("nameList");
-        List<String> fileList=versionMap.get("fileList");
+        String name = "";
+        List<String> nList = new ArrayList<String>();
+        List<String> fList = new ArrayList<String>();
+        Map<String, List<String>> versionMap = setVersion(mubiao, name, nList, fList);
+        List<String> nameList = versionMap.get("nameList");
+        List<String> fileList = versionMap.get("fileList");
         try {
             setVersionFile(nameList, fileList, mubiao);
         } catch (Exception e) {
@@ -422,12 +421,14 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
 
         return Scenecontents.getId();
     }
+
     /**
      * 把改变的domcument对象保存到指定的xml文件中
-     * @author chenleixing
+     *
      * @throws IOException
+     * @author chenleixing
      */
-    public  static void saveDocument(String filename,List<FilModle> models) throws IOException{
+    public static void saveDocument(String filename, List<FilModle> models) throws IOException {
         int count = 0;
         DocumentBuilderFactory a = DocumentBuilderFactory.newInstance();
 
@@ -436,11 +437,11 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
             Document document = b.parse(filename);
             NodeList booklist = document.getElementsByTagName("Node");
 
-            for(int i = 0; i < booklist.getLength(); ++i) {
+            for (int i = 0; i < booklist.getLength(); ++i) {
                 Node book = booklist.item(i);
                 NamedNodeMap bookmap = book.getAttributes();
 
-                for(int j = 0; j < bookmap.getLength(); ++j) {
+                for (int j = 0; j < bookmap.getLength(); ++j) {
                     Node node = bookmap.item(j);
                     System.out.print(node.getNodeName() + ":");
                     System.out.println(node.getNodeValue());
@@ -448,36 +449,36 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
 
                 NodeList childlist = book.getChildNodes();
 
-                for(int t = 0; t < childlist.getLength(); ++t) {
+                for (int t = 0; t < childlist.getLength(); ++t) {
                     if (childlist.item(t).getNodeType() == 1 && childlist.item(t).getNodeName().equals("File")) {
                         System.out.print(childlist.item(t).getNodeName() + ":");
                         if (count < models.size()) {
-                            childlist.item(t).setTextContent(((FilModle)models.get(count)).getTxt());
+                            childlist.item(t).setTextContent(((FilModle) models.get(count)).getTxt());
                         }
 
                         System.out.println(childlist.item(t).getTextContent());
                         NamedNodeMap childBookmap = childlist.item(t).getAttributes();
                         if (childBookmap.getLength() <= 2) {
                             Node node = childlist.item(t);
-                            Element eNode = (Element)node;
+                            Element eNode = (Element) node;
                             if (count < models.size()) {
-                                eNode.setAttribute("ModelID", ((FilModle)models.get(count)).getModelID());
+                                eNode.setAttribute("ModelID", ((FilModle) models.get(count)).getModelID());
                             }
 
                             if (count < models.size()) {
-                                eNode.setAttribute("UserID", ((FilModle)models.get(count)).getUserID());
+                                eNode.setAttribute("UserID", ((FilModle) models.get(count)).getUserID());
                             }
 
                             ++count;
                         } else {
-                            for(int j = 0; j < childBookmap.getLength(); ++j) {
+                            for (int j = 0; j < childBookmap.getLength(); ++j) {
                                 Node node = childBookmap.item(j);
                                 if (node.getNodeName().equals("ModelID") && count < models.size()) {
-                                    node.setNodeValue(((FilModle)models.get(count)).getModelID());
+                                    node.setNodeValue(((FilModle) models.get(count)).getModelID());
                                 }
 
                                 if (node.getNodeName().equals("UserID") && count < models.size()) {
-                                    node.setNodeValue(((FilModle)models.get(count)).getUserID());
+                                    node.setNodeValue(((FilModle) models.get(count)).getUserID());
                                 }
 
                                 System.out.print(node.getNodeName() + ":");
@@ -495,6 +496,7 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
             var15.printStackTrace();
         }
     }
+
     public static void save(Document document, String filename) throws TransformerException {
         Source xmlSource = new DOMSource(document);
         TransformerFactory factory = TransformerFactory.newInstance();
@@ -506,71 +508,71 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
     /*
      * 新增主页模型
      * */
-    public String AddScenesContentFile(Scenecontents Scenecontents, String treeId, String nodeId, Scenes scenes,MultipartFile[] file) {
+    public String AddScenesContentFile(Scenecontents Scenecontents, String treeId, String nodeId, Scenes scenes, MultipartFile[] file) {
 
         //System.out.println(" treeId："+treeId+" nodeId："+nodeId);
-        addLastScenesNode(treeId, nodeId,Scenecontents.getUserKey());
+        addLastScenesNode(treeId, nodeId, Scenecontents.getUserKey());
 
         String id = UUID.randomUUID().toString();
 
-        Scenecontents.setNmae(id+".tdc");
+        Scenecontents.setNmae(id + ".tdc");
 
         Scenecontents.setId(id);
         Scenecontents.setIntroduce(null);
         Scenecontents.setImageContentIcons(SceneImage);
-        Scenecontents.setScene_Id(lastScenesNodeId(treeId, nodeId,Scenecontents.getUserKey()));
+        Scenecontents.setScene_Id(lastScenesNodeId(treeId, nodeId, Scenecontents.getUserKey()));
         Scenecontents.setType(SceneType);
-        Scenecontents.setOrder(developSceneMapper.getScenesMaxOrder()+1);
+        Scenecontents.setOrder(developSceneMapper.getScenesMaxOrder() + 1);
         Scenecontents.setUrl("D:\\working\\TDuClub\\TDu\\Data\\3D");
         developSceneMapper.addScenesModel(Scenecontents);
         developSceneMapper.alterSceneContent_Id(Scenecontents);
         System.out.println(Scenecontents.getScene_Id());
-        String Name=Scenecontents.getNmae();
+        String Name = Scenecontents.getNmae();
 
         //服務器路徑
         //String mubiao="\\home\\working\\tdu.tduvr.club\\Data\\3D\\Scene\\"+Scenecontents.getUserKey()+"\\"+id;
-        String mubiao="D:\\working\\TDuClub\\TDu\\Data\\3D\\Scene\\"+Scenecontents.getUserKey()+"\\"+id;
+        String mubiao = "D:\\working\\TDuClub\\TDu\\Data\\3D\\Scene\\" + Scenecontents.getUserKey() + "\\" + id;
 
-        for(MultipartFile f:file){
-            File file1 ;
-            String name="";
+        for (MultipartFile f : file) {
+            File file1;
+            String name = "";
             try {
                 System.out.println(f.getOriginalFilename() + "   iii         --------");
                 String path = f.getOriginalFilename();
                 String suffix = path.substring(path.lastIndexOf("."));
                 //sence  /  model ID
                 String pp = id;
-                String realPath =pp;
-                System.out.println("  path : "+path);
+                String realPath = pp;
+                System.out.println("  path : " + path);
 
-                if(suffix.equals(".tdb")||suffix.equals(".tdc")||suffix.equals(".EXM")||suffix.equals(".exm")||suffix.equals(".glb")||suffix.equals(".GLB")){
-                    System.out.println(" suffix :"+suffix);
-                    realPath = pp+"\\"+""+id+""+suffix;
-                    System.out.println("  realPath  :"+realPath);
-                }else{
+                if (suffix.equals(".tdb") || suffix.equals(".tdc") || suffix.equals(".EXM") || suffix.equals(".exm") || suffix.equals(".glb") || suffix.equals(".GLB")) {
+                    System.out.println(" suffix :" + suffix);
+                    realPath = pp + "\\" + "" + id + "" + suffix;
+                    System.out.println("  realPath  :" + realPath);
+                } else {
                     String[] strArr = path.split("/");
                     System.out.println(strArr.length); //这里输出3
-                    for (int i = 0; i < strArr.length; ++i){
+                    for (int i = 0; i < strArr.length; ++i) {
                         System.out.println(strArr[i]);//这里输出a b c
-                        if(i!=0){
-                            realPath = realPath+"\\"+strArr[i];
+                        if (i != 0) {
+                            realPath = realPath + "\\" + strArr[i];
                         }
                     }
-                    System.out.println("  realPath  :"+realPath);
+                    System.out.println("  realPath  :" + realPath);
                 }
-                updatePdf(f,realPath,Scenecontents.getUserKey(),id);
+                updatePdf(f, realPath, Scenecontents.getUserKey(), id);
                 System.out.println("sssss   ");
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
-        String name="";
-        List<String> nList=new ArrayList<String>();
-        List<String> fList=new ArrayList<String>();
-        Map<String,List<String>> versionMap =  setVersion(mubiao, name,nList,fList);
-        List<String> nameList=versionMap.get("nameList");
-        List<String> fileList=versionMap.get("fileList");
+        String name = "";
+        List<String> nList = new ArrayList<String>();
+        List<String> fList = new ArrayList<String>();
+        Map<String, List<String>> versionMap = setVersion(mubiao, name, nList, fList);
+        List<String> nameList = versionMap.get("nameList");
+        List<String> fileList = versionMap.get("fileList");
         try {
             setVersionFile(nameList, fileList, mubiao);
         } catch (Exception e) {
@@ -580,27 +582,27 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         return Scenecontents.getId();
     }
 
-    public Map<String,List<String>> setVersion(String path,String name,List<String> nameList,List<String> fileList) {
+    public Map<String, List<String>> setVersion(String path, String name, List<String> nameList, List<String> fileList) {
         // TODO Auto-generated method stub
-        Map<String,List<String>> versionMap=new HashMap<String, List<String>>();
+        Map<String, List<String>> versionMap = new HashMap<String, List<String>>();
         File file = new File(path);
         if (file.exists()) {
             File[] files = file.listFiles();
             if (null != files) {
                 for (File file2 : files) {
                     if (file2.isDirectory()) {
-                        setVersion(file2.getAbsolutePath(),file2.getName(),nameList,fileList);
+                        setVersion(file2.getAbsolutePath(), file2.getName(), nameList, fileList);
                     } else {
-                        if(name==null||name==""){
-                            if(file2.getName().equals("version.zip")||file2.getName().equals("version.txt")){
+                        if (name == null || name == "") {
+                            if (file2.getName().equals("version.zip") || file2.getName().equals("version.txt")) {
 
-                            }else{
+                            } else {
                                 fileList.add(file2.getName());
                                 nameList.add(EncodingDecodingUtil.MD5Encode(file2.getName(), "utf8"));
                             }
-                        }else{
-                            fileList.add(name+"\\"+file2.getName());
-                            nameList.add(EncodingDecodingUtil.MD5Encode(name+"\\"+file2.getName(), "utf8"));
+                        } else {
+                            fileList.add(name + "\\" + file2.getName());
+                            nameList.add(EncodingDecodingUtil.MD5Encode(name + "\\" + file2.getName(), "utf8"));
                         }
                     }
                 }
@@ -613,43 +615,45 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         return versionMap;
     }
 
-    public void setVersionFile(List<String> nameList,List<String> fileList,String path) throws Exception {
+    public void setVersionFile(List<String> nameList, List<String> fileList, String path) throws Exception {
         // TODO Auto-generated method stub
         //内容编辑
-        String xmlText="<?xml version=\"1.0\"?>\n<root>\n";
-        for(int i=0;i<nameList.size();i++){
-            xmlText+="<file md5=\""+nameList.get(i)+"\">"+fileList.get(i)+"</file>\n";
+        String xmlText = "<?xml version=\"1.0\"?>\n<root>\n";
+        for (int i = 0; i < nameList.size(); i++) {
+            xmlText += "<file md5=\"" + nameList.get(i) + "\">" + fileList.get(i) + "</file>\n";
         }
-        xmlText+="</root>";
+        xmlText += "</root>";
 
-        String filenameTemp = path +"/version.xml";
+        String filenameTemp = path + "/version.xml";
         print.creatTxtFile(filenameTemp, path);
         print.writeTxtFile(xmlText, filenameTemp);
-        zip.compress(filenameTemp, path+"/version.zip");
+        zip.compress(filenameTemp, path + "/version.zip");
         File file = new File(filenameTemp);
-        if (file.isFile()){
+        if (file.isFile()) {
             file.delete();
         }
-        setVersionTxt(path,"version.zip");
+        setVersionTxt(path, "version.zip");
     }
-    public void setVersionTxt(String path,String name) throws Exception {
+
+    public void setVersionTxt(String path, String name) throws Exception {
         // TODO Auto-generated method stub
-        String md5=EncodingDecodingUtil.MD5Encode(name, "utf8");
-        String filenameTemp=path+"/version.txt";
+        String md5 = EncodingDecodingUtil.MD5Encode(name, "utf8");
+        String filenameTemp = path + "/version.txt";
         print.creatTxtFile(filenameTemp, path);
         print.writeTxtFile(md5, filenameTemp);
     }
-    public void updatePdf(MultipartFile mf,String realPath,String userKey,String modelId) throws IOException {
+
+    public void updatePdf(MultipartFile mf, String realPath, String userKey, String modelId) throws IOException {
         InputStream is = mf.getInputStream();
-        StringBuffer fileBuf=new StringBuffer();
+        StringBuffer fileBuf = new StringBuffer();
 
         String[] strArr = realPath.split("/");
-        String wenjianPath="";
+        String wenjianPath = "";
         System.out.println(strArr.length); //这里输出3
-        for (int i = 0; i < strArr.length; ++i){
+        for (int i = 0; i < strArr.length; ++i) {
             System.out.println(strArr[i]);//这里输出a b c
-            if(i!=(strArr.length-1)){
-                wenjianPath = wenjianPath+"/"+strArr[i];
+            if (i != (strArr.length - 1)) {
+                wenjianPath = wenjianPath + "/" + strArr[i];
             }
         }
 
@@ -657,23 +661,24 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         //String filePar = "\\home\\working\\tdu.tduvr.club\\Data\\3D\\Scene\\"+userKey+wenjianPath;// 文件夹路径
         //新
         // String filePar = "D:/wamp/www/Data/3D/Scene/"+userKey+wenjianPath;
-        String filePar = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/"+userKey+wenjianPath;// 文件夹路径
+        String filePar = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userKey + wenjianPath;// 文件夹路径
        /* File myPath = new File( filePar );
         if ( !myPath.exists()){//若此目录不存在，则创建之
             myPath.mkdirs();
             System.out.println("创建文件夹路径为："+ filePar);
         }*/
         if (!new File(filePar).exists()) {
-            System.out.println(" fileUrlPath :"+filePar);
-            System.out.println(" new File(trueUrl).exists() :"+new File(filePar).exists());
-            boolean mkdirs =new File(filePar).mkdirs();
-            System.out.println("创建目录返回结果："+mkdirs);
-            System.out.println("创建文件夹路径为："+ filePar);
+            System.out.println(" fileUrlPath :" + filePar);
+            System.out.println(" new File(trueUrl).exists() :" + new File(filePar).exists());
+            boolean mkdirs = new File(filePar).mkdirs();
+            System.out.println("创建目录返回结果：" + mkdirs);
+            System.out.println("创建文件夹路径为：" + filePar);
         }
 
         // 文件夹路径存在的情况下
         // String filename = "D:/wamp/www/Data/3D/Scene/"+""+userKey+""+"/"+realPath;;// 文件名
-        String filename = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/"+""+userKey+""+"/"+realPath;;// 文件名
+        String filename = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + "" + userKey + "" + "/" + realPath;
+        ;// 文件名
 
         System.out.println(filename);
         //String name  = "D:/wamp/www/Data/3D/Scene/"+""+userKey+""+"/"+realPath;
@@ -683,10 +688,9 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         //File writeFile=new File(creatFileName);
 
 
-
-        String name = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/"+""+userKey+""+"/"+realPath;
-        String creatFileName  = unicodeToUtf8(name);
-        File writeFile=new File(creatFileName);
+        String name = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + "" + userKey + "" + "/" + realPath;
+        String creatFileName = unicodeToUtf8(name);
+        File writeFile = new File(creatFileName);
         System.out.println(Charset.defaultCharset());
         try {
             //FileWriter fw = new FileWriter(filename,true);// filePar + "\\" + filename,true
@@ -694,15 +698,15 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
             //BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(writeFile));
 
 
-            FileWriter fw = new FileWriter(filename,true);// filePar + "\\" + filename,true
+            FileWriter fw = new FileWriter(filename, true);// filePar + "\\" + filename,true
             BufferedInputStream bis = new BufferedInputStream(is);
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(writeFile));
 
 
             byte[] flash = new byte[1024];
             int len = 0;
-            while(-1 != (len = bis.read(flash))){
-                bos.write(flash,0,len);
+            while (-1 != (len = bis.read(flash))) {
+                bos.write(flash, 0, len);
             }
             System.out.println(bos.toString());
             bos.flush();
@@ -714,15 +718,17 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         }
     }
 
-    public String unicodeToUtf8 (String s) throws UnsupportedEncodingException {
-        return new String( s.getBytes("utf-8") , "utf-8");
+    public String unicodeToUtf8(String s) throws UnsupportedEncodingException {
+        return new String(s.getBytes("utf-8"), "utf-8");
     }
+
     /**
      * 添加最后一个节点
+     *
      * @param treeId
      * @param clickNodeId
      */
-    public void addLastScenesNode(String treeId,String clickNodeId,String userId){
+    public void addLastScenesNode(String treeId, String clickNodeId, String userId) {
 
         Scenes Scenes = new Scenes();
         String NodeId = UUID.randomUUID().toString();
@@ -733,20 +739,21 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         Scenes.setImageIcons(ImageIcon);
         Scenes.setSceneContentId("00000000-0000-0000-0000-000000000000");
         Scenes.setBeforCondition("<root><beforesee></beforesee><userkey></userkey><grades></grades></root>");
-        Scenes.setPreScene(lastScenesNodeId(treeId,clickNodeId,userId));
+        Scenes.setPreScene(lastScenesNodeId(treeId, clickNodeId, userId));
         Scenes.setUserKey(userId);
         developSceneMapper.addLastScenesNode(Scenes);
     }
 
     /**
      * 设置父节点的id
+     *
      * @param clickNodeId 该点击节点的id
-     * @param treeId	树id
+     * @param treeId      树id
      * @return 父节点id
      */
-    public String parentScenesNodeId(String clickNodeId,String treeId){
+    public String parentScenesNodeId(String clickNodeId, String treeId) {
 
-        if(clickNodeId.length()>0){
+        if (clickNodeId.length() > 0) {
             return clickNodeId;
         }
         return developSceneMapper.getSubjectScenesRootId(treeId);
@@ -755,19 +762,20 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
     /**
      * 根据树id
      * 获取最后一个节点的id
+     *
      * @return
      */
-    public String lastScenesNodeId(String treeId,String clickNodeId,String userId){
+    public String lastScenesNodeId(String treeId, String clickNodeId, String userId) {
 
         //获取父节点id
         String rootId = parentScenesNodeId(clickNodeId, treeId);
         //获取大节点数
-        int nodeNum = developSceneMapper.seleScenesNum(treeId, rootId,userId);
+        int nodeNum = developSceneMapper.seleScenesNum(treeId, rootId, userId);
         //找到第一个大节点
-        Scenes Scenes = developSceneMapper.seleScenesFirst(treeId, rootId,userId);
-        if(Scenes!=null){
+        Scenes Scenes = developSceneMapper.seleScenesFirst(treeId, rootId, userId);
+        if (Scenes != null) {
             String firstId = Scenes.getId();
-            for(int i=1;i<nodeNum;i++){
+            for (int i = 1; i < nodeNum; i++) {
                 String nextId = developSceneMapper.getScenesNextNodeId(firstId);
                 firstId = nextId;
             }
@@ -777,35 +785,35 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
     }
 
     //复制方法
-    public  void copy(String src, String des,String id) throws Exception {
+    public void copy(String src, String des, String id) throws Exception {
         //初始化文件复制
-        File file1=new File(src);
+        File file1 = new File(src);
         //把文件里面内容放进数组
-        File[] fs=file1.listFiles();
+        File[] fs = file1.listFiles();
         //初始化文件粘贴
-        File file2=new File(des);
+        File file2 = new File(des);
         //判断是否有这个文件有不管没有创建
-        if(!file2.exists()){
-            boolean str =file2.mkdirs();
+        if (!file2.exists()) {
+            boolean str = file2.mkdirs();
             System.out.println(str);
         }
         //遍历文件及文件夹
         for (File f : fs) {
-            if(f.isFile()){
+            if (f.isFile()) {
                 System.out.println(f.getPath());
                 //文件后缀名
                 String suffix = f.getName().substring(f.getName().lastIndexOf(".") + 1);
-                if(suffix.equals("EXM")||suffix.equals("tdc")||suffix.equals("tdb")){
+                if (suffix.equals("EXM") || suffix.equals("tdc") || suffix.equals("tdb")) {
                     //文件
-                    fileCopy(f.getPath(),des+"\\"+id+"."+suffix); //调用文件拷贝的方法
-                    System.out.println(des+"\\"+id+"."+suffix);
-                }else{
+                    fileCopy(f.getPath(), des + "\\" + id + "." + suffix); //调用文件拷贝的方法
+                    System.out.println(des + "\\" + id + "." + suffix);
+                } else {
                     //文件
-                    fileCopy(f.getPath(),des+"\\"+f.getName()); //调用文件拷贝的方法
+                    fileCopy(f.getPath(), des + "\\" + f.getName()); //调用文件拷贝的方法
                 }
-            }else if(f.isDirectory()){
+            } else if (f.isDirectory()) {
                 //文件夹
-                copy(f.getPath(),des+"\\"+f.getName(),id);//继续调用复制方法      递归的地方,自己调用自己的方法,就可以复制文件夹的文件夹了
+                copy(f.getPath(), des + "\\" + f.getName(), id);//继续调用复制方法      递归的地方,自己调用自己的方法,就可以复制文件夹的文件夹了
             }
         }
 
@@ -814,21 +822,23 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
     /**
      * 文件复制的具体方法
      */
-    public  void fileCopy(String src, String des) throws Exception {
+    public void fileCopy(String src, String des) throws Exception {
         //io流固定格式
         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(src));
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(des));
         int i = -1;//记录获取长度
         byte[] bt = new byte[2014];//缓冲区
-        while ((i = bis.read(bt))!=-1) {
+        while ((i = bis.read(bt)) != -1) {
             bos.write(bt, 0, i);
         }
         bis.close();
         bos.close();
         //关闭流
     }
+
     /**
      * 删除模型
+     *
      * @param treeNodeId
      * @param subjectId
      */
@@ -839,39 +849,41 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         //1.找到该节点的所有子类
         list = developSceneMapper.getAllScenesclass(treeNodeId);
         //判断是否存在子文件或子目录
-        if(list.size()>0){
-            for(int i=0;i<list.size();i++){
+        if (list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
                 Scenes = list.get(i);
                 String id = Scenes.getId();
                 //判断该子类是内容还是目录
                 String result = judgeScenesType(id);
                 //对内容的处理
-                deleteSceneFile(id,subjectId);
+                deleteSceneFile(id, subjectId);
                 //对目录的处理
                 deleteScenesDirectory(id, subjectId);
             }
-            deleteScenesDirectory(treeNodeId,subjectId);
-        }else{
+            deleteScenesDirectory(treeNodeId, subjectId);
+        } else {
             //对内容的处理
-            Scenes=developSceneMapper.seleScenesKnow(treeNodeId);
-            if(!Scenes.getSceneContentId().equals("00000000-0000-0000-0000-000000000000"))
-                deleteSceneFile(treeNodeId,subjectId);
+            Scenes = developSceneMapper.seleScenesKnow(treeNodeId);
+            if (!Scenes.getSceneContentId().equals("00000000-0000-0000-0000-000000000000"))
+                deleteSceneFile(treeNodeId, subjectId);
             //对目录的处理
             deleteScenesDirectory(treeNodeId, subjectId);
         }
     }
+
     /**
      * 判断该子类是内容还是目录
+     *
      * @param knowledgeId
      * @return "content" 内容
-     * 			"directory" 目录
+     * "directory" 目录
      */
-    public String judgeScenesType(String knowledgeId){
-        Scenecontents Scenecontents =  developSceneMapper.getFileScenesContent(knowledgeId);
+    public String judgeScenesType(String knowledgeId) {
+        Scenecontents Scenecontents = developSceneMapper.getFileScenesContent(knowledgeId);
         String result;
-        if(Scenecontents!=null){
+        if (Scenecontents != null) {
             result = "content";
-        }else{
+        } else {
             result = "directory";
         }
         return result;
@@ -879,10 +891,11 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
 
     /**
      * 对内容的处理
-     * @param knowledgeId  Id (Knowledges)
+     *
+     * @param knowledgeId Id (Knowledges)
      * @param subjectId
      */
-    public void deleteSceneFile(String knowledgeId,String subjectId){
+    public void deleteSceneFile(String knowledgeId, String subjectId) {
 
 //        Scenecontents Scenecontents =  developSceneMapper.getFileScenesContent(knowledgeId);
 //        //判断内容的类型进行删除
@@ -908,81 +921,87 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
 //        }
 
     }
+
     /**
      * 根据删除节点id查询下一节点id并
      * 修改下一节点的上一节点id
+     *
      * @param deletedNodeId 当前节点id
      */
-    public void alterScenesNextPreNodeId(String deletedNodeId){
+    public void alterScenesNextPreNodeId(String deletedNodeId) {
 
         //获取下一节点
         String nextId = developSceneMapper.getScenesNextNodeId(deletedNodeId);
         //判断是否有下一节点
-        if(nextId!=null){
+        if (nextId != null) {
             //获取上一节点id
             String preId = developSceneMapper.getScenesPreNodeId(deletedNodeId);
             //修改下一节点的上一节点id
-            developSceneMapper.alterScenesNextPreNodeId(preId,nextId);
+            developSceneMapper.alterScenesNextPreNodeId(preId, nextId);
         }
     }
+
     /**
      * 对目录的处理
-     * @param id 当前knowledges的Id
+     *
+     * @param id        当前knowledges的Id
      * @param subjectId
      */
-    public void deleteScenesDirectory(String id,String subjectId){
+    public void deleteScenesDirectory(String id, String subjectId) {
 
         //判断该目录是否有子类
-        if(developSceneMapper.childScenesNum(id)>0){
+        if (developSceneMapper.childScenesNum(id) > 0) {
             //遍历所有的子类
-            for(int i=0;i<developSceneMapper.childScenesNum(id);i++){
+            for (int i = 0; i < developSceneMapper.childScenesNum(id); i++) {
                 //获取子类对象
                 Scenes Scenes = developSceneMapper.getAllScenesclass(id).get(i);
                 //判断子类是内容还是目录
                 String result = judgeScenesType(Scenes.getId());
-                if("content".equals(result)){
+                if ("content".equals(result)) {
                     alterScenesNextPreNodeId(Scenes.getId());
                     deleteSceneFile(Scenes.getId(), subjectId);
-                }else{
+                } else {
                     deleteScenesDirectory(Scenes.getId(), subjectId);
                 }
             }
-        }else{
+        } else {
             alterScenesNextPreNodeId(id);
             //删除目录
             int i = developSceneMapper.deleteScenesKnowledges(id);
         }
     }
+
     /*
      * 删除模型分类
      * */
-    public int delSceneContact(String id){
+    public int delSceneContact(String id) {
 
         int count = developSceneMapper.delSceneContact(id);
         return count;
     }
+
     /*
      * 知识树删除模型/场景
      * */
-    public int delScenes2(String Id){
+    public int delScenes2(String Id) {
 
         //SceneMapper.addScene(Scene);
         return developSceneMapper.delScenes2(Id);
     }
 
 
-    public Scenes getScenesparentId(String id){
+    public Scenes getScenesparentId(String id) {
         return developSceneMapper.getScenesparentId(id);
     }
 
     public List<Scenes> getSceneByUsers(String name, String rootId, String userId) {
-        List<Scenes> list = developSceneMapper.getSceneByTeamUserScenes(name,rootId,userId);
+        List<Scenes> list = developSceneMapper.getSceneByTeamUserScenes(name, rootId, userId);
         return list;
     }
 
     @Override
     public List<Scenes> getSceneByAllUsers(String name, String rootId) {
-        List<Scenes> list = developSceneMapper.getSceneByAllUsers(name,rootId);
+        List<Scenes> list = developSceneMapper.getSceneByAllUsers(name, rootId);
         return list;
     }
 
@@ -1005,16 +1024,16 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
 
     @Override
     public List<Scenes> getScenesSecondAll(String parentKnowledge, String subjectId) {
-        List<Scenes> ksList=new ArrayList<Scenes>();
-        List<String> userList=subjectMapper.getUserIdForAll(subjectId);
+        List<Scenes> ksList = new ArrayList<Scenes>();
+        List<String> userList = subjectMapper.getUserIdForAll(subjectId);
         String username;
         String userId;
-        for(int j=0;j<userList.size();j++){
-            List<Scenes> itemList=developSceneMapper.getScenesSecond(parentKnowledge,userList.get(j));
+        for (int j = 0; j < userList.size(); j++) {
+            List<Scenes> itemList = developSceneMapper.getScenesSecond(parentKnowledge, userList.get(j));
             itemList = getScneesList(itemList);
-            for(int k=0;k<itemList.size();k++){
-                userId=itemList.get(k).getUserKey();
-                username=usersMapper.getUserName(userId);
+            for (int k = 0; k < itemList.size(); k++) {
+                userId = itemList.get(k).getUserKey();
+                username = usersMapper.getUserName(userId);
                 itemList.get(k).setName(username);
                 ksList.add(itemList.get(k));
 
@@ -1026,24 +1045,24 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
     }
 
     //排序
-    public List<Scenes> getScneesList( List<Scenes> ksList){
-        List<Scenes> getKsList=new ArrayList<Scenes>();
-        String preId="";
-        for(int i=0;i<ksList.size();){
-            if(preId==""){
-                for(int j=0;j<ksList.size();j++){
-                    if(ksList.get(j).getPreScene()==null){
+    public List<Scenes> getScneesList(List<Scenes> ksList) {
+        List<Scenes> getKsList = new ArrayList<Scenes>();
+        String preId = "";
+        for (int i = 0; i < ksList.size(); ) {
+            if (preId == "") {
+                for (int j = 0; j < ksList.size(); j++) {
+                    if (ksList.get(j).getPreScene() == null) {
                         getKsList.add(ksList.get(j));
-                        preId=ksList.get(j).getId();
+                        preId = ksList.get(j).getId();
                         i++;
                     }
                 }
-            }else if(preId!=null){
-                for(int j=0;j<ksList.size();j++){
-                    if(ksList.get(j).getPreScene()!=null){
-                        if(ksList.get(j).getPreScene().equals(preId)){
+            } else if (preId != null) {
+                for (int j = 0; j < ksList.size(); j++) {
+                    if (ksList.get(j).getPreScene() != null) {
+                        if (ksList.get(j).getPreScene().equals(preId)) {
                             getKsList.add(ksList.get(j));
-                            preId=ksList.get(j).getId();
+                            preId = ksList.get(j).getId();
                             i++;
                         }
                     }
@@ -1058,37 +1077,37 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
      */
     @Override
     public List<Scenes> getScenesSecond(String parentKnowledge, String userId) {
-        List<Scenes> ksList=developSceneMapper.getScenesSecond(parentKnowledge,userId);
-        for(int i=0;i<ksList.size();i++){
-            Scenecontents scenecontents=developSceneMapper.getScenecontentsInfos(ksList.get(i).getSceneContentId());
-            if(scenecontents!=null){
-                String userName=usersMapper.getUserName(userId);
+        List<Scenes> ksList = developSceneMapper.getScenesSecond(parentKnowledge, userId);
+        for (int i = 0; i < ksList.size(); i++) {
+            Scenecontents scenecontents = developSceneMapper.getScenecontentsInfos(ksList.get(i).getSceneContentId());
+            if (scenecontents != null) {
+                String userName = usersMapper.getUserName(userId);
                 //ksList.get(i).setType(scenecontents.getType());
                 ksList.get(i).setName(userName);
-            }else{
-                String userName=usersMapper.getUserName(userId);
+            } else {
+                String userName = usersMapper.getUserName(userId);
                 ksList.get(i).setName(userName);
             }
         }
 
-        List<Scenes> getKsList=new ArrayList<Scenes>();
-        List<Scenes> getKsList2=new ArrayList<Scenes>();
-        String preId="";
-        for(int i=0;i<ksList.size();){
-            if(preId==""){
-                for(int j=0;j<ksList.size();j++){
-                    if(ksList.get(j).getPreScene()==null){
+        List<Scenes> getKsList = new ArrayList<Scenes>();
+        List<Scenes> getKsList2 = new ArrayList<Scenes>();
+        String preId = "";
+        for (int i = 0; i < ksList.size(); ) {
+            if (preId == "") {
+                for (int j = 0; j < ksList.size(); j++) {
+                    if (ksList.get(j).getPreScene() == null) {
                         getKsList.add(ksList.get(j));
-                        preId=ksList.get(j).getId();
+                        preId = ksList.get(j).getId();
                         i++;
                     }
                 }
-            }else if(preId!=null){
-                for(int j=0;j<ksList.size();j++){
-                    if(ksList.get(j).getPreScene()!=null){
-                        if(ksList.get(j).getPreScene().equals(preId)){
+            } else if (preId != null) {
+                for (int j = 0; j < ksList.size(); j++) {
+                    if (ksList.get(j).getPreScene() != null) {
+                        if (ksList.get(j).getPreScene().equals(preId)) {
                             getKsList.add(ksList.get(j));
-                            preId=ksList.get(j).getId();
+                            preId = ksList.get(j).getId();
                             i++;
                         }
                     }
@@ -1096,7 +1115,7 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
             }
         }
         for (Scenes scenes : getKsList) {
-            if(scenes.getCheckDel()==0){
+            if (scenes.getCheckDel() == 0) {
                 getKsList2.add(scenes);
             }
         }
@@ -1104,12 +1123,13 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
 
         return getKsList2;
 
-       // return ksList;
+        // return ksList;
     }
 
-    public String getScenesType(String knowledgecontentId){
+    public String getScenesType(String knowledgecontentId) {
         return developSceneMapper.getScenesType(knowledgecontentId);
     }
+
     @Override
     public int delScenecontents(Scenecontents scenecontents) {
         return developSceneMapper.delScenecontents(scenecontents);
@@ -1130,8 +1150,8 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         return list;
     }
 
-    public List<Scenes> getScenesList(String id,String userId) {
-        List<Scenes>list = developSceneMapper.getScenesList(id,userId);
+    public List<Scenes> getScenesList(String id, String userId) {
+        List<Scenes> list = developSceneMapper.getScenesList(id, userId);
 
 
         return list;
@@ -1143,19 +1163,19 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
     @Override
     public String AddScenesContent2(Scenecontents scenecontents, String treeId, String nodeId) {
         //System.out.println(" treeId："+treeId+" nodeId："+nodeId);
-        addLastScenesNode(treeId, nodeId,scenecontents.getUserKey());
+        addLastScenesNode(treeId, nodeId, scenecontents.getUserKey());
 
         //String id = UUID.randomUUID().toString();
         //scenecontents.setId(id);
         scenecontents.setIntroduce(null);
         scenecontents.setImageContentIcons(SceneImage);
-        scenecontents.setScene_Id(lastScenesNodeId(treeId, nodeId,scenecontents.getUserKey()));
+        scenecontents.setScene_Id(lastScenesNodeId(treeId, nodeId, scenecontents.getUserKey()));
         scenecontents.setType(SceneType);
-        scenecontents.setOrder(developSceneMapper.getScenesMaxOrder()+1);
+        scenecontents.setOrder(developSceneMapper.getScenesMaxOrder() + 1);
         developSceneMapper.addScenesModel(scenecontents);
         developSceneMapper.alterSceneContent_Id(scenecontents);
         System.out.println(scenecontents.getScene_Id());
-        String Name=scenecontents.getNmae();
+        String Name = scenecontents.getNmae();
         //String ContactKey=request.getParameter("modelOrView");
         //String type=request.getParameter("type");
         //暂无
@@ -1179,21 +1199,21 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
     /*
      * 修改场景的名字
      * */
-    public int updateScenescontentCustomName(String id,String CustomName,String PhotoName) {
-        int count2 =developSceneMapper.updateScenesContent(id,CustomName,PhotoName);
+    public int updateScenescontentCustomName(String id, String CustomName, String PhotoName) {
+        int count2 = developSceneMapper.updateScenesContent(id, CustomName, PhotoName);
         return count2;
     }
 
-    public String lastScenesNodeIdInAll(String treeId,String clickNodeId,String userId){
+    public String lastScenesNodeIdInAll(String treeId, String clickNodeId, String userId) {
         //获取父节点id
         String rootId = parentScenesNodeId(clickNodeId, treeId);
         //获取大节点数
-        int nodeNum = developSceneMapper.seleScenesNum2(treeId, rootId,userId);
+        int nodeNum = developSceneMapper.seleScenesNum2(treeId, rootId, userId);
         //找到第一个大节点
-        Scenes scenes = developSceneMapper.seleScenesFirst2(treeId, rootId,userId);
-        if(scenes!=null){
+        Scenes scenes = developSceneMapper.seleScenesFirst2(treeId, rootId, userId);
+        if (scenes != null) {
             String firstId = scenes.getId();
-            for(int i=1;i<nodeNum;i++){
+            for (int i = 1; i < nodeNum; i++) {
                 String nextId = developSceneMapper.getScenesNextNodeId(firstId);
                 firstId = nextId;
             }
@@ -1207,19 +1227,19 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         return true;
     }
 
-    public String slRootScenes(String id){
-        String rid=developSceneMapper.seleRootScenes(id);
+    public String slRootScenes(String id) {
+        String rid = developSceneMapper.seleRootScenes(id);
         return rid;
     }
 
-    public List<Scenes> getContentScenes(String subjectId, String sarchStr){
-        return  developSceneMapper.getContentScenes(subjectId,sarchStr);
+    public List<Scenes> getContentScenes(String subjectId, String sarchStr) {
+        return developSceneMapper.getContentScenes(subjectId, sarchStr);
     }
 
     @Override
     public void updateScenesContentFile(String userkey, String id, MultipartFile[] file) {
         //服務器路徑
-        String mubiao="/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/"+userkey+"/"+id;
+        String mubiao = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userkey + "/" + id;
         // String mubiao = "D:\\working\\TDuClub\\TDu\\Data\\3D\\Scene\\" + userkey + "\\" + id;
 
         for (MultipartFile f : file) {

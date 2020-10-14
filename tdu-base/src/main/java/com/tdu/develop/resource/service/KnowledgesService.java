@@ -24,11 +24,15 @@ public interface KnowledgesService {
     public Boolean inknow(Knowledges knowledges);
 
     public void updateContent(String id, String newname);
+
     public List<Knowledges> getKnowledgesSecond(String parentKnowledge, String userId);
+
     public String getKnowType(String knowledgecontentId);
+
     public String getKnowNmae(String knowledgecontentId);
 
     public List<Knowlegcontent> SubjcetTree(String id);
+
     public Knowlegcontent seleKContent(String id);
 
     public void upcontent(String name, String id);

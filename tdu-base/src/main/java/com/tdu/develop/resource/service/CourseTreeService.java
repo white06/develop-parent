@@ -9,14 +9,16 @@ import java.util.List;
  * @create 2019-08-27-16:48
  */
 public interface CourseTreeService {
-    public List<SubjectTrees> geSubjectTrees(String subjectKey) ;
+    public List<SubjectTrees> geSubjectTrees(String subjectKey);
+
     public void insertTree(SubjectTrees subjectTrees);
-    public SubjectTrees getTreeSource(String treeId) ;
 
-    public void updateTree(SubjectTrees subjectTrees) ;
+    public SubjectTrees getTreeSource(String treeId);
+
+    public void updateTree(SubjectTrees subjectTrees);
 
 
-    public void deleteTree(String treeid) ;
+    public void deleteTree(String treeid);
 
     public int getTreeNumMax(SubjectTrees subjectTrees);
 

@@ -21,6 +21,6 @@ public class InterpretServiceImpl implements InterpretService {
 
     @Override
     public List<Interpret> getInterResultList(String nandu, String page, String userKey, String pageKey) {
-        return interpretMapper.getInterResultList(nandu,page,userKey,pageKey);
+        return interpretMapper.getInterResultList(nandu, page, userKey, pageKey);
     }
 }

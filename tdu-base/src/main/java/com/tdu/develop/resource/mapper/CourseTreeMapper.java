@@ -15,45 +15,60 @@ public interface CourseTreeMapper {
     /**
      * 获取科目树的数据
      * subjecttrees表
+     *
      * @return
      */
     public List<SubjectTrees> geSubjectTrees(String subjectKey);
+
     /**
      * 插入科目树
      * subjecttrees表
+     *
      * @param subjectTrees
      */
     public void insertTree(SubjectTrees subjectTrees);
+
     /**
      * 根据树id获取树的数据
+     *
      * @param treeId
      * @return
      */
     public SubjectTrees getTreeSource(String treeId);
+
     /**
      * 根据树id插入root
      * knowledges表
+     *
      * @param id
      */
     public void insertRoot(Knowledges knowledges);
+
     /**
      * 更新树的数据
+     *
      * @param subjectTrees
      */
     public void updateTree(SubjectTrees subjectTrees);
+
     /**
      * 根据id删除树的数据
+     *
      * @param treeid
      */
     public void deleteTree(String treeid);
+
     /**
      * 根据id删除root
+     *
      * @param treeid
      */
     public void deleteRoot(String treeid);
+
     /**
      * 根据subjectKey找到treeNum最大值
      * subjecttrees表
+     *
      * @param subjectKey
      * @return
      */

@@ -5,8 +5,8 @@ import com.tdu.develop.resource.pojo.HtmlPage;
 
 public interface HtmlPageService {
 
-    public  void insertHtmlPage(HtmlPage htmlPage);
+    public void insertHtmlPage(HtmlPage htmlPage);
 
-    public  HtmlPage getHtmlPage(String userKey, String name);
+    public HtmlPage getHtmlPage(String userKey, String name);
 
 }

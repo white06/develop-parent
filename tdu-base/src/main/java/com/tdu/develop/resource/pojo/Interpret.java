@@ -1,13 +1,13 @@
 package com.tdu.develop.resource.pojo;
 
 public class Interpret {
-    private String  id;
-    private String  name;
-    private String  userKey;
-    private String  pageKey;
-    private int  number;
-    private int  page;
-    private String  nandu;
+    private String id;
+    private String name;
+    private String userKey;
+    private String pageKey;
+    private int number;
+    private int page;
+    private String nandu;
 
     private String yuanju;
     private String yiju;

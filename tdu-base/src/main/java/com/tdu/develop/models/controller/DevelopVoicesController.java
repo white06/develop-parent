@@ -21,53 +21,59 @@ import java.util.List;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="DevelopVoicesController")
+@RequestMapping(value = "DevelopVoicesController")
 public class DevelopVoicesController {
     @Autowired
-    DevelopVoicesService developVoicesService=new DevelopVoicesServiceImpl();
+    DevelopVoicesService developVoicesService = new DevelopVoicesServiceImpl();
+
     /**
      * 得到Voices数据首节点信息
+     *
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value="getVoicesFis.action", method={RequestMethod.POST})
+    @RequestMapping(value = "getVoicesFis.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<Voices> getVoicesFis(HttpServletRequest request, HttpServletResponse response){
-        String subTreeId=request.getParameter("subTreeId");
-        List<Voices> fList=developVoicesService.getVoicesFis(subTreeId);
+    public List<Voices> getVoicesFis(HttpServletRequest request, HttpServletResponse response) {
+        String subTreeId = request.getParameter("subTreeId");
+        List<Voices> fList = developVoicesService.getVoicesFis(subTreeId);
         return fList;
     }
+
     /**
      * 得到第二节点信息
+     *
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value="getVoicesSecond.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getVoicesSecond.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<Voices> getVoicesSecond(HttpServletRequest request, HttpServletResponse response){
-        String fId=request.getParameter("KnowledgesFisId");
-        List<Voices> sList=developVoicesService.getVoicesSecond(fId);
+    public List<Voices> getVoicesSecond(HttpServletRequest request, HttpServletResponse response) {
+        String fId = request.getParameter("KnowledgesFisId");
+        List<Voices> sList = developVoicesService.getVoicesSecond(fId);
         return sList;
     }
+
     /**
      * 获取name 信息
+     *
      * @param request
      * @param response
      * @return
      */
 
-    @RequestMapping(value="getKnowledgecontentsName.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getKnowledgecontentsName.action", method = {RequestMethod.POST})
     @ResponseBody
-    public String getKnowledgecontentsName(HttpServletRequest request,HttpServletResponse response){
-        String index_id=request.getParameter("knowledge_Id");
+    public String getKnowledgecontentsName(HttpServletRequest request, HttpServletResponse response) {
+        String index_id = request.getParameter("knowledge_Id");
         return developVoicesService.getKnowledgecontentsName(index_id);
     }
 
     @RequestMapping("getVoicesContentName.action")
     @ResponseBody
-    public Voicecontents getVoicesContentName(HttpServletRequest request){
+    public Voicecontents getVoicesContentName(HttpServletRequest request) {
         String id = request.getParameter("id");
         Voicecontents scenecontents = developVoicesService.getVoiceContentName(id);
         return scenecontents;

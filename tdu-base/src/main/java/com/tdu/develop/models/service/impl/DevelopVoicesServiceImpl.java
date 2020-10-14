@@ -17,6 +17,7 @@ import java.util.List;
 public class DevelopVoicesServiceImpl implements DevelopVoicesService {
     @Autowired
     DevelopVoicesMapper developVoicesMapper;
+
     /**
      * 获取首节点
      */
@@ -30,9 +31,10 @@ public class DevelopVoicesServiceImpl implements DevelopVoicesService {
      */
     @Override
     public List<Voices> getVoicesSecond(String parentKnowledge) {
-        List<Voices> ksList=developVoicesMapper.getVoicesSecond(parentKnowledge);
+        List<Voices> ksList = developVoicesMapper.getVoicesSecond(parentKnowledge);
         return ksList;
     }
+
     /**
      * 获取仿真名
      */

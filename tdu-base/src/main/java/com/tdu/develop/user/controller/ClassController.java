@@ -26,11 +26,11 @@ import java.util.List;
 
 @CrossOrigin
 @Controller
-@RequestMapping(value="ClassController")
+@RequestMapping(value = "ClassController")
 public class ClassController {
 
     @Autowired
-    SubjectService subjectService=new SubjectServiceImpl();
+    SubjectService subjectService = new SubjectServiceImpl();
 
     @Autowired
     UsersService usersService = new UserServiceImpl();
@@ -39,28 +39,28 @@ public class ClassController {
     InterpretResultService interpretResultService = new InterpretResultServiceImpl();
 
 
-   //得到选修班级
-    @RequestMapping(value="getClasseUserByUserKey.action")
+    //得到选修班级
+    @RequestMapping(value = "getClasseUserByUserKey.action")
     @ResponseBody
-    public List<Users> getClasseUserByUserKey(HttpServletRequest request, HttpSession session, HttpServletResponse response){
+    public List<Users> getClasseUserByUserKey(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
         String classKey = request.getParameter("classKey");
         String nandu = request.getParameter("nandu");
         String page = request.getParameter("page");
         String pageKey = request.getParameter("pageKey");
-        List<String> usersList =  subjectService.selClassUsers(classKey);
-        List<Users>   list= new ArrayList<Users>();
+        List<String> usersList = subjectService.selClassUsers(classKey);
+        List<Users> list = new ArrayList<Users>();
         Users user = null;
-        for (String id:usersList) {
+        for (String id : usersList) {
             user = usersService.GetNowUser(id);
-            if(user!=null){
+            if (user != null) {
                 list.add(user);
             }
         }
-        InterpretScore interpretScore=null;
-        if(list.size()>0){
-            for (Users users:list) {
-                interpretScore =   interpretResultService.getInterpretScore(users.getId(),nandu,page,pageKey);
-                if(interpretScore!=null){
+        InterpretScore interpretScore = null;
+        if (list.size() > 0) {
+            for (Users users : list) {
+                interpretScore = interpretResultService.getInterpretScore(users.getId(), nandu, page, pageKey);
+                if (interpretScore != null) {
                     users.setInterpretScore(interpretScore);
                 }
                 //list = subjectService.getClassUsers(classUsersList.get(0).getClassId());
@@ -71,39 +71,41 @@ public class ClassController {
 
 
     //得到选修班级
-    @RequestMapping(value="getClasses.action")
+    @RequestMapping(value = "getClasses.action")
     @ResponseBody
-    public List<Classes> getClasses(HttpServletRequest request, HttpSession session, HttpServletResponse response){
+    public List<Classes> getClasses(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
         return subjectService.getClasses();
     }
 
     /**
      * 获取属于班级的学生
+     *
      * @param request
      * @param response
      * @param session
      * @return
      */
-    @RequestMapping(value="getClassUsers.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getClassUsers.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<Users> getClassUsers(HttpServletRequest request,HttpServletResponse response,HttpSession session){
-        String classId=request.getParameter("classId");
-        System.out.println("classId   :"+classId);
+    public List<Users> getClassUsers(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String classId = request.getParameter("classId");
+        System.out.println("classId   :" + classId);
         return subjectService.getClassUsers(classId);
     }
 
     /**
      * 获取属于班级的学生
+     *
      * @param request
      * @param response
      * @param session
      * @return
      */
-    @RequestMapping(value="getClassUsersOnLine.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getClassUsersOnLine.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<OnlineUtil> getClassUsersOnLine(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        String classId=request.getParameter("classId");
-        System.out.println("classId   :"+classId);
+    public List<OnlineUtil> getClassUsersOnLine(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String classId = request.getParameter("classId");
+        System.out.println("classId   :" + classId);
         return subjectService.getClassUsersOnLine(classId);
     }
 

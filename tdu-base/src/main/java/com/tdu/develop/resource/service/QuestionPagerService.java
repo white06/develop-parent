@@ -12,16 +12,18 @@ public interface QuestionPagerService {
     public Boolean DelPagerStoAndeAnswer(String questionPager_Id);
 
     public Boolean DelQuesPagerContent(String questionPager_Id, String questionKey);
-    public int updatePager(String testName, String id) ;
 
-    public List<QuestionPagers> GetQuestionPagers(/*int page,int rowCount*/) ;
+    public int updatePager(String testName, String id);
 
-    public String submitTest(String testName, String sessionId, String subjectKey) ;
+    public List<QuestionPagers> GetQuestionPagers(/*int page,int rowCount*/);
 
-    public String submitTestPaper(String id, String testId, String questionType, int order, int score) ;
+    public String submitTest(String testName, String sessionId, String subjectKey);
+
+    public String submitTestPaper(String id, String testId, String questionType, int order, int score);
 
     /**
      * 删除数据以及试卷内的试题
+     *
      * @param id
      * @return
      */

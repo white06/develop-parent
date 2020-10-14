@@ -15,16 +15,20 @@ import java.util.List;
 public interface DevelopVoicesMapper {
     /**
      * 获取Voices首节点信息
+     *
      * @return
      */
     public List<Voices> getVoicesFis(@Param("subTreeId") String subTreeId);
 
     public List<Voices> getVoicesSecond(String ParentVoice);
+
     /**
      * 获取仿真模型name信息
+     *
      * @param knowledge_Id
      * @return
      */
     public String getKnowledgecontentsName(String knowledge_Id);
+
     public Voicecontents getVoiceContentName(@Param("id") String id);
 }

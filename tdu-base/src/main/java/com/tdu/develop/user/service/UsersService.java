@@ -22,17 +22,23 @@ public interface UsersService {
     public Users getUserByUserNameWithPermission(String userName);
 
     public Users longin(Users users);
+
     public Users GetNowUser(String userid);
-    public void UpdateUserInfo(Users Users) ;
-    public void addUserInfo(Users Users) ;
+
+    public void UpdateUserInfo(Users Users);
+
+    public void addUserInfo(Users Users);
+
     /**
      * 读取用户的权限
+     *
      * @return
      */
     public List<Integer> seleNum(String id);
 
     /**
      * 每当添加一个用户，则为他添加5个科目的阅览权限
+     *
      * @param users
      * @param role
      */
@@ -71,15 +77,13 @@ public interface UsersService {
     public List<String> insUserList(List<CellObject> cellList);
 
 
-    public String  GetUserRoleListByUserName(String userId, String subjectid) ;
+    public String GetUserRoleListByUserName(String userId, String subjectid);
 
     public List<Users> seleAllUsers();
 
     public boolean upUser(Users users);
 
     public boolean deleUser(String id);
-
-
 
 
     /********************************************************************************************************/
@@ -109,55 +113,62 @@ public interface UsersService {
     public boolean inTrial(TrialUsers trialUsers);
 
     public boolean delTrial(String id);
+
     /**
      * 移动端，根据用户id获取班级id
      */
-    public String getUserClass(String userId) ;
+    public String getUserClass(String userId);
+
     public boolean insUserPersonl(String userId, String rePassWord, String name, String passWord, String sex,
-                                  String userName, String telphone) ;
+                                  String userName, String telphone);
 
     public boolean ziyuaninsUserPersonl(String userId, String rePassWord, String name, String passWord, String sex,
-                                        String userName, String telphone) ;
+                                        String userName, String telphone);
 
-    public Users getTemp(String userName) ;
+    public Users getTemp(String userName);
 
     public List<Users> selUsers();
 
     /**
      * 获取 用户登录电脑信息
+     *
      * @param userName
      * @return
      */
     public Userstool loginTool(String userName);
+
     /**
      * 添加用户工具登录信息（电脑）
+     *
      * @param userstool
      */
     public void setLoginTool(Userstool userstool);
+
     /**
      * 添加用户工具登录信息（电脑）
+     *
      * @param userstool
      */
     public void upLoginTool(Userstool userstool);
 
     public String getClassName(String userId);
 
-    
-    public Users getUser(String userId) ;
-    
-    public boolean setUsername(String userId, String userName) ;
-    
-    public boolean setUserSex(String userId, String userSex) ;
-    
-    public boolean setUserBirthdate(String userId, String birthdate) ;
-    
-    public boolean setUserQQ(String userId, String userQQ) ;
-    
-    public boolean setUserWeixin(String userId, String userWeixin) ;
-    
-    public boolean setUserPhone(String userId, String userPhone) ;
-    
-    public boolean setUserMail(String userId, String userMail) ;
+
+    public Users getUser(String userId);
+
+    public boolean setUsername(String userId, String userName);
+
+    public boolean setUserSex(String userId, String userSex);
+
+    public boolean setUserBirthdate(String userId, String birthdate);
+
+    public boolean setUserQQ(String userId, String userQQ);
+
+    public boolean setUserWeixin(String userId, String userWeixin);
+
+    public boolean setUserPhone(String userId, String userPhone);
+
+    public boolean setUserMail(String userId, String userMail);
 
     public List<Auth> getAuths(String userId);
 
@@ -166,24 +177,24 @@ public interface UsersService {
     public List<Auth> getAllAuth();
 
     public void updatePassword(String password, String userid);
-    public List<Users> seleAllUsersByPage(int page, int limit) ;
 
-    public List<ClassUser> seleAllUsersByPageclass(int page, int limit, String majorId, String classId) ;
+    public List<Users> seleAllUsersByPage(int page, int limit);
+
+    public List<ClassUser> seleAllUsersByPageclass(int page, int limit, String majorId, String classId);
 
     public int seleAllUsersByPageclassCount(String majorId, String classId);
 
-    public List<Users> seleAllUsersByPageCollege(int page, int limit, String CollegeId) ;
+    public List<Users> seleAllUsersByPageCollege(int page, int limit, String CollegeId);
 
     public List<SubjectUser> seleAllUsersByPageSubjcet(int page, int limit, String majorId, String subjectId);
 
     public int seleAllUsersByPageSubjcetCount(String majorId, String subjectId);
 
-    public List<MajorUser> seleAllUsersByPagemajor(int page, int limit, String majorId, String collegeId) ;
+    public List<MajorUser> seleAllUsersByPagemajor(int page, int limit, String majorId, String collegeId);
 
     public List<DepartmentUser> seleAllUsersByPagedepertment(int m, int n, String depertmentId);
 
     public List<DepartmentUser> seleUsersByPageDepertmentLikeName(int m, int n, String depertmentId, String userName);
-
 
 
     public int seleAllUsersByPagemajorCount(String collegeId);
@@ -225,10 +236,11 @@ public interface UsersService {
     /**
      * 用户登录信息记录
      */
-    public  void insetUserLogin(UserOnline userOnline);
+    public void insetUserLogin(UserOnline userOnline);
 
     /**
      * 记录登出时间，以及统计登录时长
+     *
      * @param date
      */
     public void createLogin(Date date, String loginId) throws Exception;
@@ -237,11 +249,12 @@ public interface UsersService {
 
     public Integer getUserOnLineMonth();
 
-    public Integer  getUserOnLinePreMonth();
+    public Integer getUserOnLinePreMonth();
 
     List<Object> getMonthInYear();
 
     Users getUserByTel(String telphone);
+
     List<Users> getUsersByTel(String telphone);
 
     List<Object> getHalfYear();

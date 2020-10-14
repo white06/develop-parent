@@ -32,96 +32,97 @@ import java.util.Map;
 
 /**
  * 权限配置文件
- * @ClassName: ShiroConfiguration
- * @author fuce
- * @date 2018年8月25日
  *
+ * @author fuce
+ * @ClassName: ShiroConfiguration
+ * @date 2018年8月25日
  */
 @Configuration
 public class ShiroConfig {
 
-	private final static Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
+    private final static Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
 
-	// 下面两个方法对 注解权限起作用有很大的关系，请把这两个方法，放在配置的最上面
-	@Bean(name = "lifecycleBeanPostProcessor")
-	public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
-		return new LifecycleBeanPostProcessor();
-	}
-	@Bean
-	public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
-		DefaultAdvisorAutoProxyCreator autoProxyCreator = new DefaultAdvisorAutoProxyCreator();
-		autoProxyCreator.setProxyTargetClass(true);
-		return autoProxyCreator;
-	}
+    // 下面两个方法对 注解权限起作用有很大的关系，请把这两个方法，放在配置的最上面
+    @Bean(name = "lifecycleBeanPostProcessor")
+    public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
+    }
 
-	//将自己的验证方式加入容器
-	@Bean
-	public MyRealm myRealm() {
-		MyRealm myRealm = new MyRealm();
-		return myRealm;
-	}
+    @Bean
+    public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator autoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        autoProxyCreator.setProxyTargetClass(true);
+        return autoProxyCreator;
+    }
 
-	@Bean(name="sessionDAO")
-	public MemorySessionDAO getMemorySessionDAO(){
-		MemorySessionDAO sessionDAO = new MemorySessionDAO();
-		return sessionDAO;
-	}
+    //将自己的验证方式加入容器
+    @Bean
+    public MyRealm myRealm() {
+        MyRealm myRealm = new MyRealm();
+        return myRealm;
+    }
 
-	//配置shiro session 的一个管理器
-	@Bean(name = "sessionManager")
-	public DefaultWebSessionManager getDefaultWebSessionManager(){
-		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-		// 设置session过期时间
-		System.out.println(" sessionManager  --------");
-		sessionManager.setGlobalSessionTimeout(1800);
-		sessionManager.setSessionDAO(getMemorySessionDAO());
-		return sessionManager;
-	}
+    @Bean(name = "sessionDAO")
+    public MemorySessionDAO getMemorySessionDAO() {
+        MemorySessionDAO sessionDAO = new MemorySessionDAO();
+        return sessionDAO;
+    }
 
-	@Bean(name = "securityManager")
-	public DefaultWebSecurityManager getDefaultWebSecurityManager() {
-		DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
-		defaultWebSecurityManager.setRealm( myRealm() );
-		defaultWebSecurityManager.setSessionManager( getDefaultWebSessionManager() );
-		return defaultWebSecurityManager;
-	}
+    //配置shiro session 的一个管理器
+    @Bean(name = "sessionManager")
+    public DefaultWebSessionManager getDefaultWebSessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        // 设置session过期时间
+        System.out.println(" sessionManager  --------");
+        sessionManager.setGlobalSessionTimeout(1800);
+        sessionManager.setSessionDAO(getMemorySessionDAO());
+        return sessionManager;
+    }
 
-	@Bean
-	public AuthorizationAttributeSourceAdvisor getAuthorizationAttributeSourceAdvisor(
-			DefaultWebSecurityManager securityManager) {
-		AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
-		advisor.setSecurityManager(securityManager);
-		return advisor;
-	}
+    @Bean(name = "securityManager")
+    public DefaultWebSecurityManager getDefaultWebSecurityManager() {
+        DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
+        defaultWebSecurityManager.setRealm(myRealm());
+        defaultWebSecurityManager.setSessionManager(getDefaultWebSessionManager());
+        return defaultWebSecurityManager;
+    }
 
-	//Filter工厂，设置对应的过滤条件和跳转条件
-	@Bean
-	public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
-		System.out.println( "shiro 过滤器" );
-		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+    @Bean
+    public AuthorizationAttributeSourceAdvisor getAuthorizationAttributeSourceAdvisor(
+            DefaultWebSecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
+        advisor.setSecurityManager(securityManager);
+        return advisor;
+    }
+
+    //Filter工厂，设置对应的过滤条件和跳转条件
+    @Bean
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
+        System.out.println("shiro 过滤器");
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 //		//测试hello
 //		shiroFilterFactoryBean.setLoginUrl("/hello");
 //		//测试用户
 //		shiroFilterFactoryBean.setLoginUrl("/user");
-		//登录
-		shiroFilterFactoryBean.setLoginUrl("/login");
-		//首页
-		shiroFilterFactoryBean.setSuccessUrl("/index");
-		//错误页面，认证不通过跳转
-		shiroFilterFactoryBean.setUnauthorizedUrl("/error/403");
-		//页面权限控制
-		shiroFilterFactoryBean.setFilterChainDefinitionMap(ShiroFilterMapFactory.shiroFilterMap());
+        //登录
+        shiroFilterFactoryBean.setLoginUrl("/login");
+        //首页
+        shiroFilterFactoryBean.setSuccessUrl("/index");
+        //错误页面，认证不通过跳转
+        shiroFilterFactoryBean.setUnauthorizedUrl("/error/403");
+        //页面权限控制
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(ShiroFilterMapFactory.shiroFilterMap());
 
-		shiroFilterFactoryBean.setSecurityManager(securityManager);
-		return shiroFilterFactoryBean;
-	}
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        return shiroFilterFactoryBean;
+    }
 
 
-	/**
-	 * 这是shiro的大管家，相当于mybatis里的SqlSessionFactoryBean
-	 * @param securityManager
-	 * @return
-	 *//*
+    /**
+     * 这是shiro的大管家，相当于mybatis里的SqlSessionFactoryBean
+     * @param securityManager
+     * @return
+     *//*
 	@Bean
 	public ShiroFilterFactoryBean shiroFilterFactoryBean(org.apache.shiro.mgt.SecurityManager securityManager) {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -143,12 +144,12 @@ public class ShiroConfig {
 	}
 	
 	*//**
-	 * web应用管理配置
-	 * @param shiroRealm
-	 * @param cacheManager
-	 * @param manager
-	 * @return
-	 *//*
+     * web应用管理配置
+     * @param shiroRealm
+     * @param cacheManager
+     * @param manager
+     * @return
+     *//*
 	@Bean
 	public DefaultWebSecurityManager securityManager(Realm shiroRealm,CacheManager cacheManager,RememberMeManager manager) {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
@@ -159,9 +160,9 @@ public class ShiroConfig {
 	}
 	
 	*//**
-	 * 加密算法
-	 * @return
-	 *//*
+     * 加密算法
+     * @return
+     *//*
 	@Bean
 	public HashedCredentialsMatcher hashedCredentialsMatcher() {
 		HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
@@ -171,9 +172,9 @@ public class ShiroConfig {
 	}
 	
 	*//**
-	 * 记住我的配置
-	 * @return
-	 *//*
+     * 记住我的配置
+     * @return
+     *//*
 	@Bean
 	public RememberMeManager rememberMeManager() {
 		Cookie cookie = new SimpleCookie("rememberMe");
@@ -184,9 +185,9 @@ public class ShiroConfig {
 		return manager;
 	}
 	*//**
-	 * 缓存配置
-	 * @return
-	 *//*
+     * 缓存配置
+     * @return
+     *//*
 	@Bean
 	public CacheManager cacheManager() {
 		MemoryConstrainedCacheManager cacheManager=new MemoryConstrainedCacheManager();//使用内存缓存
@@ -194,10 +195,10 @@ public class ShiroConfig {
 	}
 	
 	*//**
-	 * 配置realm，用于认证和授权
-	 * @param hashedCredentialsMatcher
-	 * @return
-	 *//*
+     * 配置realm，用于认证和授权
+     * @param hashedCredentialsMatcher
+     * @return
+     *//*
 	@Bean
 	public AuthorizingRealm shiroRealm(HashedCredentialsMatcher hashedCredentialsMatcher) {
 		MyShiroRealm shiroRealm = new MyShiroRealm();
@@ -207,9 +208,9 @@ public class ShiroConfig {
 	}
 	
 	*//**
-	 * 启用shiro方言，这样能在页面上使用shiro标签
-	 * @return
-	 *//*
+     * 启用shiro方言，这样能在页面上使用shiro标签
+     * @return
+     *//*
 	@Bean
     public ShiroDialect shiroDialect() {
         return new ShiroDialect();

@@ -30,22 +30,24 @@ import java.util.*;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="EmailUserController")
+@RequestMapping(value = "EmailUserController")
 public class EmailUserController {
 
     @Autowired
-    private EmailService emailService =new EmailServiceImpl();
+    private EmailService emailService = new EmailServiceImpl();
     @Autowired
-    UsersService usersService=new UserServiceImpl();
+    UsersService usersService = new UserServiceImpl();
 
-    private String useremail="45187137@qq.com";
-    private String auth="cmvtitknkrhkbjec";
+    private String useremail = "45187137@qq.com";
+    private String auth = "cmvtitknkrhkbjec";
+
     /**
      * 获取properties值
+     *
      * @param key
      * @return
      */
-    public static String getValue(String key){
+    public static String getValue(String key) {
         Properties prop = new Properties();
         try {
             //装载配置文件
@@ -57,23 +59,24 @@ public class EmailUserController {
         //返回获取的值
         return prop.getProperty(key);
     }
+
     //往数据库里添加email邮件信息
-    @RequestMapping(value="emailUser.action",method={RequestMethod.POST})
+    @RequestMapping(value = "emailUser.action", method = {RequestMethod.POST})
     @ResponseBody
-    public String emailUser(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+    public String emailUser(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         //1表示成功
         //2表示账号已存在
-        String id= UUID.randomUUID().toString();
+        String id = UUID.randomUUID().toString();
         String userName = request.getParameter("UserName");
         String email = request.getParameter("Email");
         String password = request.getParameter("PassWord");
         String telephone = request.getParameter("telphone");
         String ziyuan = request.getParameter("ziyuan");
-        String state="0";
-        if(emailService.seleUsers(userName)!=null){
+        String state = "0";
+        if (emailService.seleUsers(userName) != null) {
             return "2";
-        }else{
-            emailService.addEmail(id,userName,email,password,state,auth,telephone,ziyuan);
+        } else {
+            emailService.addEmail(id, userName, email, password, state, auth, telephone, ziyuan);
             MailOperation operation = new MailOperation();
             String host = "smtp.qq.com";
             String from = "45187137@qq.com";
@@ -81,10 +84,10 @@ public class EmailUserController {
             String subject = "天度科技";
             //邮箱内容
             StringBuffer sb = new StringBuffer();
-            String yzm="http://www.tduvr.club/";
-            sb.append("<!DOCTYPE>"+"<div bgcolor='#f1fcfa'   style='border:1px solid #d9f4ee; font-size:14px; line-height:22px; color:#005aa0;padding-left:1px;padding-top:5px;   padding-bottom:5px;'><span style='font-weight:bold;'>温馨提示：</span>"
-                    + "<div style='width:950px;font-family:arial;'>欢迎使用TDuVR产品，请您点击下面链接确认确认注册信息：<br/><a  href='https://www.tduvr.club/tdu-base/EmailUserController/addUser.action?id="+id+"' style='color:green'>"+yzm+"</a><br/>本邮件由系统自动发出，请勿回复。<br/>感谢您的使用。<br/>天度（厦门）科技股份有限公司</div>"
-                    +"</div>");
+            String yzm = "http://www.tduvr.club/";
+            sb.append("<!DOCTYPE>" + "<div bgcolor='#f1fcfa'   style='border:1px solid #d9f4ee; font-size:14px; line-height:22px; color:#005aa0;padding-left:1px;padding-top:5px;   padding-bottom:5px;'><span style='font-weight:bold;'>温馨提示：</span>"
+                    + "<div style='width:950px;font-family:arial;'>欢迎使用TDuVR产品，请您点击下面链接确认确认注册信息：<br/><a  href='https://www.tduvr.club/tdu-base/EmailUserController/addUser.action?id=" + id + "' style='color:green'>" + yzm + "</a><br/>本邮件由系统自动发出，请勿回复。<br/>感谢您的使用。<br/>天度（厦门）科技股份有限公司</div>"
+                    + "</div>");
             try {
                 String res = operation.sendMail(useremail, auth, host, from, email,
                         subject, sb.toString());
@@ -101,28 +104,28 @@ public class EmailUserController {
 
 
     //查询所有的学生
-    @RequestMapping(value="seleStuBySearch.action",method={RequestMethod.POST})
+    @RequestMapping(value = "seleStuBySearch.action", method = {RequestMethod.POST})
     @ResponseBody
-    public void insEmail(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        String id= UUID.randomUUID().toString();
+    public void insEmail(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String id = UUID.randomUUID().toString();
         String userName = request.getParameter("userName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String telephone = request.getParameter("telphone");
         String ziyuan = request.getParameter("ziyuan");
-        String state="0";
-                MailOperation operation = new MailOperation();
+        String state = "0";
+        MailOperation operation = new MailOperation();
         String host = "smtp.qq.com";
         String from = "45187137@qq.com";
         String to = "2791906134@qq.com";// 收件人
         String subject = "测试发送功能";
         //邮箱内容
         StringBuffer sb = new StringBuffer();
-       String yzm = RandomUtil.randomString(6);
-        sb.append("<!DOCTYPE>"+"<div bgcolor='#f1fcfa'   style='border:1px solid #d9f4ee; font-size:14px; line-height:22px; color:#005aa0;padding-left:1px;padding-top:5px;   padding-bottom:5px;'><span style='font-weight:bold;'>温馨提示：</span>"
-                + "<div style='width:950px;font-family:arial;'>欢迎使用NET微活动，您的注册码为：<br/><h2 style='color:green'>"+yzm+"</h2><br/>本邮件由系统自动发出，请勿回复。<br/>感谢您的使用。<br/>杭州恩意替电子商务有限公司</div>"
-                +"</div>");
-        emailService.addEmail(id,userName,email,password,state,auth,telephone,ziyuan);
+        String yzm = RandomUtil.randomString(6);
+        sb.append("<!DOCTYPE>" + "<div bgcolor='#f1fcfa'   style='border:1px solid #d9f4ee; font-size:14px; line-height:22px; color:#005aa0;padding-left:1px;padding-top:5px;   padding-bottom:5px;'><span style='font-weight:bold;'>温馨提示：</span>"
+                + "<div style='width:950px;font-family:arial;'>欢迎使用NET微活动，您的注册码为：<br/><h2 style='color:green'>" + yzm + "</h2><br/>本邮件由系统自动发出，请勿回复。<br/>感谢您的使用。<br/>杭州恩意替电子商务有限公司</div>"
+                + "</div>");
+        emailService.addEmail(id, userName, email, password, state, auth, telephone, ziyuan);
         try {
             String res = operation.sendMail(email, auth, host, from, to,
                     subject, sb.toString());
@@ -132,30 +135,32 @@ public class EmailUserController {
             e.printStackTrace();
         }
     }
+
     //添加账号，邮件认证
-    @RequestMapping(value="insUser.action",method={RequestMethod.POST})
+    @RequestMapping(value = "insUser.action", method = {RequestMethod.POST})
     @ResponseBody
-    public String  insUser(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        String emailId= request.getParameter("id");
-        if(emailService.getState(emailId)=="0") {
+    public String insUser(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String emailId = request.getParameter("id");
+        if (emailService.getState(emailId) == "0") {
             Users users = emailService.getUser(emailId);
             String roleId = "0c494961-fc3c-41b3-992a-4f9b0d0f57eb";
             usersService.insUser(users, roleId);
             return "1";
-        }else{
+        } else {
             return "2";
         }
     }
 
-    @RequestMapping(value="addUser.action",method={RequestMethod.GET})
+    @RequestMapping(value = "addUser.action", method = {RequestMethod.GET})
     @ResponseBody
-    public String  addUser(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        String emailId= request.getParameter("id");
-        if(emailService.getState(emailId).equals("0")) {
+    public String addUser(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String emailId = request.getParameter("id");
+        if (emailService.getState(emailId).equals("0")) {
             EmailUser users = emailService.getEmailUser(emailId);
-            Users temp=usersService.getTemp(users.getUserName());
-            if(users.getZiyuan().equals("false")){
-                System.out.println("false");;
+            Users temp = usersService.getTemp(users.getUserName());
+            if (users.getZiyuan().equals("false")) {
+                System.out.println("false");
+                ;
                 Users user = emailService.getUser(emailId);
 
                 //获取系统时间，并且转码成数据库可读
@@ -179,13 +184,13 @@ public class EmailUserController {
                 String roleId = "0c494961-fc3c-41b3-992a-4f9b0d0f57eb";
                 usersService.insUser(user, roleId);
             }
-            if(users.getZiyuan().equals("true")){
-                if(temp==null){
-                    usersService.ziyuaninsUserPersonl(users.getId(), users.getPassword(), users.getUserName(), users.getPassword(), "男", users.getUserName(),users.getTelephone());
+            if (users.getZiyuan().equals("true")) {
+                if (temp == null) {
+                    usersService.ziyuaninsUserPersonl(users.getId(), users.getPassword(), users.getUserName(), users.getPassword(), "男", users.getUserName(), users.getTelephone());
                 }
             }
             return "注册成功！请登录！";
-        }else{
+        } else {
             return "2";
         }
     }

@@ -20,68 +20,79 @@ import java.util.Map;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="sectionController")
+@RequestMapping(value = "sectionController")
 public class sectionController {
     @Autowired
     public SectionService ss;
+
     @RequestMapping("queryWordInfos.action")
     @ResponseBody
-    public Map<String,Object> queryWordInfos(String page,String level){
-        Map<String,Object> map = ss.queryWordInfos(page,level);
+    public Map<String, Object> queryWordInfos(String page, String level) {
+        Map<String, Object> map = ss.queryWordInfos(page, level);
         return map;
     }
+
     @RequestMapping("loadcollectQueBySection.action")
     @ResponseBody
-    public List<Map<String,Object>> loadcollectQueBySection(String knowId, HttpSession session){
+    public List<Map<String, Object>> loadcollectQueBySection(String knowId, HttpSession session) {
         String userId = (String) session.getAttribute("ID");
-        List<Map<String,Object>> list = ss.loadcollectQueBySection(knowId,userId);
+        List<Map<String, Object>> list = ss.loadcollectQueBySection(knowId, userId);
         return list;
     }
+
     @RequestMapping("collectAllQue.action")
     @ResponseBody
-    public List<Map<String,Object>> collectAllQue(){
-        List<Map<String,Object>> list = ss.collectAllQue();
+    public List<Map<String, Object>> collectAllQue() {
+        List<Map<String, Object>> list = ss.collectAllQue();
         return list;
     }
+
     @RequestMapping("removeQue.action")
     @ResponseBody
     public JsonResult removeQue(String queId) {
         ss.removeQue(queId);
         return new JsonResult();
     }
+
     @RequestMapping("errorAllQue.action")
     @ResponseBody
-    public List<Map<String,Object>> errorAllQue(HttpSession session){
+    public List<Map<String, Object>> errorAllQue(HttpSession session) {
         String userId = (String) session.getAttribute("ID");
-        List<Map<String,Object>> list = ss.errorAllQue(userId);
+        List<Map<String, Object>> list = ss.errorAllQue(userId);
         return list;
     }
+
     /**
      * 加载章节错题
+     *
      * @param knowId
      * @return
      */
     @RequestMapping("loadErrorQueBySection.action")
     @ResponseBody
-    public List<Map<String,Object>> loadErrorQueBySection(String knowId,HttpSession session){
+    public List<Map<String, Object>> loadErrorQueBySection(String knowId, HttpSession session) {
         String userId = (String) session.getAttribute("ID");
-        List<Map<String,Object>> list = ss.loadErrorQueBySection(knowId,userId);
+        List<Map<String, Object>> list = ss.loadErrorQueBySection(knowId, userId);
         return list;
     }
+
     @RequestMapping("loadChildNodes.action")
     @ResponseBody
-    public List<Map<String,Object>> loadChildNodes(String id){
-        List<Map<String,Object>> list = ss.loadChildNodes(id);
+    public List<Map<String, Object>> loadChildNodes(String id) {
+        List<Map<String, Object>> list = ss.loadChildNodes(id);
         return list;
     }
+
     @RequestMapping("doLoadSections.action")
     @ResponseBody
-    public List<Map<String,Object>> doLoadSections(String errorTreeId){
-        List<Map<String,Object>> list = ss.doLoadSections(errorTreeId);
+    public List<Map<String, Object>> doLoadSections(String errorTreeId) {
+        List<Map<String, Object>> list = ss.doLoadSections(errorTreeId);
         return list;
     }
+
     /**
      * 删除单词
+     *
      * @return
      */
     @RequestMapping("doDeleteWord.action")
@@ -90,8 +101,10 @@ public class sectionController {
         ss.doDeleteWord(id);
         return new JsonResult();
     }
+
     /**
      * 修改单词信息
+     *
      * @param word
      * @return
      */
@@ -102,17 +115,20 @@ public class sectionController {
         ss.doUpdateWord(word);
         return new JsonResult();
     }
+
     /**
      * 根据科目id加载所有的章节
+     *
      * @param subjectId
      * @return
      */
     @RequestMapping("loadSections.action")
     @ResponseBody
-    public List<Map<String,Object>> loadSections(String subjectId){
-        List<Map<String,Object>> list = ss.loadSections();
+    public List<Map<String, Object>> loadSections(String subjectId) {
+        List<Map<String, Object>> list = ss.loadSections();
         return list;
     }
+
     @RequestMapping("doSaveWord.action")
     @ResponseBody
     public JsonResult doSaveWord(Word word) {
@@ -120,26 +136,30 @@ public class sectionController {
         System.out.println(word);
         return new JsonResult();
     }
+
     /**
      * 加载章节树
+     *
      * @return
      */
     @RequestMapping("loadSectionTree.action")
     @ResponseBody
-    public List<Map<String,Object>> loadSectionTree(String subjectId) {
-        List<Map<String,Object>> list = ss.loadSectionsTree(subjectId);
+    public List<Map<String, Object>> loadSectionTree(String subjectId) {
+        List<Map<String, Object>> list = ss.loadSectionsTree(subjectId);
         return list;
     }
+
     /**
      * 查询章节下的所有单词
+     *
      * @param sectionId
      * @return
      */
     @RequestMapping("doLoadWords.action")
     @ResponseBody
-    public Map<String,Object> doLoadWords(String sectionId,String page,String rows){
-        System.out.println(page+","+rows);
-        Map<String,Object> map = ss.doLoadWords(sectionId,Integer.parseInt(page),Integer.parseInt(rows));
+    public Map<String, Object> doLoadWords(String sectionId, String page, String rows) {
+        System.out.println(page + "," + rows);
+        Map<String, Object> map = ss.doLoadWords(sectionId, Integer.parseInt(page), Integer.parseInt(rows));
         return map;
     }
 }

@@ -20,35 +20,36 @@ import java.util.Map;
  * @author 志阳
  * @create 2019-08-02-16:10
  */
-@RestController
+@Controller
 public class HelloController {
 
     @Autowired
-    DevelopModelService developModelService=new DevelopModelServiceImpl();
+    DevelopModelService developModelService = new DevelopModelServiceImpl();
 
     @ResponseBody
     @GetMapping("/hello")
-    public  String hello(){
+    public String hello() {
         return "Hello world";
     }
 
     @RequestMapping("/success")
-    public String success(Map<String,Object> map){
-        map.put("hello","你好");
+    public String success(Map<String, Object> map) {
+        map.put("hello", "你好");
         return "tdu/test";
     }
+
     @RequestMapping("/upload")
     @ResponseBody
-    public void upload(@RequestParam("treeId")String treeId,@RequestParam("KnowledgeId")String KnowledgeId,@RequestParam("name")String name2, @RequestParam("file") MultipartFile[] file){
+    public void upload(@RequestParam("treeId") String treeId, @RequestParam("KnowledgeId") String KnowledgeId, @RequestParam("name") String name2, @RequestParam("file") MultipartFile[] file) {
 
-        System.out.println(" treeId :"+treeId);
-        System.out.println(" KnowledgeId :"+KnowledgeId);
-        System.out.println(" name2 :"+name2);
-        System.out.println(" file :"+file);
-        for(MultipartFile f:file){
+        System.out.println(" treeId :" + treeId);
+        System.out.println(" KnowledgeId :" + KnowledgeId);
+        System.out.println(" name2 :" + name2);
+        System.out.println(" file :" + file);
+        for (MultipartFile f : file) {
 
-            File file1 ;
-            String name="";
+            File file1;
+            String name = "";
             try {
                 /*if (f instanceof CommonsMultipartFile) {
                     //转换成这个对象，然后我们需要通过里面的FileItem来获得相对路径
@@ -68,25 +69,25 @@ public class HelloController {
                 String suffix = path.substring(path.lastIndexOf("."));
                 //sence  /  model ID
                 String pp = "123456789";
-                String realPath =pp;
-                if(suffix.equals(".tdb")||suffix.equals(".tdc")){
-                    System.out.println(" suffix :"+suffix);
-                    realPath = pp+"/1345678"+suffix;
-                    System.out.println("  realPath  :"+realPath);
-                }else{
+                String realPath = pp;
+                if (suffix.equals(".tdb") || suffix.equals(".tdc")) {
+                    System.out.println(" suffix :" + suffix);
+                    realPath = pp + "/1345678" + suffix;
+                    System.out.println("  realPath  :" + realPath);
+                } else {
                     String[] strArr = path.split("\\/");
                     System.out.println(strArr.length); //这里输出3
-                    for (int i = 0; i < strArr.length; ++i){
+                    for (int i = 0; i < strArr.length; ++i) {
                         System.out.println(strArr[i]);//这里输出a b c
-                        if(i!=0){
-                            realPath = realPath+"/"+strArr[i];
+                        if (i != 0) {
+                            realPath = realPath + "/" + strArr[i];
                         }
                     }
-                    System.out.println("  realPath  :"+realPath);
+                    System.out.println("  realPath  :" + realPath);
                 }
-                updatePdf(f,realPath);
+                updatePdf(f, realPath);
                 System.out.println("sssss   ");
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -99,7 +100,7 @@ public class HelloController {
         }
     }
 
-    public void updatePdf(MultipartFile mf,String realPath) throws IOException {
+    public void updatePdf(MultipartFile mf, String realPath) throws IOException {
 
         //File file = new File(filePath+File.separator+knowlegcontent.getType());
         InputStream is = mf.getInputStream();
@@ -130,36 +131,37 @@ public class HelloController {
             bis.close();
             bos.close();
         }*/
-        StringBuffer fileBuf=new StringBuffer();
+        StringBuffer fileBuf = new StringBuffer();
 
         String[] strArr = realPath.split("\\/");
-        String wenjianPath="";
+        String wenjianPath = "";
         System.out.println(strArr.length); //这里输出3
-        for (int i = 0; i < strArr.length; ++i){
+        for (int i = 0; i < strArr.length; ++i) {
             System.out.println(strArr[i]);//这里输出a b c
-            if(i!=(strArr.length-1)){
-                wenjianPath = wenjianPath+"/"+strArr[i];
+            if (i != (strArr.length - 1)) {
+                wenjianPath = wenjianPath + "/" + strArr[i];
             }
         }
-        String filePar = "D:/working/TDuClub/TDu/Data/3D/Model/"+"4d272f66-9dac-4b87-a2a1-22b6e5910779"+wenjianPath;// 文件夹路径
-        File myPath = new File( filePar );
-        if ( !myPath.exists()){//若此目录不存在，则创建之
+        String filePar = "D:/working/TDuClub/TDu/Data/3D/Model/" + "4d272f66-9dac-4b87-a2a1-22b6e5910779" + wenjianPath;// 文件夹路径
+        File myPath = new File(filePar);
+        if (!myPath.exists()) {//若此目录不存在，则创建之
             myPath.mkdir();
-            System.out.println("创建文件夹路径为："+ filePar);
+            System.out.println("创建文件夹路径为：" + filePar);
         }
         // 文件夹路径存在的情况下
-        String filename = "D:/working/TDuClub/TDu/Data/3D/Model/"+"4d272f66-9dac-4b87-a2a1-22b6e5910779/"+realPath;;// 文件名
+        String filename = "D:/working/TDuClub/TDu/Data/3D/Model/" + "4d272f66-9dac-4b87-a2a1-22b6e5910779/" + realPath;
+        ;// 文件名
 
-        File writeFile=new File("D:/working/TDuClub/TDu/Data/3D/Model/"+"4d272f66-9dac-4b87-a2a1-22b6e5910779/"+realPath);
+        File writeFile = new File("D:/working/TDuClub/TDu/Data/3D/Model/" + "4d272f66-9dac-4b87-a2a1-22b6e5910779/" + realPath);
 
         try {
-            FileWriter fw = new FileWriter(filename,true);// filePar + "\\" + filename,true
+            FileWriter fw = new FileWriter(filename, true);// filePar + "\\" + filename,true
             BufferedInputStream bis = new BufferedInputStream(is);
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(writeFile));
             byte[] flash = new byte[1024];
             int len = 0;
-            while(-1 != (len = bis.read(flash))){
-                bos.write(flash,0,len);
+            while (-1 != (len = bis.read(flash))) {
+                bos.write(flash, 0, len);
             }
             bos.flush();
             bis.close();
@@ -172,16 +174,16 @@ public class HelloController {
 
     }
 
-    public void setVersion(String path) throws Exception{
+    public void setVersion(String path) throws Exception {
         //只需关注路径
         //String path="D:\\wamp\\www\\TDu\\Data\\3D\\Model\\4d272f66-9dac-4b87-a2a1-22b6e5910779\\f540168f-1a32-bc3b-6b36-3d9b399034c1";//"D:\\working\\TDuClub\\TDu\\Data\\3D\\Model\\4d272f66-9dac-4b87-a2a1-22b6e5910779\\a3a673d6-a69e-42b0-9c42-e8eaa507746c";
-        String name="";
-        System.out.println("  path :"+path);
-        List<String> nList=new ArrayList<String>();
-        List<String> fList=new ArrayList<String>();
-        Map<String,List<String>> versionMap=developModelService.setVersion(path, name,nList,fList);
-        List<String> nameList=versionMap.get("nameList");
-        List<String> fileList=versionMap.get("fileList");
+        String name = "";
+        System.out.println("  path :" + path);
+        List<String> nList = new ArrayList<String>();
+        List<String> fList = new ArrayList<String>();
+        Map<String, List<String>> versionMap = developModelService.setVersion(path, name, nList, fList);
+        List<String> nameList = versionMap.get("nameList");
+        List<String> fileList = versionMap.get("fileList");
         developModelService.setVersionFile(nameList, fileList, path);
     }
 

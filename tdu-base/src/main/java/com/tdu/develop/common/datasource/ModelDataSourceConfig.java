@@ -18,7 +18,7 @@ import javax.sql.DataSource;
  * @create 2019-08-06-9:34
  */
 @Configuration
-@MapperScan(basePackages = "com.tdu.develop.models.mapper",sqlSessionFactoryRef = "modelSqlSessionFactory")
+@MapperScan(basePackages = "com.tdu.develop.models.mapper", sqlSessionFactoryRef = "modelSqlSessionFactory")
 public class ModelDataSourceConfig {
 
     private static final String PACKAGE = "com.tdu.develop.model.mapper";

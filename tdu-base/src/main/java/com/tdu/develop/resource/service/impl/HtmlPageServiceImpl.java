@@ -18,7 +18,7 @@ public class HtmlPageServiceImpl implements HtmlPageService {
     }
 
     @Override
-    public HtmlPage getHtmlPage(String userKey,String name) {
-        return htmlPageMapper.getHtmlPage(userKey,name);
+    public HtmlPage getHtmlPage(String userKey, String name) {
+        return htmlPageMapper.getHtmlPage(userKey, name);
     }
 }

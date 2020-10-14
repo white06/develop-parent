@@ -16,6 +16,7 @@ import java.util.List;
 public interface SubjectTreeMapper {
     /**
      * 获取课程
+     *
      * @param majorId
      * @return
      */
@@ -34,9 +35,10 @@ public interface SubjectTreeMapper {
     public String getSubjectRootId(@Param("subjectTree_Id") String subjectTree_Id);
 
 
-
     public List<SubjectTrees> getSourceList(String subjectkey);
+
     public List<Knowledges> subjectChange(String treeType);
+
     /**
      * 统计资源树下的大节点数
      */
@@ -51,29 +53,39 @@ public interface SubjectTreeMapper {
      * 统计资源树下的大节点数（模型）
      */
     public int seleModelNum(@Param("id") String id, @Param("rootId") String rootId, @Param("userId") String userId);
+
     /**
      * 获取第一个大节点的数据
+     *
      * @return
      */
     public Knowledges seleFirst(@Param("treeId") String id, @Param("rootId") String rootId);
+
     /**
      * 获取第一个大节点的数据
+     *
      * @return
      */
     public Knowledges seleFirst2(@Param("treeId") String id, @Param("rootId") String rootId, @Param("userKey") String userKey);
+
     /**
      * 根据id查询目录点信息
+     *
      * @param knowId
      * @return
      */
     public Knowledges seleKnow(@Param("knowId") String knowId);
+
     /**
      * 获取模型数据第一个大节点的数据
+     *
      * @return
      */
     public RoleKnowledges seleModelFirst(@Param("treeId") String id, @Param("rootId") String rootId, @Param("userId") String userId);
+
     /**
      * 获取后面大节点的数据
+     *
      * @param preId
      * @param treeId
      * @param rootId
@@ -83,108 +95,143 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取后面大节点的数据
+     *
      * @param preId
      * @param treeId
      * @param rootId
      * @return
      */
     public Knowledges seleOther2(@Param("preId") String preId, @Param("treeId") String treeId, @Param("rootId") String rootId, @Param("userKey") String userKey);
+
     /**
      * 获取模型后面大节点的数据
+     *
      * @param preId
      * @param treeId
      * @param rootId
      * @return
      */
     public RoleKnowledges seleModelOther(@Param("preId") String preId, @Param("treeId") String treeId, @Param("rootId") String rootId, @Param("userId") String userId);
+
     /**
      * 统计大节点下子节点数
+     *
      * @param id
      * @return
      */
     public int childNum(String id);
+
     /**
      * 获取大节点下第一个子节点的数据
+     *
      * @param parentId
      * @return
      */
     public Knowledges childFirst(String parentId);
+
     /**
      * 获取大节点下其他子节点的数据
+     *
      * @param preId
      * @param parentId
      * @return
      */
     public Knowledges childOther(@Param("preId") String preId, @Param("parentId") String parentId);
+
     /**
      * 获取类型
+     *
      * @param contentid
      * @return
      */
     public String getType(String contentid);
+
     /**
      * 根据id获取对象参数
+     *
      * @param id
      * @return
      */
     public Knowlegcontent getSimulateParams(String id);
+
     /**
      * 获取最大的order
+     *
      * @return
      */
     public int getMaxOrder();
+
     /**
      * 根据id删除数据
+     *
      * @param knowledgecontentId
      */
     public void updateknow(@Param("content") String content, @Param("knowledgecontentId") String knowledgecontentId);
+
     /**
      * 保存参数
+     *
      * @param kt
      */
     public int saveSimulateModel(Knowlegcontent kt);
+
     /**
      * 根据id删除数据
+     *
      * @param sourceId
      */
     public void deleteSimulateModel(String sourceId);
+
     /**
      * 获取该节点下所有的子类
+     *
      * @param treeNodeId
      * @return
      */
     public List<Knowledges> getAllSubclass(String treeNodeId);
+
     /**
      * 根据knowledgeId获取数据
+     *
      * @param knowledgeId
      * @return
      */
     public Knowlegcontent getFileContent(String knowledgeId);
+
     /**
      * 根据id获取树id
+     *
      * @param knowledge_Id
      * @return
      */
     public String getTreeId(String knowledge_Id);
+
     /**
      * 根据Id删除数据
+     *
      * @param id
      */
     public int deleteKnowledges(String id);
+
     /**
      * 根据当前节点id获取上一节点id
+     *
      * @param currentNodeId
      * @return
      */
     public String getPreNodeId(String currentNodeId);
+
     /**
      * 根据当前节点id获取下一节点id
+     *
      * @param deletedNodeId
      * @return
      */
     public String getNextNodeId(String deletedNodeId);
+
     /**
      * 修改节点的上一节点id
+     *
      * @param preId
      * @param nextId
      */
@@ -192,6 +239,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 从  subjecttrees 表 获取rootId
+     *
      * @param SubjectKey
      * @return
      */
@@ -199,6 +247,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取subId
+     *
      * @param subId
      * @param treeName
      * @return
@@ -207,6 +256,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取知识点nmae
+     *
      * @param knowledgecontentId
      * @return
      */
@@ -214,6 +264,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取跟我学Id
+     *
      * @param subId
      * @return
      */
@@ -221,6 +272,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取教学资源的rootId
+     *
      * @param stId
      * @return
      */
@@ -228,6 +280,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 根据rootid获取教学资源首节点信息
+     *
      * @param rootId
      * @return
      */
@@ -235,6 +288,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取来闯关Id
+     *
      * @param subId
      * @return
      */
@@ -242,6 +296,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取Id
+     *
      * @param subId
      * @return
      */
@@ -249,6 +304,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 根绝subId获取教学资源id
+     *
      * @param subId
      * @return
      */
@@ -256,6 +312,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 根据officeid获取节点内容
+     *
      * @param oId
      * @return
      */
@@ -263,6 +320,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取知识点内容Id
+     *
      * @param dId
      * @return
      */
@@ -270,6 +328,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取考试信息
+     *
      * @param dId
      * @return
      */
@@ -277,6 +336,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取考试题目信息
+     *
      * @param examId
      * @return
      */
@@ -286,6 +346,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取学生考核成绩
+     *
      * @param examId
      * @return
      */
@@ -293,6 +354,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取仿真Id
+     *
      * @param tId
      * @return
      */
@@ -300,6 +362,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取成绩信息模型
+     *
      * @param pId
      * @param userId
      * @return
@@ -308,6 +371,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取班级学生成绩
+     *
      * @param dId
      * @param userId
      * @param questionKey
@@ -317,6 +381,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 查询是否已经有成绩了
+     *
      * @param dId
      * @param userId
      * @return
@@ -325,6 +390,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 查询是否已经有成绩了
+     *
      * @param dId
      * @param userId
      * @return
@@ -333,6 +399,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取infos的信息
+     *
      * @param dId
      * @param questionKey
      * @return
@@ -341,6 +408,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 修改成绩
+     *
      * @param getscroe
      * @param id
      */
@@ -348,6 +416,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 添加成绩
+     *
      * @param stuId
      * @param dId
      * @param getscroe
@@ -357,6 +426,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 修改成绩信息表
+     *
      * @param getscroe
      * @param id
      */
@@ -364,6 +434,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 添加成绩信息表
+     *
      * @param infosId
      * @param dId
      * @param getscroe
@@ -375,6 +446,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 根据科目id查询科目树大节点数
+     *
      * @param subjectId
      * @return
      */
@@ -382,6 +454,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 查询科目树下所有的子节点
+     *
      * @param subjectId
      * @return
      */
@@ -389,6 +462,7 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取子节点数
+     *
      * @param id
      * @return
      */
@@ -396,18 +470,23 @@ public interface SubjectTreeMapper {
 
     /**
      * 获取第一个子节点
+     *
      * @param id
      * @return
      */
     public MenuTrees queryFirstChild(String id);
+
     /**
      * 查询科目下的大节点
+     *
      * @param upperId
      * @return
      */
     public MenuTrees seleotherTree(String upperId);
+
     /**
      * 查询父元素下所有子节点
+     *
      * @param id
      * @return
      */
@@ -418,14 +497,12 @@ public interface SubjectTreeMapper {
     public Knowledges queryFirstNode(String subjecttreeId);
 
     /**
-     *
      * @param parentId
      * @return
      */
     public Knowledges queryOtherNode(String parentId);
 
     /**
-     *
      * @param treeId
      * @return
      */

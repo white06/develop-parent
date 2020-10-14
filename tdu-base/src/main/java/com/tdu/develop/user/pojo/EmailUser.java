@@ -2,6 +2,7 @@ package com.tdu.develop.user.pojo;
 
 /**
  * 邮件注册实体类
+ *
  * @author 志阳
  * @create 2020-02-26-15:01
  */

@@ -32,23 +32,23 @@ import java.util.List;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="ShouyeController")
+@RequestMapping(value = "ShouyeController")
 public class ShouyeController {
 
     @Autowired
-    DepartmentService asi=new DepartmentServiceImpl();
+    DepartmentService asi = new DepartmentServiceImpl();
     @Autowired
-    SubjectService subjectService=new SubjectServiceImpl();
+    SubjectService subjectService = new SubjectServiceImpl();
 
     @Autowired
-    UsersService usersService=new UserServiceImpl();
-    Users users=new Users();
+    UsersService usersService = new UserServiceImpl();
+    Users users = new Users();
 
     //显示用户名在右上角
-    @RequestMapping(value="sUserName.action")
+    @RequestMapping(value = "sUserName.action")
     public void sUserName(HttpSession session, HttpServletResponse response) throws IOException {
-        System.out.println("ShouyeController.sUserName-------------"+session.getMaxInactiveInterval());
-        if(session.getAttribute("Name")!=null) {
+        System.out.println("ShouyeController.sUserName-------------" + session.getMaxInactiveInterval());
+        if (session.getAttribute("Name") != null) {
             String name = session.getAttribute("Name").toString();
             String id = session.getAttribute("ID").toString();
 
@@ -67,7 +67,7 @@ public class ShouyeController {
     @ResponseBody
     public HashMap<Integer, HashMap<String, List<Subjects>>> getSubjects(HttpServletRequest request,
                                                                          HttpSession session) {
-        if(session.getAttribute("ID").toString()!=null) {
+        if (session.getAttribute("ID").toString() != null) {
             String userId = session.getAttribute("ID").toString();
             users.setId(session.getAttribute("ID").toString());
             HashMap<Integer, HashMap<String, List<Subjects>>> majorMap = new HashMap<Integer, HashMap<String, List<Subjects>>>();
@@ -110,7 +110,7 @@ public class ShouyeController {
 
             }
             return majorMap;
-        }else{
+        } else {
             return null;
         }
     }
@@ -119,8 +119,8 @@ public class ShouyeController {
     @RequestMapping(value = "getSubjects_develop.action")
     @ResponseBody
     public HashMap<Integer, HashMap<String, List<Subjects>>> getSubjects_develop(HttpServletRequest request,
-                                                                         HttpSession session) {
-        String userId=session.getAttribute("ID").toString();
+                                                                                 HttpSession session) {
+        String userId = session.getAttribute("ID").toString();
         users.setId(session.getAttribute("ID").toString());
         HashMap<Integer, HashMap<String, List<Subjects>>> majorMap = new HashMap<Integer, HashMap<String, List<Subjects>>>();
         HashMap<String, List<Subjects>> subjectMap = new HashMap<String, List<Subjects>>();
@@ -151,7 +151,7 @@ public class ShouyeController {
         for (int i = 0; i < returnJson.size(); i++) {
             List<Subjects> subList = new ArrayList<Subjects>();
             for (Subjects subjects : list2) {
-                if(subjects.getMajor_Id().equals(returnJson.get(i).getId())){
+                if (subjects.getMajor_Id().equals(returnJson.get(i).getId())) {
                     subList.add(subjects);
                 }
             }
@@ -169,8 +169,8 @@ public class ShouyeController {
     @RequestMapping(value = "getSubjects_resource.action")
     @ResponseBody
     public HashMap<Integer, HashMap<String, List<Subjects>>> getSubjects_resource(HttpServletRequest request,
-                                                                                 HttpSession session) {
-        String userId=session.getAttribute("ID").toString();
+                                                                                  HttpSession session) {
+        String userId = session.getAttribute("ID").toString();
         users.setId(session.getAttribute("ID").toString());
         HashMap<Integer, HashMap<String, List<Subjects>>> majorMap = new HashMap<Integer, HashMap<String, List<Subjects>>>();
         HashMap<String, List<Subjects>> subjectMap = new HashMap<String, List<Subjects>>();
@@ -201,7 +201,7 @@ public class ShouyeController {
         for (int i = 0; i < returnJson.size(); i++) {
             List<Subjects> subList = new ArrayList<Subjects>();
             for (Subjects subjects : list2) {
-                if(subjects.getMajor_Id().equals(returnJson.get(i).getId())){
+                if (subjects.getMajor_Id().equals(returnJson.get(i).getId())) {
                     subList.add(subjects);
                 }
             }
@@ -215,9 +215,8 @@ public class ShouyeController {
     }
 
 
-
     // 得到用户之下的专业的的科目 开发者单独页面使用
-    @RequestMapping(value = "getSubjects2.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getSubjects2.action", method = {RequestMethod.POST})
     @ResponseBody
     public HashMap<Integer, HashMap<String, List<Subjects>>> getSubjects2(HttpServletRequest request,
                                                                           HttpSession session, HttpServletResponse response) {
@@ -251,7 +250,7 @@ public class ShouyeController {
         for (int i = 0; i < returnJson.size(); i++) {
             List<Subjects> subList = new ArrayList<Subjects>();
             for (Subjects subjects : list2) {
-                if(subjects.getMajor_Id().equals(returnJson.get(i).getId())){
+                if (subjects.getMajor_Id().equals(returnJson.get(i).getId())) {
                     subList.add(subjects);
                 }
             }
@@ -266,6 +265,7 @@ public class ShouyeController {
 
     /**
      * 加载左侧菜单栏(南靖项目接口）
+     *
      * @param response
      * @param session
      * @return

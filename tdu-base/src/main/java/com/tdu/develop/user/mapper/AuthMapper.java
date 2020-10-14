@@ -13,10 +13,15 @@ import java.util.List;
 @Repository
 public interface AuthMapper {
     public List<Auth> AuthList();
+
     public List<Auth> AuthInfo(String authId);
+
     public void DeleteInfo(String authId);
+
     public void AddAuth(Auth auth);
+
     public void UpdateAuth(Auth auth);
+
     public void addRoleByAuthId(String authId);
 
     public void addRoleAuth(@Param("authId") String authId, @Param("roldId") String roldId);
@@ -27,6 +32,7 @@ public interface AuthMapper {
 
     /**
      * 查询角色权限
+     *
      * @param roleId
      * @param subjectId
      * @return

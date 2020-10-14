@@ -29,7 +29,7 @@ public class ExercisesServiceImpl implements ExercisesService {
      * 根据知识点id获取全部题目
      */
     public List<Question> getQuestion(String knowId) {
-     
+
         return ecMapper.getQuestion(knowId);
     }
 
@@ -38,7 +38,7 @@ public class ExercisesServiceImpl implements ExercisesService {
      */
     @Override
     public String getKnowContentId(String knowId) {
-     
+
         return ecMapper.getKnowContentId(knowId);
     }
 
@@ -47,7 +47,7 @@ public class ExercisesServiceImpl implements ExercisesService {
      */
     @Override
     public Knowlegcontent getKnowContent(String contId) {
-     
+
         return ecMapper.getKnowContent(contId);
     }
 
@@ -56,73 +56,71 @@ public class ExercisesServiceImpl implements ExercisesService {
      */
     @Override
     public List<Question> getRandomQuestion(Knowlegcontent knowlegcontent) {
-     
-        List<Question> randomQueList=new ArrayList<Question>();
+
+        List<Question> randomQueList = new ArrayList<Question>();
         //获取存储的数据
-        String xmlName=knowlegcontent.getNmae();
+        String xmlName = knowlegcontent.getNmae();
         //获取题目数量
-        int preNum=xmlName.indexOf("<num>");
-        int afeNum=xmlName.lastIndexOf("</num>");
-        preNum=preNum+5;
+        int preNum = xmlName.indexOf("<num>");
+        int afeNum = xmlName.lastIndexOf("</num>");
+        preNum = preNum + 5;
         //获取sub相关的属性
-        String questionNum=xmlName.substring(preNum,afeNum);
-        int preUrl=xmlName.indexOf("subjectid=");
-        if(preUrl==-1){
-            preUrl=xmlName.indexOf("userShoucangId=");
+        String questionNum = xmlName.substring(preNum, afeNum);
+        int preUrl = xmlName.indexOf("subjectid=");
+        if (preUrl == -1) {
+            preUrl = xmlName.indexOf("userShoucangId=");
         }
-        int afeUrl=xmlName.lastIndexOf("</url>");
-        preUrl=preUrl+10;
-        String subId=xmlName.substring(preUrl,afeUrl);
-        if(questionNum.equals("收藏")){
+        int afeUrl = xmlName.lastIndexOf("</url>");
+        preUrl = preUrl + 10;
+        String subId = xmlName.substring(preUrl, afeUrl);
+        if (questionNum.equals("收藏")) {
 
         }
 
 
-
-
-        if(subId.equals("all")){
-            randomQueList=ecMapper.getAllSubQue(Integer.parseInt(questionNum));
-        }else if(preUrl==9){
-            preUrl=xmlName.indexOf("knowledgeId=")+12;
-            String knowId=xmlName.substring(preUrl,afeUrl);
-            randomQueList=ecMapper.getAllKnowQue(Integer.parseInt(questionNum), knowId);
-        }else{
-            String subTreesId=ecMapper.getSubjectTreesId(subId);
+        if (subId.equals("all")) {
+            randomQueList = ecMapper.getAllSubQue(Integer.parseInt(questionNum));
+        } else if (preUrl == 9) {
+            preUrl = xmlName.indexOf("knowledgeId=") + 12;
+            String knowId = xmlName.substring(preUrl, afeUrl);
+            randomQueList = ecMapper.getAllKnowQue(Integer.parseInt(questionNum), knowId);
+        } else {
+            String subTreesId = ecMapper.getSubjectTreesId(subId);
             //存放题目
-            List<Knowledges> knowList=ecMapper.getKnowAll(subTreesId);
-            List<Question> queList=new ArrayList<Question>();
-            for(int i=0;i<knowList.size();i++){
-                List<Question> queSoleList=new ArrayList<Question>();
-                queSoleList=ecMapper.getQuestion(knowList.get(i).getId());
-                if(queSoleList.size()!=0){
-                    for(int j=0;j<queSoleList.size();j++){
+            List<Knowledges> knowList = ecMapper.getKnowAll(subTreesId);
+            List<Question> queList = new ArrayList<Question>();
+            for (int i = 0; i < knowList.size(); i++) {
+                List<Question> queSoleList = new ArrayList<Question>();
+                queSoleList = ecMapper.getQuestion(knowList.get(i).getId());
+                if (queSoleList.size() != 0) {
+                    for (int j = 0; j < queSoleList.size(); j++) {
                         queList.add(queSoleList.get(j));
                     }
                 }
 
             }
             //题库的总题数
-            int queCount=queList.size();
-            int count=0;
-            List<String> result=new ArrayList<String>();
-            if(Integer.parseInt(questionNum)>queCount){
-                questionNum=""+queCount;
+            int queCount = queList.size();
+            int count = 0;
+            List<String> result = new ArrayList<String>();
+            if (Integer.parseInt(questionNum) > queCount) {
+                questionNum = "" + queCount;
             }
-            while(count<Integer.parseInt(questionNum)){
-                boolean chongfu=false;
-                int randomQue=(int)(Math.random()*queCount);
-                String randomNum=""+randomQue;
-                for(int i=0;i<result.size();i++){
-                    if(result.get(i).equals(randomNum)){
-                        chongfu=true;
+            while (count < Integer.parseInt(questionNum)) {
+                boolean chongfu = false;
+                int randomQue = (int) (Math.random() * queCount);
+                String randomNum = "" + randomQue;
+                for (int i = 0; i < result.size(); i++) {
+                    if (result.get(i).equals(randomNum)) {
+                        chongfu = true;
                     }
                 }
-                if(!chongfu){
+                if (!chongfu) {
                     result.add(randomNum);
                     count++;
                 }
             }
-            for(int i=0;i<result.size();i++){
+            for (int i = 0; i < result.size(); i++) {
                 randomQueList.add(queList.get(Integer.parseInt(result.get(i))));
             }
         }
@@ -134,46 +132,48 @@ public class ExercisesServiceImpl implements ExercisesService {
      */
     @Override
     public List<QuestionPersonal> perQuestion(Knowlegcontent knowlegcontent, String type) {
-     
+
         //获取存储的数据
-        String xmlName=knowlegcontent.getNmae();
+        String xmlName = knowlegcontent.getNmae();
         //获取题目数量
-        int preNum=xmlName.indexOf("<num>");
-        int afeNum=xmlName.lastIndexOf("</num>");
-        preNum=preNum+5;
+        int preNum = xmlName.indexOf("<num>");
+        int afeNum = xmlName.lastIndexOf("</num>");
+        preNum = preNum + 5;
         //获取sub相关的属性
-        String questionNum=xmlName.substring(preNum,afeNum);
-        int preUrl=0;
-        int afeUrl=0;
-        if(type.equals("收藏")){
-            preUrl=xmlName.indexOf("userShoucangId=");
-            afeUrl=xmlName.lastIndexOf("</url>");
-            preUrl=preUrl+15;
-        }else{
-            preUrl=xmlName.indexOf("userErrorId=");
-            afeUrl=xmlName.lastIndexOf("</url>");
-            preUrl+=12;
+        String questionNum = xmlName.substring(preNum, afeNum);
+        int preUrl = 0;
+        int afeUrl = 0;
+        if (type.equals("收藏")) {
+            preUrl = xmlName.indexOf("userShoucangId=");
+            afeUrl = xmlName.lastIndexOf("</url>");
+            preUrl = preUrl + 15;
+        } else {
+            preUrl = xmlName.indexOf("userErrorId=");
+            afeUrl = xmlName.lastIndexOf("</url>");
+            preUrl += 12;
         }
-        String subId=xmlName.substring(preUrl,afeUrl);
+        String subId = xmlName.substring(preUrl, afeUrl);
         return ecMapper.shoucangQuestion(questionNum, subId);
     }
+
     /**
      * 获取所有科目
      */
     @Override
     public List<Subjects> getAllSub() {
-  
+
         return userMapper.getAllSub();
     }
+
     /**
      * 获取知识点
      */
     @Override
     public List<Knowledges> getKnowledge(String subId) {
-     
+
         //获取知识树id
-        String subTreesId=ecMapper.getSubjectTreesId(subId);
-        List<Knowledges> knowList=ecMapper.getKnow(subTreesId);
+        String subTreesId = ecMapper.getSubjectTreesId(subId);
+        List<Knowledges> knowList = ecMapper.getKnow(subTreesId);
         return knowList;
     }
     /**
@@ -185,25 +185,26 @@ public class ExercisesServiceImpl implements ExercisesService {
 //
 //        return ecMapper.getAllQuestion(knowId);
 //    }
+
     /**
      * 根据知识点内容对象获取随机题目（指定章节）
      */
-    public List<Question> getAllQuestion(Knowlegcontent knowlegcontent,String chooseId) {
-        List<Question> randomQueList=new ArrayList<Question>();
+    public List<Question> getAllQuestion(Knowlegcontent knowlegcontent, String chooseId) {
+        List<Question> randomQueList = new ArrayList<Question>();
         //获取存储的数据
-        String xmlName=knowlegcontent.getNmae();
+        String xmlName = knowlegcontent.getNmae();
         //获取题目数量
-        int preNum=xmlName.indexOf("<num>");
-        int afeNum=xmlName.lastIndexOf("</num>");
-        preNum=preNum+5;
+        int preNum = xmlName.indexOf("<num>");
+        int afeNum = xmlName.lastIndexOf("</num>");
+        preNum = preNum + 5;
         //获取sub相关的属性
-        String questionNum=xmlName.substring(preNum,afeNum);
-        int preUrl=xmlName.indexOf("subjectid=");
-        if(preUrl==-1){
-            preUrl=xmlName.indexOf("userShoucangId=");
+        String questionNum = xmlName.substring(preNum, afeNum);
+        int preUrl = xmlName.indexOf("subjectid=");
+        if (preUrl == -1) {
+            preUrl = xmlName.indexOf("userShoucangId=");
         }
-        preUrl=preUrl+10;
-        randomQueList=ecMapper.getAllKnowQue(Integer.parseInt(questionNum), chooseId);
+        preUrl = preUrl + 10;
+        randomQueList = ecMapper.getAllKnowQue(Integer.parseInt(questionNum), chooseId);
         return randomQueList;
     }
 
@@ -213,8 +214,8 @@ public class ExercisesServiceImpl implements ExercisesService {
      */
     @Override
     public List<Knowledges> getFirstRoot(String subId) {
-     
-        String subTreeId=ecMapper.getSubjectTreesId(subId);
+
+        String subTreeId = ecMapper.getSubjectTreesId(subId);
         return ecMapper.getFirstRoot(subTreeId);
     }
 
@@ -223,9 +224,9 @@ public class ExercisesServiceImpl implements ExercisesService {
      */
     @Override
     public List<Knowledges> getKnowledgeBy(String parentId) {
-     
+
         //获取知识树id
-        List<Knowledges> knowList=ecMapper.getKnowledgeBy(parentId);
+        List<Knowledges> knowList = ecMapper.getKnowledgeBy(parentId);
         return knowList;
     }
 
@@ -234,24 +235,24 @@ public class ExercisesServiceImpl implements ExercisesService {
      */
     @Override
     public List<Object> getKnowledgeZtree(String subId) {
-     
+
         //获取知识树id
-        String subTreesId=ecMapper.getSubjectTreesId(subId);
-        List<Knowledges> knowList=ecMapper.getKnow(subTreesId);
-        List<Knowledges> knowZtreeList=new ArrayList<Knowledges>();
-        List<Object> ztreeList=new ArrayList<Object>();
-        List<Knowledges> rootList=ecMapper.getFirstRoot(subTreesId);
-        String rootId=rootList.get(0).getId();
-        for(int i=0;i<knowList.size();i++){
-            if(knowList.get(i).getParentKnowledge()!=null){
-                if(knowList.get(i).getParentKnowledge().equals(rootId)){
+        String subTreesId = ecMapper.getSubjectTreesId(subId);
+        List<Knowledges> knowList = ecMapper.getKnow(subTreesId);
+        List<Knowledges> knowZtreeList = new ArrayList<Knowledges>();
+        List<Object> ztreeList = new ArrayList<Object>();
+        List<Knowledges> rootList = ecMapper.getFirstRoot(subTreesId);
+        String rootId = rootList.get(0).getId();
+        for (int i = 0; i < knowList.size(); i++) {
+            if (knowList.get(i).getParentKnowledge() != null) {
+                if (knowList.get(i).getParentKnowledge().equals(rootId)) {
                     knowZtreeList.add(knowList.get(i));
                 }
             }
         }
-        for(int i=0;i<knowZtreeList.size();i++){
-            HashMap<String, Object> resultMap= new HashMap<String, Object>();
-            List<Knowledges> secondList=new ArrayList<Knowledges>();
+        for (int i = 0; i < knowZtreeList.size(); i++) {
+            HashMap<String, Object> resultMap = new HashMap<String, Object>();
+            List<Knowledges> secondList = new ArrayList<Knowledges>();
             resultMap.put("id", knowZtreeList.get(i).getId());
             resultMap.put("name", knowZtreeList.get(i).getContent());
             resultMap.put("parentKnowledge", knowZtreeList.get(i).getParentKnowledge());
@@ -260,9 +261,9 @@ public class ExercisesServiceImpl implements ExercisesService {
             resultMap.put("imageIcons", knowZtreeList.get(i).getImageIcons());
             resultMap.put("knowledgecontentId", knowZtreeList.get(i).getKnowledgecontentId());
             resultMap.put("BeforCondition", knowZtreeList.get(i).getBeforCondition());
-            for(int j=0;j<knowList.size();j++){
-                if(knowList.get(j).getParentKnowledge()!=null){
-                    if(knowList.get(j).getParentKnowledge().equals(knowZtreeList.get(i).getId())){
+            for (int j = 0; j < knowList.size(); j++) {
+                if (knowList.get(j).getParentKnowledge() != null) {
+                    if (knowList.get(j).getParentKnowledge().equals(knowZtreeList.get(i).getId())) {
                         knowList.get(j).setName(knowList.get(j).getContent());
                         secondList.add(knowList.get(j));
                     }
@@ -279,9 +280,9 @@ public class ExercisesServiceImpl implements ExercisesService {
      * 根据题目id以及类型添加个人题目
      */
     @Override
-    public boolean addPersonal(String timuId, String useType,String userId) {
-        Question question=ecMapper.getSingleQuestion(timuId);
-        QuestionPersonal personal=new QuestionPersonal();
+    public boolean addPersonal(String timuId, String useType, String userId) {
+        Question question = ecMapper.getSingleQuestion(timuId);
+        QuestionPersonal personal = new QuestionPersonal();
         personal.setId(question.getId());
         personal.setContent(question.getContent());
         personal.setFenshu(question.getFenshu());
@@ -300,25 +301,27 @@ public class ExercisesServiceImpl implements ExercisesService {
      */
     @Override
     public boolean deleteShoucang(String timuId) {
-        boolean panduan =false;
-        if(timuId!=null||timuId==""){
-            panduan =true;
+        boolean panduan = false;
+        if (timuId != null || timuId == "") {
+            panduan = true;
             ecMapper.deleteShoucang(timuId);
         }
         return panduan;
     }
-    public boolean submit(String userId, String allscore, String examId,String id) {
-        if(allscore!=null){
-            ecMapper.submit(userId,allscore,examId,id);
+
+    public boolean submit(String userId, String allscore, String examId, String id) {
+        if (allscore != null) {
+            ecMapper.submit(userId, allscore, examId, id);
             return true;
-        }else{
+        } else {
             return false;
         }
     }
+
     @Override
-    public boolean addError(String timuId, String useType,String userId) {
-        Question question=ecMapper.getSingleQuestion(timuId);
-        QuestionPersonal personal=new QuestionPersonal();
+    public boolean addError(String timuId, String useType, String userId) {
+        Question question = ecMapper.getSingleQuestion(timuId);
+        QuestionPersonal personal = new QuestionPersonal();
         personal.setId(question.getId());
         personal.setContent(question.getContent());
         personal.setFenshu(question.getFenshu());
@@ -332,6 +335,7 @@ public class ExercisesServiceImpl implements ExercisesService {
         ecMapper.addPersonal(personal);
         return true;
     }
+
     @Override
     public List<Question> getAllQuestion(String knowId) {
 

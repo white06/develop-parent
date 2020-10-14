@@ -18,6 +18,7 @@ public class DevelopChartletServiceImpl implements DevelopChartletService {
 
     @Autowired
     DevelopChartletMapper developChartletMapper;
+
     /**
      * 获取首节点
      */
@@ -31,7 +32,7 @@ public class DevelopChartletServiceImpl implements DevelopChartletService {
      */
     @Override
     public List<Chartlets> getChartletsSecond(String parentKnowledge) {
-        List<Chartlets> ksList=developChartletMapper.getChartletsSecond(parentKnowledge);
+        List<Chartlets> ksList = developChartletMapper.getChartletsSecond(parentKnowledge);
         return ksList;
     }
 
@@ -43,6 +44,7 @@ public class DevelopChartletServiceImpl implements DevelopChartletService {
         Chartletcontents scenecontents = developChartletMapper.getChartletContentName(id);
         return scenecontents;
     }
+
     @Override
     public int delChartletcontents(Chartletcontents chartletcontents) {
         return developChartletMapper.delChartletcontents(chartletcontents);

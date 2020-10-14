@@ -35,8 +35,8 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         // 从session中获取 user 对象
         Session session = SecurityUtils.getSubject().getSession();
-        Users user = (Users)session.getAttribute("USER_SESSION");
-        System.out.println( "执行了================>" );
+        Users user = (Users) session.getAttribute("USER_SESSION");
+        System.out.println("执行了================>");
         // 权限信息对象
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         /*info.addRoles( user.getRoles() );
@@ -61,24 +61,24 @@ public class MyRealm extends AuthorizingRealm {
         if (authenticationToken.getPrincipal() == null) {
             return null;
         }
-        String username = (String)authenticationToken.getPrincipal();
-        String password = new String((char[])authenticationToken.getCredentials());
-        System.out.println( "username="+username+",password="+password );
+        String username = (String) authenticationToken.getPrincipal();
+        String password = new String((char[]) authenticationToken.getCredentials());
+        System.out.println("username=" + username + ",password=" + password);
 
         // 获取用户名。通过 username 找到该用户
         Users user = sysUserService.getUserByUserNameWithPermission(username);
        /* if( !"1".equals(user.getStatus()) ){
             throw new LockedAccountException();
         }*/
-        System.out.println( "执行了================>" );
-        if( username.equals( user.getUserName() ) && password.equals( user.getPassWord() ) ){
+        System.out.println("执行了================>");
+        if (username.equals(user.getUserName()) && password.equals(user.getPassWord())) {
             // 获取所有session
             Collection<Session> sessions = sessionDAO.getActiveSessions();
-            for (Session session: sessions) {
-                Users sysUser = (Users)session.getAttribute("USER_SESSION");
+            for (Session session : sessions) {
+                Users sysUser = (Users) session.getAttribute("USER_SESSION");
                 // 如果session里面有当前登陆的，则证明是重复登陆的，则将其剔除
-                if( sysUser!=null ){
-                    if( username.equals( sysUser.getUserName() ) ){
+                if (sysUser != null) {
+                    if (username.equals(sysUser.getUserName())) {
                         session.setTimeout(0);
                     }
                 }
@@ -93,7 +93,7 @@ public class MyRealm extends AuthorizingRealm {
         // 用户名，密码，密码盐值，realm 名称
         // 登陆的时候直接调用 subject.login() 即可自动调用该方法
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
-                authenticationToken.getPrincipal() , user.getPassWord() , getName()
+                authenticationToken.getPrincipal(), user.getPassWord(), getName()
         );
 
 

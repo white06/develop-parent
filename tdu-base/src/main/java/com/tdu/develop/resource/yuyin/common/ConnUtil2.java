@@ -62,7 +62,7 @@ public class ConnUtil2 {
             if (inputStream == null) {
                 inputStream = conn.getErrorStream();
             }
-           String result = getInputStreamContent(inputStream);
+            String result = getInputStreamContent(inputStream);
             System.err.println(new String(result));
 
             throw new DemoException("http response code is" + responseCode);
@@ -105,10 +105,10 @@ public class ConnUtil2 {
      * @throws IOException @see InConnUtilConnUtilputStream.read()
      */
     public static String getInputStreamContent(InputStream is) throws IOException {
-        StringBuilder builder=new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         byte[] b = new byte[1024];
         // 定义一个输出流存储接收到的数据
-      //  ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        //  ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         // 开始接收数据
         int len = 0;
         while (true) {
@@ -117,7 +117,7 @@ public class ConnUtil2 {
                 // 数据读完
                 break;
             }
-            builder.append(new String(b, 0, len,"UTF-8"));
+            builder.append(new String(b, 0, len, "UTF-8"));
         }
         return builder.toString();
     }

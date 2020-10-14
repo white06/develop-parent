@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InterpretResultMapper {
 
-    public  void addInterpretResult(InterpretResult interpretResult);
+    public void addInterpretResult(InterpretResult interpretResult);
 
     public void addInterpretScore(InterpretScore interpretScore);
 
-    InterpretScore getInterpretScore(@Param("userKey") String userKey,@Param("nandu") String nandu, @Param("page") String page,@Param("pageKey") String pageKey);
+    InterpretScore getInterpretScore(@Param("userKey") String userKey, @Param("nandu") String nandu, @Param("page") String page, @Param("pageKey") String pageKey);
 }

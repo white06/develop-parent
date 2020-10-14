@@ -24,7 +24,7 @@ import java.util.Map;
 
 @CrossOrigin
 @Controller
-@RequestMapping(value="LinkController")
+@RequestMapping(value = "LinkController")
 public class LinkController {
 
     @Autowired
@@ -48,17 +48,17 @@ public class LinkController {
         String jiami = request.getParameter("jiami");
         String fenxiang = request.getParameter("fenxiang");
         String leixing = request.getParameter("leixing");
-        String[] url1=url.split("&");
-        String[] url2=url1[2].split("=");
-        String knowIdmi=url2[1];
-        String sceneId=Base64Util.decode(knowIdmi);
+        String[] url1 = url.split("&");
+        String[] url2 = url1[2].split("=");
+        String knowIdmi = url2[1];
+        String sceneId = Base64Util.decode(knowIdmi);
         if (url == null || "".equals(url)) {
             return null;
         }
         if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("tduvr://")) {
             Link link = new Link();
             link.setLongUrl(url);
-            return linkService.save(link, jiami, fenxiang, leixing,sceneId);
+            return linkService.save(link, jiami, fenxiang, leixing, sceneId);
 
         } else {
             map.put("erro", "网址必须以http或https开头");
@@ -123,15 +123,15 @@ public class LinkController {
 
     @RequestMapping("getlink.action")
     @ResponseBody
-    public List<Link> getlink(HttpServletRequest request, HttpSession session) throws Exception{
-        String userId= session.getAttribute("ID").toString();
+    public List<Link> getlink(HttpServletRequest request, HttpSession session) throws Exception {
+        String userId = session.getAttribute("ID").toString();
 
         return linkService.getuserLink(userId);
     }
 
-    @RequestMapping(value="ins.action",method={RequestMethod.POST})
+    @RequestMapping(value = "ins.action", method = {RequestMethod.POST})
     @ResponseBody
-    public void ins(HttpServletRequest request, HttpSession session) throws Exception{
+    public void ins(HttpServletRequest request, HttpSession session) throws Exception {
         String UserID = request.getParameter("UserID");
         String lixingzhuanshu = request.getParameter("lixingzhuanshu");
         String lixingshichang = request.getParameter("lixingshichang");
@@ -161,7 +161,7 @@ public class LinkController {
         String cengxichundu = request.getParameter("cengxichundu");
         String cengxifengshu = request.getParameter("cengxifengshu");
         String fenxitaolun = request.getParameter("fenxitaolun");
-        Linshi linshi=new Linshi();
+        Linshi linshi = new Linshi();
         linshi.setUserID(UserID);
         linshi.setLixingzhuanshu(lixingzhuanshu);
         linshi.setLixingshichang(lixingshichang);
@@ -184,25 +184,23 @@ public class LinkController {
         linshi.setGuolvdefen(guolvdefen);
         linshi.setCengxifangshi(cengxifangshi);
         linshi.setCengxipinghengye(cengxipinghengye);
-        linshi.setCengxixituoye(cengxixituoye) ;
+        linshi.setCengxixituoye(cengxixituoye);
         linshi.setCengxijieheye(cengxijieheye);
         linshi.setFenxitaolun(fenxitaolun);
         linshi.setCengxidelv(cengxidelv);
-        linshi.setCengxicaozuoshichang(cengxicaozuoshichang) ;
+        linshi.setCengxicaozuoshichang(cengxicaozuoshichang);
         linshi.setCengxifengshu(cengxifengshu);
         linshi.setCengxichundu(cengxichundu);
-
-
 
 
         linkService.ins(linshi);
     }
 
 
-    @RequestMapping(value="get.action",method={RequestMethod.POST})
+    @RequestMapping(value = "get.action", method = {RequestMethod.POST})
     @ResponseBody
-    public Linshi get(HttpServletRequest request, HttpSession session) throws Exception{
-        String userId=(String) session.getAttribute("ID");
-      return   linkService.get(userId);
+    public Linshi get(HttpServletRequest request, HttpSession session) throws Exception {
+        String userId = (String) session.getAttribute("ID");
+        return linkService.get(userId);
     }
 }

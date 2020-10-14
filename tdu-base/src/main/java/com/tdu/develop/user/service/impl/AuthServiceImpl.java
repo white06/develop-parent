@@ -19,28 +19,28 @@ import java.util.List;
 public class AuthServiceImpl implements AuthService {
     @Autowired
     AuthMapper authMapper;
-    public List<AuthDatas> GetAuths(){
-        List<Auth> AuthList=new ArrayList<Auth>();
+
+    public List<AuthDatas> GetAuths() {
+        List<Auth> AuthList = new ArrayList<Auth>();
         List<AuthDatas> items = new ArrayList<AuthDatas>();
-        AuthList=authMapper.AuthList();
+        AuthList = authMapper.AuthList();
 
         for (Auth auth : AuthList) {
 
-            if(auth.getChildren()!=null){
+            if (auth.getChildren() != null) {
                 AuthDatas temp = new AuthDatas(auth.getId(), "", auth.getPageName(), auth.getNum(), auth.getParametersType(), new ArrayList<ExtAuthDatas>());
-                if (auth.getChildren()=="isParent")
-                {
+                if (auth.getChildren() == "isParent") {
 
-                }else {
+                } else {
 
                     String[] childrenid = auth.getChildren().split(";");
 
                     for (String schildrenid : childrenid) {
-                        List<Auth> AuthList2=new ArrayList<Auth>();
-                        AuthList2=authMapper.AuthInfo(schildrenid);
-                        if(AuthList2!=null) {
+                        List<Auth> AuthList2 = new ArrayList<Auth>();
+                        AuthList2 = authMapper.AuthInfo(schildrenid);
+                        if (AuthList2 != null) {
                             for (Auth auth2 : AuthList2) {
-                                ExtAuthDatas a=new ExtAuthDatas();
+                                ExtAuthDatas a = new ExtAuthDatas();
                                 a.setId(auth2.getId());
                                 a.setLink(auth2.getLink());
                                 a.setPageName(auth2.getPageName());
@@ -64,22 +64,27 @@ public class AuthServiceImpl implements AuthService {
     public List<Auth> AuthInfo(String authId) {
         return authMapper.AuthInfo(authId);
     }
+
     public void DeleteInfo(String authId) {
         authMapper.DeleteInfo(authId);
     }
+
     public void AddAuth(Auth auth) {
         authMapper.AddAuth(auth);
         addRole(auth.getId());
     }
+
     public void UpdateAuth(Auth auth) {
         authMapper.UpdateAuth(auth);
     }
+
     /**
      * 根据新增页面的id来设置权限
      * 默认权限为管理员
+     *
      * @param ruthId
      */
-    public void addRole(String authId){
+    public void addRole(String authId) {
         authMapper.addRoleByAuthId(authId);
     }
 }

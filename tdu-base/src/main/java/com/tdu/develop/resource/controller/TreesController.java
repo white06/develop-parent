@@ -29,16 +29,16 @@ import java.util.UUID;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="TreesController")
+@RequestMapping(value = "TreesController")
 public class TreesController {
-	@Autowired
-	KnowledgesServiceImpl knowledgesServiceImp;
-	@Autowired
-	KnowledgesService ks;
-	
+    @Autowired
+    KnowledgesServiceImpl knowledgesServiceImp;
+    @Autowired
+    KnowledgesService ks;
 
-	@Autowired
-	AddKnowledgeServiceImpl adksi;
+
+    @Autowired
+    AddKnowledgeServiceImpl adksi;
 ////	//主页声音目录的新增
 ////	@RequestMapping(value="insVoices.action",method={RequestMethod.POST})
 ////	@ResponseBody
@@ -378,24 +378,25 @@ public class TreesController {
 //		}
 //
 //
-	
-	
-	/**
-	 * 修改资源树节点名称
-	 * @return
-	 */
-	@RequestMapping(value="beforeRename.action",method={RequestMethod.POST},produces="application/json;charset=utf-8")
-	@ResponseBody
-	public JsonResult beforeRename(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws Exception{
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("UTF-8");
-		String Id = URLDecoder.decode(request.getParameter("Id"), "UTF-8");
-		String newname = URLDecoder.decode(request.getParameter("newname"), "UTF-8");
-		ks.updateContent(Id,newname);
-		return new JsonResult();
-	}
 
-//	/**
+
+    /**
+     * 修改资源树节点名称
+     *
+     * @return
+     */
+    @RequestMapping(value = "beforeRename.action", method = {RequestMethod.POST}, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public JsonResult beforeRename(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("UTF-8");
+        String Id = URLDecoder.decode(request.getParameter("Id"), "UTF-8");
+        String newname = URLDecoder.decode(request.getParameter("newname"), "UTF-8");
+        ks.updateContent(Id, newname);
+        return new JsonResult();
+    }
+
+    //	/**
 //	 * 修改资源树节点名称(成职模型库资源库修改）
 //	 * @param newname
 //	 * @param Id
@@ -429,181 +430,181 @@ public class TreesController {
 //
 ////		return new JsonResult();
 //	}
-	//查询树下的资源
-	@RequestMapping(value="treKnowlegcontent.action",method={RequestMethod.POST})
-	@ResponseBody
-	public List<Knowlegcontent> treKnowlegcontent(HttpServletRequest request, HttpServletResponse response){
-		
-		List<Knowlegcontent> knList=new ArrayList<Knowlegcontent>();
-		knList=knowledgesServiceImp.SubjcetTree(request.getParameter("id"));
-		
-		return knList;
-	}
-	 
-	//目录的新增
-	@RequestMapping(value="ins.action",method={RequestMethod.POST})
-	@ResponseBody
-	public ZNodes ins(HttpServletRequest request,HttpServletResponse response,HttpSession session){
-		Knowledges knowledges=new Knowledges();
-		String id=UUID.randomUUID().toString();
-		String userId = session.getAttribute("ID").toString();
-		knowledges.setUserKey(userId);
-		String content= request.getParameter("Content");
-		if(content==null||content=="") {
-			content="新建目录";
-		}
-		//科目树id
-		String subjectTree_Id=request.getParameter("subid");
-		String imageIcons="../../../Source/imgicon/tag_orange.png";
-		String knowledgecontentId="00000000-0000-0000-0000-000000000000";
-		String beforCondition="<root><beforesee></beforesee><userkey></userkey><grades></grades></root>";
-		//上一节点id
-		String preknowledge=request.getParameter("lei");
+    //查询树下的资源
+    @RequestMapping(value = "treKnowlegcontent.action", method = {RequestMethod.POST})
+    @ResponseBody
+    public List<Knowlegcontent> treKnowlegcontent(HttpServletRequest request, HttpServletResponse response) {
+
+        List<Knowlegcontent> knList = new ArrayList<Knowlegcontent>();
+        knList = knowledgesServiceImp.SubjcetTree(request.getParameter("id"));
+
+        return knList;
+    }
+
+    //目录的新增
+    @RequestMapping(value = "ins.action", method = {RequestMethod.POST})
+    @ResponseBody
+    public ZNodes ins(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        Knowledges knowledges = new Knowledges();
+        String id = UUID.randomUUID().toString();
+        String userId = session.getAttribute("ID").toString();
+        knowledges.setUserKey(userId);
+        String content = request.getParameter("Content");
+        if (content == null || content == "") {
+            content = "新建目录";
+        }
+        //科目树id
+        String subjectTree_Id = request.getParameter("subid");
+        String imageIcons = "../../../Source/imgicon/tag_orange.png";
+        String knowledgecontentId = "00000000-0000-0000-0000-000000000000";
+        String beforCondition = "<root><beforesee></beforesee><userkey></userkey><grades></grades></root>";
+        //上一节点id
+        String preknowledge = request.getParameter("lei");
 		/*if(preknowledge==null||"".equals(preknowledge)) 
 			throw new ServiceException("新增失败");*/
-		//添加子科目目录
-		if (request.getParameter("id")!="") {
-			//父节点id
-			String parentKnowledge=request.getParameter("id");
-			
-			knowledges.setId(id);
-			knowledges.setContent(content);
-			knowledges.setParentKnowledge(parentKnowledge);
-			if (!preknowledge.isEmpty()) {
-				knowledges.setPreKnowledge(preknowledge);
-			}
-			knowledges.setSubjectTree_Id(subjectTree_Id);
-			knowledges.setImageIcons(imageIcons);
-			knowledges.setKnowledgecontentId(knowledgecontentId);
-			knowledges.setBeforCondition(beforCondition);
-			//向knowledge表新增数据
-			Boolean i=knowledgesServiceImp.inknow(knowledges);
-				if (i==true) {
-					ZNodes zNodes=new ZNodes();
-					zNodes.setId(knowledges.getId());
-					zNodes.setpId(knowledges.getParentKnowledge());
-					zNodes.setName(knowledges.getContent());
-					zNodes.setKnowledgecontentId(knowledges.getKnowledgecontentId());
-					return zNodes;
-				}
-		}
-		//添加科目目录
-		else if (request.getParameter("id")=="") {
-			//获取ROOT的ID
-			String parentKnowledge=knowledgesServiceImp.slRoot(subjectTree_Id);
-			knowledges.setId(id);
-			knowledges.setContent(content);
-			knowledges.setParentKnowledge(parentKnowledge);
-			if (!preknowledge.isEmpty()) {
-				knowledges.setPreKnowledge(preknowledge);
-			}
-			knowledges.setSubjectTree_Id(subjectTree_Id);
-			knowledges.setImageIcons(imageIcons);
-			knowledges.setKnowledgecontentId(knowledgecontentId);
-			knowledges.setBeforCondition(beforCondition);
-			
-			Boolean i=knowledgesServiceImp.inknow(knowledges);
-			
-			/*增加模型分类*/
+        //添加子科目目录
+        if (request.getParameter("id") != "") {
+            //父节点id
+            String parentKnowledge = request.getParameter("id");
+
+            knowledges.setId(id);
+            knowledges.setContent(content);
+            knowledges.setParentKnowledge(parentKnowledge);
+            if (!preknowledge.isEmpty()) {
+                knowledges.setPreKnowledge(preknowledge);
+            }
+            knowledges.setSubjectTree_Id(subjectTree_Id);
+            knowledges.setImageIcons(imageIcons);
+            knowledges.setKnowledgecontentId(knowledgecontentId);
+            knowledges.setBeforCondition(beforCondition);
+            //向knowledge表新增数据
+            Boolean i = knowledgesServiceImp.inknow(knowledges);
+            if (i == true) {
+                ZNodes zNodes = new ZNodes();
+                zNodes.setId(knowledges.getId());
+                zNodes.setpId(knowledges.getParentKnowledge());
+                zNodes.setName(knowledges.getContent());
+                zNodes.setKnowledgecontentId(knowledges.getKnowledgecontentId());
+                return zNodes;
+            }
+        }
+        //添加科目目录
+        else if (request.getParameter("id") == "") {
+            //获取ROOT的ID
+            String parentKnowledge = knowledgesServiceImp.slRoot(subjectTree_Id);
+            knowledges.setId(id);
+            knowledges.setContent(content);
+            knowledges.setParentKnowledge(parentKnowledge);
+            if (!preknowledge.isEmpty()) {
+                knowledges.setPreKnowledge(preknowledge);
+            }
+            knowledges.setSubjectTree_Id(subjectTree_Id);
+            knowledges.setImageIcons(imageIcons);
+            knowledges.setKnowledgecontentId(knowledgecontentId);
+            knowledges.setBeforCondition(beforCondition);
+
+            Boolean i = knowledgesServiceImp.inknow(knowledges);
+
+            /*增加模型分类*/
 			/*ModelContact modelContact =new ModelContact();
 			modelContact.setId(id);
 			modelContact.setName("new node1");
 			modelContact.setParentId("0aec2588-4f01-4a94-b27a-fb2e20c8c85b");
 			mlsi.addModelContact(modelContact);*/
-			/*end*/
-			
-			if (i==true) {
-				ZNodes zNodes=new ZNodes();
-				zNodes.setId(knowledges.getId());
-				zNodes.setpId("0");
-				zNodes.setName(knowledges.getContent());
-				zNodes.setKnowledgecontentId(knowledges.getKnowledgecontentId());
-				return zNodes;
-			}
-		}
-		
-			return null;
-	}
-	
-	//树的删除功能
-	@RequestMapping(value="deTree.action",method={RequestMethod.POST})
-	public void deTree(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		String filePath=request.getParameter("filePath");
-		String id=request.getParameter("id");
-		//删除数据库中的文件夹
-		Boolean i=knowledgesServiceImp.deTree(id,filePath);
-		response.getWriter().print(i);
-	}
-	
-	//编辑功能
-	@RequestMapping(value="upRandom.action",method={RequestMethod.POST})
-	public void upRandom(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		String id=request.getParameter("id");
-		String name=request.getParameter("name");
-		name = URLDecoder.decode(name,"UTF-8");
-		if (knowledgesServiceImp.seleKContent(id)!=null) {
-			Knowlegcontent knowlegcontent=new Knowlegcontent();
-			knowlegcontent=knowledgesServiceImp.seleKContent(id);
-			knowledgesServiceImp.upcontent(name, knowlegcontent.getId());
-		};
-		knowledgesServiceImp.upRandom(id, name);
-		response.getWriter().print("true");
-	}
-	
-	//文件下载到本机
-	@RequestMapping(value="fileDownload.action",method={RequestMethod.POST})
-	public void  fileDownload(HttpServletRequest request,HttpServletResponse response){
-		String fileWay=request.getParameter("fileWay");
-		String fileName=request.getParameter("customname");
-		File file=new File(fileWay);
-		try {
-			InputStream fileInputStream=new FileInputStream(file);
-			InputStream bufferedInputStream=new BufferedInputStream(fileInputStream);
-			byte[] bs=new byte[bufferedInputStream.available()];
-			bufferedInputStream.read(bs);
-			bufferedInputStream.close();
-			//清空response
-			response.reset();
-			//设置下载文件的默认名
-			response.addHeader("content-type", "application/x-download");//文件编码,告诉浏览器你要下载
-			response.addHeader("Content-Disposition", "attachment;filename="+fileName);//下载的文件名
-			response.addHeader("Content-Length", "" + file.length());//文件大小
-			OutputStream bufferedOutputStream=new BufferedOutputStream(response.getOutputStream());//设置下载路径为浏览器路径
-			
-			bufferedOutputStream.write(bs);
-			bufferedOutputStream.flush();
-			bufferedOutputStream.close();
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	//拖动功能的实现
-	@RequestMapping(value="drop.action",method={RequestMethod.POST})
-	public void drop(HttpServletRequest request,HttpServletResponse response){
-		String nextId=request.getParameter("nextId");//有可能为空
-		String nextprevknowledgeId=request.getParameter("nextprevknowledgeId");//有可能为空
-		String prevId=request.getParameter("prevId");//有可能为空
-		String prevprevknowledgeId=request.getParameter("prevprevknowledgeId");//有可能为空
-		String selfId=request.getParameter("selfId");
-		String selfprevknowledgeId=request.getParameter("selfprevknowledgeId");//有可能为空
-		String selfparentknowledgeId=request.getParameter("selfparentknowledgeId");//有可能为空
-		if (!nextId.isEmpty()) {
-			knowledgesServiceImp.upNext(nextId, nextprevknowledgeId);
-		}
-		if (!prevId.isEmpty()) {
-			knowledgesServiceImp.upNext(prevId, prevprevknowledgeId);
-		}
-		knowledgesServiceImp.upknow(selfId, selfprevknowledgeId, selfparentknowledgeId);
-	}
-	
-	
-	
+            /*end*/
+
+            if (i == true) {
+                ZNodes zNodes = new ZNodes();
+                zNodes.setId(knowledges.getId());
+                zNodes.setpId("0");
+                zNodes.setName(knowledges.getContent());
+                zNodes.setKnowledgecontentId(knowledges.getKnowledgecontentId());
+                return zNodes;
+            }
+        }
+
+        return null;
+    }
+
+    //树的删除功能
+    @RequestMapping(value = "deTree.action", method = {RequestMethod.POST})
+    public void deTree(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String filePath = request.getParameter("filePath");
+        String id = request.getParameter("id");
+        //删除数据库中的文件夹
+        Boolean i = knowledgesServiceImp.deTree(id, filePath);
+        response.getWriter().print(i);
+    }
+
+    //编辑功能
+    @RequestMapping(value = "upRandom.action", method = {RequestMethod.POST})
+    public void upRandom(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String id = request.getParameter("id");
+        String name = request.getParameter("name");
+        name = URLDecoder.decode(name, "UTF-8");
+        if (knowledgesServiceImp.seleKContent(id) != null) {
+            Knowlegcontent knowlegcontent = new Knowlegcontent();
+            knowlegcontent = knowledgesServiceImp.seleKContent(id);
+            knowledgesServiceImp.upcontent(name, knowlegcontent.getId());
+        }
+        ;
+        knowledgesServiceImp.upRandom(id, name);
+        response.getWriter().print("true");
+    }
+
+    //文件下载到本机
+    @RequestMapping(value = "fileDownload.action", method = {RequestMethod.POST})
+    public void fileDownload(HttpServletRequest request, HttpServletResponse response) {
+        String fileWay = request.getParameter("fileWay");
+        String fileName = request.getParameter("customname");
+        File file = new File(fileWay);
+        try {
+            InputStream fileInputStream = new FileInputStream(file);
+            InputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+            byte[] bs = new byte[bufferedInputStream.available()];
+            bufferedInputStream.read(bs);
+            bufferedInputStream.close();
+            //清空response
+            response.reset();
+            //设置下载文件的默认名
+            response.addHeader("content-type", "application/x-download");//文件编码,告诉浏览器你要下载
+            response.addHeader("Content-Disposition", "attachment;filename=" + fileName);//下载的文件名
+            response.addHeader("Content-Length", "" + file.length());//文件大小
+            OutputStream bufferedOutputStream = new BufferedOutputStream(response.getOutputStream());//设置下载路径为浏览器路径
+
+            bufferedOutputStream.write(bs);
+            bufferedOutputStream.flush();
+            bufferedOutputStream.close();
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    //拖动功能的实现
+    @RequestMapping(value = "drop.action", method = {RequestMethod.POST})
+    public void drop(HttpServletRequest request, HttpServletResponse response) {
+        String nextId = request.getParameter("nextId");//有可能为空
+        String nextprevknowledgeId = request.getParameter("nextprevknowledgeId");//有可能为空
+        String prevId = request.getParameter("prevId");//有可能为空
+        String prevprevknowledgeId = request.getParameter("prevprevknowledgeId");//有可能为空
+        String selfId = request.getParameter("selfId");
+        String selfprevknowledgeId = request.getParameter("selfprevknowledgeId");//有可能为空
+        String selfparentknowledgeId = request.getParameter("selfparentknowledgeId");//有可能为空
+        if (!nextId.isEmpty()) {
+            knowledgesServiceImp.upNext(nextId, nextprevknowledgeId);
+        }
+        if (!prevId.isEmpty()) {
+            knowledgesServiceImp.upNext(prevId, prevprevknowledgeId);
+        }
+        knowledgesServiceImp.upknow(selfId, selfprevknowledgeId, selfparentknowledgeId);
+    }
+
+
 //	//主页模型目录的新增
 //			@RequestMapping(value="AllinsModels.action",method={RequestMethod.POST})
 //			@ResponseBody
@@ -690,7 +691,7 @@ public class TreesController {
 //
 //					return null;
 //			}
-	
+
 //			//主页场景目录的新增
 //			@RequestMapping(value="AllinsScenes.action",method={RequestMethod.POST})
 //			@ResponseBody
@@ -775,5 +776,5 @@ public class TreesController {
 //
 //					return null;
 //			}
-	
+
 }

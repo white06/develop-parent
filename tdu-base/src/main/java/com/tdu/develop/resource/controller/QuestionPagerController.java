@@ -22,15 +22,15 @@ import java.util.List;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="QuestionPagerController")
+@RequestMapping(value = "QuestionPagerController")
 public class QuestionPagerController {
     @Resource
-    QuestionPagerService questionPagerService=new QuestionPagerServiceImpl();
-    public static String Null=null;
+    QuestionPagerService questionPagerService = new QuestionPagerServiceImpl();
+    public static String Null = null;
 
     @RequestMapping("delchengjiandanswer.action")
     @ResponseBody
-    public Boolean DelQuesPagerstoAndAnswer(HttpServletRequest request){
+    public Boolean DelQuesPagerstoAndAnswer(HttpServletRequest request) {
         //String qusetionkey = request.getParameter("qusetionkey");
         //String sessionId = (String) request.getSession().getAttribute("ID");
         String pageId = request.getParameter("id");
@@ -41,7 +41,7 @@ public class QuestionPagerController {
 
     @RequestMapping("DelQuesPagerContent.action")
     @ResponseBody
-    public Boolean DelQuesPagerContent(HttpServletRequest request){
+    public Boolean DelQuesPagerContent(HttpServletRequest request) {
         String qusetionkey = request.getParameter("qusetionkey");
         //String sessionId = (String) request.getSession().getAttribute("ID");
         String pageId = request.getParameter("pageId");
@@ -50,39 +50,39 @@ public class QuestionPagerController {
         return result;
     }
 
-    @RequestMapping(value="delPager.action",method={RequestMethod.GET})
+    @RequestMapping(value = "delPager.action", method = {RequestMethod.GET})
     @ResponseBody
-    public Boolean delPager(String id){
-        Boolean flag=false;
-        if(questionPagerService.delPager(id)){
-            flag=true;
+    public Boolean delPager(String id) {
+        Boolean flag = false;
+        if (questionPagerService.delPager(id)) {
+            flag = true;
             return flag;
         }
         return flag;
     }
 
-    @RequestMapping(value="GetPagers.action",method={RequestMethod.POST})
+    @RequestMapping(value = "GetPagers.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<QuestionPagers> GetQuestionPagers(/*int page,int rowCount*/){
-        List<QuestionPagers> rList=new ArrayList<QuestionPagers>();
-        rList=questionPagerService.GetQuestionPagers(/*page,rowCount*/);
+    public List<QuestionPagers> GetQuestionPagers(/*int page,int rowCount*/) {
+        List<QuestionPagers> rList = new ArrayList<QuestionPagers>();
+        rList = questionPagerService.GetQuestionPagers(/*page,rowCount*/);
         return rList;
 
     }
 
     @RequestMapping("submitPaperQuest.action")
     @ResponseBody
-    public String submitTestPaper(HttpServletRequest request){
+    public String submitTestPaper(HttpServletRequest request) {
         String questionType;
         String result = "false";
         try {
-            questionType = URLDecoder.decode(request.getParameter("questionType"),"utf-8");
-            int  score = Integer.parseInt(request.getParameter("qScore"));
+            questionType = URLDecoder.decode(request.getParameter("questionType"), "utf-8");
+            int score = Integer.parseInt(request.getParameter("qScore"));
             int order = Integer.parseInt(request.getParameter("qOrder"));
             String id = request.getParameter("datainputId");
             String testId = request.getParameter("pagerTempId");
             //System.out.println("id:    "+id+"  testId    :"+testId+" questionType    :"+questionType+"  order    :"+order+"  score    :"+score);
-            result = questionPagerService.submitTestPaper(id,testId,questionType,order,score);
+            result = questionPagerService.submitTestPaper(id, testId, questionType, order, score);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -91,21 +91,21 @@ public class QuestionPagerController {
 
     @RequestMapping("submitPager.action")
     @ResponseBody
-    public String submitTest(HttpServletRequest request){
+    public String submitTest(HttpServletRequest request) {
         String testName = request.getParameter("testName");
         String sessionId = (String) request.getSession().getAttribute("ID");
         String subjectKey = request.getParameter("subjectKey");
-        String result = questionPagerService.submitTest(testName,sessionId,subjectKey);
+        String result = questionPagerService.submitTest(testName, sessionId, subjectKey);
         return result;
     }
 
     @RequestMapping("updatePager.action")
     @ResponseBody
-    public int submitUpdateTest(HttpServletRequest request){
+    public int submitUpdateTest(HttpServletRequest request) {
         String testName = request.getParameter("testName");
         //String sessionId = (String) request.getSession().getAttribute("ID");
         String pagerId = request.getParameter("id");
-        int result = questionPagerService.updatePager(testName,pagerId);
+        int result = questionPagerService.updatePager(testName, pagerId);
         return result;
     }
 

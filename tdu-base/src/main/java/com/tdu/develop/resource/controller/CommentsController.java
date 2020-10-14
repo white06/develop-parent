@@ -24,7 +24,7 @@ import java.util.UUID;
 
 @CrossOrigin
 @Controller
-@RequestMapping(value="CommentsController")
+@RequestMapping(value = "CommentsController")
 public class CommentsController {
 
     @Resource
@@ -34,20 +34,19 @@ public class CommentsController {
     UsersService usersService = new UserServiceImpl();
 
 
-
-    @RequestMapping(value="getUsersment.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getUsersment.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<Comments> getUsersment(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+    public List<Comments> getUsersment(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         String nandu = request.getParameter("nandu");
         String page = request.getParameter("page");
         String type = request.getParameter("type");
         String toUser = request.getParameter("toUser");
-        List<Comments> commentsList= commentsService.getUsersment(nandu,page,type,toUser);
-        if(commentsList.size()>0){
+        List<Comments> commentsList = commentsService.getUsersment(nandu, page, type, toUser);
+        if (commentsList.size() > 0) {
             Users user = null;
-            for (Comments com: commentsList) {
+            for (Comments com : commentsList) {
                 user = usersService.GetNowUser(com.getStuKey());
-                if(user!=null){
+                if (user != null) {
                     com.setUsers(user);
                 }
             }
@@ -57,27 +56,27 @@ public class CommentsController {
     }
 
 
-    @RequestMapping(value="getAssessment.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getAssessment.action", method = {RequestMethod.POST})
     @ResponseBody
-    public Comments getAssessment(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+    public Comments getAssessment(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         String stuKey = request.getParameter("stuKey");
         Comments comments = commentsService.getAssessment(stuKey);
-        if(comments!=null){
+        if (comments != null) {
             return comments;
         }
-       return null;
+        return null;
     }
 
 
-    @RequestMapping(value="addComments.action",method={RequestMethod.POST})
+    @RequestMapping(value = "addComments.action", method = {RequestMethod.POST})
     @ResponseBody
-    public void addComments(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+    public void addComments(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         Comments comments = new Comments();
         comments.setId(UUID.randomUUID().toString());
         comments.setIntegrity(request.getParameter("integrity"));
         comments.setStandard(request.getParameter("standard"));
         comments.setGrammar(request.getParameter("grammar"));
-        comments.setFluency( request.getParameter("fluency"));
+        comments.setFluency(request.getParameter("fluency"));
         comments.setIntonation(request.getParameter("intonation"));
         comments.setReaction(request.getParameter("reaction"));
         comments.setOverall(request.getParameter("overall"));
@@ -91,7 +90,7 @@ public class CommentsController {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateNowStr = df.format(d);
         comments.setCreatData(dateNowStr);
-            commentsService.addComments(comments);
+        commentsService.addComments(comments);
     }
 
 }

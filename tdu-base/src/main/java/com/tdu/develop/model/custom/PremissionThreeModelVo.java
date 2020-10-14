@@ -7,44 +7,41 @@ import java.util.List;
 
 /**
  * 权限树
- * @author fuce 
+ *
+ * @author fuce
  * @date: 2018年9月8日 下午6:40:29
  */
-public class PremissionThreeModelVo{
-	private TsysPremission tsysPremission;
-	
-	List<PremissionThreeModelVo> childList;//子类
+public class PremissionThreeModelVo {
+    private TsysPremission tsysPremission;
 
-	public TsysPremission getTsysPremission() {
-		return tsysPremission;
-	}
+    List<PremissionThreeModelVo> childList;//子类
 
-	public void setTsysPremission(TsysPremission tsysPremission) {
-		this.tsysPremission = tsysPremission;
-	}
+    public TsysPremission getTsysPremission() {
+        return tsysPremission;
+    }
 
-	public List<PremissionThreeModelVo> getChildList() {
-		return childList;
-	}
+    public void setTsysPremission(TsysPremission tsysPremission) {
+        this.tsysPremission = tsysPremission;
+    }
 
-	public void setChildList(List<PremissionThreeModelVo> childList) {
-		this.childList = childList;
-	}
+    public List<PremissionThreeModelVo> getChildList() {
+        return childList;
+    }
 
-	public PremissionThreeModelVo(TsysPremission tsysPremission,
-			List<PremissionThreeModelVo> childList) {
-		super();
-		this.tsysPremission = tsysPremission;
-		this.childList = childList;
-	}
+    public void setChildList(List<PremissionThreeModelVo> childList) {
+        this.childList = childList;
+    }
 
-	public PremissionThreeModelVo() {
-		super();
-	}
-	
+    public PremissionThreeModelVo(TsysPremission tsysPremission,
+                                  List<PremissionThreeModelVo> childList) {
+        super();
+        this.tsysPremission = tsysPremission;
+        this.childList = childList;
+    }
 
-	
+    public PremissionThreeModelVo() {
+        super();
+    }
 
-	
-	
+
 }

@@ -28,48 +28,49 @@ import java.util.UUID;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value="InformessagesController")
+@RequestMapping(value = "InformessagesController")
 public class InformessagesController {
     @Autowired
     InformessagesService informessagesService;
 
 
     //查询时间接近现在时间的十条公告
-    @RequestMapping(value="selSomeInf.action",method={RequestMethod.POST})
+    @RequestMapping(value = "selSomeInf.action", method = {RequestMethod.POST})
     @ResponseBody
-    public JsonResult selSomeInf(HttpServletRequest request){
+    public JsonResult selSomeInf(HttpServletRequest request) {
         int page = Integer.parseInt(request.getParameter("page"));
         int size = Integer.parseInt(request.getParameter("size"));
-        Map<String,Object> list=informessagesService.selSomeInf(page,size);
+        Map<String, Object> list = informessagesService.selSomeInf(page, size);
         return new JsonResult(list);
     }
+
     //新增公告
-    @RequestMapping(value="insInfor.action",method={})
+    @RequestMapping(value = "insInfor.action", method = {})
     public void insInfor(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Informessages informessages=new Informessages();
+        Informessages informessages = new Informessages();
         informessages.setId(UUID.randomUUID().toString());
-        Date date=new Date();
-        SimpleDateFormat newDate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        SimpleDateFormat newDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         informessages.setCreateDate(newDate.format(date));
-        informessages.setTitle(java.net.URLDecoder.decode(request.getParameter("title"),"UTF-8"));
-        informessages.setContent(java.net.URLDecoder.decode(request.getParameter("content"),"UTF-8"));
-        informessages.setDepartmentId(java.net.URLDecoder.decode(request.getParameter("depertmentId"),"UTF-8"));
+        informessages.setTitle(java.net.URLDecoder.decode(request.getParameter("title"), "UTF-8"));
+        informessages.setContent(java.net.URLDecoder.decode(request.getParameter("content"), "UTF-8"));
+        informessages.setDepartmentId(java.net.URLDecoder.decode(request.getParameter("depertmentId"), "UTF-8"));
         if (informessagesService.insInfor(informessages)) {
             response.getWriter().print("ture");
         }
     }
 
     //编辑公告
-    @RequestMapping(value="editInfor.action",method={})
+    @RequestMapping(value = "editInfor.action", method = {})
     public void editInfor(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String id = request.getParameter("id");
-        Informessages informessages=new Informessages();
+        Informessages informessages = new Informessages();
         informessages.setId(id);
-        Date date=new Date();
-        SimpleDateFormat newDate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        SimpleDateFormat newDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         informessages.setCreateDate(newDate.format(date));
-        informessages.setTitle(java.net.URLDecoder.decode(request.getParameter("title"),"UTF-8"));
-        informessages.setContent(java.net.URLDecoder.decode(request.getParameter("content"),"UTF-8"));
+        informessages.setTitle(java.net.URLDecoder.decode(request.getParameter("title"), "UTF-8"));
+        informessages.setContent(java.net.URLDecoder.decode(request.getParameter("content"), "UTF-8"));
         if (informessagesService.editInfor(informessages)) {
             response.getWriter().print("ture");
         }
@@ -77,26 +78,26 @@ public class InformessagesController {
 
 
     //查询全部公告
-    @RequestMapping(value="selAllInf.action",method={RequestMethod.POST})
+    @RequestMapping(value = "selAllInf.action", method = {RequestMethod.POST})
     @ResponseBody
-    public List<Informessages> selAllInf(HttpServletRequest request,HttpSession session,HttpServletResponse response){
+    public List<Informessages> selAllInf(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
         String id = request.getParameter("id");
         String depertmentId = request.getParameter("depertmentId");
-        String userId ="";
-        if(session.getAttribute("ID")!=null){
-            userId=session.getAttribute("ID").toString();
+        String userId = "";
+        if (session.getAttribute("ID") != null) {
+            userId = session.getAttribute("ID").toString();
         }
-        List<Informessages> list=null;
-        if(id==""||id==null){
-            list =informessagesService.selAllInf(userId);
-        }else{
+        List<Informessages> list = null;
+        if (id == "" || id == null) {
+            list = informessagesService.selAllInf(userId);
+        } else {
             int type = Integer.parseInt(id);
-            if(type==1){
-                list =informessagesService.selAllInf1(depertmentId);
-            }else if(type==2){
-                list =informessagesService.selAllInf2(depertmentId);
-            }else if(type==3){
-                list =informessagesService.selAllInf3(depertmentId);
+            if (type == 1) {
+                list = informessagesService.selAllInf1(depertmentId);
+            } else if (type == 2) {
+                list = informessagesService.selAllInf2(depertmentId);
+            } else if (type == 3) {
+                list = informessagesService.selAllInf3(depertmentId);
             }
         }
 
@@ -104,9 +105,9 @@ public class InformessagesController {
     }
 
     //删除公告
-    @RequestMapping(value="deleInforMessage.action")
+    @RequestMapping(value = "deleInforMessage.action")
     @ResponseBody
-    public JsonResult deleInforMessage(HttpServletRequest request){
+    public JsonResult deleInforMessage(HttpServletRequest request) {
         informessagesService.deleInforMessage(request.getParameter("id"));
         return new JsonResult();
     }
@@ -114,35 +115,35 @@ public class InformessagesController {
     /******************************************************************************************************************/
 
 
-
-
     //新增老师的回复
-    @RequestMapping(value="inTeaReply.action",method={RequestMethod.POST})
-    public void inTeaReply(HttpServletRequest request,HttpSession session,HttpServletResponse response) throws IOException{
-        String huifu=request.getParameter("huifu");
-        String messageId=request.getParameter("messageId");
-        String userKey=request.getParameter("userKey");
-        Reply reply=new Reply();
+    @RequestMapping(value = "inTeaReply.action", method = {RequestMethod.POST})
+    public void inTeaReply(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException {
+        String huifu = request.getParameter("huifu");
+        String messageId = request.getParameter("messageId");
+        String userKey = request.getParameter("userKey");
+        Reply reply = new Reply();
         reply.setId(UUID.randomUUID().toString());
         reply.setTeaKey(session.getAttribute("ID").toString());
         reply.setUserKey(userKey);
         reply.setContent(huifu);
         reply.setMessageKey(messageId);
-        Date date=new Date();
-        DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String today=sdf.format(date);
+        Date date = new Date();
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String today = sdf.format(date);
         reply.setDate(today);
         if (informessagesService.teaHuifu(reply)) {
             if (informessagesService.upAnony1(messageId)) {
                 response.getWriter().print("ture");
-            };
+            }
+            ;
         }
     }
+
     //查询单个公告
-    @RequestMapping(value="getInfo.action",method={RequestMethod.POST})
+    @RequestMapping(value = "getInfo.action", method = {RequestMethod.POST})
     @ResponseBody
-    public Informessages getInfo(HttpServletRequest request){
-        Informessages list=informessagesService.getInfo(request.getParameter("id"));
+    public Informessages getInfo(HttpServletRequest request) {
+        Informessages list = informessagesService.getInfo(request.getParameter("id"));
         return list;
     }
 

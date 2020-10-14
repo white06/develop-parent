@@ -2,20 +2,30 @@ package com.tdu.develop.resource.pojo;
 
 public class Evaluation {
 
-    private String  id;
-    private String  clarity;  //语言清晰度
-    private String  fullness;  //丰满度
-    private String  articulation;    //音节清晰度
-    private String  kindness;    //亲切感
-    private String  creatData;    //创建时间
-    private String  userKey;
-    private String  sceneKey;
+    private String id;
+    private String clarity;  //语言清晰度
+    private String fullness;  //丰满度
+    private String articulation;    //音节清晰度
+    private String kindness;    //亲切感
+    private String creatData;    //创建时间
+    private String userKey;
+    private String sceneKey;
+
+    private String musicName;
+
+    public String getMusicName() {
+        return musicName;
+    }
+
+    public void setMusicName(String musicName) {
+        this.musicName = musicName;
+    }
 
     /*
-    查看评分
-    * */
+        查看评分
+        * */
     private String username;
-    private String  content;
+    private String content;
 
     public String getUsername() {
         return username;

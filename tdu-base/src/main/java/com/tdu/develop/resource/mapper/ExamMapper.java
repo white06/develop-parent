@@ -15,6 +15,7 @@ import java.util.List;
 @Repository
 public interface ExamMapper {
     public String getPagerName2(String id);
+
     /*
      * 获取已组卷试卷的题目
      * */
@@ -59,6 +60,7 @@ public interface ExamMapper {
     public String getExamTime(String examPage);
 
     public List<QuestionPagers> selSubPage(String subId);
+
     public List<Exams> selSubPageNew(@Param("subId") String subId, @Param("classId") String classId);
 
     public Exams getExam(@Param("examPage") String examPage, @Param("classId") String classId);
@@ -66,7 +68,9 @@ public interface ExamMapper {
     public List<SeekResult> seektestQuestion(@Param("questiondbs") Questiondbs questiondbs, @Param("number") int number);
 
     public String getContent(String knowledgeId);
+
     public List<Questiondbs> newtimu(String id);
+
     public Questiondbs selectAll(String id);
 
     public int insertPagertempContents(PagerTempContents ptc);
@@ -144,8 +148,10 @@ public interface ExamMapper {
     public String selePagertempId(String pagerKey);
 
     public Integer updwendaAnswer(@Param("answer") String answer, @Param("quesId") String quesId, @Param("pageId") String pageId, @Param("sessionId") String sessionId);
+
     /**
      * 获取已发布的考试
+     *
      * @param subjectId
      * @param useAble
      * @return

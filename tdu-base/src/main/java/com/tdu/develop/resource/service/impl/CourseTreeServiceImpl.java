@@ -22,9 +22,9 @@ import java.util.UUID;
 public class CourseTreeServiceImpl implements CourseTreeService {
 
 
-    public static final String ImageIcons="../../../Source/imgicon/tag_orange.png";
-    public static final String KnowledgesContentId="00000000-0000-0000-0000-000000000000";
-    public static final String BeforeCondition="<root><beforesee></beforesee><userkey></userkey><grades></grades></root>";
+    public static final String ImageIcons = "../../../Source/imgicon/tag_orange.png";
+    public static final String KnowledgesContentId = "00000000-0000-0000-0000-000000000000";
+    public static final String BeforeCondition = "<root><beforesee></beforesee><userkey></userkey><grades></grades></root>";
     @Autowired
     public CourseTreeMapper courseTreeMapper;
 
@@ -36,19 +36,20 @@ public class CourseTreeServiceImpl implements CourseTreeService {
 
     @Override
     public List<SubjectTrees> geSubjectTrees(String subjectKey) {
-          
-        List<SubjectTrees> list =   courseTreeMapper.geSubjectTrees(subjectKey);
+
+        List<SubjectTrees> list = courseTreeMapper.geSubjectTrees(subjectKey);
         return list;
     }
+
     @Override
-    public void insertTree(SubjectTrees subjectTrees){
-          
+    public void insertTree(SubjectTrees subjectTrees) {
+
         String id = UUID.randomUUID().toString();
         subjectTrees.setId(id);
         subjectTrees.setTreeNum(getTreeNumMax(subjectTrees));
-          courseTreeMapper.insertTree(subjectTrees);
-        if(subjectTrees.getId()!=null){
-             
+        courseTreeMapper.insertTree(subjectTrees);
+        if (subjectTrees.getId() != null) {
+
             Knowledges knowledges = new Knowledges();
             String rootId = UUID.randomUUID().toString();
             knowledges.setId(rootId);
@@ -59,17 +60,18 @@ public class CourseTreeServiceImpl implements CourseTreeService {
             knowledges.setImageIcons(ImageIcons);
             knowledges.setKnowledgecontentId(KnowledgesContentId);
             knowledges.setBeforCondition(BeforeCondition);
-              courseTreeMapper.insertRoot(knowledges);
+            courseTreeMapper.insertRoot(knowledges);
         }
     }
+
     @Override
-    public void insertTreeModel(SubjectTrees subjectTrees){
+    public void insertTreeModel(SubjectTrees subjectTrees) {
 
         String id = UUID.randomUUID().toString();
         subjectTrees.setId(id);
         subjectTrees.setTreeNum(getTreeNumMax(subjectTrees));
         courseTreeMapper.insertTree(subjectTrees);
-        if(subjectTrees.getId()!=null){
+        if (subjectTrees.getId() != null) {
 
             Models knowledges = new Models();
             String rootId = UUID.randomUUID().toString();
@@ -84,14 +86,15 @@ public class CourseTreeServiceImpl implements CourseTreeService {
             developModelMapper.AddNewModle(knowledges);
         }
     }
+
     @Override
-    public void insertTreeScene(SubjectTrees subjectTrees){
+    public void insertTreeScene(SubjectTrees subjectTrees) {
 
         String id = UUID.randomUUID().toString();
         subjectTrees.setId(id);
         subjectTrees.setTreeNum(getTreeNumMax(subjectTrees));
         courseTreeMapper.insertTree(subjectTrees);
-        if(subjectTrees.getId()!=null){
+        if (subjectTrees.getId() != null) {
 
             Scenes knowledges = new Scenes();
             String rootId = UUID.randomUUID().toString();
@@ -106,32 +109,34 @@ public class CourseTreeServiceImpl implements CourseTreeService {
             developSceneMapper.AddNewScene(knowledges);
         }
     }
+
     @Override
     public SubjectTrees getTreeSource(String treeId) {
-          
-        return   courseTreeMapper.getTreeSource(treeId);
+
+        return courseTreeMapper.getTreeSource(treeId);
     }
 
     @Override
     public void updateTree(SubjectTrees subjectTrees) {
-          
-          courseTreeMapper.updateTree(subjectTrees);
+
+        courseTreeMapper.updateTree(subjectTrees);
     }
 
     @Override
     public void deleteTree(String treeid) {
-         
-          courseTreeMapper.deleteRoot(treeid);
-          
-          courseTreeMapper.deleteTree(treeid);
+
+        courseTreeMapper.deleteRoot(treeid);
+
+        courseTreeMapper.deleteTree(treeid);
     }
-    public int getTreeNumMax(SubjectTrees subjectTrees){
+
+    public int getTreeNumMax(SubjectTrees subjectTrees) {
         String subjectKey = subjectTrees.getSubjectKey();
-          
-        int i =   courseTreeMapper.selTreeNumMax(subjectKey);
-        if(i==-1)
+
+        int i = courseTreeMapper.selTreeNumMax(subjectKey);
+        if (i == -1)
             return 0;
-        return i+1;
+        return i + 1;
     }
 
 }
