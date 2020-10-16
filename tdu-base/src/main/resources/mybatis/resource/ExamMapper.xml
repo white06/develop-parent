@@ -1,272 +1,288 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.resource.mapper.ExamMapper">
-	<resultMap type="com.tdu.develop.resource.pojo.Question" id="quertion">
-		<id property="id" column="id"/>
-		<result property="content" column="content"/>
-		<result property="knowledgeId" column="knowledgeId"/>
-		<result property="time" column="time"/>
-		<result property="title" column="title"/>
-		<result property="type" column="type"/>
-		<result property="questionImg" column="questionImg"/>
-		<result property="fenshu" column="fenshu"/>
-	</resultMap>
-	
-	<resultMap type="com.tdu.develop.resource.pojo.QuestionPagerContents" id="questionPagerContents">
-		<id property="id" column="id"/>
-		<result property="questionKey" column="questionKey"/>
-		<result property="questionContent" column="questionContent"/>
-		<result property="questionIndex" column="questionIndex"/>
-		<result property="questionScore" column="questionScore"/>
-		<result property="questionType" column="questionType"/>
-		<result property="questionPager_Id" column="questionPager_Id"/>
-	</resultMap>
-	
-	<resultMap type="com.tdu.develop.resource.pojo.Exams" id="exams">
-		<id property="id" column="Id"/>
-		<result property="name" column="Name"/>
-		<result property="examPager" column="ExamPager"/>
-		<result property="startTime" column="StartTime"/>
-		<result property="endTime" column="EndTime"/>
-		<result property="invigilateKey" column="InvigilateKey"/>
-		<result property="checkKey" column="CheckKey"/>
-		<result property="classKey" column="ClassKey"/>
-		<result property="Anony" column="Anony"/>
-		<result property="examType" column="ExamType"/>
-		<result property="subjectkey" column="SubjectKey"/>
-	</resultMap>
-	<resultMap type="com.tdu.develop.resource.pojo.SeekResult" id="questiondbs">
-		<result property="QuestionType" column="questionType"/>
-		<result property="QuestionStem" column="questionStem"/>
-		<result property="Diffcult" column="difficult"/>
-	</resultMap>
-	
-	<select id="selexam" resultMap="quertion" parameterType="String">
+    <resultMap type="com.tdu.develop.resource.pojo.Question" id="quertion">
+        <id property="id" column="id"/>
+        <result property="content" column="content"/>
+        <result property="knowledgeId" column="knowledgeId"/>
+        <result property="time" column="time"/>
+        <result property="title" column="title"/>
+        <result property="type" column="type"/>
+        <result property="questionImg" column="questionImg"/>
+        <result property="fenshu" column="fenshu"/>
+    </resultMap>
+
+    <resultMap type="com.tdu.develop.resource.pojo.QuestionPagerContents" id="questionPagerContents">
+        <id property="id" column="id"/>
+        <result property="questionKey" column="questionKey"/>
+        <result property="questionContent" column="questionContent"/>
+        <result property="questionIndex" column="questionIndex"/>
+        <result property="questionScore" column="questionScore"/>
+        <result property="questionType" column="questionType"/>
+        <result property="questionPager_Id" column="questionPager_Id"/>
+    </resultMap>
+
+    <resultMap type="com.tdu.develop.resource.pojo.Exams" id="exams">
+        <id property="id" column="Id"/>
+        <result property="name" column="Name"/>
+        <result property="examPager" column="ExamPager"/>
+        <result property="startTime" column="StartTime"/>
+        <result property="endTime" column="EndTime"/>
+        <result property="invigilateKey" column="InvigilateKey"/>
+        <result property="checkKey" column="CheckKey"/>
+        <result property="classKey" column="ClassKey"/>
+        <result property="Anony" column="Anony"/>
+        <result property="examType" column="ExamType"/>
+        <result property="subjectkey" column="SubjectKey"/>
+    </resultMap>
+    <resultMap type="com.tdu.develop.resource.pojo.SeekResult" id="questiondbs">
+        <result property="QuestionType" column="questionType"/>
+        <result property="QuestionStem" column="questionStem"/>
+        <result property="Diffcult" column="difficult"/>
+    </resultMap>
+
+    <select id="selexam" resultMap="quertion" parameterType="String">
 		SELECT * from questions where KnowledgeId=#{knowledgeId} and Type=#{type}
 	</select>
-	<!-- 添加试题 -->
-	<insert id="inexam" parameterType="com.tdu.develop.resource.pojo.Question">
+    <!-- 添加试题 -->
+    <insert id="inexam" parameterType="com.tdu.develop.resource.pojo.Question">
 		INSERT INTO questions (`Id`, `Content`, `KnowledgeId`, `Time`, `Title`, `Type`, `QuestionImg`,`fenshu`) VALUES (#{id}, #{content}, #{knowledgeId}, #{time}, #{title}, #{type},#{questionImg},#{fenshu});
 	</insert>
-	
-	<update id="updatExam" parameterType="com.tdu.develop.resource.pojo.Question">
-		UPDATE questions SET content=#{content}, title=#{title} ,QuestionImg=#{questionImg} ,fenshu=#{fenshu},Time=#{time} <where> id=#{id} </where>
-	</update>
-	
-	<delete id="delExam" parameterType="String">
-		delete from questions <where> id=#{id} </where>
-	</delete>
 
-	<delete id="delExamReally" parameterType="String">
-		delete from exams <where> Id=#{id} </where>
-	</delete>
-	<!-- 
-	<select id="chajuan" resultMap="quertion" parameterType="String">
-		SELECT * FROM questions AS t1 JOIN (SELECT RAND(RAND()*(SELECT MAX(id) FROM questions)) as id) AS t2 where t1.Type=#{type} AND t1.QuestionImg=#{nandu} AND t1.KnowledgeId=#{knowledgeId} AND t1.id>= t2.id ORDER BY t1.Id ASC LIMIT ${num}
-	</select>
-	 -->
-	 
-	 <select id="chajuan" resultMap="quertion" parameterType="String">
+    <update id="updatExam" parameterType="com.tdu.develop.resource.pojo.Question">
+        UPDATE questions SET content=#{content}, title=#{title} ,QuestionImg=#{questionImg}
+        ,fenshu=#{fenshu},Time=#{time}
+        <where>id=#{id}</where>
+    </update>
+
+    <delete id="delExam" parameterType="String">
+        delete from questions
+        <where>id=#{id}</where>
+    </delete>
+
+    <delete id="delExamReally" parameterType="String">
+        delete from exams
+        <where>Id=#{id}</where>
+    </delete>
+    <!--
+    <select id="chajuan" resultMap="quertion" parameterType="String">
+        SELECT * FROM questions AS t1 JOIN (SELECT RAND(RAND()*(SELECT MAX(id) FROM questions)) as id) AS t2 where t1.Type=#{type} AND t1.QuestionImg=#{nandu} AND t1.KnowledgeId=#{knowledgeId} AND t1.id>= t2.id ORDER BY t1.Id ASC LIMIT ${num}
+    </select>
+     -->
+
+    <select id="chajuan" resultMap="quertion" parameterType="String">
 	 	select * from questions where Type=#{type} and QuestionImg=#{nandu} and KnowledgeId=#{knowledgeId} order by rand() LIMIT ${num}
 	 </select>
-	 
-	<insert id="inquestionPage" parameterType="com.tdu.develop.resource.pojo.QuestionPagers">
+
+    <insert id="inquestionPage" parameterType="com.tdu.develop.resource.pojo.QuestionPagers">
 		insert into questionpagers(`Id`, `Name`, `UseAble`, `CreateDate`, `SubjectKey`,`leixing`) value(#{id},#{name},#{useAble},#{createData},#{subjectKey},#{leixing})
 	</insert>
-	<insert id="inquertionPagerContent" parameterType="com.tdu.develop.resource.pojo.QuestionPagerContents">
+    <insert id="inquertionPagerContent" parameterType="com.tdu.develop.resource.pojo.QuestionPagerContents">
 		insert into questionpagercontents(`Id`, `QuestionKey`, `QuestionContent`, `QuestionIndex`, `QuestionScore`, `QuestionType`, `QuestionPager_Id`) value(#{id},#{questionKey},#{questionContent},#{questionIndex},#{questionScore},#{questionType},#{questionPager_Id})
 	</insert>
-	<!-- 添加试卷 -->
-	<insert id="inExams" parameterType="com.tdu.develop.resource.pojo.Exams">
+    <!-- 添加试卷 -->
+    <insert id="inExams" parameterType="com.tdu.develop.resource.pojo.Exams">
 		insert into exams(`id`,`name`,`examPager`,`classKey`,`Anony`) value(#{id},#{name},#{examPager},#{classKey},#{Anony})
 	</insert>
-	
-	<select id="chaxun" resultMap="quertion" parameterType="String">
-		select * from questions <where> id=#{id} </where>
-	</select>
-	
-	<select id="kaoshi" resultMap="exams" parameterType="String">
-		select * from exams <where> classKey like CONCAT('%',#{classId},'%') </where> order by startTime
-	</select>
-	
-	<select id="timu" resultMap="questionPagerContents" parameterType="String">
+
+    <select id="chaxun" resultMap="quertion" parameterType="String">
+        select * from questions
+        <where>id=#{id}</where>
+    </select>
+
+    <select id="kaoshi" resultMap="exams" parameterType="String">
+        select * from exams <where>classKey like CONCAT('%',#{classId},'%')</where> order by startTime
+    </select>
+
+    <select id="timu" resultMap="questionPagerContents" parameterType="String">
 		SELECT * from questionpagercontents WHERE QuestionPager_Id=#{id} ORDER BY QuestionIndex
 	</select>
-	
-	<select id="newtimu" resultType="com.tdu.develop.resource.pojo.Questiondbs" parameterType="String">
+
+    <select id="newtimu" resultType="com.tdu.develop.resource.pojo.Questiondbs" parameterType="String">
 		SELECT `Id`, `QuestionStem`, `QuestionType`, `KnowledgeId`, `Diffcult`, `Answer`, `OptionA`, `OptionB`, `OptionC`, `OptionD`, `OptionE`, `OptionF`, `OptionG`, `OptionH`, `Analysis`, `CreatePerson`, `CreateDate`, `QuestionOrder`,`Score` from pagertempcontents WHERE PagerTempId=#{id} ORDER BY QuestionOrder
 	</select>
-	<select id="selectzongheQuesbyid" parameterType="String" resultType="com.tdu.develop.resource.pojo.PagerTempCompreContents">
+    <select id="selectzongheQuesbyid" parameterType="String"
+            resultType="com.tdu.develop.resource.pojo.PagerTempCompreContents">
 		select * from pagertempcomprecontents where Id=#{id}
 	</select>
-	<select id="selectQuesbyid" parameterType="String" resultType="com.tdu.develop.resource.pojo.Questiondbs">
+    <select id="selectQuesbyid" parameterType="String" resultType="com.tdu.develop.resource.pojo.Questiondbs">
 		select * from pagertempcontents where Id=#{id}
 	</select>
-	<select id="selectQuestionByOrder" parameterType="String" resultType="com.tdu.develop.resource.pojo.Questiondbs">
+    <select id="selectQuestionByOrder" parameterType="String" resultType="com.tdu.develop.resource.pojo.Questiondbs">
 		SELECT Id,QuestionOrder from pagertempcontents WHERE PagerTempId=#{id} UNION SELECT Id,QuestionOrder from pagertempcomprecontents WHERE PagerTempId=#{id} ORDER BY QuestionOrder
 	</select>
-	
-	<select id="trueDaan" resultMap="questionPagerContents" parameterType="String">
-		select * from questionpagercontents <where> questionKey=#{quesId} and questionPager_id=#{pageId} </where>
-	</select>
-	
-	<select id="seleExamAll" resultMap="exams">
-		select * from exams <where> anony=0 </where>
-	</select>
-	
-	<select id="seleExamFabu" resultMap="exams">
-		select * from exams <where> anony=1 </where>
-	</select>
-	
-	<!--<select id="seleClassName" resultType="String" parameterType="String">
-		select classname from classes <where> id=#{classkey} </where>
-	</select>-->
-	
-	<select id="seleQuestionPagers" resultType="String" parameterType="String">
-		select leixing from questionpagers <where> id=#{pagekey} </where>
-	</select>
-	
-	<update id="upAnony" parameterType="com.tdu.develop.resource.pojo.Exams">
-		update exams set starttime=#{startTime},endtime=#{endTime},anony=#{Anony},classKey=#{classKey},invigilateKey=#{invigilateKey} <where> id=#{id} </where>
-	</update>
-	
-	<select id="selClassKey" resultMap="exams" parameterType="String">
-		select * from exams <where> id=#{id} </where>
-	</select>
-	
-	<select id="getExamTime" resultType="string" parameterType="String">
-		select invigilateKey from exams <where> examPager=#{examPage} </where>
-	</select>
-	
-	<select id="selSubPage" resultType="com.tdu.develop.resource.pojo.QuestionPagers" parameterType="String">
-		select * from questionpagers <where> subjectKey=#{subId} </where> order by createdate
-	</select>
-	<select id="selSubPageNew" resultType="com.tdu.develop.resource.pojo.Exams" parameterType="String">
+
+    <select id="trueDaan" resultMap="questionPagerContents" parameterType="String">
+        select * from questionpagercontents
+        <where>questionKey=#{quesId} and questionPager_id=#{pageId}</where>
+    </select>
+
+    <select id="seleExamAll" resultMap="exams">
+        select * from exams
+        <where>anony=0</where>
+    </select>
+
+    <select id="seleExamFabu" resultMap="exams">
+        select * from exams
+        <where>anony=1</where>
+    </select>
+
+    <!--<select id="seleClassName" resultType="String" parameterType="String">
+        select classname from classes <where> id=#{classkey} </where>
+    </select>-->
+
+    <select id="seleQuestionPagers" resultType="String" parameterType="String">
+        select leixing from questionpagers
+        <where>id=#{pagekey}</where>
+    </select>
+
+    <update id="upAnony" parameterType="com.tdu.develop.resource.pojo.Exams">
+        update exams set
+        starttime=#{startTime},endtime=#{endTime},anony=#{Anony},classKey=#{classKey},invigilateKey=#{invigilateKey}
+        <where>id=#{id}</where>
+    </update>
+
+    <select id="selClassKey" resultMap="exams" parameterType="String">
+        select * from exams
+        <where>id=#{id}</where>
+    </select>
+
+    <select id="getExamTime" resultType="string" parameterType="String">
+        select invigilateKey from exams
+        <where>examPager=#{examPage}</where>
+    </select>
+
+    <select id="selSubPage" resultType="com.tdu.develop.resource.pojo.QuestionPagers" parameterType="String">
+        select * from questionpagers <where>subjectKey=#{subId}</where> order by createdate
+    </select>
+    <select id="selSubPageNew" resultType="com.tdu.develop.resource.pojo.Exams" parameterType="String">
 		select * from exams where subjectKey=#{subId} and anony=1 and classKey like CONCAT('%',#{classId},'%') order by StartTime
 	</select>
-	
-	<select id="getExam" resultMap="exams" parameterType="String">
-		select * from exams <where> examPager=#{examPage} and anony=1 and classKey like CONCAT('%',#{classId},'%')</where>
-	</select>
-	<select id="seektestQuestion"  resultType="com.tdu.develop.resource.pojo.SeekResult">
+
+    <select id="getExam" resultMap="exams" parameterType="String">
+        select * from exams
+        <where>examPager=#{examPage} and anony=1 and classKey like CONCAT('%',#{classId},'%')</where>
+    </select>
+    <select id="seektestQuestion" resultType="com.tdu.develop.resource.pojo.SeekResult">
 		select Id,QuestionType,QuestionStem from questiondbs where QuestionType=#{questiondbs.QuestionType} and Diffcult=#{questiondbs.Diffcult} and KnowledgeId=#{questiondbs.KnowledgeId} order by RAND() LIMIT #{number}
 	</select>
-	<select id="getContent" resultType="String" parameterType="String">
+    <select id="getContent" resultType="String" parameterType="String">
 		select Content from knowledges where Id=#{knowledgeId}
 	</select>
-	<select id="selectAll" parameterType="String" resultType="com.tdu.develop.resource.pojo.Questiondbs">
+    <select id="selectAll" parameterType="String" resultType="com.tdu.develop.resource.pojo.Questiondbs">
 		select * from questiondbs where Id=#{id}
 	</select>
-	<select id="getMaxOrder" resultType="Integer">
+    <select id="getMaxOrder" resultType="Integer">
 		select MAX(`QuestionOrder`) from pagertempcontents
 	</select>
-	<insert id="insertPagertempContents" parameterType="com.tdu.develop.resource.pojo.PagerTempContents">
+    <insert id="insertPagertempContents" parameterType="com.tdu.develop.resource.pojo.PagerTempContents">
 		INSERT INTO `pagertempcontents` (`Id`, `PagerTempId`, `QuestionStem`, `QuestionType`, `KnowledgeId`, `Diffcult`, `Answer`, `OptionA`, `OptionB`, `OptionC`, `OptionD`, `OptionE`, `OptionF`, `OptionG`, `OptionH`, `Analysis`, `Score`, `CreatePerson`, `CreateDate`, `QuestionOrder`) VALUES 
 (#{Id},#{PagerTempId},#{QuestionStem},#{QuestionType},#{KnowledgeId},#{Diffcult},#{Answer},#{OptionA},#{OptionB},#{OptionC},#{OptionD},#{OptionE},#{OptionF},#{OptionG},#{OptionH},#{Analysis},#{Score},#{CreatePerson},#{CreateDate},#{QuestionOrder}) 
 	
 	</insert>
-	<select id="getUserName" parameterType="String" resultType="String">
+    <select id="getUserName" parameterType="String" resultType="String">
 		select Name from users where Id=#{sessionId}
 	</select>
-	<insert id="insertPagerTemps" parameterType="com.tdu.develop.resource.pojo.PagerTemps">
+    <insert id="insertPagerTemps" parameterType="com.tdu.develop.resource.pojo.PagerTemps">
 		insert into pagertemps values(#{Id},#{PagerName},#{Status},#{CreateDate},#{CreatePerson},#{CiteTime})
 	</insert>
-	<select id="selectQuestionComprehensives" resultType="com.tdu.develop.resource.pojo.QuestionComprehensives" parameterType="String">
+    <select id="selectQuestionComprehensives" resultType="com.tdu.develop.resource.pojo.QuestionComprehensives"
+            parameterType="String">
 		select QuestionStem,QuestionKeyArray,CreatePerson,CreateDate from questioncomprehensives where Id=#{id}
 	</select>
-	<insert id="insertPagerTempCompreContents" parameterType="com.tdu.develop.resource.pojo.PagerTempCompreContents" >
+    <insert id="insertPagerTempCompreContents" parameterType="com.tdu.develop.resource.pojo.PagerTempCompreContents">
 	INSERT INTO `pagertempcomprecontents` (`Id`, `PagerTempId`, `QuestionStem`, `QuestionKeyArray`, `Score`, `CreatePerson`, `CreateDate`, `QuestionOrder`) VALUES (#{Id},#{PagerTempId},#{QuestionStem},#{QuestionKeyArray},#{Score},#{CreatePerson},#{CreateDate},#{QuestionOrder})
 	</insert>
-	<select id="seekIntegratedQuestion" resultType="com.tdu.develop.resource.pojo.SeekResult">
+    <select id="seekIntegratedQuestion" resultType="com.tdu.develop.resource.pojo.SeekResult">
 		select Id,QuestionStem from questioncomprehensives where KnowledgeId=#{questiondbs.KnowledgeId} order by RAND() LIMIT #{number}
 	</select>
-	<update id="updateQuestionKeyArray">
+    <update id="updateQuestionKeyArray">
 		update pagertempcomprecontents set QuestionKeyArray=#{spliceStr} where Id=#{ptccId}
 	</update>
-	<select id="selectExamsName" parameterType="String" resultType="com.tdu.develop.resource.pojo.PagerTemps">
+    <select id="selectExamsName" parameterType="String" resultType="com.tdu.develop.resource.pojo.PagerTemps">
 		select PagerName,Id from pagertemps
 	</select>
-	<select id="selectExams" parameterType="String" resultType="com.tdu.develop.resource.pojo.Exams">
+    <select id="selectExams" parameterType="String" resultType="com.tdu.develop.resource.pojo.Exams">
 		select * from exams where subjectKey=#{parameter}
 	</select>
-	<select id="getClassName" parameterType="String" resultType="String">
+    <select id="getClassName" parameterType="String" resultType="String">
 		select ClassName from classes where Id=#{classKey}
 	</select>
-	<select id="getPagerName" parameterType="String" resultType="String">
+    <select id="getPagerName" parameterType="String" resultType="String">
 		select PagerName from pagertemps where Id=#{examPager}
 	</select>
-	<select id="getRolesIdByTeacher" resultType="String">
+    <select id="getRolesIdByTeacher" resultType="String">
 		select Id from roles where RoleName='teacher'
 	</select>
-	<select id="getuserRolesId" parameterType="String" resultType="String">
+    <select id="getuserRolesId" parameterType="String" resultType="String">
 		select User_Id from userroles where Role_Id=#{teachersId}
 	</select>
-	<select id="getUserInfoById" parameterType="String" resultType="com.tdu.develop.user.pojo.Users">
+    <select id="getUserInfoById" parameterType="String" resultType="com.tdu.develop.user.pojo.Users">
 		select Name,UserName,Sex from users where Id=#{id}
 	</select>
-	<select id='getClassesName' resultType="com.tdu.develop.user.pojo.Classes">
+    <select id='getClassesName' resultType="com.tdu.develop.user.pojo.Classes">
 		select ClassName,Id from classes
 	</select>
-	<insert id="insertExams" parameterType="com.tdu.develop.resource.pojo.Exams" >
+    <insert id="insertExams" parameterType="com.tdu.develop.resource.pojo.Exams">
 		insert into exams (`Id`, `Name`, `ExamPager`,`ExamType`, `SubjectKey`, `StartTime`, `EndTime`, `InvigilateKey`, `ClassKey`, `Anony`) values(#{id},#{name},#{examPager},#{examType},#{subjectkey},#{startTime},#{endTime},#{invigilateKey},#{classKey},#{Anony})
 	</insert>
-	<select id="getExamsById" parameterType="String" resultType="com.tdu.develop.resource.pojo.Exams">
+    <select id="getExamsById" parameterType="String" resultType="com.tdu.develop.resource.pojo.Exams">
 		select * from exams where Id=#{id}
 	</select>
-	<update id="updateExamsById" parameterType="com.tdu.develop.resource.pojo.Exams">
+    <update id="updateExamsById" parameterType="com.tdu.develop.resource.pojo.Exams">
 		update exams set Name=#{name},ExamPager=#{examPager},ExamType=#{examType},SubjectKey=#{subjectkey},StartTime=#{startTime},EndTime=#{endTime},InvigilateKey=#{invigilateKey},ClassKey=#{classKey} where Id=#{id}
 	</update>
-	<select id="seleCorrectAnswer" resultType="String">
+    <select id="seleCorrectAnswer" resultType="String">
 		select Answer from pagertempcontents where Id=#{quesId}
 	</select>
-	<select id="seleScore" resultType="int">
+    <select id="seleScore" resultType="int">
 		select Score from pagertempcontents where Id=#{quesId}
 	</select>
-	<insert id="insertStuQueInfors" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
+    <insert id="insertStuQueInfors" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
 		insert into stuqueinfors (`Id`, `PagerKey`, `QuesScore`, `QuestionAnswer`, `QuestionKey`, `StuKey`) values (#{id},#{pagerKey},#{quesScore},#{questionAnswer},#{questionKey},#{stuKey})
 	</insert>
-	<select id="seleQuestionTypeOfpagertempcontents" resultType="String">
+    <select id="seleQuestionTypeOfpagertempcontents" resultType="String">
 		select QuestionType from pagertempcontents where Id=#{quesId}
 	</select>
-	<select id="getExamPagerById" parameterType="String" resultType="String">
+    <select id="getExamPagerById" parameterType="String" resultType="String">
 		select ExamPager from exams where Id=#{pageId}
 	</select>
-	<select id="seleQuestionKeyArray" resultType="String">
+    <select id="seleQuestionKeyArray" resultType="String">
 		select QuestionKeyArray from pagertempcomprecontents where Id=#{quesId} and PagerTempId=#{pagetempId}
 	</select>
-	<update id="updateStuquesinfors" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
+    <update id="updateStuquesinfors" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
 		update stuqueinfors set QuesScore=#{quesScore},QuestionAnswer=#{questionAnswer} where PagerKey=#{pagerKey} and QuestionKey=#{questionKey} and StuKey=#{stuKey}
 	</update>
-	<select id="seleStartAndEndTime" parameterType="String" resultType="com.tdu.develop.resource.pojo.Exams">
+    <select id="seleStartAndEndTime" parameterType="String" resultType="com.tdu.develop.resource.pojo.Exams">
 		select StartTime,EndTime from Exams where Id=#{examPage}
 	</select>
-	<select id="seleExamPagerById" parameterType="String" resultType="String">
+    <select id="seleExamPagerById" parameterType="String" resultType="String">
 		select ExamPager from Exams where Id=#{parameter}
 	</select>
-	<select id="seleErrorQues" resultType="com.tdu.develop.resource.pojo.ErrorQues">
+    <select id="seleErrorQues" resultType="com.tdu.develop.resource.pojo.ErrorQues">
 		select * from errorques where QuestionKey=#{questionKey} and StuKey=#{stuKey}
 	</select>
-	<update id="updateErrorQues"  parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
+    <update id="updateErrorQues" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
 		update errorques set ErrorAns=#{questionAnswer} where Id=#{id}
 	</update>
-	<insert id="inseErrorQues">
+    <insert id="inseErrorQues">
 		insert into errorques (Id,QuestionKey,StuKey,ErrorAns) values(#{Id},#{QuestionKey},#{StuKey},#{ErrorAns})
 	</insert>
-	<delete id="delErrorQues" parameterType="com.tdu.develop.resource.pojo.ErrorQues">
+    <delete id="delErrorQues" parameterType="com.tdu.develop.resource.pojo.ErrorQues">
 		delete from errorques where Id=#{Id}
 	</delete>
-	<select id="getId" resultType="String">
+    <select id="getId" resultType="String">
 		select Id from stuqueInfors where PagerKey=#{pageId} and QuestionKey=#{quesId}
 	</select>
-	<select id="selePagertempId" parameterType="String" resultType="String">
+    <select id="selePagertempId" parameterType="String" resultType="String">
 		select ExamPager from exams where Id=#{pagerKey}
 	</select>
-	<select id="getPages"  parameterType="String" resultType="com.tdu.develop.resource.pojo.QuestionPagers">
+    <select id="getPages" parameterType="String" resultType="com.tdu.develop.resource.pojo.QuestionPagers">
 		select * from questionpagers where SubjectKey=#{subjectId} and UseAble=#{useAble}
 	</select>
-	
-	
-<select id="GetTimu" resultMap="quertionresult" parameterType="String">
+
+
+    <select id="GetTimu" resultMap="quertionresult" parameterType="String">
 	SELECT
 	qu.*, know.Content AS point,
 	know.id AS k_id
@@ -286,28 +302,29 @@ WHERE
 )
 and qu.KnowledgeId = know.Id
 	</select>
-	
-	<resultMap type="com.tdu.develop.resource.pojo.Question" id="quertionresult">
-		<id property="id" column="id"/>
-		<result property="content" column="content"/>
-		<result property="knowledgeId" column="knowledgeId"/>
-		<result property="time" column="time"/>
-		<result property="title" column="title"/>
-		<result property="type" column="type"/>
-		<result property="questionImg" column="questionImg"/>
-		<result property="fenshu" column="fenshu"/>
-		<result property="" column="QuestionPager_Id"/>
-	</resultMap>
-	
-	<select id="getPagerName2" resultType="String" parameterType="String">
+
+    <resultMap type="com.tdu.develop.resource.pojo.Question" id="quertionresult">
+        <id property="id" column="id"/>
+        <result property="content" column="content"/>
+        <result property="knowledgeId" column="knowledgeId"/>
+        <result property="time" column="time"/>
+        <result property="title" column="title"/>
+        <result property="type" column="type"/>
+        <result property="questionImg" column="questionImg"/>
+        <result property="fenshu" column="fenshu"/>
+        <result property="" column="QuestionPager_Id"/>
+    </resultMap>
+
+    <select id="getPagerName2" resultType="String" parameterType="String">
 		select Name from questionpagers Where Id=#{id};
 	</select>
 
-	<update id="updateFabu" parameterType="com.tdu.develop.resource.pojo.Exams">
-		update exams set anony=#{Anony} <where> id=#{id} </where>
-	</update>
+    <update id="updateFabu" parameterType="com.tdu.develop.resource.pojo.Exams">
+        update exams set anony=#{Anony}
+        <where>id=#{id}</where>
+    </update>
 
-	<select id="getPageQue" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
+    <select id="getPageQue" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
 		SELECT
 	*
 FROM
@@ -330,7 +347,7 @@ WHERE
 	);
 	</select>
 
-	<select id="getPageKey" parameterType="String" resultType="String">
+    <select id="getPageKey" parameterType="String" resultType="String">
 		SELECT
 					ExamPager
 				FROM
@@ -339,11 +356,12 @@ WHERE
 					Id = #{examId}
 	</select>
 
-	<update id="updatePage" parameterType="com.tdu.develop.resource.pojo.QuestionPagers">
-		UPDATE questionpagers SET `Name`=#{name}, UseAble=#{useAble} ,CreateDate=#{createData} <where> Id=#{id} </where>
-	</update>
+    <update id="updatePage" parameterType="com.tdu.develop.resource.pojo.QuestionPagers">
+        UPDATE questionpagers SET `Name`=#{name}, UseAble=#{useAble} ,CreateDate=#{createData}
+        <where>Id=#{id}</where>
+    </update>
 
-	<delete id="delPageQuestions" parameterType="String">
+    <delete id="delPageQuestions" parameterType="String">
 		DELETE FROM questionpagercontents where  QuestionPager_Id=#{questionPage_id}
 	</delete>
 </mapper>

@@ -1,185 +1,200 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.resource.mapper.NavigationBarMapper">
-	<!--<resultMap type="com.tdu.develop.resource.pojo.NavigationBar" id="navigationBar">-->
-		<!--<result column="id" property="id" />-->
-		<!--<result column="columnName" property="columnName" />-->
-		<!--<result column="columnLink" property="columnLink" />-->
-		<!--<result column="icon" property="columnPicture" />-->
-		<!--<result column="columnLevel" property="columnLevel" />-->
-		<!--<result column="columnPid" property="columnPid" />-->
-		<!--<result column="columnUpper" property="columnUpper" />-->
-		<!--<result column="subjectKey" property="subjectid"/>-->
-	<!--</resultMap>-->
-	<resultMap type="com.tdu.develop.resource.pojo.ImgURL" id="imgURL">
-		<result column="id" property="id" />
-		<result column="name" property="name" />
-		<result column="imgURL" property="imgURL" />
-		<result column="useName" property="useName" />
-	</resultMap>
-<!--	<resultMap type="navigation_other" id="navigation_other">
-		<result column="id" property="id"/>
-		<result column="treeName" property="name"/>
-		<result column="subjectKey" property="subjectId"/>
-		<result column="icon" property="columnPicture"/>
-		<result column="columnLink" property="columnPicture"/>
-		<result column="columnPid" property="columnPid"/>
-		<result column="columnUpper" property="columnUpper"/>
-	</resultMap>-->
-	<resultMap type="com.tdu.develop.resource.pojo.ZNodes" id="ZNodes">
-		<result column="id" property="id"/>
-		<result column="treeName" property="name"/>
-		<result column="icon" property="icon"/>
-	</resultMap>
-	<select id="seleNavigation" resultType="com.tdu.develop.resource.pojo.NavigationBar">
+    <!--<resultMap type="com.tdu.develop.resource.pojo.NavigationBar" id="navigationBar">-->
+    <!--<result column="id" property="id" />-->
+    <!--<result column="columnName" property="columnName" />-->
+    <!--<result column="columnLink" property="columnLink" />-->
+    <!--<result column="icon" property="columnPicture" />-->
+    <!--<result column="columnLevel" property="columnLevel" />-->
+    <!--<result column="columnPid" property="columnPid" />-->
+    <!--<result column="columnUpper" property="columnUpper" />-->
+    <!--<result column="subjectKey" property="subjectid"/>-->
+    <!--</resultMap>-->
+    <resultMap type="com.tdu.develop.resource.pojo.ImgURL" id="imgURL">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="imgURL" property="imgURL"/>
+        <result column="useName" property="useName"/>
+    </resultMap>
+    <!--	<resultMap type="navigation_other" id="navigation_other">
+            <result column="id" property="id"/>
+            <result column="treeName" property="name"/>
+            <result column="subjectKey" property="subjectId"/>
+            <result column="icon" property="columnPicture"/>
+            <result column="columnLink" property="columnPicture"/>
+            <result column="columnPid" property="columnPid"/>
+            <result column="columnUpper" property="columnUpper"/>
+        </resultMap>-->
+    <resultMap type="com.tdu.develop.resource.pojo.ZNodes" id="ZNodes">
+        <result column="id" property="id"/>
+        <result column="treeName" property="name"/>
+        <result column="icon" property="icon"/>
+    </resultMap>
+    <select id="seleNavigation" resultType="com.tdu.develop.resource.pojo.NavigationBar">
 		select * from navigationBar
 	</select>
 
-	<update id="upNavigation" parameterType="com.tdu.develop.resource.pojo.NavigationBar">
-		update navigationBar set columnName=#{columnName},columnLink=#{columnLink},columnPicture=#{columnPicture},userrole=#{userrole}
-		<where>
-			id=#{id}
-		</where>
-	</update>
-	
-	<insert id="inNavigation" parameterType="com.tdu.develop.resource.pojo.NavigationBar">
+    <update id="upNavigation" parameterType="com.tdu.develop.resource.pojo.NavigationBar">
+        update navigationBar set
+        columnName=#{columnName},columnLink=#{columnLink},columnPicture=#{columnPicture},userrole=#{userrole}
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <insert id="inNavigation" parameterType="com.tdu.develop.resource.pojo.NavigationBar">
 		insert into navigationBar(`id`,`columnName`,`columnLink`,`columnPicture`,`columnLevel`,`columnPid`,`columnUpper`,`userrole`,subjectId) values(#{id},#{columnName},#{columnLink},#{columnPicture},#{columnLevel},#{columnPid},#{columnUpper},#{userrole},#{subjectId})
 	</insert>
-	
-	<select id="seleLevel1" resultType="com.tdu.develop.resource.pojo.NavigationBar">
-		select * from navigationBar <where> columnLevel=1 </where>
-	</select>
-	
-	<select id="seleUpper" resultType="com.tdu.develop.resource.pojo.NavigationBar" parameterType="String">
-		select * from subjecttrees <where> columnPid=#{pid} and columnUpper is null</where>
-	</select>
-	
-	<select id="selePid" resultType="com.tdu.develop.resource.pojo.NavigationBar" parameterType="String">
-		select * from subjecttrees <where> columnPid=#{pid} and columnUpper=#{id}</where>
-	</select>
-	
-	<select id="seleRoot" resultType="String">
-		select id from navigationBar <where> columnName='Root' and columnLevel=0</where>
-	</select>
-	
-	<select id="seleRootL" resultType="integer" parameterType="String">
-		select count(1) from subjecttrees <where> columnPid=#{pid} </where>
-	</select>
-	
-	<delete id="delNav" parameterType="String">
-		delete from navigationBar <where> id=#{id} </where>
-	</delete>
-	
-	<delete id="delNavMore" parameterType="String">
-		delete from navigationBar <where> columnPid=#{id} </where>
-	</delete>
-	
-	<select id="seleGetUpper" resultType="String" parameterType="String">
-		select columnUpper from navigationBar <where> id=#{id} </where>
-	</select>
-	
-	<select id="seleSetUpper" resultType="String" parameterType="String">
-		select id from navigationBar <where> columnUpper=#{id} </where>
-	</select>
-	
-	<update id="upUpper" parameterType="String">
-		update navigationBar set columnUpper=#{columnUpper} <where> id=#{id} </where>
-	</update>
-	
-	<update id="upsmoe" parameterType="String">
-		update navigationBar set columnUpper=#{upper},columnPid=#{pid} <where> id=#{id} </where>
-	</update>
-	
-	<!-- ****************************************************************************************************** -->
-	
-	<select id="seleImgURL" resultType="com.tdu.develop.resource.pojo.ImgURL">
+
+    <select id="seleLevel1" resultType="com.tdu.develop.resource.pojo.NavigationBar">
+        select * from navigationBar
+        <where>columnLevel=1</where>
+    </select>
+
+    <select id="seleUpper" resultType="com.tdu.develop.resource.pojo.NavigationBar" parameterType="String">
+        select * from subjecttrees
+        <where>columnPid=#{pid} and columnUpper is null</where>
+    </select>
+
+    <select id="selePid" resultType="com.tdu.develop.resource.pojo.NavigationBar" parameterType="String">
+        select * from subjecttrees
+        <where>columnPid=#{pid} and columnUpper=#{id}</where>
+    </select>
+
+    <select id="seleRoot" resultType="String">
+        select id from navigationBar
+        <where>columnName='Root' and columnLevel=0</where>
+    </select>
+
+    <select id="seleRootL" resultType="integer" parameterType="String">
+        select count(1) from subjecttrees
+        <where>columnPid=#{pid}</where>
+    </select>
+
+    <delete id="delNav" parameterType="String">
+        delete from navigationBar
+        <where>id=#{id}</where>
+    </delete>
+
+    <delete id="delNavMore" parameterType="String">
+        delete from navigationBar
+        <where>columnPid=#{id}</where>
+    </delete>
+
+    <select id="seleGetUpper" resultType="String" parameterType="String">
+        select columnUpper from navigationBar
+        <where>id=#{id}</where>
+    </select>
+
+    <select id="seleSetUpper" resultType="String" parameterType="String">
+        select id from navigationBar
+        <where>columnUpper=#{id}</where>
+    </select>
+
+    <update id="upUpper" parameterType="String">
+        update navigationBar set columnUpper=#{columnUpper}
+        <where>id=#{id}</where>
+    </update>
+
+    <update id="upsmoe" parameterType="String">
+        update navigationBar set columnUpper=#{upper},columnPid=#{pid}
+        <where>id=#{id}</where>
+    </update>
+
+    <!-- ****************************************************************************************************** -->
+
+    <select id="seleImgURL" resultType="com.tdu.develop.resource.pojo.ImgURL">
 		select * from imgURL
 	</select>
-	
-	<update id="upImgURL" parameterType="String">
-		update ImgURL set imgURL=#{imgURL} <where> id=#{id} </where>
-	</update>
-	
-	<select id="seleLoginBackground" resultType="String">
-		select imgURL from imgurl <where> name='loginBackground' </where>
-	</select>
-	
-	<select id="seleLoginBackgroundAgain" resultType="String">
-		select imgURL from imgurl <where> name='loginBackground' </where>
-	</select>
-	
-	<select id="seleSchoolNameImg" resultType="String">
+
+    <update id="upImgURL" parameterType="String">
+        update ImgURL set imgURL=#{imgURL}
+        <where>id=#{id}</where>
+    </update>
+
+    <select id="seleLoginBackground" resultType="String">
+        select imgURL from imgurl
+        <where>name='loginBackground'</where>
+    </select>
+
+    <select id="seleLoginBackgroundAgain" resultType="String">
+        select imgURL from imgurl
+        <where>name='loginBackground'</where>
+    </select>
+
+    <select id="seleSchoolNameImg" resultType="String">
 		select imgURL from imgurl where name='schoolNameImg'
 	</select>
-	
-	<select id="seleSchoolLogo1" resultType="String">
+
+    <select id="seleSchoolLogo1" resultType="String">
 		select imgURL from imgurl where name='schoolLogo1'
 	</select>
-	
-	<select id="seleSchoolLogo2" resultType="String">
+
+    <select id="seleSchoolLogo2" resultType="String">
 		select imgURL from imgurl where name='schoolLogo2'
 	</select>
-	<select id="seleRootBysubject" parameterType="String" resultType="String">
+    <select id="seleRootBysubject" parameterType="String" resultType="String">
 		select Id from subjecttrees where subjectKey=#{subjectId} and columnPid is null and columnUpper is null
 	</select>
-	<select id="seleCount" parameterType="String" resultType="String">
+    <select id="seleCount" parameterType="String" resultType="String">
 		select count(id) from navigationbar where columnPid=(select id from navigationbar where subjectId=#{subjectId} 
 		and columnPid is null and columnUpper is null)
 	</select>
-	<select id="selefirstNavigationBar" parameterType="String" resultType="com.tdu.develop.resource.pojo.NavigationBar">
+    <select id="selefirstNavigationBar" parameterType="String" resultType="com.tdu.develop.resource.pojo.NavigationBar">
 		select * from navigationbar where columnPid=(select id from navigationbar where subjectId=#{subjectId} 
 		and columnPid is null and columnUpper is null) and columnUpper is null
 	</select>
-	<select id="seleChildNodes" parameterType="String" resultType="int">
+    <select id="seleChildNodes" parameterType="String" resultType="int">
 		select count(id) from subjecttrees where columnPid=#{id}
 	</select>
-	<select id="selefirstChild" parameterType="String" resultType="com.tdu.develop.resource.pojo.NavigationBar">
+    <select id="selefirstChild" parameterType="String" resultType="com.tdu.develop.resource.pojo.NavigationBar">
 		select * from navigationbar where columnPid=#{id} and columnUpper is null
 	</select>
-	<select id="getSubjecttrees" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
+    <select id="getSubjecttrees" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
 		select * from subjecttrees where SubjectKey=#{subjectId} and columnPid is null
 	</select>
-	<select id="getSubjecttree" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
+    <select id="getSubjecttree" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
 		select * from subjecttrees where SubjectKey=#{subjectId} and columnPid is null and columnUpper is null
 	</select>
-	<select id="getSubjecttreeOther" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
+    <select id="getSubjecttreeOther" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
 		select * from subjecttrees where columnPid is null and columnUpper=#{subjectId}
 	</select>
-	<select id="getSubjecttreeCount" parameterType="String" resultType="int">
+    <select id="getSubjecttreeCount" parameterType="String" resultType="int">
 		select count(id) from subjecttrees where columnPid=#{treeId}
 	</select>
-	<select id="selfirstChild" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
+    <select id="selfirstChild" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
 		select * from subjecttrees where columnPid=#{treeId} and columnUpper is null
 	</select>
-	<select id="selOtherChild" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
+    <select id="selOtherChild" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
 		select * from subjecttrees where columnUpper=#{upperId}
 	</select>
-	<update id="upSubjecttree" parameterType="com.tdu.develop.resource.pojo.SubjectTrees">
+    <update id="upSubjecttree" parameterType="com.tdu.develop.resource.pojo.SubjectTrees">
 		update subjecttrees set TreeName=#{treeName},columnLink=#{columnLink},icon=#{icon}where Id=#{id}
 	</update>
-	<delete id="delSubjectTree" parameterType="String">
+    <delete id="delSubjectTree" parameterType="String">
 		delete from subjecttrees where Id=#{id}
 	</delete>
-	<select id="selUpId" parameterType="String" resultType="String">
+    <select id="selUpId" parameterType="String" resultType="String">
 		select columnUpper from subjecttrees where Id=#{id}
 	</select>
-	<update id="upsubjecttreeOfUpper" parameterType="String">
+    <update id="upsubjecttreeOfUpper" parameterType="String">
 		update subjecttrees set columnUpper=#{onId} where Id=#{id}
 	</update>
-	<select id="seleAllChilds" parameterType="String" resultType="String">
+    <select id="seleAllChilds" parameterType="String" resultType="String">
 		select Id from subjecttrees where columnPid=#{parentId}
 	</select>
-	<select id="seleLastTreeId" parameterType="String" resultType="String">
+    <select id="seleLastTreeId" parameterType="String" resultType="String">
 		select id from subjecttrees where 1=1 and SubjectKey=#{subjectId} and columnPid is null
 		and id not in(
 			select columnUpper from subjecttrees where SubjectKey=#{subjectId}
 			and columnPid is null and columnUpper is not null
 		)
 	</select>
-	<insert id="insSubjecttrees" parameterType="com.tdu.develop.resource.pojo.SubjectTrees">
+    <insert id="insSubjecttrees" parameterType="com.tdu.develop.resource.pojo.SubjectTrees">
 		insert into subjecttrees(Id,TreeName,SubjectKey,status,columnUpper,TreeNum,Style) values(#{id},#{treeName},#{subjectKey},#{status},#{columnUpper},#{treeNum},'0')
 	</insert>
-	<select id="querytreeId" parameterType="String" resultType="String">
+    <select id="querytreeId" parameterType="String" resultType="String">
 		select Id from subjecttrees where 1=1 and columnPid=#{treeId}
 		and Id not in(
 			select columnUpper
@@ -188,14 +203,14 @@
 			and columnUpper is not null
 		)
 	</select>
-	<insert id="insertTrees" parameterType="com.tdu.develop.resource.pojo.SubjectTrees">
+    <insert id="insertTrees" parameterType="com.tdu.develop.resource.pojo.SubjectTrees">
 		insert into subjecttrees(Id,TreeName,SubjectKey,status,columnPid,columnUpper,TreeNum,Style) values(#{id},#{treeName},#{subjectKey},#{status},#{columnPid},#{columnUpper},#{treeNum},'0')
 	</insert>
-	<insert id="insertKnowledges" parameterType="com.tdu.develop.resource.pojo.Knowledges">
+    <insert id="insertKnowledges" parameterType="com.tdu.develop.resource.pojo.Knowledges">
 		insert into knowledges(Id,Content,SubjectTree_Id,ImageIcons,KnowledgeContentId,BeforCondition) 
 		values(#{id},#{content},#{subjectTree_Id},#{imageIcons},#{knowledgecontentId},#{beforCondition})
 	</insert>
-	<delete id="delKnowledges" parameterType="String">
+    <delete id="delKnowledges" parameterType="String">
 		delete from knowledges where SubjectTree_Id=#{id}
 	</delete>
 </mapper>

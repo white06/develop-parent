@@ -13,14 +13,14 @@
     </select>
 
     <select id="getUsersInfos" parameterType="String" resultType="com.tdu.develop.user.pojo.Member">
-       <!--select Brithdate,Constellation,FamilyAddress,FamilyPhoneNum,MobilePhoneNum,
-		MSN,Name,OfficePhoneNum,PassWord,QQNum,Sex,UserName,CreateDate,Email
-		from users where Id=#{str}-->
-		select `Brithdate`,`Constellation`,`FamilyAddress`,`FamilyPhoneNum`,`MobilePhoneNum`,
-		`MSN`,`Name`,`OfficePhoneNum`,`PassWord`,`QQNum`,`Sex`,`UserName`,`CreateDate`,`Email`
-		from users where Id=#{str}
-		<!--select
-		from users where Id=#{str}-->
+        <!--select Brithdate,Constellation,FamilyAddress,FamilyPhoneNum,MobilePhoneNum,
+         MSN,Name,OfficePhoneNum,PassWord,QQNum,Sex,UserName,CreateDate,Email
+         from users where Id=#{str}-->
+        select `Brithdate`,`Constellation`,`FamilyAddress`,`FamilyPhoneNum`,`MobilePhoneNum`,
+        `MSN`,`Name`,`OfficePhoneNum`,`PassWord`,`QQNum`,`Sex`,`UserName`,`CreateDate`,`Email`
+        from users where Id=#{str}
+        <!--select
+        from users where Id=#{str}-->
     </select>
     <select id="getAllStudents" resultType="String">
         select User_Id from userroles where Role_Id='0c494961-fc3c-41b3-992a-4f9b0d0f57eb'
@@ -31,12 +31,9 @@
     <select id="getclassesOfClassName" resultType="String">
         select ClassName from classes
     </select>
-    <insert id="createClass" parameterType="com.tdu.develop.user.pojo.Classes" >
+    <insert id="createClass" parameterType="com.tdu.develop.user.pojo.Classes">
         insert into classes(Id,ClassName) values (#{id},#{className})
     </insert>
-
-
-
 
 
     <select id="getKnowledgeContentId" parameterType="String" resultType="String">

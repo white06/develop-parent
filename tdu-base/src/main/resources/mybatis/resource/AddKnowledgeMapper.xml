@@ -1,113 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.resource.mapper.AddKnowledgeMapper">
-	
-	
-	<insert id="addLastNode2" parameterType="com.tdu.develop.resource.pojo.Knowledges">
+
+
+    <insert id="addLastNode2" parameterType="com.tdu.develop.resource.pojo.Knowledges">
 		insert into knowledges values(#{id},#{content},#{parentKnowledge},#{preKnowledge},#{subjectTree_Id},#{imageIcons},#{knowledgecontentId},#{beforCondition},#{CheckDel},#{DelTime},#{userKey})
 	</insert>
-	
-	
-	
-	<select id="getKnowlegContentName" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowlegcontent">
-		 SELECT * from knowledgecontents WHERE `Id`=#{id} 
-		<!--SELECT
-	know.*, model.userKey
+
+
+    <select id="getKnowlegContentName" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowlegcontent">
+        SELECT * from knowledgecontents WHERE `Id`=#{id}
+        <!--SELECT
+    know.*, model.userKey
 FROM
-	knowledgecontents AS know,
-	`tdushipxm2_main`.`model` AS model
+    knowledgecontents AS know,
+    `tdushipxm2_main`.`model` AS model
 WHERE
-	know.`Id` = '4bf9545f-5ff5-3736-1388-5852bbfbbaf1'
+    know.`Id` = '4bf9545f-5ff5-3736-1388-5852bbfbbaf1'
 AND know.`Id` = model.Id-->
-	</select>
-	
-	<update id="updateKnowledge" parameterType="String">
+    </select>
+
+    <update id="updateKnowledge" parameterType="String">
 		UPDATE knowledges
 				 SET `Content`=#{content}
  WHERE `KnowledgeContentId`=#{knowledgecontentId}
 	</update>
-	
-	<update id="updateKnowledgeContent" parameterType="String">
+
+    <update id="updateKnowledgeContent" parameterType="String">
 		UPDATE knowledgecontents
 				 SET `Nmae`=#{name},`CustomName`=#{customname}
  WHERE `Id`=#{id}
 	</update>
-	
-	<update id="updateKnowledgeContent2" parameterType="String">
+
+    <update id="updateKnowledgeContent2" parameterType="String">
 		UPDATE knowledgecontents
 				 SET `Nmae`=#{name}
  WHERE `Id`=#{id}
 	</update>
-	
-	<update id="updateKnowledgeContent3" parameterType="String">
+
+    <update id="updateKnowledgeContent3" parameterType="String">
 		UPDATE knowledgecontents
 				 SET `CustomName`=#{customname}
  WHERE `Id`=#{id}
 	</update>
-	
-	<update id="updateKnowledgeContent4" parameterType="String">
+
+    <update id="updateKnowledgeContent4" parameterType="String">
 		UPDATE knowledgecontents
 				 SET `CustomName`=#{customname}
  WHERE `Knowledge_Id`=#{knowledge_Id}
 	</update>
-	<insert id="addModleModel" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
+    <insert id="addModleModel" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
 		insert into knowledgecontents values (#{id},#{nmae},#{type},#{introduce},#{customname},#{customstyle},#{knowledge_Id},#{imageContentIcons},#{order})
 	</insert>
-	
-	<insert id="addViewModel" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
+
+    <insert id="addViewModel" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
 		insert into knowledgecontents values (#{id},#{nmae},#{type},#{introduce},#{customname},#{customstyle},#{knowledge_Id},#{imageContentIcons},#{order})
 	</insert>
-	
-	<insert id="addUploading" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
+
+    <insert id="addUploading" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
 		insert into knowledgecontents (Id,Nmae,Type,Introduce,CustomName,CustomStyle,Knowledge_Id,ImageContentIcons,`Order`,`userKey`,`PhotoName`,`Url`,`CheckDel`,`DelTime`) values(#{id},#{nmae},#{type},#{introduce},#{customname},#{customstyle},#{knowledge_Id},#{imageContentIcons},#{order},#{userKey},#{PhotoName},#{Url},#{CheckDel},#{DelTime})
 	</insert>
-	<select id="getMaxOrder" resultType="Integer">
+    <select id="getMaxOrder" resultType="Integer">
 		select MAX(`Order`) from knowledgecontents
 	</select>
-	<insert id="addLastNode" parameterType="com.tdu.develop.resource.pojo.Knowledges">
+    <insert id="addLastNode" parameterType="com.tdu.develop.resource.pojo.Knowledges">
 		insert into knowledges values(#{id},#{content},#{parentKnowledge},#{preKnowledge},#{subjectTree_Id},#{imageIcons},#{knowledgecontentId},#{beforCondition},NULL,NULL,#{userKey})
 	</insert>
-	<select id="getNextNodeId" parameterType="String" resultType="String">
+    <select id="getNextNodeId" parameterType="String" resultType="String">
 		select Id from knowledges where PreKnowledge=#{firstId}
 	</select>
-	<select id="alterKnowledgeContent_Id" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
+    <select id="alterKnowledgeContent_Id" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
 		update knowledges set KnowledgeContentId=#{id},Content=#{customname} where Id=#{knowledge_Id}
 	</select>
-	<select id="isKnowledgeContent" parameterType="String" resultType="String">
+    <select id="isKnowledgeContent" parameterType="String" resultType="String">
 		select Type from knowledgecontents where Id=#{nodeId}
 	</select>
-	<insert id="addSimulateModel" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
+    <insert id="addSimulateModel" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
 		insert into knowledgecontents values (#{id},#{nmae},#{type},#{introduce},#{customname},#{customstyle},#{knowledge_Id},#{imageContentIcons},#{order},#{userKey},NULL,NULL,NULL,NULL)
 	</insert>
-	<insert id="addQuesModel" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
+    <insert id="addQuesModel" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
 		insert into knowledgecontents values (#{id},#{nmae},#{type},#{introduce},#{customname},#{customstyle},#{knowledge_Id},#{imageContentIcons},#{order},#{userKey},NULL,NULL,NULL,NULL)
 	</insert>
-	<insert id="addCustomModel" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
+    <insert id="addCustomModel" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
 		insert into knowledgecontents values (#{id},#{nmae},#{type},#{introduce},#{customname},#{customstyle},#{knowledge_Id},#{imageContentIcons},#{order},#{userKey},NULL,NULL,NULL,NULL)
 	</insert>
-	<select id="getSubjectId" parameterType="String" resultType="String">
+    <select id="getSubjectId" parameterType="String" resultType="String">
 		select SubjectKey from subjecttrees where Id=#{treeId}
 	</select>
-	<insert id="addHtmlEditorContent" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
+    <insert id="addHtmlEditorContent" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
 		insert into knowledgecontents values (#{id},#{nmae},#{type},#{introduce},#{customname},#{customstyle},#{knowledge_Id},#{imageContentIcons},#{order})
 	</insert>
-	<select id="getKnowIdbycontentId" parameterType="String" resultType="String">
+    <select id="getKnowIdbycontentId" parameterType="String" resultType="String">
 		select Knowledge_Id from knowledgecontents where Id=#{contentId}
 	</select>
-	
-	<update id="updataName"  parameterType="String">
+
+    <update id="updataName" parameterType="String">
 		update knowledgecontents set nmae=#{name} where Knowledge_Id=#{knowId}
 	</update>
-	
-	<select id="getKnowNmae" parameterType="String" resultType="String">
+
+    <select id="getKnowNmae" parameterType="String" resultType="String">
 		select nmae from knowledgecontents where Knowledge_Id=#{knowId}
 	</select>
-	
-	<select id="getExamName"  parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowlegcontent">
+
+    <select id="getExamName" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowlegcontent">
 		select *  from knowledgecontents where  Knowledge_Id=#{examId}
 	</select>
 
-	<insert id="AddNewKnowledge" parameterType="com.tdu.develop.resource.pojo.Knowledges">
+    <insert id="AddNewKnowledge" parameterType="com.tdu.develop.resource.pojo.Knowledges">
 		INSERT INTO `knowledges` (`Id`, `Content`, `ParentKnowledge`, `PreKnowledge`, `SubjectTree_Id`, `ImageIcons`, `KnowledgeContentId`, `BeforCondition`, `CheckDel`, `DelTime`, `userKey`)   VALUES  (#{id},#{content},#{parentKnowledge},#{preKnowledge},#{subjectTree_Id},#{imageIcons},#{knowledgecontentId},#{beforCondition},#{CheckDel},#{DelTime},#{userKey})
 
 	</insert>

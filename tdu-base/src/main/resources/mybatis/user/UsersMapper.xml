@@ -17,16 +17,16 @@ ORDER BY CreateDate desc
 LIMIT  1;
 </select>
 
-   <!-- <select id="getMonthInYearCount" resultType="java.lang.Object">
-    select ifnull(b.count,0)  as minute from past_12_month_view v
-left join
-(select DATE_FORMAT(t.logintime,'%Y-%m') month,count(t.id) as count  from useronline t where
-DATE_FORMAT(t.logintime,'%Y-%m')>
-DATE_FORMAT(date_sub(curdate(), interval 12 month),'%Y-%m')
- group by month)b
-on v.month = b.month group by v.month
-</select>
--->
+    <!-- <select id="getMonthInYearCount" resultType="java.lang.Object">
+     select ifnull(b.count,0)  as minute from past_12_month_view v
+ left join
+ (select DATE_FORMAT(t.logintime,'%Y-%m') month,count(t.id) as count  from useronline t where
+ DATE_FORMAT(t.logintime,'%Y-%m')>
+ DATE_FORMAT(date_sub(curdate(), interval 12 month),'%Y-%m')
+  group by month)b
+ on v.month = b.month group by v.month
+ </select>
+ -->
     <select id="getHalfYearUser" resultType="com.tdu.develop.util.MonthInYearUtil">
     SELECT
 	v.MONTH as month,
@@ -57,7 +57,7 @@ DATE_FORMAT(date_sub(curdate(), interval 12 month),'%Y-%m')
 on v.month = b.month group by v.month
 </select>
 
-<select id="getUserOnLineDay" resultType="Integer">
+    <select id="getUserOnLineDay" resultType="Integer">
     select count(1) from useronline where to_days(logintime) = to_days(now());
 </select>
 
@@ -69,7 +69,7 @@ on v.month = b.month group by v.month
    SELECT count(1) FROM useronline WHERE PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format( logintime, '%Y%m' ) ) =1;
 </select>
 
-<select id="getUserByUserNameWithPermission"  parameterType="String" resultType="com.tdu.develop.user.pojo.Users">
+    <select id="getUserByUserNameWithPermission" parameterType="String" resultType="com.tdu.develop.user.pojo.Users">
     SELECT * FROM users WHERE UserName=#{userName}
 </select>
 
@@ -101,7 +101,7 @@ WHERE
 	)
 	</select>
 
-    <insert id="addMajorUsers"  parameterType="String">
+    <insert id="addMajorUsers" parameterType="String">
 		insert into majorusers(`Id`,`UserKey`,`MajorKey`) values(#{Id},#{UserKey},#{MajorKey})
 	</insert>
 
@@ -173,7 +173,7 @@ WHERE
         </where>
     </select>
 
-    <select id="GetNowUser" resultMap="users"  parameterType="String">
+    <select id="GetNowUser" resultMap="users" parameterType="String">
         select * from users
         <where>
             id=#{userid}
@@ -260,24 +260,29 @@ WHERE
 	</insert>
 
     <select id="seleClass" resultType="String" parameterType="String">
-        select id from classes <where> className=#{className} </where>
+        select id from classes
+        <where>className=#{className}</where>
     </select>
 
     <select id="seleClassId" resultType="String" parameterType="String">
-        select class from classusers <where> user=#{userId} </where>
+        select class from classusers
+        <where>user=#{userId}</where>
     </select>
 
 
     <select id="seleClassIdList" resultType="String" parameterType="String">
-        select class from classusers <where> user=#{userId} </where>
+        select class from classusers
+        <where>user=#{userId}</where>
     </select>
 
     <select id="seleStu" resultType="String" parameterType="String">
-        select user from classusers <where> class=#{classId} </where>
+        select user from classusers
+        <where>class=#{classId}</where>
     </select>
 
     <select id="seleStuName" resultType="String" parameterType="String">
-        select name from users <where> id=#{id} </where>
+        select name from users
+        <where>id=#{id}</where>
     </select>
 
     <select id="seleClassList" resultMap="classes">
@@ -289,11 +294,13 @@ WHERE
 	</insert>
 
     <select id="seleStuId" resultType="String">
-        select user_id from userroles <where> role_id='0c494961-fc3c-41b3-992a-4f9b0d0f57eb' </where>
+        select user_id from userroles
+        <where>role_id='0c494961-fc3c-41b3-992a-4f9b0d0f57eb'</where>
     </select>
 
     <update id="upClassId" parameterType="String">
-        update classusers set class=#{classid} <where> user=#{userid} </where>
+        update classusers set class=#{classid}
+        <where>user=#{userid}</where>
     </update>
 
     <insert id="addClassUsers" parameterType="String">
@@ -301,15 +308,18 @@ WHERE
 	</insert>
 
     <delete id="delClassUsers" parameterType="String">
-        delete from classusers <where> user=#{userid} </where>
+        delete from classusers
+        <where>user=#{userid}</where>
     </delete>
 
     <select id="sel1" resultType="integer" parameterType="String">
-        select count(1) from users <where> UserName=#{userName} </where>
+        select count(1) from users
+        <where>UserName=#{userName}</where>
     </select>
 
     <select id="selRole" resultType="String" parameterType="String">
-        select Id from roles <where> RoleName=#{keyName} </where>
+        select Id from roles
+        <where>RoleName=#{keyName}</where>
     </select>
 
     <insert id="insUserList" parameterType="com.tdu.develop.user.pojo.CellObject">
@@ -445,15 +455,19 @@ WHERE
 	</select>
 
     <update id="upUser" parameterType="com.tdu.develop.user.pojo.Users">
-        update users set <!-- `userName`=#{userName}, -->`confirmPassword`=#{confirmPassword},`password`=#{passWord},`name`=#{name},`sex`=#{sex}, `email`=#{email} WHERE (`Id`=#{id})
+        update users set <!-- `userName`=#{userName}, -->
+        `confirmPassword`=#{confirmPassword},`password`=#{passWord},`name`=#{name},`sex`=#{sex}, `email`=#{email} WHERE
+        (`Id`=#{id})
     </update>
 
     <update id="upUsers" parameterType="com.tdu.develop.user.pojo.Users">
-        update users set <!-- `userName`=#{userName}, -->`confirmPassword`=#{confirmPassword},`password`=#{passWord},`name`=#{name},`sex`=#{sex} WHERE (`Id`=#{id})
+        update users set <!-- `userName`=#{userName}, -->
+        `confirmPassword`=#{confirmPassword},`password`=#{passWord},`name`=#{name},`sex`=#{sex} WHERE (`Id`=#{id})
     </update>
 
     <delete id="deleUser" parameterType="String">
-        delete from users <where> id=#{id} </where>
+        delete from users
+        <where>id=#{id}</where>
     </delete>
 
 
@@ -493,11 +507,13 @@ from users AS u1 LEFT JOIN trialusers AS u2 ON u2.UserId=u1.Id
 	</select>
 
     <select id="seleUserId" resultType="Integer" parameterType="String">
-        select count(1) from trialusers <where> userid=#{id} </where>
+        select count(1) from trialusers
+        <where>userid=#{id}</where>
     </select>
 
     <update id="upTrial" parameterType="com.tdu.develop.user.pojo.TrialUsers">
-        update trialusers set `beginTrialDate`=#{beginTrialDate},`endTrialDate`=#{endTrialDate} <where> userId=#{userId} </where>
+        update trialusers set `beginTrialDate`=#{beginTrialDate},`endTrialDate`=#{endTrialDate}
+        <where>userId=#{userId}</where>
     </update>
 
     <insert id="inTrial" parameterType="com.tdu.develop.user.pojo.TrialUsers">
@@ -505,7 +521,8 @@ from users AS u1 LEFT JOIN trialusers AS u2 ON u2.UserId=u1.Id
 	</insert>
 
     <delete id="delTrial" parameterType="String">
-        delete from trialusers <where> userId=#{id} </where>
+        delete from trialusers
+        <where>userId=#{id}</where>
     </delete>
     <select id="getuNameById" parameterType="String" resultType="String">
 		select Name from users where Id=#{createPerson}
@@ -550,7 +567,7 @@ from users AS u1 LEFT JOIN trialusers AS u2 ON u2.UserId=u1.Id
     <insert id="insUserPersonlNew" parameterType="String">
 		insert into users(`id`,`ConfirmPassword`,`Name`,`PassWord`,`Sex`,`UserName`,`CreateDate`,`idol`) values(#{userId},#{rePassWord},#{name},#{passWord},#{sex},#{userName},(select NOW()),#{idol})
 	</insert>
-    <select id="getTemp" parameterType="String"  resultType="com.tdu.develop.user.pojo.Users">
+    <select id="getTemp" parameterType="String" resultType="com.tdu.develop.user.pojo.Users">
 		select * from users where UserName=#{userName}
 	</select>
 
@@ -558,16 +575,18 @@ from users AS u1 LEFT JOIN trialusers AS u2 ON u2.UserId=u1.Id
 		select * from users;
 	</select>
 
-    <select id="loginTool" parameterType="String"  resultType="com.tdu.develop.user.pojo.Userstool">
+    <select id="loginTool" parameterType="String" resultType="com.tdu.develop.user.pojo.Userstool">
 		select * from userstool where name=#{userName}
 	</select>
 
-    <insert id="setLoginTool"  parameterType="com.tdu.develop.user.pojo.Userstool"  >
+    <insert id="setLoginTool" parameterType="com.tdu.develop.user.pojo.Userstool">
 		insert into userstool(`name`,`mac`,`cpu`,`sysId`,`ip`) values(#{Userstool.name},#{Userstool.mac},#{Userstool.cpu},#{Userstool.sysId},#{Userstool.ip})
 	</insert>
 
-    <update id="upLoginTool"  parameterType="com.tdu.develop.user.pojo.Userstool"  >
-        update userstool set `mac`=#{Userstool.mac},`cpu`=#{Userstool.cpu},`sysId`=#{Userstool.sysId},`ip`=#{Userstool.ip} <where> name=#{Userstool.name} </where>
+    <update id="upLoginTool" parameterType="com.tdu.develop.user.pojo.Userstool">
+        update userstool set
+        `mac`=#{Userstool.mac},`cpu`=#{Userstool.cpu},`sysId`=#{Userstool.sysId},`ip`=#{Userstool.ip}
+        <where>name=#{Userstool.name}</where>
     </update>
 
     <select id="queryUserRoles" parameterType="String" resultType="String">
@@ -618,52 +637,7 @@ from users AS u1 LEFT JOIN trialusers AS u2 ON u2.UserId=u1.Id
 		select * from users limit #{page},#{limit}
 	</select>
 
-    <select id="seleAllUsersByPageclass"   resultType="com.tdu.develop.user.pojo.ClassUser">
-		<!--select * from users where id in (select UserKey from subjectusers where SubjectKey=#{subjectId}) limit #{page},#{limit}-->
-		 SELECT
-	`Id`,
-	`Class` AS ClassKey,
-	`UserName`,
-	`Name`,
-	`Sex`,
-        `createdateyear`,
-        `createdatemonth`,
-        `createdateday`,
-	IFNULL(
-		IFNULL(FIND_IN_SET(#{classid},Class), 0),
-		0
-	) AS checked
-FROM
-	(
-		SELECT
-			users.Id,
-			GROUP_CONCAT(classusers.Class) AS Class,
-			UserName,
-			`Name`,
-			Sex,
-        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
-        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
-        DATE_FORMAT(CreateDate, "%d") AS createdateday
-		FROM
-			users
-		LEFT JOIN classusers ON classusers.`User` = users.Id
-        WHERE
-        users.id IN (
-        SELECT
-        UserKey
-        FROM
-        majorusers
-        WHERE
-        MajorKey =  #{majorId}
-        )
-		GROUP BY
-			users.Id
-		ORDER BY
-			CreateDate
-	) AS t2 limit #{page},#{limit};
-	</select>
-
-    <select id="seleAllUsersByPageclassLikeName"   resultType="com.tdu.develop.user.pojo.ClassUser">
+    <select id="seleAllUsersByPageclass" resultType="com.tdu.develop.user.pojo.ClassUser">
         <!--select * from users where id in (select UserKey from subjectusers where SubjectKey=#{subjectId}) limit #{page},#{limit}-->
         SELECT
         `Id`,
@@ -699,7 +673,52 @@ FROM
         FROM
         majorusers
         WHERE
-        MajorKey =  #{majorId}
+        MajorKey = #{majorId}
+        )
+        GROUP BY
+        users.Id
+        ORDER BY
+        CreateDate
+        ) AS t2 limit #{page},#{limit};
+    </select>
+
+    <select id="seleAllUsersByPageclassLikeName" resultType="com.tdu.develop.user.pojo.ClassUser">
+        <!--select * from users where id in (select UserKey from subjectusers where SubjectKey=#{subjectId}) limit #{page},#{limit}-->
+        SELECT
+        `Id`,
+        `Class` AS ClassKey,
+        `UserName`,
+        `Name`,
+        `Sex`,
+        `createdateyear`,
+        `createdatemonth`,
+        `createdateday`,
+        IFNULL(
+        IFNULL(FIND_IN_SET(#{classid},Class), 0),
+        0
+        ) AS checked
+        FROM
+        (
+        SELECT
+        users.Id,
+        GROUP_CONCAT(classusers.Class) AS Class,
+        UserName,
+        `Name`,
+        Sex,
+        DATE_FORMAT(CreateDate, "%Y") AS createdateyear,
+        DATE_FORMAT(CreateDate, "%m") AS createdatemonth,
+        DATE_FORMAT(CreateDate, "%d") AS createdateday
+        FROM
+        users
+        LEFT JOIN classusers ON classusers.`User` = users.Id
+        WHERE
+        users.id IN (
+        SELECT
+        UserKey
+        FROM
+        majorusers
+        WHERE
+        MajorKey = #{majorId}
         )
         GROUP BY
         users.Id
@@ -707,11 +726,11 @@ FROM
         CreateDate
         ) AS t2 WHERE
         UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%')
-         limit #{page},#{limit};
+        limit #{page},#{limit};
     </select>
 
 
-    <select id="seleAllUsersByPageSubjcet"   resultType="com.tdu.develop.user.pojo.SubjectUser">
+    <select id="seleAllUsersByPageSubjcet" resultType="com.tdu.develop.user.pojo.SubjectUser">
         <!--select * from users where id in (select UserKey from subjectusers where SubjectKey=#{subjectId}) limit #{page},#{limit}-->
         SELECT
         `Id`,
@@ -762,7 +781,7 @@ FROM
     </select>
 
 
-    <select id="seleAllUsersByPageSubjcetLikeName"   resultType="com.tdu.develop.user.pojo.SubjectUser">
+    <select id="seleAllUsersByPageSubjcetLikeName" resultType="com.tdu.develop.user.pojo.SubjectUser">
         <!--select * from users where id in (select UserKey from subjectusers where SubjectKey=#{subjectId}) limit #{page},#{limit}-->
         SELECT
         `Id`,
@@ -814,7 +833,7 @@ FROM
         UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%')
         limit #{page},#{limit};
     </select>
-    <select id="seleAllUsersByPageSubjcetLikeNameCount"  parameterType="String" resultType="int">
+    <select id="seleAllUsersByPageSubjcetLikeNameCount" parameterType="String" resultType="int">
        SELECT
         count(1)
         FROM
@@ -847,7 +866,7 @@ FROM
         UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%');
     </select>
 
-    <select id="seleAllUsersByPageSubjcetCount"  parameterType="String" resultType="int">
+    <select id="seleAllUsersByPageSubjcetCount" parameterType="String" resultType="int">
        SELECT
         count(1)
         FROM
@@ -879,7 +898,7 @@ FROM
         ) AS t2;
     </select>
 
-    <select id="seleAllUsersByPagemajor"  resultType="com.tdu.develop.user.pojo.MajorUser">
+    <select id="seleAllUsersByPagemajor" resultType="com.tdu.develop.user.pojo.MajorUser">
        SELECT
 	`Id`,
 	`major` AS majorKey,
@@ -923,7 +942,7 @@ FROM
 	) AS t2 limit #{page},#{limit};
     </select>
 
-    <select id="seleAllUsersByPagemajorLikeName"  resultType="com.tdu.develop.user.pojo.MajorUser">
+    <select id="seleAllUsersByPagemajorLikeName" resultType="com.tdu.develop.user.pojo.MajorUser">
        SELECT
 	`Id`,
 	`major` AS majorKey,
@@ -1036,7 +1055,7 @@ FROM
 	) AS t2;
     </select>
 
-    <select id="seleAllUsersByPagedepertment"  resultType="com.tdu.develop.user.pojo.DepartmentUser">
+    <select id="seleAllUsersByPagedepertment" resultType="com.tdu.develop.user.pojo.DepartmentUser">
        SELECT
         `Id`,
         `depertment` AS depertment,
@@ -1077,8 +1096,8 @@ FROM
         ) AS t2 limit #{page},#{limit};
     </select>
 
-    <select id="seleUsersByPageDepertmentLikeName"  resultType="com.tdu.develop.user.pojo.DepartmentUser">
-       SELECT
+    <select id="seleUsersByPageDepertmentLikeName" resultType="com.tdu.develop.user.pojo.DepartmentUser">
+        SELECT
         `Id`,
         `depertment` AS depertment,
         `UserName`,
@@ -1118,8 +1137,8 @@ FROM
         ) AS t2 WHERE
         UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%')
 
-       <!-- CONCAT(`UserName`,`Name`) LIKE  '%#{userName}%' -->
-         limit #{page},#{limit};
+        <!-- CONCAT(`UserName`,`Name`) LIKE  '%#{userName}%' -->
+        limit #{page},#{limit};
     </select>
     <select id="seleUsersByPageDepertmentLikeNameCount" resultType="int" parameterType="String">
         SELECT
@@ -1168,7 +1187,7 @@ FROM
         CreateDate
         ) AS t2 ;
     </select>
-    <select id="seleAllUsersByPageclassLileNameCount"  parameterType="String" resultType="int">
+    <select id="seleAllUsersByPageclassLileNameCount" parameterType="String" resultType="int">
          SELECT
 	count(1)
 FROM
@@ -1202,7 +1221,7 @@ FROM
 	WHERE
         UserName like CONCAT('%',#{userName},'%') or Name like CONCAT('%',#{userName},'%');
     </select>
-    <select id="seleAllUsersByPageclassCount"  parameterType="String" resultType="int">
+    <select id="seleAllUsersByPageclassCount" parameterType="String" resultType="int">
          SELECT
 	count(1)
 FROM
@@ -1235,7 +1254,7 @@ FROM
 	) AS t2;
     </select>
 
-    <select id="seleAllUsersByPageCollege"  resultType="com.tdu.develop.user.pojo.Users">
+    <select id="seleAllUsersByPageCollege" resultType="com.tdu.develop.user.pojo.Users">
         select * from users where id in (select UserKey from departmentusers where DepartmentKey=#{departmentKey}) limit #{page},#{limit}
     </select>
 
@@ -1260,7 +1279,7 @@ FROM
        SELECT Id FROM majors WHERE College_Id =#{depertId}
     </select>
 
-    <select id="getAllUsers"  resultType="com.tdu.develop.user.pojo.Users">
+    <select id="getAllUsers" resultType="com.tdu.develop.user.pojo.Users">
       SELECT
 	`Id`,
 	`UserName`,
@@ -1281,7 +1300,7 @@ FROM
     </select>
 
 
-    <select id="getAllUsersLikeName"  resultType="com.tdu.develop.user.pojo.Users">
+    <select id="getAllUsersLikeName" resultType="com.tdu.develop.user.pojo.Users">
       SELECT
 	`Id`,
 	`UserName`,

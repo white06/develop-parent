@@ -26,39 +26,39 @@ public class test3 {
         try {
             //创建DocumentBuilder对象
             DocumentBuilder b = a.newDocumentBuilder();
-            String path="D:\\working\\TDuClub\\TDu\\Data\\3D\\Scene\\149b527b-248a-4aa1-825a-115240d96f82\\7a68d420-cf81-45d7-90ec-c1b75eeaa710\\7a68d420-cf81-45d7-90ec-c1b75eeaa710.EXM";
+            String path = "D:\\working\\TDuClub\\TDu\\Data\\3D\\Scene\\149b527b-248a-4aa1-825a-115240d96f82\\7a68d420-cf81-45d7-90ec-c1b75eeaa710\\7a68d420-cf81-45d7-90ec-c1b75eeaa710.EXM";
             //通过DocumentBuilder对象的parse方法返回一个Document对象
             Document document = b.parse(path);
             //通过Document对象的getElementsByTagName()返根节点的一个list集合
             NodeList booklist = document.getElementsByTagName("Node");
-            for(int i =0; i<booklist.getLength(); i++){
+            for (int i = 0; i < booklist.getLength(); i++) {
                 //循环遍历获取每一个book
                 Node book = booklist.item(i);
                 //通过Node对象的getAttributes()方法获取全的属性值
                 NamedNodeMap bookmap = book.getAttributes();
                 //循环遍每一个book的属性值
-                for(int j = 0; j<bookmap.getLength(); j++){
+                for (int j = 0; j < bookmap.getLength(); j++) {
                     Node node = bookmap.item(j);
                     //通过Node对象的getNodeName()和getNodeValue()方法获取属性名和属性值
-                    System.out.print(node.getNodeName()+":");
+                    System.out.print(node.getNodeName() + ":");
                     System.out.println(node.getNodeValue());
                 }
                 //解析book节点的子节点
                 NodeList childlist = book.getChildNodes();
-                for(int t = 0; t<childlist.getLength(); t++){
+                for (int t = 0; t < childlist.getLength(); t++) {
                     //区分出text类型的node以及element类型的node
-                    if(childlist.item(t).getNodeType() == Node.ELEMENT_NODE){
-                        if(childlist.item(t).getNodeName().equals("File")){
-                            System.out.print(childlist.item(t).getNodeName()+":");
+                    if (childlist.item(t).getNodeType() == Node.ELEMENT_NODE) {
+                        if (childlist.item(t).getNodeName().equals("File")) {
+                            System.out.print(childlist.item(t).getNodeName() + ":");
                             childlist.item(t).setTextContent("11111");
                             System.out.println(childlist.item(t).getTextContent());
-                            NamedNodeMap childBookmap =  childlist.item(t).getAttributes();
-                            if(childBookmap.getLength()<=2){
+                            NamedNodeMap childBookmap = childlist.item(t).getAttributes();
+                            if (childBookmap.getLength() <= 2) {
                                 Node node = childlist.item(t);
-                                Element eNode = (Element)node;
-                                eNode.setAttribute("ModelID","222");
-                                eNode.setAttribute("UserID","333");
-                            }else {
+                                Element eNode = (Element) node;
+                                eNode.setAttribute("ModelID", "222");
+                                eNode.setAttribute("UserID", "333");
+                            } else {
                                 for (int j = 0; j < childBookmap.getLength(); j++) {
                                     Node node = childBookmap.item(j);
                                     //通过Node对象的getNodeName()和getNodeValue()方法获取属性名和属性值
@@ -79,7 +79,7 @@ public class test3 {
 
             }
             System.out.println(document);
-            save(document,path);
+            save(document, path);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -93,8 +93,9 @@ public class test3 {
 
     /**
      * 根据节点参数查询节点
+     *
      * @param express 节点路径
-     * @param source 搜索节点源
+     * @param source  搜索节点源
      * @return 查询到的第一个节点
      */
     public static Node selectSingleNode(String express, Element source) {
@@ -114,7 +115,7 @@ public class test3 {
     }
 
 
-    public  static void save(Document document,String path) throws TransformerException {
+    public static void save(Document document, String path) throws TransformerException {
         Source xmlSource = new DOMSource(document);
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer();

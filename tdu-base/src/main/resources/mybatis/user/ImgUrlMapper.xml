@@ -6,15 +6,18 @@
 	</select>
 
     <update id="upImgURL" parameterType="String">
-        update imgURL set imgURL=#{imgURL} <where> id=#{id} </where>
+        update imgURL set imgURL=#{imgURL}
+        <where>id=#{id}</where>
     </update>
 
     <select id="seleLoginBackground" resultType="String">
-        select imgURL from imgurl <where> name='loginBackground' </where>
+        select imgURL from imgurl
+        <where>name='loginBackground'</where>
     </select>
 
     <select id="seleLoginBackgroundAgain" resultType="String">
-        select imgURL from imgurl <where> name='loginBackground' </where>
+        select imgURL from imgurl
+        <where>name='loginBackground'</where>
     </select>
 
     <select id="seleSchoolNameImg" resultType="String">

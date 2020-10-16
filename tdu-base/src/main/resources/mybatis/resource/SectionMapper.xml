@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.resource.mapper.SectionMapper">
-	<sql id="selectWords">
+    <sql id="selectWords">
 		Id id,Content content,Type type
 	</sql>
-	<select id="getAllSections" parameterType="String" resultType="map">
+    <select id="getAllSections" parameterType="String" resultType="map">
 		select Id ,Content as text from knowledges where SubjectTree_Id='858a21c3-8647-413a-997d-4ff29a89fb98'
 		and Content!='Root'
 	</select>
-	<insert id="insertWord">
+    <insert id="insertWord">
 		insert into words(Id,Word,Soundmark,SectionId,Translate,Difficulty)
 		values(#{id},#{words.word},#{words.soundmark},#{words.sectionId},#{words.translate},#{words.classLevel})
 	</insert>
-	<select id="queryAllSections" parameterType="String" resultType="map">
+    <select id="queryAllSections" parameterType="String" resultType="map">
 		select Id as id,Content as text from knowledges where
 		ParentKnowledge=(select Id from knowledges where SubjectTree_Id='858a21c3-8647-413a-997d-4ff29a89fb98'
 			and ParentKnowledge is null and PreKnowledge is null)
 	</select>
-	<select id="selAllChilds" parameterType="String" resultType="map">
+    <select id="selAllChilds" parameterType="String" resultType="map">
 		select Id as id,Content as text from knowledges where ParentKnowledge=#{id}
 	</select>
-	<select id="selAllWords" resultType="map">
+    <select id="selAllWords" resultType="map">
 		select Id ,Word  word ,Soundmark soundmark ,Translate translate ,Difficulty difficulty from words where SectionId=#{sectionId}
 		limit #{startIndex},#{rows}
 	</select>
-	<update id="doUpdateWord" parameterType="com.tdu.develop.resource.pojo.Word">
+    <update id="doUpdateWord" parameterType="com.tdu.develop.resource.pojo.Word">
 		update words set Word=#{word},Soundmark=#{soundmark},Translate=#{translate},Difficulty=#{classLevel} where Id=#{id}
 	</update>
-	<delete id="deleteWord" parameterType="String">
+    <delete id="deleteWord" parameterType="String">
 		delete from words where Id=#{id}
 	</delete>
-	<select id="setAllCount" parameterType="String" resultType="int">
+    <select id="setAllCount" parameterType="String" resultType="int">
 		select count(*) from words where SectionId=#{sectionId}
 	</select>
-	<select id="selCount" parameterType="String" resultType="int">
+    <select id="selCount" parameterType="String" resultType="int">
 		select count(*) from knowledges where ParentKnowledge=(
 			select Id from knowledges where SubjectTree_Id=#{errorTreeId} and
 			ParentKnowledge is null and PreKnowledge is null
 		)
 	</select>
-	<select id="selFirstSection" parameterType="String" resultType="map">
+    <select id="selFirstSection" parameterType="String" resultType="map">
 		select * from knowledges where ParentKnowledge=(select Id from knowledges where SubjectTree_Id=#{errorTreeId}
 		and ParentKnowledge is null) and PreKnowledge is null
 	</select>
-	<select id="selOtherSection" parameterType="String" resultType="map">
+    <select id="selOtherSection" parameterType="String" resultType="map">
 		select * from knowledges where PreKnowledge=#{preId}
 	</select>
-	<select id="selFirstChild" parameterType="String" resultType="map">
+    <select id="selFirstChild" parameterType="String" resultType="map">
 		select * from knowledges where ParentKnowledge=#{id} and PreKnowledge is null
 	</select>
-	<select id="selCounts" parameterType="String" resultType="int">
+    <select id="selCounts" parameterType="String" resultType="int">
 		select count(*) from knowledges where ParentKnowledge=#{parentId}
 	</select>
-	<select id="loadErrorQueBySection" resultType="map">
+    <select id="loadErrorQueBySection" resultType="map">
 		SELECT Id id,Content content,Type type
 			FROM questionspersonal
 			WHERE personalId=#{userId}
@@ -63,20 +63,23 @@
 				WHERE KnowledgeId=#{knowId}
 			);
 	</select>
-	<select id="errorAllQue" parameterType="String" resultType="map">
-		select <include refid="selectWords"/>
-		from questionspersonal
-		where personalId=#{userId}
-		and useType='错题'
-	</select>
-	<delete id="deleteQue" parameterType="String">
+    <select id="errorAllQue" parameterType="String" resultType="map">
+        select
+        <include refid="selectWords"/>
+        from questionspersonal
+        where personalId=#{userId}
+        and useType='错题'
+    </select>
+    <delete id="deleteQue" parameterType="String">
 		delete from questionspersonal where Id=#{queId}
 	</delete>
-	<select id="selAllCollect" resultType="map">
-		select <include refid="selectWords"/> from questionspersonal
-		where useType='收藏'
-	</select>
-	<select id="loadcollectQueBySection" resultType="map">
+    <select id="selAllCollect" resultType="map">
+        select
+        <include refid="selectWords"/>
+        from questionspersonal
+        where useType='收藏'
+    </select>
+    <select id="loadcollectQueBySection" resultType="map">
 		SELECT Id id,Content content,Type type
 			FROM questionspersonal
 			WHERE personalId=#{userId}
@@ -87,7 +90,7 @@
 				WHERE KnowledgeId=#{knowId}
 			);
 	</select>
-	<select id="queryWordInfos" resultType="map">
+    <select id="queryWordInfos" resultType="map">
 		select * from words where Difficulty=#{level} limit #{page},1
 	</select>
 </mapper>

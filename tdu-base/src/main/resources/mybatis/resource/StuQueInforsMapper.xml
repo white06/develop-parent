@@ -1,69 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.resource.mapper.StuQueInforsMapper">
-	<resultMap type="com.tdu.develop.resource.pojo.StuQueInfors" id="stuQueInfors">
-		<id property="id" column="id"/>
-		<result property="pagerKey" column="pagerKey"/>
-		<result property="quesScore" column="quesScore"/>
-		<result property="questionAnswer" column="questionAnswer"/>
-		<result property="questionKey" column="questionKey"/>
-		<result property="stuKey" column="stuKey"/>
-	</resultMap>
-	
-	<resultMap type="com.tdu.develop.resource.pojo.StutotalScores" id="stutotalScores">
-		<id property="id" column="id"/>
-		<result property="pagerKey" column="pagerKey"/>
-		<result property="quesScore" column="quesScore"/>
-		<result property="checked" column="checked"/>
-		<result property="stuKey" column="stuKey"/>
-		<result property="allowExam" column="allowExam"/>
-	</resultMap>
-	
-	<insert id="insStuQueInfors" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
+    <resultMap type="com.tdu.develop.resource.pojo.StuQueInfors" id="stuQueInfors">
+        <id property="id" column="id"/>
+        <result property="pagerKey" column="pagerKey"/>
+        <result property="quesScore" column="quesScore"/>
+        <result property="questionAnswer" column="questionAnswer"/>
+        <result property="questionKey" column="questionKey"/>
+        <result property="stuKey" column="stuKey"/>
+    </resultMap>
+
+    <resultMap type="com.tdu.develop.resource.pojo.StutotalScores" id="stutotalScores">
+        <id property="id" column="id"/>
+        <result property="pagerKey" column="pagerKey"/>
+        <result property="quesScore" column="quesScore"/>
+        <result property="checked" column="checked"/>
+        <result property="stuKey" column="stuKey"/>
+        <result property="allowExam" column="allowExam"/>
+    </resultMap>
+
+    <insert id="insStuQueInfors" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
 		insert into stuqueinfors(`Id`, `PagerKey`, `QuesScore`, `QuestionAnswer`, `QuestionKey`, `StuKey`) values (#{id},#{pagerKey},#{quesScore},#{questionAnswer},#{questionKey},#{stuKey})
 	</insert>
-	
-	<select id="selStuQueInfors" resultType="String" parameterType="String">
-		select id from stuqueinfors <where> QuestionKey=#{quesId} and StuKey=#{stuId} and PagerKey=#{pageId} </where>
-	</select>
-	
-	<update id="upStuQueInfors" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
-		update stuqueinfors set `QuesScore`=#{quesScore},`QuestionAnswer`=#{questionAnswer} <where> id=#{id} </where>
-	</update>
-	
-	<select id="seleChecked" resultType="Integer" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
-		select checked from stutotalScores <where> pagerKey=#{pagerKey} and stuKey=#{stuKey} </where>
-	</select>
-	
-	<select id="seleQuesScore" resultType="Double" parameterType="String">
-		select quesscore from stuqueinfors <where> pagerKey=#{pagerKey} and stuKey=#{stuKey} </where>
-	</select>
-	
-	<insert id="insTotalScore" parameterType="com.tdu.develop.resource.pojo.StutotalScores">
+
+    <select id="selStuQueInfors" resultType="String" parameterType="String">
+        select id from stuqueinfors
+        <where>QuestionKey=#{quesId} and StuKey=#{stuId} and PagerKey=#{pageId}</where>
+    </select>
+
+    <update id="upStuQueInfors" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
+        update stuqueinfors set `QuesScore`=#{quesScore},`QuestionAnswer`=#{questionAnswer}
+        <where>id=#{id}</where>
+    </update>
+
+    <select id="seleChecked" resultType="Integer" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
+        select checked from stutotalScores
+        <where>pagerKey=#{pagerKey} and stuKey=#{stuKey}</where>
+    </select>
+
+    <select id="seleQuesScore" resultType="Double" parameterType="String">
+        select quesscore from stuqueinfors
+        <where>pagerKey=#{pagerKey} and stuKey=#{stuKey}</where>
+    </select>
+
+    <insert id="insTotalScore" parameterType="com.tdu.develop.resource.pojo.StutotalScores">
 		insert into stutotalscores(`Id`, `PagerKey`, `QuesScore`, `Checked`, `StuKey`, `AllowExam`) VALUES (#{id}, #{pagerKey}, #{quesScore}, #{checked}, #{stuKey}, #{allowExam})
 	</insert>
-	
-	<select id="seleStuScores" resultMap="stutotalScores" parameterType="String">
-		select * from stutotalscores <where> pagerkey=#{pageId} </where>
-	</select>
-	
-	<select id="seleAllScore" resultType="Integer" parameterType="String">
-		select quesScore from stutotalScores <where> pagerKey=#{pagerKey} and stuKey=#{stuKey} and checked=1</where>
-	</select>
-	
-	<select id="seleAnswer" resultMap="stuQueInfors" parameterType="String">
-		select * from stuqueinfors <where> pagerKey=#{pagerKey} and stuKey=#{stuKey} </where>
-	</select>
-	<update id="updateStutotalScores" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
+
+    <select id="seleStuScores" resultMap="stutotalScores" parameterType="String">
+        select * from stutotalscores
+        <where>pagerkey=#{pageId}</where>
+    </select>
+
+    <select id="seleAllScore" resultType="Integer" parameterType="String">
+        select quesScore from stutotalScores
+        <where>pagerKey=#{pagerKey} and stuKey=#{stuKey} and checked=1</where>
+    </select>
+
+    <select id="seleAnswer" resultMap="stuQueInfors" parameterType="String">
+        select * from stuqueinfors
+        <where>pagerKey=#{pagerKey} and stuKey=#{stuKey}</where>
+    </select>
+    <update id="updateStutotalScores" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
 		update stutotalscores set QuesScore=#{quesScore},Checked=#{checked} where PagerKey=#{pagerKey} and StuKey=#{stuKey}
 	</update>
-	<insert id="insertStutotalScores" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
+    <insert id="insertStutotalScores" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
 		insert into stutotalscores (Id,PagerKey,QuesScore,Checked,StuKey,AllowExam) values(#{id},#{pagerKey},#{quesScore},#{checked},#{stuKey},#{allowExam})
 	</insert>
-	<update id="updatequescore" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
+    <update id="updatequescore" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
 		update stuqueinfors set QuesScore=#{quesScore} where PagerKey=#{pagerKey} and QuestionKey=#{questionKey} and StuKey=#{stuKey}
 	</update>
-	<insert id="insertquescore" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
+    <insert id="insertquescore" parameterType="com.tdu.develop.resource.pojo.StuQueInfors">
 		insert into stuqueinfors (Id,PagerKey,QuesScore,QuestionKey,StuKey) values(#{id},#{pagerKey},#{quesScore},#{questionKey},#{stuKey})
 	</insert>
 </mapper>

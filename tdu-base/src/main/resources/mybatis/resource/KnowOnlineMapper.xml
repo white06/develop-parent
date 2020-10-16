@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.resource.mapper.KnowOnlineMapper">
 
-	<select id="getKnoLineGroupUser" parameterType="String" resultType="com.tdu.develop.util.knowOnlineUtil">
+    <select id="getKnoLineGroupUser" parameterType="String" resultType="com.tdu.develop.util.knowOnlineUtil">
 		SELECT
 	userid,
 	COUNT( id ) as count,
@@ -14,7 +14,7 @@ WHERE
 	knowid = #{knowContId}
 	GROUP BY userid
 	</select>
-	<select id="getKnoOnLine" parameterType="String" resultType="com.tdu.develop.util.knowOnlineUtil">
+    <select id="getKnoOnLine" parameterType="String" resultType="com.tdu.develop.util.knowOnlineUtil">
 		SELECT
 	COUNT( id ) as count,
 	SUM( onlinetime ) as alltime,
@@ -24,7 +24,7 @@ FROM
 WHERE
 	knowid = #{knowContId}
 	</select>
-	<select id="getKnoUserOnLine" parameterType="String" resultType="com.tdu.develop.util.knowOnlineUtil">
+    <select id="getKnoUserOnLine" parameterType="String" resultType="com.tdu.develop.util.knowOnlineUtil">
 		SELECT
 	COUNT( id ) as count,
 	SUM( onlinetime ) as alltime,
@@ -37,19 +37,19 @@ WHERE
 	</select>
 
 
-	<insert id="insetKnowOnline"  parameterType="com.tdu.develop.resource.pojo.KnowOnline">
+    <insert id="insetKnowOnline" parameterType="com.tdu.develop.resource.pojo.KnowOnline">
 		insert into knowonline(`id`,`userid`,`playtime`,`onlinetime`,`outtime`,`knowid`) values(#{id},#{userId},#{playTime},#{onlineTime},#{outTime},#{knowId})
 	</insert>
 
-	<select id="getKnowOnlineTime" parameterType="String" resultType="java.util.Date">
+    <select id="getKnowOnlineTime" parameterType="String" resultType="java.util.Date">
 		select playtime from knowonline where id=#{loginId}
 	</select>
 
-	<update id="setKnowOnlineTime" >
+    <update id="setKnowOnlineTime">
 		update knowonline set onlinetime=#{onlineTime},outtime=#{outTime} where id=#{loginId}
 	</update>
 
-	<select id="getHalfYear" resultType="com.tdu.develop.util.MonthInYearUtil">
+    <select id="getHalfYear" resultType="com.tdu.develop.util.MonthInYearUtil">
     SELECT
 	v.MONTH as month,
 	ifnull( b.count, 0 ) AS minute

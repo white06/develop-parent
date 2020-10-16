@@ -2,19 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.resource.mapper.InterpretResultMapper">
 
-	<insert id="addInterpretResult" parameterType="com.tdu.develop.resource.pojo.InterpretResult">
+    <insert id="addInterpretResult" parameterType="com.tdu.develop.resource.pojo.InterpretResult">
 		INSERT INTO `interpretresult`(`Id`, `fluency`, `fidelity`, `coherence`, `accuracy`, `creatData`, `userKey`, `fileName`)
 		VALUES (
 		#{Id},#{fluency},#{fidelity},#{coherence},#{accuracy},#{creatData},#{userKey},#{fileName}
 		);
 	</insert>
 
-	<insert id="addInterpretScore" parameterType="com.tdu.develop.resource.pojo.InterpretScore">
+    <insert id="addInterpretScore" parameterType="com.tdu.develop.resource.pojo.InterpretScore">
 		INSERT INTO `develop_resource`.`interpretscore`(`Id`, `fluency`, `fidelity`, `coherence`, `accuracy`, `zong`, `creatData`, `userKey`, `nandu`, `page`,`pageKey`)
 		VALUES (#{Id},#{fluency},#{fidelity},#{coherence},#{accuracy},#{zong},#{creatData},#{userKey},#{nandu},#{page},#{pageKey});
 	</insert>
 
-	<select id="getInterpretScore"  parameterType="String" resultType="com.tdu.develop.resource.pojo.InterpretScore">
+    <select id="getInterpretScore" parameterType="String" resultType="com.tdu.develop.resource.pojo.InterpretScore">
 		SELECT * FROM interpretscore WHERE userKey=#{userKey} and nandu=#{nandu}  and page=#{page} and pageKey= #{pageKey} ORDER BY  `creatData` desc LIMIT 1
 	</select>
 </mapper>

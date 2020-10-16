@@ -31,9 +31,9 @@ public class DevelopUserApplicationTests {
     private boolean mIsLoop = true;
 
     public static void main(String args[]) {
-        if( null!=args && args.length>0 && args[0].equals("true") ){
+        if (null != args && args.length > 0 && args[0].equals("true")) {
             //在应用发布版本中，请勿显示日志，详情见此函数说明。
-            Setting.setShowLog( true );
+            Setting.setShowLog(true);
         }
 
         SpeechUtility.createUtility("appid=" + APPID);
@@ -91,6 +91,7 @@ public class DevelopUserApplicationTests {
      */
 
     private boolean mIsEndOfSpeech = false;
+
     private void Recognize() {
         if (SpeechRecognizer.getRecognizer() == null)
             SpeechRecognizer.createRecognizer();
@@ -107,11 +108,11 @@ public class DevelopUserApplicationTests {
         //写音频流时，文件是应用层已有的，不必再保存
 //		recognizer.setParameter(SpeechConstant.ASR_AUDIO_PATH,
 //				"./iat_test.pcm");
-        recognizer.setParameter( SpeechConstant.RESULT_TYPE, "plain" );
+        recognizer.setParameter(SpeechConstant.RESULT_TYPE, "plain");
         recognizer.startListening(recListener);
 
         FileInputStream fis = null;
-        final byte[] buffer = new byte[64*1024];
+        final byte[] buffer = new byte[64 * 1024];
         try {
             fis = new FileInputStream(new File("D:\\ffmpeg\\SpeechSynthesizer.pcm"));
             if (0 == fis.available()) {
@@ -119,9 +120,9 @@ public class DevelopUserApplicationTests {
                 recognizer.cancel();
             } else {
                 int lenRead = buffer.length;
-                while( buffer.length==lenRead && !mIsEndOfSpeech ){
-                    lenRead = fis.read( buffer );
-                    recognizer.writeAudio( buffer, 0, lenRead );
+                while (buffer.length == lenRead && !mIsEndOfSpeech) {
+                    lenRead = fis.read(buffer);
+                    recognizer.writeAudio(buffer, 0, lenRead);
                 }//end of while
 
                 recognizer.stopListening();
@@ -148,27 +149,27 @@ public class DevelopUserApplicationTests {
     private RecognizerListener recListener = new RecognizerListener() {
 
         public void onBeginOfSpeech() {
-            DebugLog.Log( "onBeginOfSpeech enter" );
+            DebugLog.Log("onBeginOfSpeech enter");
             DebugLog.Log("*************开始录音*************");
         }
 
         public void onEndOfSpeech() {
-            DebugLog.Log( "onEndOfSpeech enter" );
+            DebugLog.Log("onEndOfSpeech enter");
             mIsEndOfSpeech = true;
         }
 
         public void onVolumeChanged(int volume) {
-            DebugLog.Log( "onVolumeChanged enter" );
+            DebugLog.Log("onVolumeChanged enter");
             if (volume > 0)
                 DebugLog.Log("*************音量值:" + volume + "*************");
 
         }
 
         public void onResult(RecognizerResult result, boolean islast) {
-            DebugLog.Log( "onResult enter" );
+            DebugLog.Log("onResult enter");
             mResult.append(result.getResultString());
 
-            if( islast ){
+            if (islast) {
                 DebugLog.Log("识别结果为:" + mResult.toString());
                 mIsEndOfSpeech = true;
                 mResult.delete(0, mResult.length());
@@ -184,7 +185,7 @@ public class DevelopUserApplicationTests {
         }
 
         public void onEvent(int eventType, int arg1, int agr2, String msg) {
-            DebugLog.Log( "onEvent enter" );
+            DebugLog.Log("onEvent enter");
         }
 
     };
@@ -201,7 +202,7 @@ public class DevelopUserApplicationTests {
         speechSynthesizer.setParameter(SpeechConstant.VOICE_NAME, "xiaoyan");
 
         //启用合成音频流事件，不需要时，不用设置此参数
-        speechSynthesizer.setParameter( SpeechConstant.TTS_BUFFER_EVENT, "1" );
+        speechSynthesizer.setParameter(SpeechConstant.TTS_BUFFER_EVENT, "1");
         // 设置合成音频保存位置（可自定义保存位置），默认不保存
         speechSynthesizer.synthesizeToUri("语音合成测试程序 ", "./tts_test.pcm",
                 synthesizeToUriListener);
@@ -231,26 +232,26 @@ public class DevelopUserApplicationTests {
 
         @Override
         public void onEvent(int eventType, int arg1, int arg2, int arg3, Object obj1, Object obj2) {
-            if( SpeechEvent.EVENT_TTS_BUFFER == eventType ){
-                DebugLog.Log( "onEvent: type="+eventType
-                        +", arg1="+arg1
-                        +", arg2="+arg2
-                        +", arg3="+arg3
-                        +", obj2="+(String)obj2 );
+            if (SpeechEvent.EVENT_TTS_BUFFER == eventType) {
+                DebugLog.Log("onEvent: type=" + eventType
+                        + ", arg1=" + arg1
+                        + ", arg2=" + arg2
+                        + ", arg3=" + arg3
+                        + ", obj2=" + (String) obj2);
                 ArrayList<?> bufs = null;
-                if( obj1 instanceof ArrayList<?> ){
+                if (obj1 instanceof ArrayList<?>) {
                     bufs = (ArrayList<?>) obj1;
-                }else{
-                    DebugLog.Log( "onEvent error obj1 is not ArrayList !" );
+                } else {
+                    DebugLog.Log("onEvent error obj1 is not ArrayList !");
                 }//end of if-else instance of ArrayList
 
-                if( null != bufs ){
-                    for( final Object obj : bufs ){
-                        if( obj instanceof byte[] ){
+                if (null != bufs) {
+                    for (final Object obj : bufs) {
+                        if (obj instanceof byte[]) {
                             final byte[] buf = (byte[]) obj;
-                            DebugLog.Log( "onEvent buf length: "+buf.length );
-                        }else{
-                            DebugLog.Log( "onEvent error element is not byte[] !" );
+                            DebugLog.Log("onEvent buf length: " + buf.length);
+                        } else {
+                            DebugLog.Log("onEvent error element is not byte[] !");
                         }
                     }//end of for
                 }//end of if bufs not null
@@ -266,18 +267,18 @@ public class DevelopUserApplicationTests {
      */
     private void uploadUserWords() {
         SpeechRecognizer recognizer = SpeechRecognizer.getRecognizer();
-        if ( recognizer == null) {
+        if (recognizer == null) {
             recognizer = SpeechRecognizer.createRecognizer();
 
-            if( null == recognizer ){
-                DebugLog.Log( "获取识别实例实败！" );
+            if (null == recognizer) {
+                DebugLog.Log("获取识别实例实败！");
                 waitupLoop();
                 return;
             }
         }
 
         UserWords userwords = new UserWords(USER_WORDS);
-        recognizer.setParameter( SpeechConstant.DATA_TYPE, "userword" );
+        recognizer.setParameter(SpeechConstant.DATA_TYPE, "userword");
         recognizer.updateLexicon("userwords",
                 userwords.toString(),
                 lexiconListener);
@@ -299,8 +300,8 @@ public class DevelopUserApplicationTests {
 
     };
 
-    private void waitupLoop(){
-        synchronized(this){
+    private void waitupLoop() {
+        synchronized (this) {
             DevelopUserApplicationTests.this.notify();
         }
     }
@@ -309,7 +310,7 @@ public class DevelopUserApplicationTests {
         while (mIsLoop) {
             try {
                 if (onLoop()) {
-                    synchronized(this){
+                    synchronized (this) {
                         this.wait();
                     }
                 }
@@ -320,8 +321,7 @@ public class DevelopUserApplicationTests {
     }
 
 
-
-//    public static void main(String[] args) {
+    //    public static void main(String[] args) {
 ////        File file=new File("D:\ffmpeg\11.m4a");
 ////        File last= Cover8xTo16x.cover8xTo16x(file);
 //////        AipSpeech client = new AipSpeech(

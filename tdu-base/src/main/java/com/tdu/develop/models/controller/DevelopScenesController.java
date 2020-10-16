@@ -237,7 +237,7 @@ public class DevelopScenesController {
 //                }
             }
             // 如果是在原有基础上写入则append属性为true，默认为false
-            BufferedWriter out = new BufferedWriter(new FileWriter(writename, true));
+            BufferedWriter out = new BufferedWriter(new FileWriter(writename, false));
             out.write(content); // 写入TXT
             out.flush(); // 把缓存区内容压入文件
             out.close(); // 最后记得关闭文件

@@ -51,8 +51,8 @@ public class RedisTest {
 
         //写入一个带时间的缓存 30秒消失
         //可以自己去验证是否正确
-        boolean flag1 = RedisUtil.set("xuan", "关注我博客~",Long.parseLong("30"));
-        if (flag){
+        boolean flag1 = RedisUtil.set("xuan", "关注我博客~", Long.parseLong("30"));
+        if (flag) {
             System.out.println("写入成功");
         }
     }

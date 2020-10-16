@@ -2,6 +2,7 @@ package com.tdu.develop;
 /*
  * 实现录音机的功能
  */
+
 import java.awt.*;
 
 import javax.swing.*;
@@ -10,7 +11,7 @@ import java.io.*;
 import javax.sound.sampled.*;
 import java.lang.*;
 
-public class MyRecord extends JFrame implements ActionListener{
+public class MyRecord extends JFrame implements ActionListener {
 
     //定义录音格式
     AudioFormat af = null;
@@ -29,25 +30,26 @@ public class MyRecord extends JFrame implements ActionListener{
     long startPlay;
 
     //定义所需要的组件
-    JPanel jp1,jp2,jp3;
-    JLabel jl1=null;
-    JButton captureBtn,stopBtn,playBtn,saveBtn;
+    JPanel jp1, jp2, jp3;
+    JLabel jl1 = null;
+    JButton captureBtn, stopBtn, playBtn, saveBtn;
+
     public static void main(String[] args) {
 
         //创造一个实例
         MyRecord mr = new MyRecord();
 
     }
+
     //构造函数
-    public MyRecord()
-    {
+    public MyRecord() {
         //组件初始化
         jp1 = new JPanel();
         jp2 = new JPanel();
         jp3 = new JPanel();
 
         //定义字体
-        Font myFont = new Font("华文新魏",Font.BOLD,30);
+        Font myFont = new Font("华文新魏", Font.BOLD, 30);
         jl1 = new JLabel("录音机功能的实现");
         jl1.setFont(myFont);
         jp1.add(jl1);
@@ -70,11 +72,11 @@ public class MyRecord extends JFrame implements ActionListener{
         saveBtn.setActionCommand("saveBtn");
 
 
-        this.add(jp1,BorderLayout.NORTH);
-        this.add(jp2,BorderLayout.CENTER);
-        this.add(jp3,BorderLayout.SOUTH);
+        this.add(jp1, BorderLayout.NORTH);
+        this.add(jp2, BorderLayout.CENTER);
+        this.add(jp3, BorderLayout.SOUTH);
         jp3.setLayout(null);
-        jp3.setLayout(new GridLayout(1, 4,10,10));
+        jp3.setLayout(new GridLayout(1, 4, 10, 10));
         jp3.add(captureBtn);
         jp3.add(stopBtn);
         jp3.add(playBtn);
@@ -85,7 +87,7 @@ public class MyRecord extends JFrame implements ActionListener{
         playBtn.setEnabled(false);
         saveBtn.setEnabled(false);
         //设置窗口的属性
-        this.setSize(400,300);
+        this.setSize(400, 300);
         this.setTitle("录音机");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -96,8 +98,7 @@ public class MyRecord extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
 
-        if(e.getActionCommand().equals("captureBtn"))
-        {
+        if (e.getActionCommand().equals("captureBtn")) {
             //点击开始录音按钮后的动作
             //停止按钮可以启动
             captureBtn.setEnabled(false);
@@ -109,7 +110,7 @@ public class MyRecord extends JFrame implements ActionListener{
             capture();
             //记录开始录音的时间
             startPlay = System.currentTimeMillis();
-        }else if (e.getActionCommand().equals("stopBtn")) {
+        } else if (e.getActionCommand().equals("stopBtn")) {
             //点击停止录音按钮的动作
             captureBtn.setEnabled(true);
             stopBtn.setEnabled(false);
@@ -120,25 +121,23 @@ public class MyRecord extends JFrame implements ActionListener{
             //记录停止录音的时间
             long stopPlay = System.currentTimeMillis();
             //输出录音的时间
-            System.out.println("Play continues " + (stopPlay-startPlay));
-        }else if(e.getActionCommand().equals("playBtn"))
-        {
+            System.out.println("Play continues " + (stopPlay - startPlay));
+        } else if (e.getActionCommand().equals("playBtn")) {
             //调用播放录音的方法
             play();
-        }else if(e.getActionCommand().equals("saveBtn"))
-        {
+        } else if (e.getActionCommand().equals("saveBtn")) {
             //调用保存录音的方法
             save();
         }
     }
+
     //开始录音
-    public void capture()
-    {
+    public void capture() {
         try {
             //af为AudioFormat也就是音频格式
             af = getAudioFormat();
-            DataLine.Info info = new DataLine.Info(TargetDataLine.class,af);
-            td = (TargetDataLine)(AudioSystem.getLine(info));
+            DataLine.Info info = new DataLine.Info(TargetDataLine.class, af);
+            td = (TargetDataLine) (AudioSystem.getLine(info));
             //打开具有指定格式的行，这样可使行获得所有所需的系统资源并变得可操作。
             td.open(af);
             //允许某一数据行执行数据 I/O
@@ -154,20 +153,20 @@ public class MyRecord extends JFrame implements ActionListener{
             return;
         }
     }
+
     //停止录音
-    public void stop()
-    {
+    public void stop() {
         stopflag = true;
     }
+
     //播放录音
-    public void play()
-    {
+    public void play() {
         //将baos中的数据转换为字节数据
         byte audioData[] = baos.toByteArray();
         //转换为输入流
         bais = new ByteArrayInputStream(audioData);
         af = getAudioFormat();
-        ais = new AudioInputStream(bais, af, audioData.length/af.getFrameSize());
+        ais = new AudioInputStream(bais, af, audioData.length / af.getFrameSize());
 
         try {
             DataLine.Info dataLineInfo = new DataLine.Info(SourceDataLine.class, af);
@@ -180,19 +179,16 @@ public class MyRecord extends JFrame implements ActionListener{
             t2.start();
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             try {
                 //关闭流
-                if(ais != null)
-                {
+                if (ais != null) {
                     ais.close();
                 }
-                if(bais != null)
-                {
+                if (bais != null) {
                     bais.close();
                 }
-                if(baos != null)
-                {
+                if (baos != null) {
                     baos.close();
                 }
 
@@ -202,15 +198,15 @@ public class MyRecord extends JFrame implements ActionListener{
         }
 
     }
+
     //保存录音
-    public void save()
-    {
+    public void save() {
         //取得录音输入流
         af = getAudioFormat();
 
         byte audioData[] = baos.toByteArray();
         bais = new ByteArrayInputStream(audioData);
-        ais = new AudioInputStream(bais,af, audioData.length / af.getFrameSize());
+        ais = new AudioInputStream(bais, af, audioData.length / af.getFrameSize());
         //定义最终保存的文件名
         File file = null;
         //写入文件
@@ -218,38 +214,36 @@ public class MyRecord extends JFrame implements ActionListener{
             //以当前的时间命名录音的名字
             //将录音的文件存放到F盘下语音文件夹下
             File filePath = new File("F:/语音文件");
-            if(!filePath.exists())
-            {//如果文件不存在，则创建该目录
+            if (!filePath.exists()) {//如果文件不存在，则创建该目录
                 filePath.mkdir();
             }
             long time = System.currentTimeMillis();
-            file = new File(filePath+"/"+time+".wav");
+            file = new File(filePath + "/" + time + ".wav");
             AudioSystem.write(ais, AudioFileFormat.Type.WAVE, file);
             //将录音产生的wav文件转换为容量较小的mp3格式
             //定义产生后文件名
-            String tarFileName = time+".mp3";
+            String tarFileName = time + ".mp3";
             Runtime run = null;
 
             try {
                 run = Runtime.getRuntime();
-                long start=System.currentTimeMillis();
+                long start = System.currentTimeMillis();
                 //调用解码器来将wav文件转换为mp3文件
-                Process p=run.exec(filePath+"/"+"lame -b 16 "+filePath+"/"+file.getName()+" "+filePath+"/"+tarFileName); //16为码率，可自行修改
+                Process p = run.exec(filePath + "/" + "lame -b 16 " + filePath + "/" + file.getName() + " " + filePath + "/" + tarFileName); //16为码率，可自行修改
                 //释放进程
                 p.getOutputStream().close();
                 p.getInputStream().close();
                 p.getErrorStream().close();
                 p.waitFor();
-                long end=System.currentTimeMillis();
-                System.out.println("convert need costs:"+(end-start)+"ms");
+                long end = System.currentTimeMillis();
+                System.out.println("convert need costs:" + (end - start) + "ms");
                 //删除无用的wav文件
-                if(file.exists())
-                {
+                if (file.exists()) {
                     file.delete();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-            }finally{
+            } finally {
                 //最后都要执行的语句
                 //run调用lame解码器最后释放内存
                 run.freeMemory();
@@ -257,16 +251,14 @@ public class MyRecord extends JFrame implements ActionListener{
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             //关闭流
             try {
 
-                if(bais != null)
-                {
+                if (bais != null) {
                     bais.close();
                 }
-                if(ais != null)
-                {
+                if (ais != null) {
                     ais.close();
                 }
             } catch (Exception e) {
@@ -274,12 +266,12 @@ public class MyRecord extends JFrame implements ActionListener{
             }
         }
     }
+
     //设置AudioFormat的参数
-    public AudioFormat getAudioFormat()
-    {
+    public AudioFormat getAudioFormat() {
         //下面注释部分是另外一种音频格式，两者都可以
         AudioFormat.Encoding encoding = AudioFormat.Encoding.
-                PCM_SIGNED ;
+                PCM_SIGNED;
         float rate = 8000f;
         int sampleSize = 16;
         String signedString = "signed";
@@ -301,40 +293,38 @@ public class MyRecord extends JFrame implements ActionListener{
 //		// true,false
 //		return new AudioFormat(sampleRate, sampleSizeInBits, channels, signed,bigEndian);
     }
+
     //录音类，因为要用到MyRecord类中的变量，所以将其做成内部类
-    class Record implements Runnable
-    {
+    class Record implements Runnable {
         //定义存放录音的字节数组,作为缓冲区
         byte bts[] = new byte[10000];
+
         //将字节数组包装到流里，最终存入到baos中
         //重写run函数
         public void run() {
             baos = new ByteArrayOutputStream();
             try {
                 stopflag = false;
-                while(stopflag != true)
-                {
+                while (stopflag != true) {
                     //当停止录音没按下时，该线程一直执行
                     //从数据行的输入缓冲区读取音频数据。
                     //要读取bts.length长度的字节,cnt 是实际读取的字节数
                     int cnt = td.read(bts, 0, bts.length);
-                    if(cnt > 0)
-                    {
+                    if (cnt > 0) {
                         baos.write(bts, 0, cnt);
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-            }finally{
+            } finally {
                 try {
                     //关闭打开的字节数组流
-                    if(baos != null)
-                    {
+                    if (baos != null) {
                         baos.close();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                }finally{
+                } finally {
                     td.drain();
                     td.close();
                 }
@@ -342,19 +332,17 @@ public class MyRecord extends JFrame implements ActionListener{
         }
 
     }
+
     //播放类,同样也做成内部类
-    class Play implements Runnable
-    {
+    class Play implements Runnable {
         //播放baos中的数据即可
         public void run() {
             byte bts[] = new byte[10000];
             try {
                 int cnt;
                 //读取数据到缓存数据
-                while ((cnt = ais.read(bts, 0, bts.length)) != -1)
-                {
-                    if (cnt > 0)
-                    {
+                while ((cnt = ais.read(bts, 0, bts.length)) != -1) {
+                    if (cnt > 0) {
                         //写入缓存数据
                         //将音频数据写入到混频器
                         sd.write(bts, 0, cnt);
@@ -363,7 +351,7 @@ public class MyRecord extends JFrame implements ActionListener{
 
             } catch (Exception e) {
                 e.printStackTrace();
-            }finally{
+            } finally {
                 sd.drain();
                 sd.close();
             }
