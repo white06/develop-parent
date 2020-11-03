@@ -16,11 +16,10 @@ public class Base64Util {
     /**
      * 功能：编码字符串
      *
+     * @param data 源字符串
+     * @return String
      * @author jiangshuai
      * @date 2016年10月03日
-     * @param data
-     *            源字符串
-     * @return String
      */
     public static String encode(String data) {
         return new String(encode(data.getBytes()));
@@ -29,11 +28,10 @@ public class Base64Util {
     /**
      * 功能：解码字符串
      *
+     * @param data 源字符串
+     * @return String
      * @author jiangshuai
      * @date 2016年10月03日
-     * @param data
-     *            源字符串
-     * @return String
      */
     public static String decode(String data) {
         return new String(decode(data.toCharArray()));
@@ -42,11 +40,10 @@ public class Base64Util {
     /**
      * 功能：编码byte[]
      *
+     * @param data 源
+     * @return char[]
      * @author jiangshuai
      * @date 2016年10月03日
-     * @param data
-     *            源
-     * @return char[]
      */
     public static char[] encode(byte[] data) {
         char[] out = new char[((data.length + 2) / 3) * 4];
@@ -79,11 +76,10 @@ public class Base64Util {
     /**
      * 功能：解码
      *
+     * @param data 编码后的字符数组
+     * @return byte[]
      * @author jiangshuai
      * @date 2016年10月03日
-     * @param data
-     *            编码后的字符数组
-     * @return byte[]
      */
     public static byte[] decode(char[] data) {
 
@@ -140,17 +136,14 @@ public class Base64Util {
     /**
      * 功能：编码文件
      *
+     * @param file 源文件
      * @author jiangshuai
      * @date 2016年10月03日
-     * @param file
-     *            源文件
      */
     public static void encode(File file) throws IOException {
         if (!file.exists()) {
             System.exit(0);
-        }
-
-        else {
+        } else {
             byte[] decoded = readBytes(file);
             char[] encoded = encode(decoded);
             writeChars(file, encoded);
@@ -161,11 +154,10 @@ public class Base64Util {
     /**
      * 功能：解码文件。
      *
+     * @param file 源文件
+     * @throws IOException
      * @author jiangshuai
      * @date 2016年10月03日
-     * @param file
-     *            源文件
-     * @throws IOException
      */
     public static void decode(File file) throws IOException {
         if (!file.exists()) {
@@ -188,6 +180,7 @@ public class Base64Util {
     // lookup table for converting base64 characters to value in range 0..63
     //
     private static byte[] codes = new byte[256];
+
     static {
         for (int i = 0; i < 256; i++) {
             codes[i] = -1;

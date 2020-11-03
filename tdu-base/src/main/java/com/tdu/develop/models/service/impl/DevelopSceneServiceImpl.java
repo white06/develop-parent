@@ -5,6 +5,7 @@ import com.tdu.develop.models.pojo.Scenecontents;
 import com.tdu.develop.models.pojo.Scenes;
 import com.tdu.develop.models.service.DevelopSceneService;
 import com.tdu.develop.resource.mapper.SubjectTreeMapper;
+import com.tdu.develop.resource.pojo.Knowlegcontent;
 import com.tdu.develop.user.mapper.SubjectMapper;
 import com.tdu.develop.user.mapper.UsersMapper;
 import com.tdu.develop.util.EncodingDecodingUtil;
@@ -420,6 +421,76 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         }
 
         return Scenecontents.getId();
+    }
+
+    public void commonSetVersion(String userKey,String sceneContentKey){
+        String mubiao = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userKey + "/" + sceneContentKey;
+        String name = "";
+        List<String> nList = new ArrayList<String>();
+        List<String> fList = new ArrayList<String>();
+        Map<String, List<String>> versionMap = setVersion(mubiao, name, nList, fList);
+        List<String> nameList = versionMap.get("nameList");
+        List<String> fileList = versionMap.get("fileList");
+        try {
+            setVersionFile(nameList, fileList, mubiao);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void commonUploadFole(MultipartFile mf, String realPath, String userKey, String sceneContentKey) throws IOException {
+        InputStream is = mf.getInputStream();
+        StringBuffer fileBuf = new StringBuffer();
+
+//        String[] strArr = realPath.split("/");
+//        String wenjianPath = "";
+//        System.out.println(strArr.length); //这里输出3
+//        for (int i = 0; i < strArr.length; ++i) {
+//            System.out.println(strArr[i]);//这里输出a b c
+//            if (i != (strArr.length - 1)) {
+//                wenjianPath = wenjianPath + "/" + strArr[i];
+//            }
+//        }
+
+        // String filePar = "D:/wamp/www/Data/3D/Scene/"+userKey+wenjianPath;
+        //String filePar = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userKey + wenjianPath;// 文件夹路径
+
+        if (!new File(realPath).exists()) {
+            System.out.println(" fileUrlPath :" + realPath);
+            System.out.println(" new File(trueUrl).exists() :" + new File(realPath).exists());
+            boolean mkdirs = new File(realPath).mkdirs();
+            System.out.println("创建目录返回结果：" + mkdirs);
+            System.out.println("创建文件夹路径为：" + realPath);
+        }
+
+        // 文件夹路径存在的情况下
+        // String filename = "D:/wamp/www/Data/3D/Scene/"+""+userKey+""+"/"+realPath;;// 文件名
+        String filename = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + "" + userKey + "" + "/" + realPath;
+        // 文件名
+
+        System.out.println(filename);
+
+        String name = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + "" + userKey + "" + "/" + realPath;
+        String creatFileName = unicodeToUtf8(name);
+        File writeFile = new File(creatFileName);
+        System.out.println(Charset.defaultCharset());
+        try {
+            FileWriter fw = new FileWriter(filename, true);// filePar + "\\" + filename,true
+            BufferedInputStream bis = new BufferedInputStream(is);
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(writeFile));
+
+            byte[] flash = new byte[1024];
+            int len = 0;
+            while (-1 != (len = bis.read(flash))) {
+                bos.write(flash, 0, len);
+            }
+            System.out.println(bos.toString());
+            bos.flush();
+            bis.close();
+            bos.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -11,6 +11,7 @@ import java.util.List;
 public class SerializeUtil {
     /**
      * 单个序列化
+     *
      * @param object
      * @return
      */

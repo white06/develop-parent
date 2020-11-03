@@ -513,4 +513,17 @@ public interface SubjectTreeMapper {
     public String GetSubjectRootId(String treetype);
 
     List<Knowledges> getContentKnowledges(@Param("subjectId") String subjectId, @Param("sarchStr") String sarchStr);
+
+    void repalceStuForYXY(@Param("stuId") String stuId, @Param("dId") String dId, @Param("getscroe") int getscroe, @Param("userId") String userId, @Param("endDate") String endDate);
+
+
+    void repalceStuInForYXY(@Param("infosId") String infosId, @Param("dId") String dId, @Param("getscroe") int getscroe, @Param("scroe") String scroe, @Param("questionKey") String questionKey, @Param("userId") String userId);
+
+    List<StutotalScoresForYXY> getScoresForYXYByStu(@Param("userKey")String userKey, @Param("subjectKey")String subjectKey);
+
+    List<StutotalScoresForYXY> getScoresForYXYByByDate(@Param("classKey")String classKey, @Param("knoConentId")String knoConentId, @Param("startDate")String startDate, @Param("enddatetime")String enddatetime);
+
+    List<StutotalScoresForYXY> getScoresForYXYStu(@Param("pId") String dId, @Param("userId") String userId);
+
+    List<StutotalScoresForYXY> getScoresForYXYStuByDate(@Param("pId") String dId, @Param("userId") String userId, @Param("startDate")String startDate, @Param("enddatetime")String enddatetime);
 }

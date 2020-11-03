@@ -84,6 +84,31 @@ public class nanjingController {
         return new JsonResult();
     }
 
+    @RequestMapping("daoFangzhenByKnowledges.action")
+    @ResponseBody
+    public JsonResult daoFangzhenByKnowledges(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+        String fileName = "导出文件";
+        response.setContentType("application/vnd.ms-excel");
+        response.addHeader("Content-Disposition", "attachment; filename=\""
+                + new String((fileName).getBytes("GB2312"), "iso8859-1") + ".xls" + "\"");
+        //response.addHeader("Content-Length", "C://导出文件.xls");
+        String subjectId = request.getParameter("subjectId");
+        String startDate = request.getParameter("startDate");
+        String enddatetime = request.getParameter("enddatetime");
+        String classId = request.getParameter("classId");
+        OutputStream outputStream = response.getOutputStream();
+
+        List<Knowledges> knoList = getFangzhen(subjectId);
+
+        List<HSSFWorkbook> list = officeService.daoFangzhenByKnowledges(classId, knoList,startDate,enddatetime);
+        for (HSSFWorkbook hwb : list) {
+            hwb.write(outputStream);
+            outputStream.flush();
+            outputStream.close();
+        }
+        return new JsonResult();
+    }
+
     public List<Knowledges> getFangzhen(String SubjectKey) {
         List<Knowledges> list = new ArrayList<Knowledges>();
         List<Knowledges> rList = new ArrayList<Knowledges>();

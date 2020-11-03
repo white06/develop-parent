@@ -76,8 +76,6 @@ public class TokenHolder {
     }
 
 
-
-
     /**
      * 获取token
      *

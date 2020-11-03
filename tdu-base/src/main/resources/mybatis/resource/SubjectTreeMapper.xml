@@ -218,13 +218,84 @@
 		INSERT INTO stutotalscores(Id,PagerKey,QuesScore,Checked,StuKey,AllowExam) values(#{stuId},#{dId},#{getscroe},'0',#{userId},'1')
 	</insert>
 
+	<insert id="repalceStuIn">
+		INSERT into stuqueinfors(Id,PagerKey,QuesScore,QuestionAnswer,QuestionKey,StuKey) values(#{infosId},#{dId},#{getscroe},#{scroe},#{questionKey},#{userId})
+	</insert>
+
+	<insert id="repalceStuForYXY">
+		INSERT INTO stutotalscoresforyxy(Id,PagerKey,QuesScore,Checked,StuKey,AllowExam,endDate) values(#{stuId},#{dId},#{getscroe},'0',#{userId},'1',#{endDate})
+	</insert>
+
+	<insert id="repalceStuInForYXY">
+		INSERT into stuqueinfors(Id,PagerKey,QuesScore,QuestionAnswer,QuestionKey,StuKey) values(#{infosId},#{dId},#{getscroe},#{scroe},#{questionKey},#{userId})
+	</insert>
+
+	<select id="getScoresForYXYByStu" parameterType="String" resultType="com.tdu.develop.resource.pojo.StutotalScoresForYXY">
+		SELECT
+	stu.Id,stu.QuesScore,stu.endDate,
+	users.`Name` as 'KnowledgeId',users.UserName as 'PagerKey'
+FROM
+	`develop_resource`.`stutotalscoresforyxy` AS stu,
+	`develop_user`.`users` AS users
+WHERE
+	users.Id = stu.StuKey
+	AND stu.StuKey = #{userKey}
+	AND stu.PagerKey = #{subjectKey}
+ORDER BY
+	stu.endDate DESC;
+	</select>
+
+	<select id="getScoresForYXYByByDate" parameterType="String" resultType="com.tdu.develop.resource.pojo.StutotalScoresForYXY">
+<!-- 		SELECT
+		stu.Id,
+		stu.QuesScore,
+		stu.endDate,
+		users.`Name` AS 'KnowledgeId',
+		users.UserName AS 'PagerKey'
+		FROM
+		`develop_resource`.`stutotalscoresforyxy` AS stu,
+		`develop_user`.`users` AS users
+		WHERE
+		users.Id = stu.StuKey
+		AND stu.StuKey = #{userKey}
+		AND stu.PagerKey = #{subjectKey}
+		AND stu.endDate &gt; #{startDate} and stu.endDate &lt; #{enddatetime}
+		ORDER BY
+		stu.endDate DESC;
+		-->
+SELECT
+	stu.Id,
+	stu.QuesScore,
+	stu.endDate,
+	users.`Name` AS 'KnowledgeId',
+	users.UserName AS 'PagerKey'
+FROM
+	`develop_resource`.`stutotalscoresforyxy` AS stu,
+	`develop_user`.`users` AS users
+WHERE
+	users.Id IN ( SELECT `User` FROM `develop_user`.`classusers` WHERE Class = #{classKey} )
+	AND users.Id = stu.StuKey
+	AND stu.PagerKey =#{knoConentId}
+	AND stu.endDate &gt; #{startDate} and stu.endDate &lt; #{enddatetime}
+		ORDER BY
+		stu.endDate DESC;
+	</select>
+
+	<select id="getScoresForYXYStu" parameterType="String" resultType="com.tdu.develop.resource.pojo.StutotalScoresForYXY">
+		select * from stutotalscoresforyxy where PagerKey=#{pId} and StuKey=#{userId}
+	</select>
+
+	<select id="getScoresForYXYStuByDate" parameterType="String" resultType="com.tdu.develop.resource.pojo.StutotalScoresForYXY">
+		select * from stutotalscoresforyxy where PagerKey=#{pId} and StuKey=#{userId}
+		AND endDate &gt; #{startDate} and endDate &lt; #{enddatetime}
+		ORDER BY
+		endDate DESC;
+	</select>
+
+
     <update id="updataIn">
 		update stuqueinfors set QuesScore=#{getscroe},QuestionAnswer=#{scroe} where id=#{id}
 	</update>
-
-    <insert id="repalceStuIn">
-		INSERT into stuqueinfors(Id,PagerKey,QuesScore,QuestionAnswer,QuestionKey,StuKey) values(#{infosId},#{dId},#{getscroe},#{scroe},#{questionKey},#{userId})
-	</insert>
 
     <select id="querysubjectTrees" parameterType="String" resultType="int">
 		select count(*) from subjecttrees where SubjectKey=#{subjectId} and status=1 and columnPid IS NULL

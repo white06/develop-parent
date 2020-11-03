@@ -347,17 +347,17 @@ public class AddKnowledgeServiceImpl implements AddKnowledgeService {
             //本机路径  wamp  www
             // writeFile = new File("D:/wamp/www/newTdu/PDF/"+knowlegcontent.getNmae());
             //服务器路径
-            writeFile = new File("/www/wwwroot/file.tduvr.org/pdf/" + knowlegcontent.getNmae());
+            writeFile = new File("/www/wwwroot/file.tduvr.club/pdf/" + knowlegcontent.getNmae());
         } else if (knowlegcontent.getType().equals("video")) {
             //本机路径
             //	writeFile = new File("D:/wamp/www/newTdu/video/"+knowlegcontent.getNmae());
             //服务器路径
-            writeFile = new File("/www/wwwroot/file.tduvr.org/video/" + knowlegcontent.getNmae());
+            writeFile = new File("/www/wwwroot/file.tduvr.club/video/" + knowlegcontent.getNmae());
         } else if (knowlegcontent.getType().equals(DocumentType)) {
             //本机路径
             //writeFile = new File("D:/wamp/www/newTdu//office/"+knowlegcontent.getNmae());
             //服务器路径
-            writeFile = new File("/www/wwwroot/file.tduvr.org/office/" + knowlegcontent.getNmae());
+            writeFile = new File("/www/wwwroot/file.tduvr.club/office/" + knowlegcontent.getNmae());
         }
         if (!writeFile.exists()) {
             //创建指定文件
