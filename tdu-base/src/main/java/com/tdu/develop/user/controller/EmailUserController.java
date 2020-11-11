@@ -101,7 +101,47 @@ public class EmailUserController {
 
 
     }
+    //往数据库里添加email邮件信息
+    @RequestMapping(value = "emailUserSedu.action", method = {RequestMethod.POST})
+    @ResponseBody
+    public String emailUserSedu(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        //1表示成功
+        //2表示账号已存在
+        String id = UUID.randomUUID().toString();
+        String userName = request.getParameter("UserName");
+        String email = request.getParameter("Email");
+        String password = request.getParameter("PassWord");
+        String telephone = request.getParameter("telphone");
+        String ziyuan = request.getParameter("ziyuan");
+        String state = "0";
+        if (emailService.seleUsers(userName) != null) {
+            return "2";
+        } else {
+            emailService.addEmail(id, userName, email, password, state, auth, telephone, ziyuan);
+            MailOperation operation = new MailOperation();
+            String host = "smtp.qq.com";
+            String from = "45187137@qq.com";
+            String to = "2791906134@qq.com";// 收件人
+            String subject = "天度科技";
+            //邮箱内容
+            StringBuffer sb = new StringBuffer();
+            String yzm = "http://www.tduvr.club/";
+            sb.append("<!DOCTYPE>" + "<div bgcolor='#f1fcfa'   style='border:1px solid #d9f4ee; font-size:14px; line-height:22px; color:#005aa0;padding-left:1px;padding-top:5px;   padding-bottom:5px;'><span style='font-weight:bold;'>温馨提示：</span>"
+                    + "<div style='width:950px;font-family:arial;'>欢迎使用TDuVR产品，请您点击下面链接确认确认注册信息：<br/><a  href='https://www.tduvr.club/tdu-base/EmailUserController/addUserSedu.action?id=" + id + "' style='color:green'>" + yzm + "</a><br/>本邮件由系统自动发出，请勿回复。<br/>感谢您的使用。<br/>天度（厦门）科技股份有限公司</div>"
+                    + "</div>");
+            try {
+                String res = operation.sendMail(useremail, auth, host, from, email,
+                        subject, sb.toString());
+                System.out.println(res);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return "1";
+        }
 
+
+    }
 
     //查询所有的学生
     @RequestMapping(value = "seleStuBySearch.action", method = {RequestMethod.POST})
@@ -183,6 +223,52 @@ public class EmailUserController {
 
                 String roleId = "0c494961-fc3c-41b3-992a-4f9b0d0f57eb";
                 usersService.insUser(user, roleId);
+            }
+            if (users.getZiyuan().equals("true")) {
+                if (temp == null) {
+                    usersService.ziyuaninsUserPersonl(users.getId(), users.getPassword(), users.getUserName(), users.getPassword(), "男", users.getUserName(), users.getTelephone());
+                }
+            }
+            return "注册成功！请登录！";
+        } else {
+            return "2";
+        }
+    }
+
+    @RequestMapping(value = "addUserSedu.action", method = {RequestMethod.GET})
+    @ResponseBody
+    public String addUserSedu(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String emailId = request.getParameter("id");
+        if (emailService.getState(emailId).equals("0")) {
+            EmailUser users = emailService.getEmailUser(emailId);
+            Users temp = usersService.getTemp(users.getUserName());
+            if (users.getZiyuan().equals("false")) {
+                System.out.println("false");
+                ;
+                Users user = emailService.getUser(emailId);
+
+                //获取系统时间，并且转码成数据库可读
+                Date d = new Date();
+                Date endDay = new Date();
+                //创建Calendar实例
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(endDay);   //设置当前时间
+                cal.add(Calendar.MONTH, 1);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String dateNowStr = sdf.format(d);
+                //同理增加一个月和一天的方法：
+                String dateEndStr = sdf.format(cal.getTime());
+                user.setIdol(dateEndStr);
+                user.setCreateDate(dateNowStr);
+                user.setBirthdate(dateNowStr);
+                user.setEmail(users.getEmail());
+
+                user.setId(emailId);
+
+                String roleId = "911d15cd-a780-498e-ae54-934bdeeceb9b";
+                String classMainId=UUID.randomUUID().toString();
+                usersService.addClassUsers(classMainId,"23ba881d-c032-435b-a527-31dcf8d732e8",user.getId());
+                usersService.insUserSedu(user, roleId);
             }
             if (users.getZiyuan().equals("true")) {
                 if (temp == null) {
