@@ -1,70 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.resource.mapper.ExercisesMapper">
-	<select id="getQuestion" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
+    <select id="getQuestion" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
 		select * from questions where KnowledgeId=#{knowId};
 	</select>
-	
-	<select id="getKnowContentId" parameterType="String" resultType="String">
+
+    <select id="getKnowContentId" parameterType="String" resultType="String">
 		select knowledgeContentId from knowledges where Id=#{knowId}
 	</select>
-	
-	<select id="getKnowContent" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowlegcontent">
+
+    <select id="getKnowContent" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowlegcontent">
 		select * from knowledgecontents where id=#{contId}
 	</select>
-	
-	<select id="getSubjectTreesId" parameterType="String" resultType="String">
+
+    <select id="getSubjectTreesId" parameterType="String" resultType="String">
 		select id from subjecttrees where SubjectKey=#{subId} and TreeName="总题库"
 	</select>
-	
-	<select id="getKnowAll" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
+
+    <select id="getKnowAll" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
 		select * from knowledges where SubjectTree_Id=#{subTreesId}
 	</select>
-	
-	<select id="getKnow" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
+
+    <select id="getKnow" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
 		select * from knowledges where SubjectTree_Id=#{subTreesId} order by content
 	</select>
-	<select id="getAllSubQue"  parameterType="int" resultType="com.tdu.develop.resource.pojo.Question">
+    <select id="getAllSubQue" parameterType="int" resultType="com.tdu.develop.resource.pojo.Question">
 		SELECT * FROM `questions` where KnowledgeId in(SELECT Id FROM knowledges WHERE SubjectTree_Id IN(select Id from subjecttrees where TreeName='知识树')) ORDER BY RAND() LIMIT #{count};
 	</select>
-	<!--<select id="getAllSub" resultType="com.tdu.develop.resource.pojo.Subjects">
-		select * from subjects
-	</select>-->
-	<select id="getAllKnowQue" resultType="com.tdu.develop.resource.pojo.Question">
+    <!--<select id="getAllSub" resultType="com.tdu.develop.resource.pojo.Subjects">
+        select * from subjects
+    </select>-->
+    <select id="getAllKnowQue" resultType="com.tdu.develop.resource.pojo.Question">
 		SELECT * FROM `questions` where KnowledgeId = #{knowId} ORDER BY RAND() LIMIT #{count};
 	</select>
-	
-	<select id="getAllQuestion" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
+
+    <select id="getAllQuestion" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
 		select * from questions where knowledgeId=#{knowId}
 	</select>
-	
-	<select id="getFirstRoot" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
+
+    <select id="getFirstRoot" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
 		select * from knowledges where SubjectTree_Id=#{subId} and ParentKnowledge is null
 	</select>
-	
-	<select id="getKnowledgeBy" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
+
+    <select id="getKnowledgeBy" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
 		select * from knowledges where ParentKnowledge=#{parentId}  ORDER BY Content
 	</select>
-	
-	<select id="getSingleQuestion" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
+
+    <select id="getSingleQuestion" parameterType="String" resultType="com.tdu.develop.resource.pojo.Question">
 		select * from questions where Id=#{timuId}
 	</select>
-	
-	<insert id="addPersonal" parameterType="com.tdu.develop.resource.pojo.QuestionPersonal">
+
+    <insert id="addPersonal" parameterType="com.tdu.develop.resource.pojo.QuestionPersonal">
 		replace into questionsPersonal(id,content,personalId,time,title,type,questionImg,fenshu,useType) 
 		values(#{questionPersonal.id},#{questionPersonal.content},#{questionPersonal.personalId},#{questionPersonal.time},#{questionPersonal.title},
 		#{questionPersonal.type},#{questionPersonal.questionImg},#{questionPersonal.fenshu},#{questionPersonal.useType})
 	</insert>
-	
-	<select id="shoucangQuestion" parameterType="String" resultType="com.tdu.develop.resource.pojo.QuestionPersonal">
+
+    <select id="shoucangQuestion" parameterType="String" resultType="com.tdu.develop.resource.pojo.QuestionPersonal">
 		select * from questionsPersonal where personalId=#{subId} and useType=#{questionNum}
 	</select>
-	
-	<select id="deleteShoucang" parameterType="String">
+
+    <select id="deleteShoucang" parameterType="String">
 		delete from questionsPersonal where Id=#{timuId}
 	</select>
 
-	<insert id="submit" parameterType="String">
+    <insert id="submit" parameterType="String">
 		replace into stutotalscores(id,PagerKey,QuesScore,Checked,StuKey,AllowExam)values(#{id},#{examId},#{allscore},1,#{userId},0)
 	</insert>
 </mapper>

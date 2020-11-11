@@ -25,10 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author 志阳
@@ -227,6 +225,25 @@ public class SubjectTreeController {
         List<Knowledges> list = new ArrayList<Knowledges>();
         List<Knowledges> rList = new ArrayList<Knowledges>();
         list = subjectTreeService.GetSubjectTreePage(SubjectKey);
+        Knowlegcontent knowlegcontent = null;
+        for (int i = 0; i < list.size(); i++) {
+            if (!list.get(i).getKnowledgecontentId().equals("00000000-0000-0000-0000-000000000000")) {
+                knowlegcontent = subjectTreeService.getSimulateParams(list.get(i).getKnowledgecontentId());
+                if (knowlegcontent.getType().equals("仿真考核")) {
+                    rList.add(list.get(i));
+                }
+            }
+        }
+        return rList;
+    }
+
+    @RequestMapping(value = "GetSubjectTreePageForYX.action", method = {RequestMethod.POST})
+    @ResponseBody
+    public List<Knowledges> GetSubjectTreePageForYX(HttpServletRequest request, HttpServletResponse response) {
+        String SubjectKey = request.getParameter("SubjectKey");
+        List<Knowledges> list = new ArrayList<Knowledges>();
+        List<Knowledges> rList = new ArrayList<Knowledges>();
+        list = subjectTreeService.GetSubjectTreePageForYX(SubjectKey);
         Knowlegcontent knowlegcontent = null;
         for (int i = 0; i < list.size(); i++) {
             if (!list.get(i).getKnowledgecontentId().equals("00000000-0000-0000-0000-000000000000")) {
@@ -596,6 +613,74 @@ public class SubjectTreeController {
 
 
     /**
+     * 老师获取学生考核成绩
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "getScoresForYXYStu.action", method = {RequestMethod.POST})
+    @ResponseBody
+    public List<StutotalScoresForYXY> getScoresForYXYStu(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String rId = request.getParameter("rId");
+        String userId = request.getParameter("userId");
+        List<StutotalScoresForYXY> list =  subjectTreeService.getScoresForYXYStu(rId, userId);
+        if(list!=null){
+            return list;
+        }
+        return null ;
+    }
+
+    /**
+     * 获取考核成绩
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "getScoresForYXYByByDate.action", method = {RequestMethod.POST})
+    @ResponseBody
+    public List<StutotalScoresForYXY> getScoresForYXYByByDate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        try {
+            request.setCharacterEncoding("utf-8");//设置post请求的编码问题.
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String classKey = request.getParameter("classKey");
+        String knoConentId = request.getParameter("knoConentId");
+        String startDate = request.getParameter("startDate");
+        String enddatetime = request.getParameter("enddatetime");
+        List<StutotalScoresForYXY> list =  subjectTreeService.getScoresForYXYByByDate(classKey, knoConentId,startDate,enddatetime);
+        if(list!=null){
+            return list;
+        }
+        return null ;
+    }
+    /**
+     * 获取考核成绩
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "getScoresForYXYByStu.action", method = {RequestMethod.POST})
+    @ResponseBody
+    public List<StutotalScoresForYXY> getScoresForYXYByStu(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        try {
+            request.setCharacterEncoding("utf-8");//设置post请求的编码问题.
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String userKey = request.getParameter("userKey");
+        String subjectKey = request.getParameter("subjectKey");
+        List<StutotalScoresForYXY> list =  subjectTreeService.getScoresForYXYByStu(userKey, subjectKey);
+        if(list!=null){
+            return list;
+        }
+        return null ;
+    }
+
+    /**
      * 获取考核成绩
      *
      * @param request
@@ -605,25 +690,11 @@ public class SubjectTreeController {
     @RequestMapping(value = "getScores.action", method = {RequestMethod.POST})
     @ResponseBody
     public boolean getScores(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        /*String score=request.getParameter("score");
-        System.out.println(" score : "+score);
-        int getscroe=Integer.parseInt(request.getParameter("getscroe"));
-        System.out.println(" getscroe : "+getscroe);
-        String totalscroe=request.getParameter("totalscroe");
-        System.out.println(" totalscroe : "+totalscroe);
-        String dId=request.getParameter("dId");
-        System.out.println(" dId : "+dId);
-        String questionKey=request.getParameter("questionKey");
-        System.out.println(" questionKey : "+questionKey);
-        String userId=session.getAttribute("ID").toString();
-        System.out.println(" userId : "+userId);*/
-
         try {
             request.setCharacterEncoding("utf-8");//设置post请求的编码问题.
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        //System.out.println(" request :"+request);//postData
         String score = request.getParameter("ScoreInfo");
         System.out.println(" score : " + score);
         String userId = "";
@@ -677,42 +748,130 @@ public class SubjectTreeController {
         score = html;
         System.out.println(" getscroe :" + getscroe + " dId :" + dId + " userId :" + userId);
 
+        Date d = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String endDate = df.format(d);
 
-        //获取之前作答分数
-
-        /*
-         *   score--  QuestionAnswer
-         * getscroe-- QuesScore
-         * totalscroe-- ?
-         * dId-- PagerKey
-         * questionKey-- questionKey
-         * userId--  session
-         * */
-
-        /*
-         * select QuesScore from stuqueinfors where
-         * PagerKey=#{dId} and QuestionKey=#{questionKey}
-         * and StuKey=#{userId}
-         * */
-        //Integer getStuScore=subjectTreeService.getStuScore(dId,userId,questionKey);
-        Integer getStuScore = subjectTreeService.getStuScore(dId, userId, dId);
-        /*
-         * select * from stutotalscores where PagerKey=#{dId} and StuKey=#{userId}
-         * select * from stuqueinfors where PagerKey=#{dId} and QuestionKey=#{questionKey} and StuKey=#{userId}
-         *
-         * update stutotalscores set QuesScore=#{getscroe} where id=#{id}
-         *
-         * INSERT INTO stutotalscores(Id,PagerKey,QuesScore,Checked,StuKey,AllowExam)
-         * values(#{stuId},#{dId},#{getscroe},'0',#{userId},'1')
-         *
-         * update stuqueinfors set QuesScore=#{getscroe},QuestionAnswer=#{scroe} where id=#{id}
-         *
-         * INSERT into stuqueinfors(Id,PagerKey,QuesScore,QuestionAnswer,QuestionKey,StuKey) values
-         * (#{infosId},#{dId},#{getscroe},#{scroe},#{questionKey},#{userId})
-         *
-         * */
-        //return subjectTreeService.getScores(score, getscroe, totalscroe, dId, questionKey, userId,getStuScore);
-        return subjectTreeService.getScores(score, getscroe, totalscroe, dId, dId, userId, getStuScore);
+        return subjectTreeService.getScoresForYXY(score, getscroe, totalscroe, dId, dId, userId, endDate);
     }
+//    /**
+//     * 获取考核成绩
+//     *
+//     * @param request
+//     * @param response
+//     * @return
+//     */
+//    @RequestMapping(value = "getScores.action", method = {RequestMethod.POST})
+//    @ResponseBody
+//    public boolean getScores(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+//        /*String score=request.getParameter("score");
+//        System.out.println(" score : "+score);
+//        int getscroe=Integer.parseInt(request.getParameter("getscroe"));
+//        System.out.println(" getscroe : "+getscroe);
+//        String totalscroe=request.getParameter("totalscroe");
+//        System.out.println(" totalscroe : "+totalscroe);
+//        String dId=request.getParameter("dId");
+//        System.out.println(" dId : "+dId);
+//        String questionKey=request.getParameter("questionKey");
+//        System.out.println(" questionKey : "+questionKey);
+//        String userId=session.getAttribute("ID").toString();
+//        System.out.println(" userId : "+userId);*/
+//
+//        try {
+//            request.setCharacterEncoding("utf-8");//设置post请求的编码问题.
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+//        //System.out.println(" request :"+request);//postData
+//        String score = request.getParameter("ScoreInfo");
+//        System.out.println(" score : " + score);
+//        String userId = "";
+//        String dId = "";
+//        int getscroe = 0;
+//        String totalscroe = "100";
+//
+//        String reHtml = "";
+//
+//        String[] arr = score.split("\\*\\$\\*");
+//        for (int i = 0; i < arr.length; i++) {
+//
+//            if ((i + 1) % 5 == 1) {
+//                reHtml += "<tr>";
+//            }
+//
+//            String[] str = arr[i].split(":");
+//            System.out.println(str[0]);
+//            System.out.println(str[1]);
+//            if (str[0].equals("UserID")) {
+//                userId = str[1];
+//            }
+//            if (str[0].equals("KnowledgeID")) {
+//                dId = str[1];
+//            }
+//            System.out.println(" userId :" + userId + " dId :" + dId);
+//            if (i < arr.length - 2) {
+//
+//                reHtml += "<td>";
+//                reHtml += arr[i];
+//                reHtml += "</td>";
+//
+//                String[] str3 = str[1].split("分");
+//                str3[0].trim();
+//                System.out.println(str3.length + " i :" + i + " str3[0] :" + str3[0]);
+//
+//                getscroe = getscroe + Integer.valueOf(str3[0]);
+//
+//
+//            }
+//            if ((i + 1) % 5 == 1) {
+//                reHtml += "</tr>";
+//            }
+//        }
+//        String html = "<div style='width:100%;text-align:center;color:blue'>";
+//        html += "操作完成率：";
+//        html += getscroe;
+//        html += "</div><table style='border-left: 1px solid #DDDDDD;border-top: 1px solid #DDDDDD;'>";
+//        html += reHtml;
+//        html += "</table>";
+//        score = html;
+//        System.out.println(" getscroe :" + getscroe + " dId :" + dId + " userId :" + userId);
+//
+//
+//        //获取之前作答分数
+//
+//        /*
+//         *   score--  QuestionAnswer
+//         * getscroe-- QuesScore
+//         * totalscroe-- ?
+//         * dId-- PagerKey
+//         * questionKey-- questionKey
+//         * userId--  session
+//         * */
+//
+//        /*
+//         * select QuesScore from stuqueinfors where
+//         * PagerKey=#{dId} and QuestionKey=#{questionKey}
+//         * and StuKey=#{userId}
+//         * */
+//        //Integer getStuScore=subjectTreeService.getStuScore(dId,userId,questionKey);
+//        Integer getStuScore = subjectTreeService.getStuScore(dId, userId, dId);
+//        /*
+//         * select * from stutotalscores where PagerKey=#{dId} and StuKey=#{userId}
+//         * select * from stuqueinfors where PagerKey=#{dId} and QuestionKey=#{questionKey} and StuKey=#{userId}
+//         *
+//         * update stutotalscores set QuesScore=#{getscroe} where id=#{id}
+//         *
+//         * INSERT INTO stutotalscores(Id,PagerKey,QuesScore,Checked,StuKey,AllowExam)
+//         * values(#{stuId},#{dId},#{getscroe},'0',#{userId},'1')
+//         *
+//         * update stuqueinfors set QuesScore=#{getscroe},QuestionAnswer=#{scroe} where id=#{id}
+//         *
+//         * INSERT into stuqueinfors(Id,PagerKey,QuesScore,QuestionAnswer,QuestionKey,StuKey) values
+//         * (#{infosId},#{dId},#{getscroe},#{scroe},#{questionKey},#{userId})
+//         *
+//         * */
+//        //return subjectTreeService.getScores(score, getscroe, totalscroe, dId, questionKey, userId,getStuScore);
+//        return subjectTreeService.getScores(score, getscroe, totalscroe, dId, dId, userId, getStuScore);
+//    }
 
 }

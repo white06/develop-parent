@@ -122,6 +122,11 @@ public class SubjectTreeServiceImpl implements SubjectTreeService {
         list = subjectTreeMapper.GetSubjectTreePage(SubjectKey);
         return list;
     }
+    public List<Knowledges> GetSubjectTreePageForYX(String SubjectKey) {
+        List<Knowledges> list = new ArrayList<Knowledges>();
+        list = subjectTreeMapper.GetSubjectTreePageForYX(SubjectKey);
+        return list;
+    }
 
     public List<ZNodes> seleknowledges(String treeid, String userId) {
         ZNodes zNodes = new ZNodes();
@@ -633,6 +638,45 @@ public class SubjectTreeServiceImpl implements SubjectTreeService {
      */
     public Integer getStuScore(String dId, String userId, String questionKey) {
         return subjectTreeMapper.getStuScore(dId, userId, questionKey);
+    }
+
+
+    public boolean getScoresForYXY(String scroe, int getscroe, String totalscroe, String dId, String questionKey, String userId, String dateNowStr) {
+        boolean panduan = false;
+     //   StutotalScores stutotalScores = subjectTreeMapper.getstuto(dId, userId);
+   //     StuQueInfors stuQueInfors = subjectTreeMapper.getstuin(dId, questionKey, userId);
+               String stuId = UUID.randomUUID().toString();
+             subjectTreeMapper.repalceStuForYXY(stuId, dId, getscroe, userId,dateNowStr);
+                panduan = true;
+                //String infosId = UUID.randomUUID().toString();
+                //subjectTreeMapper.repalceStuForYXY(infosId, dId, getscroe, scroe, questionKey, userId);
+        return panduan;
+    }
+
+    @Override
+    public List<StutotalScoresForYXY> getScoresForYXYByStu(String userKey, String subjectKey) {
+        List<StutotalScoresForYXY> list = subjectTreeMapper.getScoresForYXYByStu(userKey,subjectKey);
+        if(list!=null){
+            return  list;
+        }
+        return null;
+    }
+
+    public List<StutotalScoresForYXY> getScoresForYXYStu(String rId, String userId) {
+        List<StutotalScoresForYXY> list = subjectTreeMapper.getScoresForYXYStu(rId,userId);
+        if(list!=null){
+            return  list;
+        }
+        return null;
+    }
+
+    @Override
+    public List<StutotalScoresForYXY> getScoresForYXYByByDate(String classKey, String knoConentId, String startDate, String enddatetime) {
+        List<StutotalScoresForYXY> list = subjectTreeMapper.getScoresForYXYByByDate(classKey,knoConentId,startDate,enddatetime);
+        if(list!=null){
+            return  list;
+        }
+        return null;
     }
 
 

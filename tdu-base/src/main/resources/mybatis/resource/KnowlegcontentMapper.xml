@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.resource.mapper.KnowlegcontentMapper">
-<resultMap type="com.tdu.develop.resource.pojo.Knowlegcontent" id="knowlegcontent">
-	<id property="id" column="id"/>
-	<result property="nmae" column="nmae"/>
-	<result property="type" column="type"/>
-	<result property="customname" column="customname"/>
-	<result property="customstyle" column="customstyle"/>
-	<result property="knowledge_Id" column="knowledge_Id"/>
-	<result property="imageContentIcons" column="imageContentIcons"/>
-	<result property="order" column="order"/>
-</resultMap>
-<select id="seleAll" resultMap="knowlegcontent" parameterType="String">
+    <resultMap type="com.tdu.develop.resource.pojo.Knowlegcontent" id="knowlegcontent">
+        <id property="id" column="id"/>
+        <result property="nmae" column="nmae"/>
+        <result property="type" column="type"/>
+        <result property="customname" column="customname"/>
+        <result property="customstyle" column="customstyle"/>
+        <result property="knowledge_Id" column="knowledge_Id"/>
+        <result property="imageContentIcons" column="imageContentIcons"/>
+        <result property="order" column="order"/>
+    </resultMap>
+    <select id="seleAll" resultMap="knowlegcontent" parameterType="String">
 SELECT * FROM knowledgecontents WHERE Knowledge_Id in
 (SELECT Id from knowledges where SubjectTree_Id in
 (SELECT Id FROM subjecttrees WHERE SubjectKey=#{id})
 )ORDER BY `Order`
 </select>
 
-<select id="seleOne" resultMap="knowlegcontent" parameterType="String">
-select * from knowledgecontents <where> knowledge_Id=#{id} </where>
-</select>
+    <select id="seleOne" resultMap="knowlegcontent" parameterType="String">
+        select * from knowledgecontents
+        <where>knowledge_Id=#{id}</where>
+    </select>
 
-<insert id="filein" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
+    <insert id="filein" parameterType="com.tdu.develop.resource.pojo.Knowlegcontent">
 INSERT INTO knowledgecontents (`Id`, `Nmae`, `Type`, `CustomName`, `CustomStyle`, `Knowledge_Id`, `ImageContentIcons`, `Order`)
 VALUES (#{id},#{nmae},#{type},#{customname},#{customstyle},#{knowledge_Id},#{imageContentIcons},#{order});
 </insert>
 
-<delete id="deSel" parameterType="String">
-	delete from knowledgecontents <where> knowledge_Id=#{id} </where>
-</delete>
+    <delete id="deSel" parameterType="String">
+        delete from knowledgecontents
+        <where>knowledge_Id=#{id}</where>
+    </delete>
 
-<update id="upcontent" parameterType="String">
-	update knowledgecontents set CustomName=#{name} <where> id=#{id} </where>
-</update>
+    <update id="upcontent" parameterType="String">
+        update knowledgecontents set CustomName=#{name}
+        <where>id=#{id}</where>
+    </update>
 
-<select id="seleContentNum" resultType="Integer">
+    <select id="seleContentNum" resultType="Integer">
 	select MAX(`Order`) from knowledgecontents
 </select>
 
-<select id="seleAllContent" resultMap="knowlegcontent">
+    <select id="seleAllContent" resultMap="knowlegcontent">
 	select id,nmae from knowledgecontents
 </select>
 

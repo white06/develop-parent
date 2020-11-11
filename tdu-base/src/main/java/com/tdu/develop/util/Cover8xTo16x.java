@@ -17,16 +17,18 @@ import java.util.List;
 public class Cover8xTo16x {
 
     static final Logger logger = LoggerFactory.getLogger(Cover8xTo16x.class);
+
     /**
      * 音频文件频率8k转16k。必须要转，因为不转百度识别不出来，错误信息是音质太差
+     *
      * @param sourceFile
      * @return
      */
-    public static File cover8xTo16x(File sourceFile){
+    public static File cover8xTo16x(File sourceFile) {
         String targetPath = null;
         try {
             File ffmpegPath = new File("D:\\workspeace-idea\\develop-parent\\ffmpeg\\bin\\ffmpeg"); //存放ffmpeg程序的目录
-            targetPath = sourceFile.getAbsolutePath().replaceAll(".wav" , "_16x.wav");
+            targetPath = sourceFile.getAbsolutePath().replaceAll(".wav", "_16x.wav");
             // ffmpeg.exe -i source.wav -ar 16000 target.wav
             List<String> wavToPcm = new ArrayList<String>();
             wavToPcm.add(ffmpegPath.getAbsolutePath());
@@ -41,7 +43,7 @@ public class Cover8xTo16x {
             Process process = builder.start();
             process.waitFor();
         } catch (Exception e) {
-            logger.error("录音文件8k转化16k失败"+e.getMessage());
+            logger.error("录音文件8k转化16k失败" + e.getMessage());
             e.printStackTrace();
             return null;
         }

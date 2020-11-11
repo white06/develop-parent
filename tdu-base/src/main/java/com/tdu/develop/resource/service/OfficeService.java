@@ -1,5 +1,6 @@
 package com.tdu.develop.resource.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.tdu.develop.resource.pojo.Exams;
@@ -18,4 +19,6 @@ public interface OfficeService {
     List<HSSFWorkbook> daoByClass(List<Exams> examList);
 
     List<HSSFWorkbook> daoFangzhen(String depertId, List<Knowledges> knoList);
+
+    List<HSSFWorkbook> daoFangzhenByKnowledges(String classId, List<Knowledges> knoList,String startDate,String enddatetime) throws ParseException;
 }

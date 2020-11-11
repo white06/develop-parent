@@ -12,9 +12,11 @@ import java.util.*;
 
 
 import com.tdu.develop.resource.mapper.StuQueInforsMapper;
+import com.tdu.develop.resource.mapper.SubjectTreeMapper;
 import com.tdu.develop.resource.pojo.Exams;
 import com.tdu.develop.resource.pojo.Knowledges;
 import com.tdu.develop.resource.pojo.StuQueInfors;
+import com.tdu.develop.resource.pojo.StutotalScoresForYXY;
 import com.tdu.develop.resource.service.OfficeService;
 import com.tdu.develop.resource.service.OfficeService;
 import com.tdu.develop.user.mapper.DepartmentMapper;
@@ -48,6 +50,8 @@ public class OfficeServiceImpl implements OfficeService {
     @Autowired
     StuQueInforsMapper stuQueInforsMapper;
 
+    @Autowired
+    SubjectTreeMapper subjectTreeMapper;
 
     /**
      * 根据用户ld集合获取集合内所有的用户信息
@@ -350,6 +354,167 @@ public class OfficeServiceImpl implements OfficeService {
         }
         return listAll;
     }
+
+
+    @Override
+    public List<HSSFWorkbook> daoFangzhenByKnowledges(String classId, List<Knowledges> knoList,String startDate, String enddatetime) throws ParseException {
+        List<HSSFWorkbook> listAll = new ArrayList<>();
+        //对按Knowledges导出的处理
+        List<Map<String, List<Member>>> lces = null;
+        if(startDate.equals("")&&enddatetime.equals("")){
+            lces  = daoFangzhenKnowledges(classId,knoList);
+        }
+        if(!startDate.equals("")&&!enddatetime.equals("")){
+            lces  = daoFangzhenKnowledgesByDate(classId,knoList,startDate,enddatetime);
+        }
+        HSSFWorkbook hwb1 = exportExcelFangzhenKnowledges(lces);
+        if (null != hwb1) {
+            listAll.add(hwb1);
+        }
+        return listAll;
+    }
+    public List<Map<String, List<Member>>> daoFangzhenKnowledgesByDate(String classId,List<Knowledges> knoList,String startDate, String enddatetime ) throws ParseException {
+        if (knoList.size() <= 0) {
+            return null;
+        }
+
+        //获取系统时间，并且转码成数据库可读
+        Date d = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateNowStr = df.format(d);
+        List<Map<String, List<Member>>> listAll = new ArrayList<Map<String, List<Member>>>();
+        //遍历所有的班级
+        for(int j = 0 ;j<knoList.size();j++){
+            //根据班级id找到所在的所有学生信息
+            List<Member> lm = getStudentsInfos(classId);
+            List<Member> memberList = new ArrayList<Member>();
+            if (lm == null) {
+                continue;
+            }
+            for(int i = 0 ;i<lm.size();i++){
+                lm.get(i).setSex("0");
+                lm.get(i).setMsn(dateNowStr);
+                System.out.println(knoList.get(j).getKnowledgecontentId());
+                System.out.println(lm.get(i).getId());
+                List<StutotalScoresForYXY> list = subjectTreeMapper.getScoresForYXYStuByDate(knoList.get(j).getKnowledgecontentId(),lm.get(i).getId(),startDate,enddatetime);
+                if(list.size()>0){
+                    for (StutotalScoresForYXY stu:list) {
+                        Member member =  new Member();
+                        member.setId(lm.get(i).getId());
+                        member.setName(lm.get(i).getName());
+                        member.setUserName(lm.get(i).getUserName());
+                        member.setMsn(stu.getEndDate());
+                        member.setSex(Integer.toString(stu.getQuesScore()));
+                        memberList.add(member);
+                    }
+                }
+            }
+            Map<String, List<Member>> map = new HashMap<String, List<Member>>();
+            if(memberList.size()>0){
+                for (Member member:memberList) {
+                    lm.add(member);
+                }
+                map.put(knoList.get(j).getContent(), lm);
+            }else{
+                map.put(knoList.get(j).getContent(), lm);
+            }
+            listAll.add(map);
+        }
+        return listAll;
+    }
+    public HSSFWorkbook exportExcelFangzhenKnowledges(List<Map<String, List<Member>>> list) {
+        if (list == null) {
+            return null;
+        }
+        //List<Subjects> strList = officeMapper.getSubject();
+        DecimalFormat df = new DecimalFormat("######0.00");
+        //创建一个webbook,对应一个Excel文件
+        HSSFWorkbook wb = new HSSFWorkbook();
+        for (Map<String, List<Member>> map : list) {
+            for (String key : map.keySet()) {
+                //在webbook中添加一个sheet，对应Excel文件中的sheet
+                HSSFSheet sheet = wb.createSheet(key);
+                //在sheet中添加表头第0行
+                HSSFRow row = sheet.createRow((int) 0);
+                //创建单元格，并设置值表头，设置表头居中
+                HSSFCellStyle style = wb.createCellStyle();
+                //设置对其方式，居中对齐
+                style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+                HSSFCell cell = row.createCell(0);
+                cell.setCellValue("学号");
+                cell = row.createCell(1);
+                cell.setCellValue("姓名");
+                cell = row.createCell(2);
+                cell.setCellValue("成绩");
+                cell = row.createCell(3);
+                cell.setCellValue("日期");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                //获取班级内的学生信息
+                List<Member> value = map.get(key);
+                for (int j = 0; j < value.size(); j++) {
+                    row = sheet.createRow(j + 1);
+                    Member member = value.get(j);
+                    row.createCell(0).setCellValue(member.getUserName());
+                    row.createCell(1).setCellValue(member.getName());
+                    row.createCell(2).setCellValue(member.getSex());
+                    row.createCell(3).setCellValue(member.getMsn());
+                }
+            }
+        }
+        return wb;
+    }
+
+    public List<Map<String, List<Member>>> daoFangzhenKnowledges(String classId,List<Knowledges> knoList ) throws ParseException {
+        if (knoList.size() <= 0) {
+            return null;
+        }
+
+        //获取系统时间，并且转码成数据库可读
+        Date d = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateNowStr = df.format(d);
+        List<Map<String, List<Member>>> listAll = new ArrayList<Map<String, List<Member>>>();
+        //遍历所有的班级
+        for(int j = 0 ;j<knoList.size();j++){
+            //根据班级id找到所在的所有学生信息
+            List<Member> lm = getStudentsInfos(classId);
+            List<Member> memberList = new ArrayList<Member>();
+            if (lm == null) {
+                continue;
+            }
+                for(int i = 0 ;i<lm.size();i++){
+                    lm.get(i).setSex("0");
+                    lm.get(i).setMsn(dateNowStr);
+                    System.out.println(knoList.get(j).getKnowledgecontentId());
+                    System.out.println(lm.get(i).getId());
+                    List<StutotalScoresForYXY> list = subjectTreeMapper.getScoresForYXYStu(knoList.get(j).getKnowledgecontentId(),lm.get(i).getId());
+                    if(list.size()>0){
+                        for (StutotalScoresForYXY stu:list) {
+                            Member member =  new Member();
+                            member.setId(lm.get(i).getId());
+                            member.setName(lm.get(i).getName());
+                            member.setUserName(lm.get(i).getUserName());
+                            member.setMsn(stu.getEndDate());
+                            member.setSex(Integer.toString(stu.getQuesScore()));
+                            memberList.add(member);
+                        }
+                    }
+                }
+            Map<String, List<Member>> map = new HashMap<String, List<Member>>();
+            if(memberList.size()>0){
+                for (Member member:memberList) {
+                    lm.add(member);
+                }
+                map.put(knoList.get(j).getContent(), lm);
+            }else{
+                map.put(knoList.get(j).getContent(), lm);
+            }
+            listAll.add(map);
+        }
+        return listAll;
+    }
+
 
     public HSSFWorkbook exportExcelFangzhen(List<Map<String, List<Member>>> list, List<Knowledges> strList) {
         if (list == null) {

@@ -7,6 +7,7 @@ import com.tdu.develop.util.FilModle;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -270,4 +271,8 @@ public interface DevelopSceneService {
      * xmlForEditor
      * */
     String AddScenesContentFileModel(Scenecontents scenecontents, String treeId1, String nodeId, Scenes scene);
+
+    void commonUploadFole(MultipartFile file, String realPath, String filepath, String userKey, String sceneContentKey) throws IOException;
+
+    void commonSetVersion(String userKey, String sceneContentKey);
 }

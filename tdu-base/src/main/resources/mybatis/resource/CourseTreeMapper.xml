@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.resource.mapper.CourseTreeMapper">
-	<select id="geSubjectTrees" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
+    <select id="geSubjectTrees" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
 		select * from subjecttrees where SubjectKey=#{subjectKey} order by TreeNum ASC
 	</select>
-	<insert id="insertTree" parameterType="com.tdu.develop.resource.pojo.SubjectTrees">
+    <insert id="insertTree" parameterType="com.tdu.develop.resource.pojo.SubjectTrees">
 		insert into subjecttrees (TreeName,TreeNum,Style,status,Id,SubjectKey) values(#{treeName},#{treeNum},#{style},#{status},#{id},#{subjectKey})
 	</insert>
-	<select id="getTreeSource" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
+    <select id="getTreeSource" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
 		select * from subjecttrees where Id=#{treeId}
 	</select>
-	<insert id="insertRoot" parameterType="com.tdu.develop.resource.pojo.Knowledges">
+    <insert id="insertRoot" parameterType="com.tdu.develop.resource.pojo.Knowledges">
 		insert into knowledges values
 		(#{id},#{content},#{parentKnowledge},#{preKnowledge},#{subjectTree_Id},#{imageIcons},#{knowledgecontentId},#{beforCondition},#{CheckDel},#{DelTime},#{userKey})
 	</insert>
-	<update id="updateTree" parameterType="com.tdu.develop.resource.pojo.SubjectTrees">
+    <update id="updateTree" parameterType="com.tdu.develop.resource.pojo.SubjectTrees">
 		update subjecttrees set TreeName=#{treeName},TreeNum=#{treeNum},Style=#{style},status=#{status},icon=#{icon} where Id=#{id}
 	</update>
-	<delete id="deleteTree" parameterType="String">
+    <delete id="deleteTree" parameterType="String">
 		delete from subjecttrees where Id=#{treeid}
 	</delete>
-	<delete id="deleteRoot" parameterType="String">
+    <delete id="deleteRoot" parameterType="String">
 		delete from knowledges where SubjectTree_Id=#{treeid}
 	</delete>
-	<select id="selTreeNumMax" parameterType="String" resultType="Integer">
+    <select id="selTreeNumMax" parameterType="String" resultType="Integer">
 		select MAX(TreeNum) from subjecttrees where SubjectKey=#{subjectKey}
 	</select>
 </mapper>

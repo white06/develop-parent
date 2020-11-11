@@ -381,7 +381,7 @@ public class AddKnowledgeController {
      * */
     @RequestMapping(value = "testAdd.action", method = RequestMethod.POST)
     @ResponseBody
-    public String testAdd(@RequestParam("file0") MultipartFile file1, @RequestParam("file1") MultipartFile file2, @RequestParam("mubucolor") String color, HttpServletRequest request) throws Exception {
+    public String testAdd(@RequestParam("userKey")String userKey,@RequestParam("file0") MultipartFile file1, @RequestParam("file1") MultipartFile file2, @RequestParam("mubucolor") String color, HttpServletRequest request) throws Exception {
 
         File newFile1 = multipartFileToFile(file1);
         File newFile2 = multipartFileToFile(file2);
@@ -477,11 +477,12 @@ public class AddKnowledgeController {
         ops.flush();
         ops.close();
 
-        String UUid = UUID.randomUUID().toString();
+        //String UUid = UUID.randomUUID().toString();
         // 公司服务器路径
         String saveFilePath = "/www/wwwroot/tdu.tduvr.club/Data/pic/";
         //String saveFilePath = "D:\\wamp\\www\\Data\\pic\\";
-        saveFilePath = saveFilePath + UUid + ".png";
+        //saveFilePath = saveFilePath + UUid + ".png";
+        saveFilePath = saveFilePath + userKey + ".png";
         // 构建叠加层
         BufferedImage buffImg = watermark(newFile1, f, 0, 0, 1.0f);
         // 输出水印图片
@@ -493,8 +494,8 @@ public class AddKnowledgeController {
         newFile2.delete();
         f.deleteOnExit();
         // 公司服务器路径
-        String result = "https://tdu.tduvr.club/Data/pic/" + UUid + ".png";
-        //String result="http://192.168.0.55/Data/pic/"+UUid+".png";
+        String result = "https://tdu.tduvr.club/Data/pic/" + userKey + ".png";
+        //String result="http://192.168.0.55/Data/pic/"+userKey+".png";
         return result;
     }
 

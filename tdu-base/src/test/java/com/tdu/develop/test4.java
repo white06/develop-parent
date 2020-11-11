@@ -14,32 +14,43 @@ import java.nio.charset.Charset;
 
 public class test4 {
     public static void main(String[] args) throws DocumentException, IOException {
-        System.out.println(System.getProperty("file.encoding"));
-       // test();
-        System.out.println("Default Charset=" + Charset.defaultCharset());
-        System.out.println("file.encoding=" + System.getProperty("file.encoding"));
-        System.out.println("Default Charset=" + Charset.defaultCharset());
-        System.out.println("Default Charset in Use=" + getDefaultCharSet());
+//        System.out.println(System.getProperty("file.encoding"));
+//        // test();
+//        System.out.println("Default Charset=" + Charset.defaultCharset());
+//        System.out.println("file.encoding=" + System.getProperty("file.encoding"));
+//        System.out.println("Default Charset=" + Charset.defaultCharset());
+//        System.out.println("Default Charset in Use=" + getDefaultCharSet());
+            String realPath = "D:/wamp/www/Data/3D/Scene/b971b9bc-18fb-4c2a-982f-7fa991a2a28e/d2826549-7c84-4fd5-ba10-f4fdf8c8b724/1.png";
 
+        String[] strArr = realPath.split("/");
+        String wenjianPath = "";
+        System.out.println(strArr.length); //这里输出3
+        for (int i = 0; i < strArr.length; ++i) {
+            System.out.println(strArr[i]);//这里输出a b c
+            if (i != (strArr.length - 1)) {
+                wenjianPath = wenjianPath + "/" + strArr[i];
+            }
+        }
+        System.out.println(wenjianPath);
         //upload();
-       test();
+        //test();
     }
 
-    public static void upload() throws  FileNotFoundException {
+    public static void upload() throws FileNotFoundException {
         File file = new File("D:\\wamp\\www\\Data\\3D\\Model\\149b527b-248a-4aa1-825a-115240d96f82\\4a26d358-5544-4e8e-a7bd-556a9de7a8e0\\images\\水面.png");
         //InputStreamReader is = new InputStreamReader(System.in,"UTF-8"); // 读取
         URL url = test4.class.getResource("D:\\wamp\\www\\Data\\3D\\Model\\149b527b-248a-4aa1-825a-115240d96f82\\4a26d358-5544-4e8e-a7bd-556a9de7a8e0\\images\\水面.png");
         InputStream is = new FileInputStream(file);
-        System.out.println("  System.in ："+System.in);
+        System.out.println("  System.in ：" + System.in);
         File creatFile = new File("D:\\working\\load\\水面.png");
         try {
-            FileWriter fw = new FileWriter("D:\\wamp\\www\\Data\\3D\\Model\\149b527b-248a-4aa1-825a-115240d96f82\\4a26d358-5544-4e8e-a7bd-556a9de7a8e0\\images\\水面.png",true);// filePar + "\\" + filename,true
+            FileWriter fw = new FileWriter("D:\\wamp\\www\\Data\\3D\\Model\\149b527b-248a-4aa1-825a-115240d96f82\\4a26d358-5544-4e8e-a7bd-556a9de7a8e0\\images\\水面.png", true);// filePar + "\\" + filename,true
             BufferedInputStream bis = new BufferedInputStream(is);
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(creatFile));
             byte[] flash = new byte[1024];
             int len = 0;
-            while(-1 != (len = bis.read(flash))){
-                bos.write(flash,0,len);
+            while (-1 != (len = bis.read(flash))) {
+                bos.write(flash, 0, len);
             }
             bos.flush();
             bis.close();
@@ -50,7 +61,7 @@ public class test4 {
         }
     }
 
-    public static void downLoad(HttpServletResponse response){
+    public static void downLoad(HttpServletResponse response) {
         try (
                 FileInputStream inputStream = new FileInputStream(new File("D:\\working\\load\\test.png"));
                 ServletOutputStream outputStream = response.getOutputStream();
@@ -73,33 +84,36 @@ public class test4 {
         String enc = writer.getEncoding();
         return enc;
     }
+
     private static void test() {
         String dir = "D:\\working\\load\\";
         String fileName = "水面.png";
 //		String fileName = "D:/fbb/myWorkSpace_DW07/common_glass.log";
         try {
-            String encoding = codeString(dir,fileName);
-            System.out.println("encoding:"+encoding);
+            String encoding = codeString(dir, fileName);
+            System.out.println("encoding:" + encoding);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+
     /**
      * 判断文件的编码格式
+     *
      * @param fileName :file
      * @return 文件编码格式
      * @throws Exception
      */
-    public static String codeString(String dir,String fileName) throws Exception{
+    public static String codeString(String dir, String fileName) throws Exception {
 
-        File file = new File(dir+fileName);
-        if(file==null || !file.exists()){
-            System.out.println("文件不存在..."+file.getAbsolutePath());
+        File file = new File(dir + fileName);
+        if (file == null || !file.exists()) {
+            System.out.println("文件不存在..." + file.getAbsolutePath());
             return null;
         }
 
-        BufferedInputStream bin = new BufferedInputStream( new FileInputStream(file));
+        BufferedInputStream bin = new BufferedInputStream(new FileInputStream(file));
         int p = (bin.read() << 8) + bin.read();
         String code = null;
         //其中的 0xefbb、0xfffe、0xfeff、0x5c75这些都是这个文件的前面两个字节的16进制数
@@ -114,8 +128,8 @@ public class test4 {
                 code = "UTF-16BE";
                 break;
             case 0x5c75:
-                code = "ANSI|ASCII" ;
-                break ;
+                code = "ANSI|ASCII";
+                break;
             default:
                 code = "GBK";
         }

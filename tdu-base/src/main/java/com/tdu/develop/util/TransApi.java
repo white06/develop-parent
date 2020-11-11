@@ -1,4 +1,5 @@
 package com.tdu.develop.util;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,11 +15,12 @@ import java.util.Random;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 public class TransApi {
-    public static String Trans(String q,String targetlanguage) {//targetlanguage目标语言  en英语  cht中文繁体
-        String appid="20200410000415405";//申请的百度翻译id
-        String salt=String.valueOf(new Random().nextInt(100));
-        String sign=appid+q+salt+"wMCFDAyXR_z6TTTaRn0z";//id对应的密码
+    public static String Trans(String q, String targetlanguage) {//targetlanguage目标语言  en英语  cht中文繁体
+        String appid = "20200410000415405";//申请的百度翻译id
+        String salt = String.valueOf(new Random().nextInt(100));
+        String sign = appid + q + salt + "wMCFDAyXR_z6TTTaRn0z";//id对应的密码
         MessageDigest md5;
         try {
             md5 = MessageDigest.getInstance("MD5");
@@ -28,12 +30,12 @@ public class TransApi {
             int i;
             StringBuffer buf = new StringBuffer("");
 
-            for(int offset=0; offset<b.length; offset++){
+            for (int offset = 0; offset < b.length; offset++) {
                 i = b[offset];
-                if(i<0){
-                    i+=256;
+                if (i < 0) {
+                    i += 256;
                 }
-                if(i<16){
+                if (i < 16) {
                     buf.append("0");
                 }
                 buf.append(Integer.toHexString(i));
@@ -45,24 +47,25 @@ public class TransApi {
             e.printStackTrace();
 
         }
-        String result=getResult(q,sign,appid,salt,targetlanguage);
+        String result = getResult(q, sign, appid, salt, targetlanguage);
         System.out.println(result);
-        String content="{"+result;
-        String json=getDate(content);
+        String content = "{" + result;
+        String json = getDate(content);
         return json;
     }
+
     //百度平台（翻译接口）相关数据
-    public static String getResult(String q,String sign,String appid,String salt,String targetlanguage){
-        String result="";
+    public static String getResult(String q, String sign, String appid, String salt, String targetlanguage) {
+        String result = "";
         //拼接相关参数
-        String params="https://api.fanyi.baidu.com/api/trans/vip/translate?q="+q+"&from=auto&to="+targetlanguage+"&appid="+appid+"&salt="+salt+"&sign="+sign;
+        String params = "https://api.fanyi.baidu.com/api/trans/vip/translate?q=" + q + "&from=auto&to=" + targetlanguage + "&appid=" + appid + "&salt=" + salt + "&sign=" + sign;
         System.out.println(params);
         try {
             URL url = new URL(params);
             URLConnection connection = url.openConnection();
             System.out.println(connection);
             //设置连接时间(10*1000)
-            connection.setConnectTimeout(10*1000);
+            connection.setConnectTimeout(10 * 1000);
             //设置输出
             connection.setDoOutput(true);
             //设置输出
@@ -70,16 +73,16 @@ public class TransApi {
             //设置缓存
             connection.setUseCaches(false);
             //outputstream-----输出流
-            InputStream inputstream=connection.getInputStream();
+            InputStream inputstream = connection.getInputStream();
             //缓存字符流
             BufferedReader buffer = new BufferedReader(new InputStreamReader(inputstream));
             //返回相关结果
-            StringBuilder builder=new StringBuilder();
-            while(buffer.read()!=-1){
+            StringBuilder builder = new StringBuilder();
+            while (buffer.read() != -1) {
                 builder.append(buffer.readLine());
             }
             //返回相关结果
-            result=builder.toString();
+            result = builder.toString();
             //缓存字符流关闭操作
             buffer.close();
 
@@ -93,19 +96,20 @@ public class TransApi {
 
         return result;
     }
-    //解析百度服务器平台返回的相关数据信息
-    public static String getDate(String result){
-        String date="";
 
-        JSONObject object=JSONObject.fromObject(result);
-        JSONArray array=object.getJSONArray("trans_result");
-        int length=array.size();
-        for(int i=0;i<length;i++){
-            JSONObject params=JSONObject.fromObject(array.get(i));
-            String str=params.getString("dst");
+    //解析百度服务器平台返回的相关数据信息
+    public static String getDate(String result) {
+        String date = "";
+
+        JSONObject object = JSONObject.fromObject(result);
+        JSONArray array = object.getJSONArray("trans_result");
+        int length = array.size();
+        for (int i = 0; i < length; i++) {
+            JSONObject params = JSONObject.fromObject(array.get(i));
+            String str = params.getString("dst");
             try {
-                str=URLDecoder.decode(str,"utf-8");
-                date=str;
+                str = URLDecoder.decode(str, "utf-8");
+                date = str;
             } catch (UnsupportedEncodingException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -116,8 +120,8 @@ public class TransApi {
     }
 
     public static void main(String[] args) {
-       // String trans = Trans("信息安全及保密承诺书","cht");
-        String transTOEn = Trans("Instant\\multilingual\\online\\translation","zh");
+        // String trans = Trans("信息安全及保密承诺书","cht");
+        String transTOEn = Trans("Instant\\multilingual\\online\\translation", "zh");
         //System.out.println(trans);
         System.out.println(transTOEn);
     }

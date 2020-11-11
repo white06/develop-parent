@@ -137,4 +137,14 @@ public interface SubjectTreeService {
     List GetSubjectTreePage(String subjectKey);
 
     List<Knowledges> getContentKnowledges(String subjectId, String sarchStr);
+
+    boolean getScoresForYXY(String score, int getscroe, String totalscroe, String dId, String dId1, String userId, String dateNowStr);
+
+    List<StutotalScoresForYXY> getScoresForYXYByStu(String userKey, String subjectKey);
+
+    List<StutotalScoresForYXY> getScoresForYXYByByDate(String classKey, String knoConentId, String startDate, String enddatetime);
+
+    List<StutotalScoresForYXY> getScoresForYXYStu(String rId, String userId);
+
+    List<Knowledges> GetSubjectTreePageForYX(String subjectKey);
 }

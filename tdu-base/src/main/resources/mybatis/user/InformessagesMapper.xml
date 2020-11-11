@@ -1,86 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.user.mapper.InformessagesMapper">
-	<resultMap type="com.tdu.develop.user.pojo.Informessages" id="informessages">
-		<id property="id" column="id"/>
-		<result property="title" column="title"/>
-		<result property="content" column="content"/>
-		<result property="createDate" column="createDate"/>
-		<result property="type" column="type"/>
-		<result property="departmentId" column="departmentId"/>
-		<result property="depertmentName" column="Name" />
-	</resultMap>
-	
-	<resultMap type="com.tdu.develop.user.pojo.Message" id="message">
-		<id property="id" column="id"/>
-		<result property="title" column="title"/>
-		<result property="content" column="content"/>
-		<result property="userKey" column="userKey"/>
-		<result property="date" column="date"/>
-		<result property="anony" column="anony"/>
-	</resultMap>
-	
-	<resultMap type="com.tdu.develop.user.pojo.Reply" id="reply">
-		<id property="id" column="id"/>
-		<result property="teaKey" column="teaKey"/>
-		<result property="userKey" column="userKey"/>
-		<result property="content" column="content"/>
-		<result property="date" column="date"/>
-		<result property="messageKey" column="messageKey"/>
-	</resultMap>
+    <resultMap type="com.tdu.develop.user.pojo.Informessages" id="informessages">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="createDate" column="createDate"/>
+        <result property="type" column="type"/>
+        <result property="departmentId" column="departmentId"/>
+        <result property="depertmentName" column="Name"/>
+    </resultMap>
 
-	<select id="selSomeInf" resultMap="informessages">
+    <resultMap type="com.tdu.develop.user.pojo.Message" id="message">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="userKey" column="userKey"/>
+        <result property="date" column="date"/>
+        <result property="anony" column="anony"/>
+    </resultMap>
+
+    <resultMap type="com.tdu.develop.user.pojo.Reply" id="reply">
+        <id property="id" column="id"/>
+        <result property="teaKey" column="teaKey"/>
+        <result property="userKey" column="userKey"/>
+        <result property="content" column="content"/>
+        <result property="date" column="date"/>
+        <result property="messageKey" column="messageKey"/>
+    </resultMap>
+
+    <select id="selSomeInf" resultMap="informessages">
 		select * from informessages order by CreateDate desc limit #{startNum},#{endNum}
 	</select>
 
-	<insert id="insInfor" parameterType="com.tdu.develop.user.pojo.Informessages">
+    <insert id="insInfor" parameterType="com.tdu.develop.user.pojo.Informessages">
 		insert into informessages(`id`,`title`,`content`,`createDate`,`departmentId`) values(#{id},#{title},#{content},#{createDate},#{departmentId})
 	</insert>
-	
-	<update id="editInfor" parameterType="com.tdu.develop.user.pojo.Informessages">
+
+    <update id="editInfor" parameterType="com.tdu.develop.user.pojo.Informessages">
 		UPDATE informessages
 		SET `Title`=#{title},`Content`=#{content},`CreateDate`=#{createDate}
 		WHERE  `Id`=#{id};
 	</update>
-	
-	<select id="selAllInf" resultMap="informessages">
+
+    <select id="selAllInf" resultMap="informessages">
 		select informessages.*,departments.`Name` from informessages,departments WHERE departments.Id in(informessages.departmentId) order by createDate DESC
 	</select>
 
-	<select id="selAllInfByRole" resultMap="informessages" parameterType="String">
+    <select id="selAllInfByRole" resultMap="informessages" parameterType="String">
 		select * from informessages where departmentId in (SELECT DepartmentKey from departmentusers where  UserKey= #{userId}) order by createDate DESC
 	</select>
-	
-	<delete id="deleInforMessage" parameterType="String">
-		delete from informessages <where> id=#{id} </where>
-	</delete>
-	
-	<!-- ****************************************************************************************************** -->
-	
 
-	<insert id="teaHuifu" parameterType="com.tdu.develop.user.pojo.Reply">
+    <delete id="deleInforMessage" parameterType="String">
+        delete from informessages
+        <where>id=#{id}</where>
+    </delete>
+
+    <!-- ****************************************************************************************************** -->
+
+
+    <insert id="teaHuifu" parameterType="com.tdu.develop.user.pojo.Reply">
 		insert into reply(`id`,`content`,`teaKey`,`userKey`,`messageKey`,`date`) values(#{id},#{content},#{teaKey},#{userKey},#{messageKey},#{date})
 	</insert>
-	
-	<select id="selCount" resultType="Integer">
+
+    <select id="selCount" resultType="Integer">
 		select COUNT(Id) FROM informessages
 	</select>
 
 
-	<select id="selInfo" resultType="com.tdu.develop.user.pojo.Informessages" parameterType="String">
-		select * FROM informessages <where> id=#{id} </where>
-	</select>
+    <select id="selInfo" resultType="com.tdu.develop.user.pojo.Informessages" parameterType="String">
+        select * FROM informessages
+        <where>id=#{id}</where>
+    </select>
 
 
-	<select id="selAllInf1" resultMap="informessages">
+    <select id="selAllInf1" resultMap="informessages">
 		select * from informessages where type=1 and departmentId=#{departmentId} order by createDate DESC
 	</select>
 
-	<select id="selAllInf2" resultMap="informessages">
+    <select id="selAllInf2" resultMap="informessages">
 		select * from informessages where type=2 and departmentId=#{departmentId} order by createDate DESC
 	</select>
 
-	<select id="selAllInf3" resultMap="informessages">
+    <select id="selAllInf3" resultMap="informessages">
 		select * from informessages where type=3 and departmentId=#{departmentId} order by createDate DESC
 	</select>
 </mapper>

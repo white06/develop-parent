@@ -1,11 +1,11 @@
 package com.tdu.develop.util;
 
 public class knowOnlineUtil {
-    private String  count;
-    private String  alltime;
-    private String  playtime;
+    private String count;
+    private String alltime;
+    private String playtime;
 
-    private String  userid;
+    private String userid;
 
     public String getUserid() {
         return userid;

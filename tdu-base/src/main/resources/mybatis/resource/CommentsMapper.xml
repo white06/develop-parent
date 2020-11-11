@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.resource.mapper.CommentsMapper">
 
-	<insert id="addComments" parameterType="com.tdu.develop.resource.pojo.Comments">
+    <insert id="addComments" parameterType="com.tdu.develop.resource.pojo.Comments">
 		INSERT INTO `comments` (
 	`Id`,
 	`integrity`,
@@ -24,7 +24,7 @@ VALUES
 	(#{id}, #{integrity}, #{standard}, #{grammar}, #{fluency},#{intonation}, #{reaction}, #{overall}, #{type}, #{stuKey},#{creatData},#{nandu},#{page},#{content},#{toUser});
 	</insert>
 
-	<select id="getAssessment" parameterType="String" resultType="com.tdu.develop.resource.pojo.Comments" >
+    <select id="getAssessment" parameterType="String" resultType="com.tdu.develop.resource.pojo.Comments">
 		SELECT
 	*
 FROM
@@ -37,7 +37,7 @@ ORDER BY
 	limit 1
 	</select>
 
-	<select id="getUsersment" parameterType="String" resultType="com.tdu.develop.resource.pojo.Comments">
+    <select id="getUsersment" parameterType="String" resultType="com.tdu.develop.resource.pojo.Comments">
 		SELECT
 		*
 		FROM

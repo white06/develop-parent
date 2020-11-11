@@ -1,193 +1,200 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.resource.mapper.KnowledgesMapper">
-	<select id="getKnowledgesSecond" parameterType="String"  resultType="com.tdu.develop.resource.pojo.Knowledges" >
+    <select id="getKnowledgesSecond" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
      	Select * from knowledges where  parentKnowledge=#{parentKnowledge}
      </select>
-	<select id="seleRootModels" parameterType="String" resultType="String">
+    <select id="seleRootModels" parameterType="String" resultType="String">
 	SELECT id FROM (SELECT * from models where SubjectTree_Id=#{id}) k WHERE k.Content='Root' AND k.ParentModel is NULL
 	</select>
-	<select id="seleRootChartlets" parameterType="String" resultType="String">
+    <select id="seleRootChartlets" parameterType="String" resultType="String">
 	SELECT id FROM (SELECT * from chartlets where SubjectTree_Id=#{id}) k WHERE k.Content='Root' AND k.ParentChartlet is NULL
 	</select>
-	<select id="seleRootScenes" parameterType="String" resultType="String">
+    <select id="seleRootScenes" parameterType="String" resultType="String">
 	SELECT id FROM (SELECT * from scenes where SubjectTree_Id=#{id}) k WHERE k.Content='Root' AND k.ParentScene is NULL
 	</select>
-	<select id="seleRootVoices" parameterType="String" resultType="String">
+    <select id="seleRootVoices" parameterType="String" resultType="String">
 	SELECT id FROM (SELECT * from voices where SubjectTree_Id=#{id}) k WHERE k.Content='Root' AND k.ParentVoice is NULL
 	</select>
 
 
+    <resultMap type="com.tdu.develop.resource.pojo.Knowledges" id="knowledges">
+        <id property="id" column="id"/>
+        <result property="content" column="content"/>
+        <result property="parentKnowledge" column="parentKnowledge"/>
+        <result property="preKnowledge" column="preKnowledge"/>
+        <result property="subjectTree_Id" column="subjectTree_Id"/>
+        <result property="imageIcons" column="imageIcons"/>
+        <result property="knowledgecontentId" column="knowledgecontentId"/>
+        <result property="beforCondition" column="beforCondition"/>
+    </resultMap>
 
-	<resultMap type="com.tdu.develop.resource.pojo.Knowledges" id="knowledges">
-		<id property="id" column="id"/>
-		<result property="content" column="content"/>
-		<result property="parentKnowledge" column="parentKnowledge"/>
-		<result property="preKnowledge" column="preKnowledge"/>
-		<result property="subjectTree_Id" column="subjectTree_Id"/>
-		<result property="imageIcons" column="imageIcons"/>
-		<result property="knowledgecontentId" column="knowledgecontentId"/>
-		<result property="beforCondition" column="beforCondition"/>
-	</resultMap>
-
-	<select id="getKnow" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
+    <select id="getKnow" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
 	SELECT *FROM knowledges where Id=#{id}
 	</select>
 
-	<select id="seleRoot" parameterType="String" resultType="String">
+    <select id="seleRoot" parameterType="String" resultType="String">
 	SELECT id FROM (SELECT * from knowledges where SubjectTree_Id=#{id}) k WHERE k.Content='Root' AND k.parentKnowledge is NULL
 	</select>
 
-	<select id="seleFirst" resultMap="knowledges" parameterType="String">
-		SELECT *FROM knowledges
-		<where>
-			parentKnowledge=#{id} and preKnowledge is NULL
-		</where>
-	</select>
+    <select id="seleFirst" resultMap="knowledges" parameterType="String">
+        SELECT *FROM knowledges
+        <where>
+            parentKnowledge=#{id} and preKnowledge is NULL
+        </where>
+    </select>
 
-	<select id="selesecond" resultMap="knowledges" parameterType="String">
-		SELECT *FROM knowledges
-		<where>
-			preKnowledge=#{pid}
-		</where>
-	</select>
+    <select id="selesecond" resultMap="knowledges" parameterType="String">
+        SELECT *FROM knowledges
+        <where>
+            preKnowledge=#{pid}
+        </where>
+    </select>
 
-	<select id="seleLength" resultType="int" parameterType="String">
-		SELECT COUNT(1) FROM knowledges
-		<where>
-			subjectTree_Id=#{id}
-		</where>
-	</select>
+    <select id="seleLength" resultType="int" parameterType="String">
+        SELECT COUNT(1) FROM knowledges
+        <where>
+            subjectTree_Id=#{id}
+        </where>
+    </select>
 
-	<select id="seleL" resultType="int" parameterType="String">
-		SELECT COUNT(1) FROM knowledges
-		<where>
-			parentKnowledge=#{id}
-		</where>
-	</select>
+    <select id="seleL" resultType="int" parameterType="String">
+        SELECT COUNT(1) FROM knowledges
+        <where>
+            parentKnowledge=#{id}
+        </where>
+    </select>
 
-	<select id="seleLengthS" resultType="int" parameterType="String">
-		SELECT COUNT(1) FROM knowledges
-		<where>
-			parentKnowledge=#{pid}
-		</where>
-	</select>
+    <select id="seleLengthS" resultType="int" parameterType="String">
+        SELECT COUNT(1) FROM knowledges
+        <where>
+            parentKnowledge=#{pid}
+        </where>
+    </select>
 
-	<select id="selefirstS" resultMap="knowledges" parameterType="String">
-		SELECT * FROM knowledges
-		<where>
-			parentKnowledge=#{pid} and preKnowledge is NULL
-		</where>
-	</select>
+    <select id="selefirstS" resultMap="knowledges" parameterType="String">
+        SELECT * FROM knowledges
+        <where>
+            parentKnowledge=#{pid} and preKnowledge is NULL
+        </where>
+    </select>
 
-	<select id="selectAll" resultMap="knowledges" parameterType="String">
-		SELECT * from knowledges <where> SubjectTree_Id=#{id} and content!="Root"</where>
-	</select>
+    <select id="selectAll" resultMap="knowledges" parameterType="String">
+        SELECT * from knowledges
+        <where>SubjectTree_Id=#{id} and content!="Root"</where>
+    </select>
 
-	<insert id="inknow" parameterType="com.tdu.develop.resource.pojo.Knowledges">
+    <insert id="inknow" parameterType="com.tdu.develop.resource.pojo.Knowledges">
 		insert into knowledges(Id,Content,ParentKnowledge,PreKnowledge,SubjectTree_Id,ImageIcons,KnowledgeContentId,BeforCondition,CheckDel,DelTime,userKey)
 	 values(#{id},#{content},#{parentKnowledge},#{preKnowledge},#{subjectTree_Id},#{imageIcons},#{knowledgecontentId},#{beforCondition},0,null,#{userKey})
 	</insert>
 
 
-	<delete id="deTree" parameterType="String">
+    <delete id="deTree" parameterType="String">
 		DELETE FROM knowledges WHERE id=#{id}
 	</delete>
 
-	<select id="slChild" parameterType="String" resultType="String">
-		select id from knowledges <where> parentKnowledge=#{id} </where>
-	</select>
+    <select id="slChild" parameterType="String" resultType="String">
+        select id from knowledges
+        <where>parentKnowledge=#{id}</where>
+    </select>
 
-	<select id="slSelf" parameterType="String" resultType="String">
-		select preKnowledge from knowledges <where> id=#{id} </where>
-	</select>
+    <select id="slSelf" parameterType="String" resultType="String">
+        select preKnowledge from knowledges
+        <where>id=#{id}</where>
+    </select>
 
-	<update id="upNext" parameterType="String">
-		update knowledges set preKnowledge=#{pid} <where> preKnowledge=#{id} </where>
-	</update>
+    <update id="upNext" parameterType="String">
+        update knowledges set preKnowledge=#{pid}
+        <where>preKnowledge=#{id}</where>
+    </update>
 
-	<update id="uprandom" parameterType="String">
-		update knowledges set Content=#{name} <where> id=#{id} </where>
-	</update>
+    <update id="uprandom" parameterType="String">
+        update knowledges set Content=#{name}
+        <where>id=#{id}</where>
+    </update>
 
-	<update id="upknow" parameterType="String">
-		update knowledges set preKnowledge=#{pid},parentKnowledge=#{fatherId} <where> id=#{id} </where>
-	</update>
+    <update id="upknow" parameterType="String">
+        update knowledges set preKnowledge=#{pid},parentKnowledge=#{fatherId}
+        <where>id=#{id}</where>
+    </update>
 
-	<update id="upTheNext" parameterType="String">
-		update knowledges set preKnowledge=#{pid} <where> id=#{id} </where>
-	</update>
+    <update id="upTheNext" parameterType="String">
+        update knowledges set preKnowledge=#{pid}
+        <where>id=#{id}</where>
+    </update>
 
-	<select id="seleContent" resultMap="knowledges" parameterType="String">
-		select * from (SELECT * from knowledges WHERE ParentKnowledge=#{id}) AS s1
-		<where>
-			s1.knowledgecontentId!='00000000-0000-0000-0000-000000000000'
-		</where>
-	</select>
+    <select id="seleContent" resultMap="knowledges" parameterType="String">
+        select * from (SELECT * from knowledges WHERE ParentKnowledge=#{id}) AS s1
+        <where>
+            s1.knowledgecontentId!='00000000-0000-0000-0000-000000000000'
+        </where>
+    </select>
 
-	<select id="seleSubTree" resultType="String" parameterType="String">
-		select SubjectTree_Id from knowledges <where> id=#{id} </where>
-	</select>
-	<update id="updateContent" parameterType="String">
+    <select id="seleSubTree" resultType="String" parameterType="String">
+        select SubjectTree_Id from knowledges
+        <where>id=#{id}</where>
+    </select>
+    <update id="updateContent" parameterType="String">
 		update knowledges set Content=#{content} where Id=#{knowledgeId}
 	</update>
 
-	<select id="getKnowledgesFis" parameterType="String"  resultType="com.tdu.develop.resource.pojo.Knowledges" >
+    <select id="getKnowledgesFis" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
      	Select * from knowledges where  SubjectTree_Id=#{subTreeId} and ParentKnowledge  is null
      </select>
 
 
-	<select id="getKnowType" parameterType="String" resultType="String">
+    <select id="getKnowType" parameterType="String" resultType="String">
 		select Type from knowledgecontents where id=#{knowledgecontentId}
 	</select>
-	<select id="getKnowNmae" parameterType="String" resultType="String">
+    <select id="getKnowNmae" parameterType="String" resultType="String">
 		select nmae from knowledgecontents where id=#{knowledgecontentId}
 	</select>
 
-	<select id="getSubjectsTree" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
+    <select id="getSubjectsTree" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
 
-		SELECT
-	*
-FROM
-	knowledges
-WHERE
-	SubjectTree_Id IN (
-		SELECT
-			Id
-		FROM
-			subjecttrees
-		WHERE
-			SubjectKey IN (
-				SELECT
-					Id
-				FROM
-					`develop_user`.subjects
-				WHERE
-					Id IN (
-						SELECT
-							SubjectKey
-						FROM
-							`develop_user`.subjectusers
-						WHERE
-							UserKey = #{SubjectKey}
-					)
-			)
-		AND TreeName = '来闯关'
-	)
-AND KnowledgeContentId != '00000000-0000-0000-0000-000000000000'
-AND ParentKnowledge != 'NUll'
-AND Content = '仿真考核'
+        SELECT
+        *
+        FROM
+        knowledges
+        WHERE
+        SubjectTree_Id IN (
+        SELECT
+        Id
+        FROM
+        subjecttrees
+        WHERE
+        SubjectKey IN (
+        SELECT
+        Id
+        FROM
+        `develop_user`.subjects
+        WHERE
+        Id IN (
+        SELECT
+        SubjectKey
+        FROM
+        `develop_user`.subjectusers
+        WHERE
+        UserKey = #{SubjectKey}
+        )
+        )
+        AND TreeName = '来闯关'
+        )
+        AND KnowledgeContentId != '00000000-0000-0000-0000-000000000000'
+        AND ParentKnowledge != 'NUll'
+        AND Content = '仿真考核'
 
-<!--SELECT * FROM knowledges WHERE
-		SubjectTree_Id=(SELECT Id FROM subjecttrees WHERE SubjectKey=#{SubjectKey} AND TreeName='来闯关')
-		AND KnowledgeContentId !='00000000-0000-0000-0000-000000000000'
-		AND  ParentKnowledge != 'NUll'-->
-	</select>
+        <!--SELECT * FROM knowledges WHERE
+                SubjectTree_Id=(SELECT Id FROM subjecttrees WHERE SubjectKey=#{SubjectKey} AND TreeName='来闯关')
+                AND KnowledgeContentId !='00000000-0000-0000-0000-000000000000'
+                AND  ParentKnowledge != 'NUll'-->
+    </select>
 
-	<select id="getSubjectId" parameterType="String" resultType="String">
+    <select id="getSubjectId" parameterType="String" resultType="String">
 		SELECT SubjectKey FROM subjecttrees WHERE Id = #{id}
 	</select>
-<select id="getContent" resultType="com.tdu.develop.resource.pojo.Knowlegcontent" parameterType="String">
+    <select id="getContent" resultType="com.tdu.develop.resource.pojo.Knowlegcontent" parameterType="String">
 		SELECT * from knowledgecontents where Knowledge_Id=#{knowId}
 	</select>
 </mapper>

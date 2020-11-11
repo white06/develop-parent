@@ -1,4 +1,5 @@
 package com.tdu.develop.util;
+
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.BufferedReader;
@@ -14,7 +15,6 @@ import java.util.Date;
 //import com.alibaba.fastjson.JSONObject;
 
 /**
- *
  * @Title:GetMessageCode
  * @Description:发送验证码
  * @author:ヅ零碎de記憶ぷ
@@ -49,7 +49,7 @@ public class GetMessageCode {
             connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
             // 提交请求
             out = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
-            String args = getQueryArgs(ACCOUNT_SID, templateid, phone, timestamp, sig,rod);
+            String args = getQueryArgs(ACCOUNT_SID, templateid, phone, timestamp, sig, rod);
             out.write(args);
             out.flush();
             // 读取返回参数
@@ -76,7 +76,7 @@ public class GetMessageCode {
     // 定义一个请求参数拼接方法
     public static String getQueryArgs(String accountSid, String templateid, String to, String timestamp, String sig,
                                       String param) {
-        return "accountSid=" + accountSid + "&to=" + to + "&templateid=" + templateid + "&"+"param=" + param
+        return "accountSid=" + accountSid + "&to=" + to + "&templateid=" + templateid + "&" + "param=" + param
                 + "&timestamp=" + timestamp + "&sig=" + sig;
     }
 

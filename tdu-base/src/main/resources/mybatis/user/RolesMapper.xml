@@ -4,7 +4,7 @@
     <select id="selIdByRoleName" parameterType="string" resultType="String">
         select Id from roles where RoleName=#{string}
     </select>
-    <insert id="insUsersRoles" >
+    <insert id="insUsersRoles">
         insert into userroles (User_Id,Role_Id) values (#{id},#{roleId})
     </insert>
 </mapper>

@@ -15,10 +15,10 @@ import java.net.URLConnection;
 public class HttpUtil {
     /**
      * 构造通用参数timestamp、sig和respDataType
-     * 
+     *
      * @return
      */
-    public static String createCommonParam(String sid,String token) {
+    public static String createCommonParam(String sid, String token) {
         // 时间戳
         long timestamp = System.currentTimeMillis();
         // 签名
@@ -29,11 +29,9 @@ public class HttpUtil {
 
     /**
      * post请求
-     * 
-     * @param url
-     *            功能和操作
-     * @param body
-     *            要post的数据
+     *
+     * @param url  功能和操作
+     * @param body 要post的数据
      * @return
      * @throws IOException
      */
@@ -79,7 +77,7 @@ public class HttpUtil {
 
     /**
      * 回调测试工具方法
-     * 
+     *
      * @param url
      * @return
      */

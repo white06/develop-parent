@@ -32,21 +32,22 @@ public class SpeechUtil {
 
     public static void main(String[] args) throws IOException {
 //        SpeechSynthesizer("简单测试百度语音合成", "d:/SpeechSynthesizer.mp3");
-       // convertMP32Pcm("d:/SpeechSynthesizer.mp3","d:/SpeechSynthesizer.pcm");
-        SpeechRecognition("d:/SpeechSynthesizer.pcm","pcm");
+        // convertMP32Pcm("d:/SpeechSynthesizer.mp3","d:/SpeechSynthesizer.pcm");
+        SpeechRecognition("d:/SpeechSynthesizer.pcm", "pcm");
         byte[] data = Util.readFileByBytes("d:/SpeechSynthesizer.pcm");
-        SpeechRecognitionJson(data,"pcm");
+        SpeechRecognitionJson(data, "pcm");
     }
 
 
     /**
      * 单例 懒加载模式 返回实例
+     *
      * @return
      */
-    public static AipSpeech getInstance(){
-        if (client==null){
-            synchronized (AipSpeech.class){
-                if (client==null) {
+    public static AipSpeech getInstance() {
+        if (client == null) {
+            synchronized (AipSpeech.class) {
+                if (client == null) {
                     client = new AipSpeech(APP_ID, API_KEY, SECRET_KEY);
                 }
             }
@@ -100,6 +101,7 @@ public class SpeechUtil {
 
     /**
      * 语音识别
+     *
      * @param videoPath
      * @param videoType
      * @return
@@ -125,6 +127,7 @@ public class SpeechUtil {
 
     /**
      * 语音识别
+     *
      * @param data
      * @param videoType
      * @return
@@ -146,7 +149,6 @@ public class SpeechUtil {
         System.out.println(" SpeechRecognition : " + res.toString(2));
         return res.toString(2);
     }
-
 
 
 //    /**

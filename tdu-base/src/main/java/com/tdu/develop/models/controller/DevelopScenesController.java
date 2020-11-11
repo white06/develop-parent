@@ -1,6 +1,7 @@
 package com.tdu.develop.models.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.tdu.develop.models.pojo.Modelcontents;
 import com.tdu.develop.models.pojo.Models;
 import com.tdu.develop.models.pojo.Scenecontents;
@@ -36,6 +37,253 @@ public class DevelopScenesController {
     @Autowired
     DevelopSceneService developSceneService = new DevelopSceneServiceImpl();
 
+
+
+    @RequestMapping(value = "getFileForEditor.action", method = RequestMethod.POST)
+    @ResponseBody
+    public  Map<String, Map<String, File[]>>  getFileForEditor(
+            @RequestParam("userKey") String userKey,
+            @RequestParam("sceneContentKey") String sceneContentKey,
+            HttpSession session) throws IOException {
+        //String realPath = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userKey + "/" + sceneContentKey;
+        String realPath = "D:/wamp/www/Data/3D/Scene/"+ userKey + "/" + sceneContentKey;//D盘下的file文件夹的目录
+        File file = new File(realPath);//File类型可以是文件也可以是文件夹
+        File[] fileList = file.listFiles();//将该目录下的所有文件放置在一个File类型的数组中
+        Map<String, Map<String, File[]>> map = get(fileList);
+        //System.out.println(map);
+        return map;
+    }
+
+    public static Map<String, Map<String, File[]>> get(File[] fileList){
+        Map<String, Map<String, File[]>> staticMap = new HashMap<>();
+        List<File> wjList = new ArrayList<File>();//新建一个文件集合
+        for (int i = 0; i < fileList.length; i++) {
+            File[] fileLis2t = fileList[i].listFiles();
+            if (fileLis2t != null) {
+
+                //
+                Map<String,File[]> hashMap = new HashMap<String,File[]>();
+                for (int j = 0; j <fileLis2t.length ; j++) {
+                    File[] fileLis3t = fileLis2t[j].listFiles();
+                    if(fileLis3t!=null){
+                        hashMap.put(""+j+"",fileLis3t);
+                    }else{
+                        File[] fs = new File[1];
+                        fs[0] =fileLis2t[j];
+                        hashMap.put(""+j+"",fs);
+                    }
+                    fileLis3t =null;
+                }
+                File[] fs = new File[1];
+                fs[0] =fileList[i];
+                hashMap.put("parent",fs);
+                staticMap.put(""+i+"",hashMap);
+            }else{
+                Map<String,File[]> hashMap = new HashMap<String,File[]>();
+                File[] fs = new File[1] ;
+                fs[0] =fileList[i];
+                hashMap.put(""+i+"",fs);
+                staticMap.put(""+i+"",hashMap);
+            }
+            System.out.println(fileList.length);
+        }
+
+        return staticMap;
+    }
+
+
+    @RequestMapping(value = "deleteFolderForEditor.action", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String  deleteFolderForEditor(
+            @RequestParam("userKey") String userKey,
+            @RequestParam("sceneContentKey") String sceneContentKey,
+            @RequestParam("path") String path,
+            HttpSession session) throws IOException {
+
+        //String realPath = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userKey + "/" + sceneContentKey+ "/" + folderName;
+        String realPath = "D:/wamp/www/Data/3D/Scene/"+ userKey + "/" + sceneContentKey+ "/" + path;//D盘下的file文件夹的目录
+        realPath = path;
+        System.out.println(realPath);
+        //读取文件夹路径
+        File file = new File(realPath);
+        //判断是否存在
+        if (file.exists() && file.isDirectory()) {
+            try {
+                delTempChild(file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (file.exists()) {
+                file.delete();
+            }
+        }
+        return realPath;
+    }
+
+    public static void delTempChild(File file){
+        if (file.isDirectory()) {
+            String[] children = file.list();//获取文件夹下所有子文件夹
+            //递归删除目录中的子目录下
+            for (int i=0; i<children.length; i++) {
+                delTempChild(new File(file, children[i]));
+            }
+        }
+        // 目录空了，进行删除
+        file.delete();
+    }
+
+    @RequestMapping(value = "updateFolderForEditor.action", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String  updateFolderForEditor(
+            @RequestParam("userKey") String userKey,
+            @RequestParam("sceneContentKey") String sceneContentKey,
+            @RequestParam("path") String path,
+            @RequestParam("fileName") String fileName,
+            HttpSession session) throws IOException {
+        //String oldPath = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userKey + "/" + sceneContentKey+ "/" + oldFileName;
+        //String oldPath = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userKey + "/" + sceneContentKey+ "/" + newFileName;
+//        String oldPath = "D:/wamp/www/Data/3D/Scene/"+ userKey + "/" + sceneContentKey+ "/" + oldFileName;//D盘下的file文件夹的目录
+//        String newPath = "D:/wamp/www/Data/3D/Scene/"+ userKey + "/" + sceneContentKey+ "/" + newFileName;//D盘下的file文件夹的目录
+//        File file1 = new File(oldPath);
+//        //将原文件夹更改为A，其中路径是必要的。注意
+//        file1.renameTo(new File(newPath));
+
+        String realPath = "D:/wamp/www/Data/3D/Scene/"+ userKey + "/" + sceneContentKey+ "/" + path;//D盘下的file文件夹的目录
+        realPath = path;
+        System.out.println(" realPath : "+realPath);
+        File f = new File(realPath);
+        if (!f.exists()) { // 判断原文件是否存在（防止文件名冲突）
+            return null;
+        }
+        fileName = fileName.trim();
+        if ("".equals(fileName) || fileName == null) // 文件名不能为空
+            return null;
+        String newFilePath = null;
+        if (f.isDirectory()) { // 判断是否为文件夹
+            //newFilePath = realPath.substring(0, realPath.lastIndexOf("/")) + "/" + fileName;
+            newFilePath = realPath.substring(0, realPath.lastIndexOf("\\")) + "\\" + fileName;
+        } else {
+//            newFilePath = realPath.substring(0, realPath.lastIndexOf("/")) + "/" + fileName
+//                    + realPath.substring(realPath.lastIndexOf("."));
+            newFilePath = realPath.substring(0, realPath.lastIndexOf("\\")) + "\\" + fileName;
+            //+ realPath.substring(realPath.lastIndexOf("."));
+        }
+        File nf = new File(newFilePath);
+        try {
+            f.renameTo(nf); // 修改文件名
+        } catch (Exception err) {
+            developSceneService.commonSetVersion(userKey,sceneContentKey);
+            err.printStackTrace();
+            return null;
+        }
+        return newFilePath;
+    }
+    @RequestMapping(value = "createFolderForEditor.action", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String  createFolderForEditor(
+            @RequestParam("userKey") String userKey,
+            @RequestParam("sceneContentKey") String sceneContentKey,
+            @RequestParam("FolderName") String FolderName,
+            HttpSession session) throws IOException {
+
+        //String realPath = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userKey + "/" + sceneContentKey+ "/" + FolderName;
+        String realPath = "D:/wamp/www/Data/3D/Scene/"+ userKey + "/" + sceneContentKey+ "/" + FolderName;//D盘下的file文件夹的目录
+        //读取文件夹路径
+        File file = new File(realPath);
+        //判断是否存在
+        if (!file.exists() && !file.isDirectory()) {
+            try {
+                System.out.println("文件夹不存在！");
+                //生成文件夹
+                file.mkdir();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("文件夹存在！");
+        }
+        return realPath;
+    }
+
+//    @RequestMapping(value = "updateFileForEditor.action", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//    @ResponseBody
+//    public String  updateFileForEditor(
+//            @RequestParam("userKey") String userKey,
+//            @RequestParam("sceneContentKey") String sceneContentKey,
+//            @RequestParam("path") String path,
+//                               @RequestParam("fileName") String fileName,
+//            HttpSession session) throws IOException {
+//
+//        //String realPath = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userKey + "/" + sceneContentKey+ "/" + path;
+//        String realPath = "D:/wamp/www/Data/3D/Scene/"+ userKey + "/" + sceneContentKey+ "/" + path;//D盘下的file文件夹的目录
+//        realPath = path;
+//        System.out.println(" realPath : "+realPath);
+//        File f = new File(realPath);
+//        if (!f.exists()) { // 判断原文件是否存在（防止文件名冲突）
+//            return null;
+//        }
+//        fileName = fileName.trim();
+//        if ("".equals(fileName) || fileName == null) // 文件名不能为空
+//            return null;
+//        String newFilePath = null;
+//        if (f.isDirectory()) { // 判断是否为文件夹
+//            //newFilePath = realPath.substring(0, realPath.lastIndexOf("/")) + "/" + fileName;
+//            newFilePath = realPath.substring(0, realPath.lastIndexOf("\\")) + "\\" + fileName;
+//        } else {
+////            newFilePath = realPath.substring(0, realPath.lastIndexOf("/")) + "/" + fileName
+////                    + realPath.substring(realPath.lastIndexOf("."));
+//            newFilePath = realPath.substring(0, realPath.lastIndexOf("\\")) + "\\" + fileName;
+//                    //+ realPath.substring(realPath.lastIndexOf("."));
+//        }
+//        File nf = new File(newFilePath);
+//        try {
+//            f.renameTo(nf); // 修改文件名
+//        } catch (Exception err) {
+//            developSceneService.commonSetVersion(userKey,sceneContentKey);
+//            err.printStackTrace();
+//            return null;
+//        }
+//        return newFilePath;
+//    }
+//    @RequestMapping(value = "deleteFileForEditor.action", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//    @ResponseBody
+//    public boolean deleteFofEditor(
+//                                  @RequestParam("userKey") String userKey,
+//                                  @RequestParam("sceneContentKey") String sceneContentKey,
+//                               @RequestParam("path") String path,
+//                                  HttpSession session) throws IOException {
+//
+//        //String realPath = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userKey + "/" + sceneContentKey+ "/" + path;
+//        String realPath = "D:/wamp/www/Data/3D/Scene/"+ userKey + "/" + sceneContentKey+ "/" + path;//D盘下的file文件夹的目录
+//        realPath = path;
+//        System.out.println(realPath);
+//        boolean result = false;
+//        File file = new File(realPath);
+//        if (file.exists()) {
+//            file.delete();
+//            result = true;
+//        }
+//
+//        developSceneService.commonSetVersion(userKey,sceneContentKey);
+//        return result;
+//    }
+    @RequestMapping(value = "uploadFileForEditor.action", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String uploadFileForEditor(@RequestParam("file") MultipartFile file,
+                        @RequestParam("userKey") String userKey,
+                               @RequestParam("sceneContentKey") String sceneContentKey,
+                                      @RequestParam("path") String path,
+                                          @RequestParam("filepath") String filepath,
+                               HttpSession session) throws IOException {
+
+        //String realPath = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userKey + "/" + sceneContentKey+ "/" + path;
+        String realPath = "D:/wamp/www/Data/3D/Scene/"+ userKey + "/" + sceneContentKey+ "/" + path;//D盘下的file文件夹的目录
+       realPath=path;
+        developSceneService.commonUploadFole(file,realPath,filepath,userKey,sceneContentKey);
+        developSceneService.commonSetVersion(userKey,sceneContentKey);
+        return "true";
+    }
 
     @RequestMapping(value = "xmlFofEditor.action", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
@@ -237,7 +485,7 @@ public class DevelopScenesController {
 //                }
             }
             // 如果是在原有基础上写入则append属性为true，默认为false
-            BufferedWriter out = new BufferedWriter(new FileWriter(writename, true));
+            BufferedWriter out = new BufferedWriter(new FileWriter(writename, false));
             out.write(content); // 写入TXT
             out.flush(); // 把缓存区内容压入文件
             out.close(); // 最后记得关闭文件

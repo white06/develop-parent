@@ -12,7 +12,8 @@
     </select>
 
     <select id="seleClassName" resultType="String" parameterType="String">
-        select classname from classes <where> id=#{classkey} </where>
+        select classname from classes
+        <where>id=#{classkey}</where>
     </select>
 
     <select id="getClassUsersList" parameterType="String" resultMap="classUserslist">
@@ -20,8 +21,8 @@
     </select>
 
     <resultMap type="com.tdu.develop.user.pojo.ClassUsers" id="classUserslist">
-        <id column="Id" property="id" />
-        <result column="Class" property="classId" />
-        <result column="User" property="user" />
+        <id column="Id" property="id"/>
+        <result column="Class" property="classId"/>
+        <result column="User" property="user"/>
     </resultMap>
 </mapper>
