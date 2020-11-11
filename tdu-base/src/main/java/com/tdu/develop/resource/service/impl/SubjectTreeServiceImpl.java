@@ -50,6 +50,11 @@ public class SubjectTreeServiceImpl implements SubjectTreeService {
         StutotalScores stutotalScores = subjectTreeMapper.getstuqNan(rId, userId);
         return stutotalScores;
     }
+    public void insScoreTeacherNan(int score,String userId){
+        String Id=UUID.randomUUID().toString();
+        subjectTreeMapper.insScoreTeacherNan(Id,score, userId);
+    }
+
 
     public List<ZNodes> seleKnowledgesNan(String treeid) {
         ZNodes zNodes = new ZNodes();

@@ -115,6 +115,30 @@ public class SubjectTreeController {
         return subjectTreeService.getStudentScoreNan(rId, userId);
     }
 
+    /**
+     * 添加考试成绩
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "insScoreTeacherNan.action", method = {RequestMethod.POST})
+    @ResponseBody
+    public void insScoreTeacherNan(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String score1 = request.getParameter("score");
+        String userId = request.getParameter("userId");
+        try {
+
+            int score = Integer.parseInt(score1);
+            subjectTreeService.insScoreTeacherNan(score, userId);
+        } catch (NumberFormatException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
 
     /**
      * 获取列表展示

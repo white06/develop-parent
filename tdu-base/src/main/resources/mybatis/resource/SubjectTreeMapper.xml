@@ -8,6 +8,12 @@
 	</select>
 
 
+	<insert id="insScoreTeacherNan" >
+		REPLACE INTO stutotalscores(Id,PagerKey,QuesScore,Checked,StuKey,AllowExam,KnowledgeId) VALUES (#{userId},"4098b77a-dd60-4ee0-a0d2-f881f419f7b6",#{score},0,#{userId},1,null)
+	</insert>
+
+
+
 	<select id="getTT" parameterType="String" resultType="com.tdu.develop.resource.pojo.SubjectTrees">
 		select * from subjecttrees where SubjectKey=#{majorId} order by treeNum
 	</select>

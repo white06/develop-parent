@@ -25,9 +25,6 @@
 
     <dependencies>
 
-
-
-        <!-- jsonArray引入使用-->
         <dependency>
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
@@ -103,9 +100,9 @@
         <!--druid 数据源监控-->
         <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
         <!--<dependency>                                                                              -->
-            <!--<groupId>com.alibaba</groupId>                                                       -->
-            <!--<artifactId>fastjson</artifactId>-->
-            <!--<version>LATEST</version>-->
+        <!--<groupId>com.alibaba</groupId>                                                       -->
+        <!--<artifactId>fastjson</artifactId>-->
+        <!--<version>LATEST</version>-->
         <!--</dependency>-->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -273,29 +270,29 @@
 
         <!-- start -->
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-<!--        <dependency>-->
-<!--            <groupId>com.google.code.gson</groupId>-->
-<!--            <artifactId>gson</artifactId>-->
-<!--            <version>2.8.5</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.google.code.gson</groupId>-->
+        <!--            <artifactId>gson</artifactId>-->
+        <!--            <version>2.8.5</version>-->
+        <!--        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>com.squareup.okhttp3</groupId>-->
-<!--            <artifactId>okhttp</artifactId>-->
-<!--            <version>4.7.2</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.squareup.okhttp3</groupId>-->
+        <!--            <artifactId>okhttp</artifactId>-->
+        <!--            <version>4.7.2</version>-->
+        <!--        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>javax.websocket</groupId>-->
-<!--            <artifactId>javax.websocket-api</artifactId>-->
-<!--            <version>1.1</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>javax</groupId>-->
-<!--            <artifactId>javaee-api</artifactId>-->
-<!--            <version>7.0</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>javax.websocket</groupId>-->
+        <!--            <artifactId>javax.websocket-api</artifactId>-->
+        <!--            <version>1.1</version>-->
+        <!--            <scope>provided</scope>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>javax</groupId>-->
+        <!--            <artifactId>javaee-api</artifactId>-->
+        <!--            <version>7.0</version>-->
+        <!--        </dependency>-->
         <!-- end -->
 
 
@@ -334,7 +331,7 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>3.1.0</version>
+<!--            <version>3.2.1</version>-->
         </dependency>
 
         <dependency>
@@ -347,13 +344,13 @@
         <!--<artifactId>msc</artifactId>-->
         <!--<version></version>-->
         <!--</dependency>-->
-        <dependency>
-            <groupId>cn.xfyun</groupId>
-            <artifactId>msc</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/lib/msc-1.0.jar</systemPath>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>cn.xfyun</groupId>-->
+        <!--            <artifactId>msc</artifactId>-->
+        <!--            <version>1.0</version>-->
+        <!--            <scope>system</scope>-->
+        <!--            <systemPath>${project.basedir}/src/main/resources/lib/msc-1.0.jar</systemPath>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
@@ -362,11 +359,14 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>net.sf.json-lib</groupId>-->
-            <!--<artifactId>json-lib</artifactId>-->
-            <!--<version>2.4</version>-->
-            <!--<classifier>jdk15</classifier>-->
+        <!--<groupId>net.sf.json-lib</groupId>-->
+        <!--<artifactId>json-lib</artifactId>-->
+        <!--<version>2.4</version>-->
+        <!--<classifier>jdk15</classifier>-->
         <!--</dependency>-->
+
+        <!-- jsonArray引入使用-->
+
     </dependencies>
 
     <build>

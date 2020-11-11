@@ -507,6 +507,8 @@ public interface SubjectTreeMapper {
      * @return
      */
     public int queryCounts(String treeId);
+    //添加色度分数
+    public void insScoreTeacherNan(@Param("Id") String Id,@Param("score") int score,@Param("userId") String userId);
 
     public Knowledges queryfirstChild(String treeId);
 

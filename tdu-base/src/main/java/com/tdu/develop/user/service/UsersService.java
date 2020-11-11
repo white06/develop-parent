@@ -44,6 +44,13 @@ public interface UsersService {
      */
     public void insUser(Users users, String role);
 
+    /**
+     **色度用户
+     * @param users
+     * @param role
+     */
+    public void insUserSedu(Users users, String role);
+
     public void upUser(Users users, String role);
 
     public String seleClass(String className);
