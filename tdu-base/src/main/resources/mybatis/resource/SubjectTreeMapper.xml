@@ -37,6 +37,10 @@
 		SELECT * FROM knowledges WHERE SubjectTree_Id in(SELECT Id FROM subjecttrees WHERE SubjectKey=#{SubjectKey})
 	</select>
 
+	<select id="GetSubjectTreePageForYX" parameterType="String" resultType="com.tdu.develop.resource.pojo.Knowledges">
+		SELECT * FROM knowledges WHERE SubjectTree_Id =#{SubjectKey}
+	</select>
+
     <select id="getSubjectModelRootId" parameterType="String" resultType="String">
 		select Id from roleKnowledges where SubjectTree_Id=#{subjectTree_Id} and Content='Root' and ParentKnowledge IS NULL
 	</select>
