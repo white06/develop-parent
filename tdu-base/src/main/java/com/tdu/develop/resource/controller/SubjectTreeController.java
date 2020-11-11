@@ -213,6 +213,25 @@ public class SubjectTreeController {
         return rList;
     }
 
+    @RequestMapping(value = "GetSubjectTreePageForYX.action", method = {RequestMethod.POST})
+    @ResponseBody
+    public List<Knowledges> GetSubjectTreePageForYX(HttpServletRequest request, HttpServletResponse response) {
+        String SubjectKey = request.getParameter("SubjectKey");
+        List<Knowledges> list = new ArrayList<Knowledges>();
+        List<Knowledges> rList = new ArrayList<Knowledges>();
+        list = subjectTreeService.GetSubjectTreePageForYX(SubjectKey);
+        Knowlegcontent knowlegcontent = null;
+        for (int i = 0; i < list.size(); i++) {
+            if (!list.get(i).getKnowledgecontentId().equals("00000000-0000-0000-0000-000000000000")) {
+                knowlegcontent = subjectTreeService.getSimulateParams(list.get(i).getKnowledgecontentId());
+                if (knowlegcontent.getType().equals("仿真考核")) {
+                    rList.add(list.get(i));
+                }
+            }
+        }
+        return rList;
+    }
+
     /**
      * 资源树文件树结构展示
      *

@@ -88,6 +88,9 @@ public class EmailUserController {
             sb.append("<!DOCTYPE>" + "<div bgcolor='#f1fcfa'   style='border:1px solid #d9f4ee; font-size:14px; line-height:22px; color:#005aa0;padding-left:1px;padding-top:5px;   padding-bottom:5px;'><span style='font-weight:bold;'>温馨提示：</span>"
                     + "<div style='width:950px;font-family:arial;'>欢迎使用TDuVR产品，请您点击下面链接确认确认注册信息：<br/><a  href='https://www.tduvr.club/tdu-base/EmailUserController/addUser.action?id=" + id + "' style='color:green'>" + yzm + "</a><br/>本邮件由系统自动发出，请勿回复。<br/>感谢您的使用。<br/>天度（厦门）科技股份有限公司</div>"
                     + "</div>");
+//            sb.append("<!DOCTYPE>" + "<div bgcolor='#f1fcfa'   style='border:1px solid #d9f4ee; font-size:14px; line-height:22px; color:#005aa0;padding-left:1px;padding-top:5px;   padding-bottom:5px;'><span style='font-weight:bold;'>温馨提示：</span>"
+//                    + "<div style='width:950px;font-family:arial;'>欢迎使用TDuVR产品，请您点击下面链接确认确认注册信息：<br/><a  href='http://192.168.0.55/tdu-base/EmailUserController/addUser.action?id=" + id + "' style='color:green'>" + yzm + "</a><br/>本邮件由系统自动发出，请勿回复。<br/>感谢您的使用。<br/>天度（厦门）科技股份有限公司</div>"
+//                    + "</div>");
             try {
                 String res = operation.sendMail(useremail, auth, host, from, email,
                         subject, sb.toString());

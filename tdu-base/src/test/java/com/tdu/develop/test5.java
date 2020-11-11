@@ -149,9 +149,10 @@ public class test5 {
         }
     };
     public static void main(String[] args) throws IOException {
-        String filepath = "C:\\Users\\TDU\\Desktop\\XMhunnitu";//D盘下的file文件夹的目录
+        String filepath = "D:\\wamp\\www\\Data\\3D\\Scene\\b971b9bc-18fb-4c2a-982f-7fa991a2a28e\\d2826549-7c84-4fd5-ba10-f4fdf8c8b724";//D盘下的file文件夹的目录
          File file = new File(filepath);//File类型可以是文件也可以是文件夹
         File[] fileList = file.listFiles();//将该目录下的所有文件放置在一个File类型的数组中
+
 
         //将该目录下的所有文件放置在一个File类型的数组中
 
@@ -169,7 +170,7 @@ public class test5 {
 //        }
 //
 //
-//        getAllFilePath(file);
+ getAllFilePath(file);
 
 
     }
@@ -513,16 +514,22 @@ public class test5 {
 
     public static void getAllFilePath(File dir) throws IOException {
         File[] files=dir.listFiles();
-        for(int i=0;i<files.length;i++){
-            if(files[i].isDirectory()){
-                System.out.println(files[i].getPath());
-                //这里面用了递归的算法  
-                getAllFilePath(files[i]);
-
-            } else {
-                System.out.println(files[i].getPath());
+        for (File f:files) {
+            System.out.println(f.isDirectory()?"文件夹："+f.getAbsolutePath():" 文件："+f.getName());
+            if(f.isDirectory()){
+                getAllFilePath(f);
             }
         }
+//        for(int i=0;i<files.length;i++){
+//            if(files[i].isDirectory()){
+//                System.out.println(files[i].getPath());
+//                //这里面用了递归的算法  
+//                getAllFilePath(files[i]);
+//
+//            } else {
+//                System.out.println(files[i].getPath());
+//            }
+//        }
     }
 
 

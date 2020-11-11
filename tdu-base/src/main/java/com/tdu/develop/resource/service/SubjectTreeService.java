@@ -143,4 +143,6 @@ public interface SubjectTreeService {
     List<StutotalScoresForYXY> getScoresForYXYByByDate(String classKey, String knoConentId, String startDate, String enddatetime);
 
     List<StutotalScoresForYXY> getScoresForYXYStu(String rId, String userId);
+
+    List<Knowledges> GetSubjectTreePageForYX(String subjectKey);
 }

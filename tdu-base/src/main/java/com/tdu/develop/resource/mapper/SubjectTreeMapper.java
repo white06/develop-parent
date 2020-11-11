@@ -526,4 +526,6 @@ public interface SubjectTreeMapper {
     List<StutotalScoresForYXY> getScoresForYXYStu(@Param("pId") String dId, @Param("userId") String userId);
 
     List<StutotalScoresForYXY> getScoresForYXYStuByDate(@Param("pId") String dId, @Param("userId") String userId, @Param("startDate")String startDate, @Param("enddatetime")String enddatetime);
+
+    List<Knowledges> GetSubjectTreePageForYX(String subjectKey);
 }

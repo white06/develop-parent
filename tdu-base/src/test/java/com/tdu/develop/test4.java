@@ -14,15 +14,26 @@ import java.nio.charset.Charset;
 
 public class test4 {
     public static void main(String[] args) throws DocumentException, IOException {
-        System.out.println(System.getProperty("file.encoding"));
-        // test();
-        System.out.println("Default Charset=" + Charset.defaultCharset());
-        System.out.println("file.encoding=" + System.getProperty("file.encoding"));
-        System.out.println("Default Charset=" + Charset.defaultCharset());
-        System.out.println("Default Charset in Use=" + getDefaultCharSet());
+//        System.out.println(System.getProperty("file.encoding"));
+//        // test();
+//        System.out.println("Default Charset=" + Charset.defaultCharset());
+//        System.out.println("file.encoding=" + System.getProperty("file.encoding"));
+//        System.out.println("Default Charset=" + Charset.defaultCharset());
+//        System.out.println("Default Charset in Use=" + getDefaultCharSet());
+            String realPath = "D:/wamp/www/Data/3D/Scene/b971b9bc-18fb-4c2a-982f-7fa991a2a28e/d2826549-7c84-4fd5-ba10-f4fdf8c8b724/1.png";
 
+        String[] strArr = realPath.split("/");
+        String wenjianPath = "";
+        System.out.println(strArr.length); //这里输出3
+        for (int i = 0; i < strArr.length; ++i) {
+            System.out.println(strArr[i]);//这里输出a b c
+            if (i != (strArr.length - 1)) {
+                wenjianPath = wenjianPath + "/" + strArr[i];
+            }
+        }
+        System.out.println(wenjianPath);
         //upload();
-        test();
+        //test();
     }
 
     public static void upload() throws FileNotFoundException {

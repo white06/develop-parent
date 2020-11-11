@@ -272,7 +272,7 @@ public interface DevelopSceneService {
      * */
     String AddScenesContentFileModel(Scenecontents scenecontents, String treeId1, String nodeId, Scenes scene);
 
-    void commonUploadFole(MultipartFile file, String realPath, String userKey, String sceneContentKey) throws IOException;
+    void commonUploadFole(MultipartFile file, String realPath, String filepath, String userKey, String sceneContentKey) throws IOException;
 
     void commonSetVersion(String userKey, String sceneContentKey);
 }

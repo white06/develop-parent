@@ -117,6 +117,11 @@ public class SubjectTreeServiceImpl implements SubjectTreeService {
         list = subjectTreeMapper.GetSubjectTreePage(SubjectKey);
         return list;
     }
+    public List<Knowledges> GetSubjectTreePageForYX(String SubjectKey) {
+        List<Knowledges> list = new ArrayList<Knowledges>();
+        list = subjectTreeMapper.GetSubjectTreePageForYX(SubjectKey);
+        return list;
+    }
 
     public List<ZNodes> seleknowledges(String treeid, String userId) {
         ZNodes zNodes = new ZNodes();

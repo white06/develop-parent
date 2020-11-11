@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 @SpringBootApplication
-@MapperScan({"com.tdu.develop.mapper.auto","com.tdu.develop.mapper.custom"})
+@MapperScan({"com.tdu.develop.mapper.auto", "com.tdu.develop.mapper.custom"})
 public class DevelopUserApplication {
 
     public static void main(String[] args) {

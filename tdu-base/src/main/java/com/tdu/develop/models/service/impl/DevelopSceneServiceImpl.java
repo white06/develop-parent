@@ -437,7 +437,7 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
             e.printStackTrace();
         }
     }
-    public void commonUploadFole(MultipartFile mf, String realPath, String userKey, String sceneContentKey) throws IOException {
+    public void commonUploadFole(MultipartFile mf, String realPath, String filepath, String userKey, String sceneContentKey) throws IOException {
         InputStream is = mf.getInputStream();
         StringBuffer fileBuf = new StringBuffer();
 
@@ -454,22 +454,24 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         // String filePar = "D:/wamp/www/Data/3D/Scene/"+userKey+wenjianPath;
         //String filePar = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userKey + wenjianPath;// 文件夹路径
 
-        if (!new File(realPath).exists()) {
-            System.out.println(" fileUrlPath :" + realPath);
-            System.out.println(" new File(trueUrl).exists() :" + new File(realPath).exists());
-            boolean mkdirs = new File(realPath).mkdirs();
+        if (!new File(filepath).exists()) {
+            System.out.println(" fileUrlPath :" + filepath);
+            System.out.println(" new File(trueUrl).exists() :" + new File(filepath).exists());
+            boolean mkdirs = new File(filepath).mkdirs();
             System.out.println("创建目录返回结果：" + mkdirs);
-            System.out.println("创建文件夹路径为：" + realPath);
+            System.out.println("创建文件夹路径为：" + filepath);
         }
 
         // 文件夹路径存在的情况下
         // String filename = "D:/wamp/www/Data/3D/Scene/"+""+userKey+""+"/"+realPath;;// 文件名
         String filename = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + "" + userKey + "" + "/" + realPath;
+        filename = realPath;
         // 文件名
 
         System.out.println(filename);
 
         String name = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + "" + userKey + "" + "/" + realPath;
+        name = realPath;
         String creatFileName = unicodeToUtf8(name);
         File writeFile = new File(creatFileName);
         System.out.println(Charset.defaultCharset());
