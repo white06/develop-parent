@@ -124,6 +124,8 @@ public interface SubjectTreeService {
     public StutotalScores getStudentScoreNan(String rId, String userId);
 
 
+    public void insScoreTeacherNan(int score, String userId);
+
     public Map<String, String> saveSimulateModel(Knowlegcontent kt);
 
     public String GetSubjectRootId(String treetype);

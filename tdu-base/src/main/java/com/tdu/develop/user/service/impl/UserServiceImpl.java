@@ -193,6 +193,49 @@ public class UserServiceImpl implements UsersService {
         }
     }
 
+
+    /**
+     * 每当添加一个用户，则为他添加5个科目的阅览权限
+     *
+     * @param users
+     * @param role
+     */
+    public void insUserSedu(Users users, String role) {
+        String id = users.getId();
+        System.out.println(users.getMobilePhoneNum().length());
+        if (users.getMobilePhoneNum().length() == 0) {
+            users.setMobilePhoneNum("13859980221");
+        }
+        usersMapper.insUser(users);
+        String uuId = UUID.randomUUID().toString();
+        usersMapper.addMajorUsers(uuId, id, "dc724d3f-d4cf-4db6-99e8-8ccf8a8e6e91");
+
+        usersMapper.insrole(id, role);
+        List<String> subList = usersMapper.getSubjectId();
+        List<String> list = new ArrayList<>();
+        //学生
+        if (role.equals("0c494961-fc3c-41b3-992a-4f9b0d0f57eb")) {
+            list.add("ccabdcd3-9754-4426-9078-53ee4bd9d09c");
+            //老师
+        } else if (role.equals("0f7b183d-4606-4874-8f36-566d8792403d")) {
+            for (String string : subList) {
+                list.add(string);
+            }
+            //admin
+        } else if (role.equals("9c8c0815-3968-45d0-9fae-0d42885973fc")) {
+            for (String string : subList) {
+                list.add(string);
+            }
+        }else if(role.equals("d0f21237-9b6a-4af7-9114-15684d8b2552")){
+            list.add("f9af4b5e-4ff4-4391-ab6b-14554b3d1eef");
+        }
+
+        for (String subjectkey : list) {
+            String uid = UUID.randomUUID().toString();
+            usersMapper.inssub(uid, id, subjectkey, users.getCreateDate());
+        }
+    }
+
     /**
      * 每当添加一个用户，则为他添加5个科目的阅览权限
      *

@@ -25,8 +25,6 @@
 
     <dependencies>
 
-
-        <!-- jsonArray引入使用-->
         <dependency>
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
@@ -298,6 +296,7 @@
         <!-- end -->
 
 
+
         <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
@@ -332,7 +331,7 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>3.1.0</version>
+<!--            <version>3.2.1</version>-->
         </dependency>
 
         <dependency>
@@ -345,13 +344,13 @@
         <!--<artifactId>msc</artifactId>-->
         <!--<version></version>-->
         <!--</dependency>-->
-        <dependency>
-            <groupId>cn.xfyun</groupId>
-            <artifactId>msc</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/lib/msc-1.0.jar</systemPath>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>cn.xfyun</groupId>-->
+        <!--            <artifactId>msc</artifactId>-->
+        <!--            <version>1.0</version>-->
+        <!--            <scope>system</scope>-->
+        <!--            <systemPath>${project.basedir}/src/main/resources/lib/msc-1.0.jar</systemPath>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
@@ -365,6 +364,9 @@
         <!--<version>2.4</version>-->
         <!--<classifier>jdk15</classifier>-->
         <!--</dependency>-->
+
+        <!-- jsonArray引入使用-->
+
     </dependencies>
 
     <build>
