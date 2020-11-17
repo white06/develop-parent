@@ -5,6 +5,10 @@ import java.util.*;
 
 public class test5 {
     static Map<String, Map<String, File[]>> hashMap = new HashMap<>();
+
+    static List<String> list = new ArrayList<String>();
+
+
     static class object{
         String name;
         List<object> children;
@@ -150,15 +154,15 @@ public class test5 {
     };
     public static void main(String[] args) throws IOException {
         String filepath = "D:\\wamp\\www\\Data\\3D\\Scene\\b971b9bc-18fb-4c2a-982f-7fa991a2a28e\\d2826549-7c84-4fd5-ba10-f4fdf8c8b724";//D盘下的file文件夹的目录
-         File file = new File(filepath);//File类型可以是文件也可以是文件夹
+        File file = new File(filepath);//File类型可以是文件也可以是文件夹
         File[] fileList = file.listFiles();//将该目录下的所有文件放置在一个File类型的数组中
 
 
         //将该目录下的所有文件放置在一个File类型的数组中
 
         //Map<String, Map<String, File[]>> map = get(fileList);
-        List<object> map = get2(fileList);
-        System.out.println(map);
+        //List<object> map = get2(fileList);
+        //System.out.println(map);
 
 
 //
@@ -170,8 +174,86 @@ public class test5 {
 //        }
 //
 //
- getAllFilePath(file);
+        getAllFilePath(file);
 
+        //System.out.println(list);
+        List<String> arrayList = new ArrayList<String>();
+        List<List<String>> ist = new ArrayList<List<String>>();
+        List<List<String>> ist1 = new ArrayList<List<String>>();
+        List<List<String>> ist2 = new ArrayList<List<String>>();
+        List<List<String>> ist3 = new ArrayList<List<String>>();
+        List<List<String>> ist4 = new ArrayList<List<String>>();
+        for (String str : list) {
+            str = str.trim();
+            String temp[] = str.split("\\\\");
+            //System.out.println("  temp[]  =  "+Arrays.toString(temp));
+
+            List<String> list1 = Arrays.asList(temp);
+            List<String> arrList = new ArrayList<String>(list1); //
+            int count = 1;
+            for (int i = 0; i < 10; i++) {
+                if (count < 9) {
+                    arrList.remove(arrList.get(0));
+                }
+                count = count + 1;
+            }
+            System.out.println("  arrList[]  =  " + arrList.toString());
+            ist.add(arrList);
+        }
+        for (int i = 0; i < ist.size(); i++) {
+            if (ist.get(i).size() == 1) {
+                ist1.add(ist.get(i));
+            }
+            if (ist.get(i).size() == 2) {
+                ist2.add(ist.get(i));
+            }
+            if (ist.get(i).size() == 3) {
+                ist3.add(ist.get(i));
+            }
+            if (ist.get(i).size() == 4) {
+                ist4.add(ist.get(i));
+            }
+        }
+        for (int i = 0; i < ist1.size(); i++) {  //第一层
+            if (ist1.get(i).get(0).contains(".")) {  //为文件
+                Map<Object, Object> hashMap = new HashMap<Object, Object>();
+                hashMap.put("0", ist1.get(i).get(0));
+                arrayList.add(hashMap.toString());
+            } else {  //为文件夹 --> 往下找文件夹中文件/文件夹
+
+
+                System.out.println("  ist1.get(i).get(0) : " + ist1.get(i).get(0));  //audio
+                Map<Object, Object> hashMap = new HashMap<Object, Object>();
+                hashMap.put("parent", ist1.get(i).get(0));// parent 为父文件夹名
+                for (int j = 0; j < ist2.size(); j++) {  //第二层
+                    // Map 中放入文件名； 若为文件夹 则 value 也为Map
+                    if (ist2.get(j).get(0).equals(ist1.get(i).get(0)) && ist2.get(j).get(1).contains(".")) {  //audio   =>[audio, 1.png]  为文件
+                        hashMap.put(Integer.toString(j), ist2.get(i).get(1));
+                    } else if (ist2.get(j).get(0).equals(ist1.get(i).get(0)) && !ist2.get(j).get(1).contains(".")) {   //[html] =>[html, css]  为文件夹
+
+
+                        Map<Object, Object> hashMapChild = new HashMap<Object, Object>();
+                        hashMapChild.put("parent", ist2.get(j).get(1));// parent 为父文件夹名
+
+
+                        for (int k = 0; k < ist3.size(); k++) {  //第三层
+
+                            if (ist3.get(k).get(0).equals(ist1.get(i).get(0)) && ist2.get(j).get(1).equals(ist3.get(k).get(1))&&ist3.get(k).get(2).contains(".")) {  //   html, js   => [html, js, layui.all.js] 为文件
+                                hashMapChild.put(Integer.toString(k), ist3.get(k).get(2));
+                            }else if(ist3.get(k).get(0).equals(ist1.get(i).get(0)) && ist2.get(j).get(1).equals(ist3.get(k).get(1))&&!ist3.get(k).get(2).contains(".")){  //[html] =>[html, css]  为文件夹
+                                hashMapChild.put(Integer.toString(k), ist3.get(k).get(2));
+
+                                //待续
+                            }
+
+                        }
+                        hashMap.put(Integer.toString(j), hashMapChild);
+                    }
+                }
+                arrayList.add(hashMap.toString());
+            }
+        }
+        System.out.println(arrayList);
 
     }
 
@@ -478,8 +560,7 @@ public class test5 {
         return test5.ls;
     }
     public static Map<String, Map<String, File[]>> get(File[] fileList){
-
-
+        Map<String, Map<String, File[]>> staticMap = new HashMap<>();
         List<File> wjList = new ArrayList<File>();//新建一个文件集合
         for (int i = 0; i < fileList.length; i++) {
             File[] fileLis2t = fileList[i].listFiles();
@@ -498,38 +579,34 @@ public class test5 {
                     }
                     fileLis3t =null;
                 }
-                test5.hashMap.put(""+i+"",hashMap);
+                File[] fs = new File[1];
+                fs[0] =fileList[i];
+                hashMap.put("parent",fs);
+                staticMap.put(""+i+"",hashMap);
             }else{
                 Map<String,File[]> hashMap = new HashMap<String,File[]>();
                 File[] fs = new File[1] ;
                 fs[0] =fileList[i];
                 hashMap.put(""+i+"",fs);
-                test5.hashMap.put(""+i+"",hashMap);
+                staticMap.put(""+i+"",hashMap);
             }
             System.out.println(fileList.length);
         }
 
-        return test5.hashMap;
+        return staticMap;
     }
 
     public static void getAllFilePath(File dir) throws IOException {
         File[] files=dir.listFiles();
         for (File f:files) {
-            System.out.println(f.isDirectory()?"文件夹："+f.getAbsolutePath():" 文件："+f.getName());
+            //System.out.println(f.isDirectory()?"文件夹："+f.getAbsolutePath():" 文件："+f.getName());
+            //System.out.println(f.isDirectory()?"文件夹："+f.getAbsolutePath():" 文件："+f.getAbsolutePath());
+            list.add(f.getAbsolutePath());
             if(f.isDirectory()){
                 getAllFilePath(f);
             }
         }
-//        for(int i=0;i<files.length;i++){
-//            if(files[i].isDirectory()){
-//                System.out.println(files[i].getPath());
-//                //这里面用了递归的算法  
-//                getAllFilePath(files[i]);
-//
-//            } else {
-//                System.out.println(files[i].getPath());
-//            }
-//        }
+
     }
 
 

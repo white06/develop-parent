@@ -38,10 +38,13 @@ public class DevelopScenesController {
     DevelopSceneService developSceneService = new DevelopSceneServiceImpl();
 
 
+    static List<String> list = new ArrayList<String>();
+
 
     @RequestMapping(value = "getFileForEditor.action", method = RequestMethod.POST)
     @ResponseBody
-    public  Map<String, Map<String, File[]>>  getFileForEditor(
+    //public  Map<String, Map<String, File[]>>  getFileForEditor(
+    public  List<String>  getFileForEditor(
             @RequestParam("userKey") String userKey,
             @RequestParam("sceneContentKey") String sceneContentKey,
             HttpSession session) throws IOException {
@@ -49,9 +52,23 @@ public class DevelopScenesController {
         String realPath = "D:/wamp/www/Data/3D/Scene/"+ userKey + "/" + sceneContentKey;//D盘下的file文件夹的目录
         File file = new File(realPath);//File类型可以是文件也可以是文件夹
         File[] fileList = file.listFiles();//将该目录下的所有文件放置在一个File类型的数组中
-        Map<String, Map<String, File[]>> map = get(fileList);
+        list = new ArrayList<String>();
+        //Map<String, Map<String, File[]>> map = get(fileList);
+        getAllFilePath(file);
         //System.out.println(map);
-        return map;
+        return list;
+    }
+
+    public static void getAllFilePath(File dir) throws IOException {
+        File[] files=dir.listFiles();
+        for (File f:files) {
+            //System.out.println(f.isDirectory()?"文件夹："+f.getAbsolutePath():" 文件："+f.getName());
+            System.out.println(f.isDirectory()?"文件夹："+f.getAbsolutePath():" 文件："+f.getAbsolutePath());
+            list.add(f.getAbsolutePath());
+            if(f.isDirectory()){
+                getAllFilePath(f);
+            }
+        }
     }
 
     public static Map<String, Map<String, File[]>> get(File[] fileList){

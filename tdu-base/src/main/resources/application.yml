@@ -9,28 +9,28 @@ fuce:
   #头像上传路径
   profile: D:/profile/
 #tomcat config
-server :
-  port : 8082
+server:
+  port: 8082
   ##项目名字配置
   #servlet :
   #  context-path : /demo
-  tomcat :
-    max-threads : 128
-    min-spare-threads : 5
-    uri-encoding : UTF-8
+  tomcat:
+    max-threads: 128
+    min-spare-threads: 5
+    uri-encoding: UTF-8
     #shiro 报错修改的地方
     max-connections: 200000
     max-http-post-size: 9000000
-spring :
+spring:
   # 环境 dev|test|prod
-  profiles :
-    active : dev
+  profiles:
+    active: dev
   servlet:
     multipart:
       max-request-size: 2000MB
-      maxFileSize : 2000MB
+      maxFileSize: 2000MB
   mvc:   #静态文件
-    static-path-pattern : /static/**
+    static-path-pattern: /static/**
   thymeleaf:
     model: HTML5
     prefix: classpath:D:/webstorm/
@@ -39,12 +39,12 @@ spring :
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
 
-mybatis :
-  mapperLocations : classpath*:mybatis/*/*.xml
-  executor-type : reuse
-  type-aliases-package : com.*.model
-  configuration :
-    map-underscore-to-camel-case : true
+mybatis:
+  mapperLocations: classpath*:mybatis/*/*.xml
+  executor-type: reuse
+  type-aliases-package: com.*.model
+  configuration:
+    map-underscore-to-camel-case: true
 #pagehelper分页插件
 pagehelper:
   helperDialect: mysql

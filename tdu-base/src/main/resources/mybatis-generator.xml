@@ -24,7 +24,7 @@
 
     <context id="oracle" targetRuntime="MyBatis3" defaultModelType="flat">
         <!-- 序列化model-->
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
         <!-- 阻止生成自动注释 -->
         <!-- 当suppressAllComments配置为true是，既生成代码时，不需要mybatis注解时。重重复运mybatis-generator:generate时，xml中会在原来生成的内容基础上，再重新又生成了一边。而不是覆盖原来的。有谁知道怎么解决这个问题吗。配置为false是每次生成是会覆盖的。 -->
         <commentGenerator>
@@ -62,7 +62,7 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.tdu.develop.mapper.auto" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-        
+
         <table tableName="t_sys_user" domainObjectName="TsysUser" enableCountByExample="true">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
@@ -82,7 +82,7 @@
         <table tableName="t_sys_permission_role" domainObjectName="TsysPermissionRole" enableCountByExample="true">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>-->
-        
-        
+
+
     </context>
 </generatorConfiguration>
