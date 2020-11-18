@@ -411,6 +411,7 @@ public class UsersController {
     public void login(HttpServletRequest request, HttpServletResponse response, HttpSession session, Model model) {
         String userName = request.getParameter("userName");
         String passWord = request.getParameter("passWord");
+
         users.setUserName(userName);
         users.setPassWord(passWord);
         // 想要得到 SecurityUtils.getSubject() 的对象．．访问地址必须跟 shiro 的拦截地址内．不然后会报空指针

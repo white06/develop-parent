@@ -656,18 +656,20 @@ public class DevelopScenesController {
         //  type=1 练习   type=2 考核
         String type = request.getParameter("type");
         type = Base64Util.decode(type);
-
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).toString();
+        System.out.println(tempContextUrl);
         Scenes scenes = developSceneService.getScenes(sceneId);
         Scenecontents scenecontents = developSceneService.getScenecontentsInfos(sceneId);
 
         String userId = (String) session.getAttribute("ID");
 
-        String link = getLink(type, mark, scenes, scenecontents);
+        String link = getLink(type, mark, scenes, scenecontents,tempContextUrl);
         //link = link + "KnowledgeID=" + knowledges.getKnowledgecontentId() + "&OperateID=" + userId + "&";
         return link;
     }
 
-    public String getLink(String type, String mark, Scenes scenes, Scenecontents scenecontents) {
+    public String getLink(String type, String mark, Scenes scenes, Scenecontents scenecontents,String tempContextUrl) {
         /*String str="tduvr://command=open&App=TDuSimEngine&" +
                 "Scene=79c6c061-baae-46c7-8de2-ee28d37d5613/c86b27a8-3a34-b198-ab93-01664af51d29/c86b27a8-3a34-b198-ab93-01664af51d29.EXM&" +
                 "UserID=79c6c061-baae-46c7-8de2-ee28d37d5613&" +
@@ -690,7 +692,7 @@ public class DevelopScenesController {
             str = str + "TDuTest&";
         }
         if (mark.equals("3")) {
-            str = "https://tdu.tduvr.club/TDuWebEngine/index.html?" + str;
+            str = tempContextUrl+":8501/TDuWebEngine/index.html?" + str;
         }
         return str;
     }
