@@ -1480,4 +1480,17 @@ public class UsersController {
         String id = request.getParameter("id");
         return usersService.getUser(id);
     }
+
+    /**
+     * 获取session用户信息
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "getuser.action")
+    @ResponseBody
+    public Users getuser(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
+        String userId=(String) session.getAttribute("ID");
+        return usersService.getUser(userId);
+    }
 }

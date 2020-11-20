@@ -12,4 +12,8 @@
     <update id="setOnlineTime">
 		update useronline set onlinetime=#{onlineTime},outtime=#{outTime} where id=#{loginId}
 	</update>
+
+	<select id="getOnline" parameterType="String" resultType="com.tdu.develop.user.pojo.UserOnline">
+		select * from useronline where userid=#{userId}
+	</select>
 </mapper>

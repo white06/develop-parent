@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.xml.crypto.Data;
+import java.util.List;
 
 /**
  * @author 志阳
@@ -23,4 +24,5 @@ public interface UseronlineMapper {
 
     public void setOnlineTime(@Param("onlineTime") int onlineTime, @Param("outTime") String outTime, @Param("loginId") String loginId);
 
+    public List<UserOnline> getOnline(@Param("userId") String userId);
 }
