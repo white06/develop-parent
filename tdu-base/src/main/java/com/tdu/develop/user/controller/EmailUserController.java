@@ -278,7 +278,7 @@ public class EmailUserController {
                     usersService.ziyuaninsUserPersonl(users.getId(), users.getPassword(), users.getUserName(), users.getPassword(), "男", users.getUserName(), users.getTelephone());
                 }
             }
-            return "注册成功！请登录！";
+            return "success！";
         } else {
             return "2";
         }

@@ -228,6 +228,8 @@ public class UserServiceImpl implements UsersService {
             }
         }else if(role.equals("d0f21237-9b6a-4af7-9114-15684d8b2552")){
             list.add("f9af4b5e-4ff4-4391-ab6b-14554b3d1eef");
+        }else if(role.equals("911d15cd-a780-498e-ae54-934bdeeceb9b")){
+            list.add("f9af4b5e-4ff4-4391-ab6b-14554b3d1eef");
         }
 
         for (String subjectkey : list) {
