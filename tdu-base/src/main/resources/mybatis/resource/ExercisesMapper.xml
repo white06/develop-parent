@@ -51,17 +51,17 @@
 	</select>
 
     <insert id="addPersonal" parameterType="com.tdu.develop.resource.pojo.QuestionPersonal">
-		replace into questionsPersonal(id,content,personalId,time,title,type,questionImg,fenshu,useType) 
+		replace into questionspersonal(id,content,personalId,time,title,type,questionImg,fenshu,useType) 
 		values(#{questionPersonal.id},#{questionPersonal.content},#{questionPersonal.personalId},#{questionPersonal.time},#{questionPersonal.title},
 		#{questionPersonal.type},#{questionPersonal.questionImg},#{questionPersonal.fenshu},#{questionPersonal.useType})
 	</insert>
 
     <select id="shoucangQuestion" parameterType="String" resultType="com.tdu.develop.resource.pojo.QuestionPersonal">
-		select * from questionsPersonal where personalId=#{subId} and useType=#{questionNum}
+		select * from questionspersonal where personalId=#{subId} and useType=#{questionNum}
 	</select>
 
     <select id="deleteShoucang" parameterType="String">
-		delete from questionsPersonal where Id=#{timuId}
+		delete from questionspersonal where Id=#{timuId}
 	</select>
 
     <insert id="submit" parameterType="String">
