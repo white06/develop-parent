@@ -191,7 +191,9 @@ public class UsersController {
         if (s.equals("0000")) {
             resultMap.put("code", "0000");
         }
-        resultMap.put("data", rod);
+        byte[] bytes = rod.getBytes();
+        String encoded = Base64.getEncoder().encodeToString(bytes);
+        resultMap.put("data", encoded);
         return JSONArray.toJSONString(resultMap);
     }
 

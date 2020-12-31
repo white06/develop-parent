@@ -124,7 +124,8 @@ public class SubjectTreeController {
     @ResponseBody
     public void insScoreTeacherNan(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         String score1 = request.getParameter("score");
-        String userId = request.getParameter("userId");
+        String userId = (String) session.getAttribute("ID");
+      //  String userId = request.getParameter("userId");
         try {
 
             int score = Integer.parseInt(score1);
