@@ -922,4 +922,67 @@ public class UserServiceImpl implements UsersService {
     public List<Object> getMonthInYearCount() {
         return usersMapper.getMonthInYearCount();
     }*/
+
+    public Users getUserForName(String userName){
+        return usersMapper.getUserForName(userName);
+    }
+    @Override
+    public String getLoginUsercode(String userName,boolean panduan){
+        Logincode logincode=usersMapper.getLogincode(userName);
+        Integer count=0;
+        String str;
+        if(logincode==null&&panduan==true) {
+                return "1";//登录成功
+        }else if(logincode!=null&&panduan==true){
+            if(logincode.getCode().equals("1")||logincode.getCode().equals("2")||logincode.getCode().equals("3")||logincode.getCode().equals("4")){
+                return "1";//登录成功
+            }else if(logincode.getCode().equals("5")){
+              //  usersMapper.updateLogincount(logincode.getUserid(),logincode.getCode());
+                return "2";//超过登录次数
+            }
+        }else if(logincode==null&&panduan==false){
+            usersMapper.updateLogincount(userName,"1");
+            return "3";//验证失败
+        }else if(logincode!=null&&panduan==false){
+            if(logincode.getCode().equals("5")){
+                return "4";
+            }else{
+               count= new Integer(logincode.getCode())+1;
+               str=""+count;
+               if(count==5){
+                   new Timer().schedule(new TimerTask() {
+            public void run() {
+                                           try {
+                                                   //do Something
+                                               usersMapper.delLogincount(userName);
+                                                   System.out.println("禁止用户5分钟登录!");
+                                               } catch (Exception e) {
+                                                   e.printStackTrace();
+                                                }
+                                       }
+        }, 0, 300000);
+               }
+                usersMapper.updateLogincount(logincode.getUserid(),str);
+            }
+
+            return "3";//验证失败
+        }
+            // if(logincode.getCode()!="1"||logincode.getCode()!="2"||logincode.getCode()!="3"||logincode.getCode()!="4"||logincode.getCode()!="0"||){
+            //
+            // }else if(logincode.getCode()=="1"){
+            //
+            // }else if(logincode.getCode()=="2"){
+            //
+            // }else if(logincode.getCode()=="3"){
+            //
+            // }else if(logincode.getCode()=="4"){
+            //
+            // }else if(logincode.getCode()=="5"){
+            //
+            // }
+
+
+        return null;
+    }
+
 }

@@ -43,4 +43,12 @@ public class UsersOnlineController {
 
         return userOnlineService.getseducount(userId);
     }
+
+    // @RequestMapping(value = "getCode.action")
+    // @ResponseBody
+    // public String getCode(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
+    //     String userId=(String) session.getAttribute("ID");
+    //
+    //     return userOnlineService.getseducount(userId);
+    // }
 }

@@ -1329,4 +1329,20 @@ FROM
          set
          Idol=#{endDay} WHERE Id=#{userId}
     </update>
+
+    <select id="getUserForName" parameterType="String" resultType="com.tdu.develop.user.pojo.Users">
+    SELECT * FROM users WHERE UserName=#{userName}
+</select>
+
+    <insert id="updateLogincount" parameterType="String">
+		replace into logincode(userid,code)values(#{userName},#{code})
+	</insert>
+
+    <select id="getLogincode" parameterType="String" resultType="com.tdu.develop.user.pojo.Logincode">
+    SELECT * FROM logincode WHERE userid=#{userName}
+</select>
+    <delete id="delLogincount" parameterType="String">
+        delete from logincode
+        <where>userid=#{userName}</where>
+    </delete>
 </mapper>

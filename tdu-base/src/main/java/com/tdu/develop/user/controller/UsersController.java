@@ -422,29 +422,43 @@ public class UsersController {
         // 认证执行者交由 com.battcnyuyin.config.AuthRealm 中 doGetAuthenticationInfo 处理
         // 当以上认证成功后会向下执行,认证失败会抛出异常
         UsernamePasswordToken token = new UsernamePasswordToken(userName, passWord);
-        try {
-            sub.login(token);
-        } catch (UnknownAccountException e) {
-            logger.error("对用户[{}]进行登录验证,验证未通过,用户不存在", userName);
-            token.clear();
-        } catch (LockedAccountException lae) {
-            logger.error("对用户[{}]进行登录验证,验证未通过,账户已锁定", userName);
-            token.clear();
-        } catch (ExcessiveAttemptsException e) {
-            logger.error("对用户[{}]进行登录验证,验证未通过,错误次数过多", userName);
-            token.clear();
-        } catch (AuthenticationException e) {
-            logger.error("对用户[{}]进行登录验证,验证未通过,堆栈轨迹如下", userName, e);
-            token.clear();
-        }
+        // try {
+        //     sub.login(token);
+        // } catch (UnknownAccountException e) {
+        //     logger.error("对用户[{}]进行登录验证,验证未通过,用户不存在", userName);
+        //     token.clear();
+        // } catch (LockedAccountException lae) {
+        //     logger.error("对用户[{}]进行登录验证,验证未通过,账户已锁定", userName);
+        //     token.clear();
+        // } catch (ExcessiveAttemptsException e) {
+        //     logger.error("对用户[{}]进行登录验证,验证未通过,错误次数过多", userName);
+        //     token.clear();
+        // } catch (AuthenticationException e) {
+        //
+        //
+        //
+        //     logger.error("对用户[{}]进行登录验证,验证未通过,堆栈轨迹如下", userName, e);
+        //     token.clear();
+        // }
 
         Users users2 = usersService.longin(users);
 
         Users user = (Users) session.getAttribute("USER_SESSION");
-
+        String logincode;
         try {
+            Users getUsers=usersService.getUserForName(userName);
+            if(getUsers!=null&&users2!=null){
+               logincode=usersService.getLoginUsercode(userName,true);
+            }else{
+                logincode=usersService.getLoginUsercode(userName,false);
+            }
+
+            if(getUsers==null){
+                response.getWriter().print("{\"user\":\"false\",\"code\":\"" + logincode + "\"}");
+            }else
             if (null == users2) {
-                response.getWriter().print("{\"false\":\"false\"}");
+                response.getWriter().print("{\"false\":\"false\",\"code\":\"" + logincode + "\"}");
+
             } else {
                 //获取系统时间，并且转码成数据库可读
                 Date d = new Date();
@@ -464,7 +478,7 @@ public class UsersController {
                     userOnline.setOnlineTime(30);
                     session.setAttribute("loginid", loginId);
                     usersService.insetUserLogin(userOnline);
-                    response.getWriter().print("{\"success\":\"ture\",\"cookie\":\"" + request.getSession().getId() + "\"}");
+                    response.getWriter().print("{\"success\":\"ture\",\"cookie\":\"" + request.getSession().getId() + "\",\"code\":\"" + logincode + "\"}");
                 } else {
                     response.getWriter().print("{\"error\":\"error\"}");
                     //   session.setMaxInactiveInterval(0);

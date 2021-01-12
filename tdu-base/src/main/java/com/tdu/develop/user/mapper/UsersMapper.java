@@ -414,4 +414,14 @@ public interface UsersMapper {
 
     String getPersonPhoto(@Param("userKey") String userKey);
     /* public List<Object> getMonthInYearCount();*/
+
+    public Users getUserForName(@Param("userName") String userName);
+
+    //获取userlogin信息
+    public Logincode getLogincode(@Param("userName") String userName);
+
+    //修改登录验证错误次数
+    public void updateLogincount(@Param("userName") String userName, @Param("code") String code);
+
+    public void delLogincount(@Param("userName") String userName);
 }

@@ -271,4 +271,12 @@ public interface UsersService {
     String getPersonPhoto(String userKey);
 
     /* List<Object> getMonthInYearCount();*/
+
+    //根据登录名获取用户信息
+    public Users getUserForName(String userName);
+
+    //验证用户登录是否超过次数
+    public String getLoginUsercode(String userName,boolean panduan);
+
+
 }
