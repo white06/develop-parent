@@ -6,9 +6,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.tdu.develop.redis.RedisUtil;
 import com.tdu.develop.user.pojo.*;
 import com.tdu.develop.user.service.DepartmentService;
+import com.tdu.develop.user.service.LoginCountService;
 import com.tdu.develop.user.service.MajorService;
 import com.tdu.develop.user.service.UsersService;
 import com.tdu.develop.user.service.impl.DepartmentServiceImpl;
+import com.tdu.develop.user.service.impl.LoginCountServiceImpl;
 import com.tdu.develop.user.service.impl.MajorServiceImpl;
 import com.tdu.develop.user.service.impl.UserServiceImpl;
 import com.tdu.develop.util.Config;
@@ -53,9 +55,31 @@ public class UsersController {
     @Autowired
     DepartmentService departmentService = new DepartmentServiceImpl();
 
+    @Autowired
+    LoginCountService loginCountService = new LoginCountServiceImpl();
+
 
     Users users = new Users();
 
+    @RequestMapping(value = "addCount.action")
+    @ResponseBody
+    public void addCount() {
+        LoginCount loginCount = new LoginCount();
+        String Id = UUID.randomUUID().toString();
+        loginCount.setId(Id);
+        Date d = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateNowStr = df.format(d);
+        loginCount.setCreateDate(dateNowStr);
+        loginCountService.addCount(loginCount);
+    }
+
+    @RequestMapping(value = "getCount.action")
+    @ResponseBody
+    public int getCount() {
+        int count = loginCountService.getCount();
+        return count;
+    }
 
     //查询所有的用户账号
     @RequestMapping(value = "selUsersByClass.action")

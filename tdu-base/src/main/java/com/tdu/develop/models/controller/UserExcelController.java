@@ -27,8 +27,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -460,7 +460,7 @@ public class UserExcelController {
     @RequestMapping(value = "getFileForTdu.action", method = {RequestMethod.POST})
     @ResponseBody
     public void getFileForTdu(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                              @RequestParam("file") MultipartFile file) {
+                              @RequestParam("file") MultipartFile[] file,@RequestParam("modelinfo") String modelinfo) {
         Date date = new Date();
         // 获取日期时间
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -468,231 +468,186 @@ public class UserExcelController {
         // 获取服务器路径(tomcat)
         String filePath = request.getServletContext().getRealPath("/");
         String itemPath = "../../workspaces/diesel/temp/";
-        // 文件名称
-        // String fileName=file.getOriginalFilename();
-        String fileName = request.getParameter("filename");
-        //System.out.println(fileName);
-        String modelinfo = request.getParameter("modelinfo");
-        //System.out.println(modelinfo);
-        logger.info(" fileName :" + fileName);
         logger.info(" modelinfo :" + modelinfo);
 
         // 固定服务器路径
         //String testUrl="D:/working/TDuClub/TDu/Data/3D/";
 
         // 公司服务器路径 D:\working\TDuClub\TDu\Data\3D
-        String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/";
+        String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model";
 
-        // 测试路径
-        //   String testUrl="D:/testup/";
-        String[] nameArray = fileName.split("\\|");
         String[] modelArray = modelinfo.split("\\|");
 
-        if (nameArray.length != 5 || modelArray.length != 5) {
+        if ( modelArray.length != 5) {
             logger.debug("文件名或modelinfo拆分后长度未达到5！");
             throw new RuntimeException("文件名或modelinfo拆分后长度未达到5！");
         }
 
-        String[] gethouzhui = fileName.split("\\.");
-        String str = gethouzhui[(gethouzhui.length - 1)];
-        //System.out.println("str   :" + str);
-        logger.info(" str :" + str);
-        // System.out.println("nameArray[4] :"+nameArray[4]);
-        // System.out.println("modelArray[4] :"+modelArray[4]);
-        if (nameArray.length > 3) {
-            // 用户id
-            String name = nameArray[0];
-            //System.out.println("用户id  :" + nameArray[0]);
-            // 模型或者场景id
-            String modelOrView = nameArray[1];
-            //System.out.println("模型或者场景id  :" + nameArray[1]);
-            // 文件名
-            String UPfileName = nameArray[2];
-            //System.out.println("文件名  :" + nameArray[2]);
-            // model和view路径获取
-            String UPfileName1 = nameArray[3];
-            //System.out.println("model和view路径获取  :" + nameArray[3]);
-            String userId = (String) session.getAttribute("ID");
-            //System.out.println("nameArray[4]  :" + nameArray[4]);
-            String[] fileArray = nameArray[4].split("\\.");
+        String id = modelArray[0];
+        String Name = modelArray[1];// session.getAttribute("ID").toString();
+        String userkey = modelArray[2];
+        String ContactKey = modelArray[3];
+        String subtreeId = modelArray[4];
 
-            // 获取文件名称
-            String LatFileName = UPfileName + "." + str; // str;
+        String LatFileName = "";
 
-            //System.out.println("UPfileName  :" + UPfileName);
-            //System.out.println("LatFileName  :" + LatFileName);
-
-            //System.out.println("fileArray  :" + fileArray);
-            //System.out.println("fileArray[0]  :" + fileArray[0]);
-            //System.out.println("LatFileName   :" + LatFileName);
-
-            //System.out.println("UPfileName1  ------- :" + UPfileName1);
-
-            // 查询文件夹路径是否存在
-            String trueUrl = "";
-            if (fileArray[0].equals("null")) {
-                trueUrl = testUrl + UPfileName1 + "/" + name + "/" + modelOrView + "/";
-            } else {
-                trueUrl = testUrl + UPfileName1 + "/" + name + "/" + modelOrView + "/" + fileArray[0] + "/";
-            }
-
-            // String studentId=usersServiceImp.selRole();
-
-            // 文件路径
-            String fileUrlPath = trueUrl + LatFileName;
-            logger.info(" fileUrlPath :" + fileUrlPath);
-            // String studentId=usersServiceImp.selRole();
-            if (!new File(trueUrl).exists()) {
-                logger.info(" fileUrlPath :" + fileUrlPath);
-                logger.info(" new File(trueUrl).exists() :" + new File(trueUrl).exists());
-                new File(trueUrl).mkdirs();
-            }
             try {
-                String id = modelArray[0];
-                String Name = modelArray[1];// session.getAttribute("ID").toString();
-                String userkey = modelArray[2];
-                String ContactKey = modelArray[3];
-                String subtreeId = modelArray[4];
+                for (MultipartFile f:file) {
+                    File file1;
+                    String name = "";
+                    try {
+                        System.out.println(f.getOriginalFilename() + "   iii         --------");
+                        String path = f.getOriginalFilename();
+                        String suffix = path.substring(path.lastIndexOf("."));
+                        //sence  /  model ID
+                        String pp = id;
+                        String realPath = pp;
 
-                if (str.equals("tdc") || str.equals("tdb") || str.equals("exm") || str.equals("EXM")) {
-                    LatFileName = modelOrView + "." + str;
-                    fileUrlPath = trueUrl + "/" + LatFileName;
+                        if (suffix.equals(".tdb") || suffix.equals(".tdc")) {
+                            LatFileName = id + suffix;
+                        }
+
+                        System.out.println(" path :" + path);
+                        if (suffix.equals(".tdb") || suffix.equals(".tdc") || suffix.equals(".EXM") || suffix.equals(".exm") || suffix.equals(".glb") || suffix.equals(".GLB")) {
+                            System.out.println(" suffix :" + suffix);
+                            realPath = pp + "/" + "" + id + "" + suffix;
+                            System.out.println("  realPath  :" + realPath);
+                        } else {
+                            String[] strArr = path.split("/");
+                            System.out.println(strArr.length); //这里输出3
+                            for (int i = 0; i < strArr.length; ++i) {
+                                System.out.println(strArr[i]);//这里输出a b c
+                                if (i != 0) {
+                                    realPath = realPath + "/" + strArr[i];
+                                }
+                            }
+                            System.out.println("  realPath  :" + realPath);
+                        }
+                        //f.transferTo(new File(realPath));
+                        updatePdf(f, realPath, userkey);
+                        System.out.println("sssss   ");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
-                logger.info(" fileUrlPath :" + fileUrlPath);
-                // 添加文件
-                file.transferTo(new File(fileUrlPath));
                 /* 模型和Knowleg 以及Knowlegcontent 同步添加 */
-                if (UPfileName1.equals("Model")) {
-                    Models model = new Models();
-                    model.setId(id);
-                    model.setName(Name);
-                    model.setType("模型");
-                    model.setUserKey(userkey);
-                    model.setPhotoName("preview.jpg");
+
                     Modelcontents modelcontents = new Modelcontents();
                     // knowlegcontent.setNmae(Name);
                     modelcontents.setCustomName(Name);
-
-                    if (str.equals("tdc") || str.equals("tdb")) {
-                        modelcontents.setNmae(LatFileName);
-                    } else {
-                        modelcontents.setNmae(Name);
-                    }
+                    modelcontents.setNmae(LatFileName);
                     modelcontents.setCustomStyle("default");
                     modelcontents.setId(id);
                     modelcontents.setType("模型");
                     modelcontents.setUserKey(userkey);
                     modelcontents.setUrl(testUrl);
                     modelcontents.setPhotoName("preview.jpg");
+                    //subjectID
                     String nodeId = ContactKey;
                     if (developModelService.getModelContentName(id) == null) {
                         developModelService.AddModelsContent2(modelcontents, subtreeId, nodeId);
                         //ads.AddModelsContent2(modelcontents, ModelsSubId, nodeId);
                     }
-                    if (str.equals("tdc") || str.equals("tdb")) {
+
                         developModelService.updateModelscontentCustomName(id, LatFileName, "preview.jpg");
                         // msi.updateModelFileName(id,LatFileName);
-                    }
-                } else if (UPfileName1.equals("Scene")) {
-					/*String id = modelArray[0];
-					String Name = modelArray[1];// session.getAttribute("ID").toString();
-					String userkey = modelArray[2];
-					String ContactKey = modelArray[3];
-					String subtreeId = modelArray[4];*/
 
-                    Models model = new Models();
-                    // model.setContactKey("7fb53e8f-baf1-4c1e-8868-bad634e81461");
-                    model.setId(modelOrView);
-                    // 目前用文件名
-                    model.setName(UPfileName);
-
-                    model.setType("场景");
-                    model.setUserKey(name);
-                    model.setPhotoName("preview.jpg");
-                    Scenecontents scenecontents = new Scenecontents();
-                    // knowlegcontent.setNmae(Name);
-                    scenecontents.setCustomName(Name);
-
-                    if (str.equals("EXM") || str.equals("exm")) {
-                        scenecontents.setNmae(LatFileName);
-                    } else {
-                        scenecontents.setNmae(UPfileName);
-                    }
-                    scenecontents.setCustomStyle("default");
-                    scenecontents.setId(modelOrView);
-                    scenecontents.setType("场景");
-                    scenecontents.setUserKey(name);
-                    scenecontents.setUrl(testUrl);
-                    // scenecontents.setPhotoName("preview.jpg");
-                    String nodeId = ContactKey;
-                    // String nodeId="2cb52724-a23b-42ad-9f80-d537af993c9e";
-                    if (developSceneService.getSceneContentName(modelOrView) == null) {
-                        developSceneService.AddScenesContent2(scenecontents, subtreeId, nodeId);
-                        //ads.AddScenesContent2(scenecontents, ScenesSubId, nodeId);
-                    }
-                    if (str.equals("EXM") || str.equals("exm")) {
-                        developSceneService.updateScenescontentCustomName(modelOrView, LatFileName, null);
-                        // adsi.updateScenescontentCustomName(modelOrView,LatFileName,"preview.jpg");
-                        // msi.updateModelFileName(modelOrView,LatFileName);
-                    }
-                }
-
-                // ExcelClass excelClass=new ExcelClass();
-                // List<Map<String, Object>> sheetArray=excelClass.getExcelContent(fileWay);
-                // if (new File(fileWay).exists()) {
-                // new File(fileWay).delete();
-                // }
-                // List<String> errList=new ArrayList<>();
-                // for (Map<String, Object> sheetMap : sheetArray) {
-                // List<CellObject> objectList=new ArrayList<CellObject>();
-                // String sheetName=sheetMap.get("sheetName").toString();
-                // String classId=usersServiceImp.seleExcelClassId(sheetName);
-                // @SuppressWarnings("unchecked")
-                // List<Map<String, Object>> sheetList=(List<Map<String, Object>>)
-                // sheetMap.get("sheetContent");
-                // response.setCharacterEncoding("UTF-8");
-                // for (Map<String, Object> cellMap : sheetList) {
-                // CellObject cellObject=new CellObject();
-                // if
-                // (cellMap.get("姓名")==null||cellMap.get("用户名")==null||cellMap.get("密码")==null||cellMap.get("性别")==null)
-                // {
-                // response.getWriter().print("含有空列，请检查！用户表单不允许有空列！");
-                // return;
-                // }
-                // cellObject.setName(cellMap.get("姓名").toString());
-                // cellObject.setUserName(cellMap.get("用户名").toString());
-                // cellObject.setPassWord(cellMap.get("密码").toString());
-                // cellObject.setSex(cellMap.get("性别").toString());
-                // cellObject.setId(UUID.randomUUID().toString());
-                // cellObject.setRoleId(studentId);
-                // cellObject.setClassId(classId);
-                // cellObject.setCreateDate(getDate);
-                // objectList.add(cellObject);
-                // }
-                // errList.addAll(usersServiceImp.insUserList(objectList));
-                // }
-                // response.setCharacterEncoding("UTF-8");
-                // if (errList.size()==0) {
-                // response.getWriter().print("完全成功");
-                // return;
-                // } else {
-                // String errMessage="导入成功，以下账号已存在:";
-                // for (String string : errList) {
-                // errMessage+=string+",";
-                // }
-                // errMessage+="无法导入";
-                // response.getWriter().print(errMessage);
-                // return;
-                // }
             } catch (IllegalStateException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-        } else {
+    }
 
+    public void updatePdf(MultipartFile mf, String realPath, String userKey) throws IOException {
+        InputStream is = mf.getInputStream();
+        StringBuffer fileBuf = new StringBuffer();
+
+        String[] strArr = realPath.split("/");
+        String wenjianPath = "";
+        System.out.println(strArr.length); //这里输出3
+        for (int i = 0; i < strArr.length; ++i) {
+            System.out.println(strArr[i]);//这里输出a b c
+            if (i != (strArr.length - 1)) {
+                wenjianPath = wenjianPath + "/" + strArr[i];
+            }
+        }
+        //String filePar = "D:/working/TDuClub/TDu/Data/3D/Model/"+userKey+wenjianPath;// 文件夹路径
+        //String filePar = "\\home\\working\\tdu.tduvr.club\\Data\\3D\\Model\\"+userKey+wenjianPath;// 文件夹路径
+
+        //新
+        String filePar = "D:/wamp/www/Data/3D/Model/"+userKey+wenjianPath;
+        //String filePar = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model/" + userKey + wenjianPath;
+
+        /*File myPath = new File( filePar );
+        if ( !myPath.exists()){//若此目录不存在，则创建之
+            myPath.setWritable(true,false);
+            boolean mkdirs = myPath.mkdirs();
+            System.out.println("创建目录返回结果："+mkdirs);
+            System.out.println("创建文件夹路径为："+ filePar);
+        }*/
+        if (!new File(filePar).exists()) {
+            System.out.println(" fileUrlPath :" + filePar);
+            System.out.println(" new File(trueUrl).exists() :" + new File(filePar).exists());
+            boolean mkdirs = new File(filePar).mkdirs();
+            System.out.println("创建目录返回结果：" + mkdirs);
+            System.out.println("创建文件夹路径为：" + filePar);
+        }
+
+        // 文件夹路径存在的情况下
+
+        //String filename = "D:/working/TDuClub/TDu/Data/3D/Model/"+""+userKey+""+"/"+realPath;;// 文件名
+
+        //新
+        String filename = "D:/wamp/www/Data/3D/Model/"+""+userKey+""+"/"+realPath;;// 文件名
+        //String filename = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model/" + "" + userKey + "" + "/" + realPath;
+        ;// 文件名
+
+        //String filename = "\\home\\working\\tdu.tduvr.club\\Data\\3D\\Model\\"+""+userKey+""+"\\"+realPath;;// 文件名
+//String name = "D:/working/TDuClub/TDu/Data/3D/Model/"+""+userKey+""+"/"+realPath;
+        //新
+        String name = "D:/wamp/www/Data/3D/Model/"+""+userKey+""+"/"+realPath;
+        //String name = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model/" + "" + userKey + "" + "/" + realPath;
+        String creatFileName = unicodeToUtf8(name);
+        File writeFile = new File(creatFileName);
+        //File writeFile=new File("\\home\\working\\tdu.tduvr.club\\Data\\3D\\Model\\"+""+userKey+""+"\\"+realPath);
+        System.out.println(" filename : " + filename);
+        System.out.println(Charset.defaultCharset());
+        try {
+            FileWriter fw = new FileWriter(filename, true);// filePar + "\\" + filename,true
+            BufferedInputStream bis = new BufferedInputStream(is);
+            // BufferedReader bReader  = new BufferedReader (new InputStreamReader(is,"UTF-8"));
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(writeFile));
+            //BufferedWriter bWriter = new BufferedWriter(new OutputStreamWriter (new FileOutputStream (filename), "UTF-8"));
+
+            /*// 一行一行的写
+            String strLine = null;
+            while ((strLine = bReader.readLine()) != null) {
+                bWriter.flush();
+                bWriter.write(strLine);
+                // 记得换行
+                bWriter.newLine();
+            }*/
+            byte[] flash = new byte[1024];
+            //String str = new String(flash, StandardCharsets.UTF_8);
+            //flash = str.getBytes(StandardCharsets.UTF_8);
+            int len = 0;
+            while (-1 != (len = bis.read(flash))) {
+                bos.write(flash, 0, len);
+            }
+            //bReader.close();
+            bos.flush();
+            bis.close();
+            bos.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
+    public String unicodeToUtf8(String s) throws UnsupportedEncodingException {
+        return new String(s.getBytes("utf-8"), "utf-8");
+    }
+
+
 
     @RequestMapping(value = "setVersion.action", method = {RequestMethod.GET})
     @ResponseBody
