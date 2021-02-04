@@ -500,6 +500,10 @@ public class AddKnowledgeController {
     }
 
 
+
+
+
+
     @RequestMapping("addUploading.action")
     @ResponseBody
     public String addUploading(@RequestParam("file") MultipartFile file, @RequestParam("customname") String customName, @RequestParam("introduce") String introduce, @RequestParam("customstyle") String customStyle, @RequestParam("subjectTreeId") String treeId,

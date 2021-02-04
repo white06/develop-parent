@@ -466,7 +466,10 @@ public class UsersController {
         // }
 
         Users users2 = usersService.longin(users);
-
+        if(users2!=null){
+            session.setAttribute("Name", users2.getName());
+            session.setAttribute("ID", users2.getId());
+        }
         Users user = (Users) session.getAttribute("USER_SESSION");
         String logincode;
         try {
@@ -502,12 +505,14 @@ public class UsersController {
                     userOnline.setOnlineTime(30);
                     session.setAttribute("loginid", loginId);
                     usersService.insetUserLogin(userOnline);
+                    System.out.println((String) session.getAttribute("ID"));
                     response.getWriter().print("{\"success\":\"ture\",\"cookie\":\"" + request.getSession().getId() + "\",\"code\":\"" + logincode + "\"}");
                 } else {
                     response.getWriter().print("{\"error\":\"error\"}");
                     //   session.setMaxInactiveInterval(0);
                 }
             }
+
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -770,6 +775,25 @@ public class UsersController {
     @RequestMapping(value = "GetUserInfo.action")
     @ResponseBody
     public Users GetUserInfo(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
+        String id = request.getParameter("userId");
+        Users us = new Users();
+        us = usersService.GetNowUser(id);
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = format1.parse(us.getBirthdate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        us.setBirthdate(format1.format(date));
+        return us;
+    }
+
+
+    //查询目标用户信息
+    @RequestMapping(value = "GetUserInfoAuth.action")
+    @ResponseBody
+    public Users GetUserInfoAuth(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
         String id = (String) session.getAttribute("ID");
         Users us = new Users();
         us = usersService.GetNowUser(id);

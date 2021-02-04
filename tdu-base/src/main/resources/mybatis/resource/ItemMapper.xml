@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdu.develop.resource.mapper.ItemMapper">
-
+<!--
+福建农林大学-永恒之蓝部分
+-->
     <insert id="yuxi" parameterType="com.tdu.develop.resource.pojo.blue">
 
 		replace into blue VALUES (#{userId},#{ti1},#{ti2},#{ti3},#{ti4},#{ti5}
@@ -34,4 +36,15 @@
 		replace into blue VALUES (#{userId},#{ti1},#{ti2},#{ti3},#{ti4},#{ti5}
 		,#{ti6},#{ti7},#{ti8},#{ti9},#{ti10},#{ti11},#{yuxi},#{caozuo},#{baogao})
 	</insert>
+
+
+	<!--
+	crm部分
+
+	-->
+	<select id="getItemInfo" parameterType="String" resultType="com.tdu.develop.resource.pojo.Item">
+		select * from item where customerId=#{customerId}
+	</select>
+
+
 </mapper>

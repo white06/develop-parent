@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdu.develop.resource.mapper.BusinessMapper">
+    <select id="getBusiness"   parameterType="String" resultType="com.tdu.develop.resource.pojo.Business">
+        select * from business where id = #{businessId}
+    </select>
+
+    <select id="getBusinessId"   parameterType="String" resultType="String">
+        select businessId from business where id =#{businessId}
+    </select>
+
+
+    <insert id="insertBusiness" parameterType="com.tdu.develop.resource.pojo.Business">
+
+        replace into business VALUES (#{id},#{name},#{customerId},#{businessId},#{followId},#{budget},#{billTime},#{phase},#{possibility},#{number},#{founder}
+        ,#{collaboration},#{creationTime},#{beizhu})
+
+    </insert>
+
+    <delete id="delBusiness" parameterType="String" >
+        delete from business where id = #{businessId}
+    </delete>
+
+
+    <insert id="modifyBusiness" parameterType="com.tdu.develop.resource.pojo.Business">
+
+        replace into business VALUES (#{id},#{name},#{customerId},#{businessId},#{followId},#{budget},#{billTime},#{phase},#{possibility},#{number},#{founder}
+        ,#{collaboration},#{creationTime},#{beizhu})
+
+    </insert>
+
+
+
+</mapper>
