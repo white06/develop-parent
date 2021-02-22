@@ -294,7 +294,7 @@ public class DevelopModelServiceImpl implements DevelopModelService {
 
         String id = UUID.randomUUID().toString();
 
-        modelcontents.setNmae(id + ".tdb");
+        modelcontents.setNmae(id + ".glb");
 
         modelcontents.setId(id);
         modelcontents.setIntroduce(null);
@@ -302,7 +302,7 @@ public class DevelopModelServiceImpl implements DevelopModelService {
         modelcontents.setModel_Id(lastModelsNodeId(treeId, nodeId, modelcontents.getUserKey()));
         modelcontents.setType(ModelType);
         modelcontents.setOrder(developModelMapper.getModelsMaxOrder() + 1);
-        modelcontents.setUrl("D:\\working\\TDuClub\\TDu\\Data\\3D");
+        modelcontents.setUrl("/www/wwwroot/tdu.tduvr.club/Data/3D");
         developModelMapper.addModelsModel(modelcontents);
         developModelMapper.alterModelContent_Id(modelcontents);
         System.out.println(modelcontents.getModel_Id());
@@ -318,7 +318,7 @@ public class DevelopModelServiceImpl implements DevelopModelService {
         //String mubiao="\\home\\working\\tdu.tduvr.club\\Data\\3D\\Model\\"+modelcontents.getUserKey()+"\\"+id;
         //String mubiao="D:\\working\\TDuClub\\TDu\\Data\\3D\\Model\\"+modelcontents.getUserKey()+"\\"+id;
         //新
-        //  String mubiao="D:/wamp/www/Data/3D/Model/"+modelcontents.getUserKey()+"/"+id;
+        //String mubiao="D:/wamp/www/Data/3D/Model/"+modelcontents.getUserKey()+"/"+id;
         String mubiao = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model/" + modelcontents.getUserKey() + "/" + id;
 
 
@@ -333,7 +333,7 @@ public class DevelopModelServiceImpl implements DevelopModelService {
                 String pp = id;
                 String realPath = pp;
 
-                if (suffix.equals(".tdb") || suffix.equals(".tdc")) {
+                if (suffix.equals(".tdb") || suffix.equals(".tdc") || suffix.equals(".glb")) {
                     modelcontents.setNmae(id + suffix);
                 }
 
