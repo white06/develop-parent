@@ -109,7 +109,22 @@ public class SubjectTreeController {
     @ResponseBody
     public StutotalScores getScoreTeacherNan(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         String rId = request.getParameter("rId");
-        String userId = request.getParameter("userId");
+        String userId =request.getParameter("userId");
+        return subjectTreeService.getStudentScoreNan(rId, userId);
+    }
+
+    /**
+     * 老师获取学生考核成绩
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "getScoreAuth.action", method = {RequestMethod.POST})
+    @ResponseBody
+    public StutotalScores getScoreAuth(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        String rId = request.getParameter("rId");
+        String userId = session.getAttribute("ID").toString();
         return subjectTreeService.getStudentScoreNan(rId, userId);
     }
 

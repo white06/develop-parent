@@ -41,6 +41,7 @@ public class ShiroFilterMapFactory {
         filterChainDefinitionMap.put("/hello", "anon");
 
         filterChainDefinitionMap.put("/KnowOnlineController/insertKnowOutline.action", "anon");
+        filterChainDefinitionMap.put("/BusinessController/**", "anon");
         filterChainDefinitionMap.put("/LinkController/**", "anon");
         filterChainDefinitionMap.put("/SeduController/**", "anon");
         filterChainDefinitionMap.put("/ItemController/**", "anon");
