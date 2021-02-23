@@ -472,10 +472,10 @@ public class UserExcelController {
         logger.info(" modelinfo :" + modelinfo);
 
         // 固定服务器路径
-        String testUrl="D:/working/TDuClub/TDu/Data/3D/";
+        //String testUrl="D:/working/TDuClub/TDu/Data/3D/";
 
         //公司服务器路径 D:\working\TDuClub\TDu\Data\3D
-        //String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model";
+        String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model";
 
         String[] modelArray = modelinfo.split("\\|");
 
@@ -576,8 +576,8 @@ public class UserExcelController {
         //String filePar = "\\home\\working\\tdu.tduvr.club\\Data\\3D\\Model\\"+userKey+wenjianPath;// 文件夹路径
 
         //新
-        String filePar = "D:/wamp/www/Data/3D/Model/"+userKey+wenjianPath;
-        //String filePar = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model/" + userKey + wenjianPath;
+        //String filePar = "D:/wamp/www/Data/3D/Model/"+userKey+wenjianPath;
+        String filePar = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model/" + userKey + wenjianPath;
 
         /*File myPath = new File( filePar );
         if ( !myPath.exists()){//若此目录不存在，则创建之
@@ -599,15 +599,15 @@ public class UserExcelController {
         //String filename = "D:/working/TDuClub/TDu/Data/3D/Model/"+""+userKey+""+"/"+realPath;;// 文件名
 
         //新
-        String filename = "D:/wamp/www/Data/3D/Model/"+""+userKey+""+"/"+realPath;;// 文件名
-        //String filename = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model/" + "" + userKey + "" + "/" + realPath;
+        //String filename = "D:/wamp/www/Data/3D/Model/"+""+userKey+""+"/"+realPath;;// 文件名
+        String filename = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model/" + "" + userKey + "" + "/" + realPath;
         ;// 文件名
 
         //String filename = "\\home\\working\\tdu.tduvr.club\\Data\\3D\\Model\\"+""+userKey+""+"\\"+realPath;;// 文件名
 //String name = "D:/working/TDuClub/TDu/Data/3D/Model/"+""+userKey+""+"/"+realPath;
         //新
-        String name = "D:/wamp/www/Data/3D/Model/"+""+userKey+""+"/"+realPath;
-        //String name = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model/" + "" + userKey + "" + "/" + realPath;
+        //String name = "D:/wamp/www/Data/3D/Model/"+""+userKey+""+"/"+realPath;
+        String name = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model/" + "" + userKey + "" + "/" + realPath;
         String creatFileName = unicodeToUtf8(name);
         File writeFile = new File(creatFileName);
         //File writeFile=new File("\\home\\working\\tdu.tduvr.club\\Data\\3D\\Model\\"+""+userKey+""+"\\"+realPath);
