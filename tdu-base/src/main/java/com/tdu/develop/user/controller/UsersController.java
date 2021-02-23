@@ -63,7 +63,7 @@ public class UsersController {
 
     @RequestMapping(value = "addCount.action")
     @ResponseBody
-    public void addCount() {
+    public int addCount() {
         LoginCount loginCount = new LoginCount();
         String Id = UUID.randomUUID().toString();
         loginCount.setId(Id);
@@ -72,6 +72,7 @@ public class UsersController {
         String dateNowStr = df.format(d);
         loginCount.setCreateDate(dateNowStr);
         loginCountService.addCount(loginCount);
+        return 1;
     }
 
     @RequestMapping(value = "getCount.action")

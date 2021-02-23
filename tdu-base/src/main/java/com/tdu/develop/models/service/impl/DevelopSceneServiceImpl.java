@@ -351,7 +351,7 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         Scenecontents.setScene_Id(lastScenesNodeId(treeId, nodeId, Scenecontents.getUserKey()));
         Scenecontents.setType(SceneType);
         Scenecontents.setOrder(developSceneMapper.getScenesMaxOrder() + 1);
-        Scenecontents.setUrl("D:\\working\\TDuClub\\TDu\\Data\\3D");
+        Scenecontents.setUrl("/www/wwwroot/tdu.tduvr.club/Data/3D");
         developSceneMapper.addScenesModel(Scenecontents);
         developSceneMapper.alterSceneContent_Id(Scenecontents);
         System.out.println(Scenecontents.getScene_Id());
@@ -509,7 +509,9 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
             DocumentBuilder b = a.newDocumentBuilder();
             Document document = b.parse(filename);
             NodeList booklist = document.getElementsByTagName("Node");
-
+            System.out.println("---------");
+            System.out.println(booklist);
+            System.out.println("---------");
             for (int i = 0; i < booklist.getLength(); ++i) {
                 Node book = booklist.item(i);
                 NamedNodeMap bookmap = book.getAttributes();
@@ -603,8 +605,8 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         String Name = Scenecontents.getNmae();
 
         //服務器路徑
-        //String mubiao="\\home\\working\\tdu.tduvr.club\\Data\\3D\\Scene\\"+Scenecontents.getUserKey()+"\\"+id;
-        String mubiao = "D:\\working\\TDuClub\\TDu\\Data\\3D\\Scene\\" + Scenecontents.getUserKey() + "\\" + id;
+        String mubiao="\\home\\working\\tdu.tduvr.club\\Data\\3D\\Scene\\"+Scenecontents.getUserKey()+"\\"+id;
+        //String mubiao = "D:\\working\\TDuClub\\TDu\\Data\\3D\\Scene\\" + Scenecontents.getUserKey() + "\\" + id;
 
         for (MultipartFile f : file) {
             File file1;
@@ -733,7 +735,7 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         //String filePar = "D:/working/TDuClub/TDu/Data/3D/Scene/"+userKey+wenjianPath;// 文件夹路径
         //String filePar = "\\home\\working\\tdu.tduvr.club\\Data\\3D\\Scene\\"+userKey+wenjianPath;// 文件夹路径
         //新
-        // String filePar = "D:/wamp/www/Data/3D/Scene/"+userKey+wenjianPath;
+        //String filePar = "D:/wamp/www/Data/3D/Scene/"+userKey+wenjianPath;
         String filePar = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + userKey + wenjianPath;// 文件夹路径
        /* File myPath = new File( filePar );
         if ( !myPath.exists()){//若此目录不存在，则创建之
@@ -749,7 +751,7 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         }
 
         // 文件夹路径存在的情况下
-        // String filename = "D:/wamp/www/Data/3D/Scene/"+""+userKey+""+"/"+realPath;;// 文件名
+        //String filename = "D:/wamp/www/Data/3D/Scene/"+""+userKey+""+"/"+realPath;;// 文件名
         String filename = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + "" + userKey + "" + "/" + realPath;
         ;// 文件名
 
@@ -760,7 +762,7 @@ public class DevelopSceneServiceImpl implements DevelopSceneService {
         //String creatFileName  = unicodeToUtf8(name);
         //File writeFile=new File(creatFileName);
 
-
+        //String name  = "D:/wamp/www/Data/3D/Scene/"+""+userKey+""+"/"+realPath;
         String name = "/www/wwwroot/tdu.tduvr.club/Data/3D/Scene/" + "" + userKey + "" + "/" + realPath;
         String creatFileName = unicodeToUtf8(name);
         File writeFile = new File(creatFileName);
