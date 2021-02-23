@@ -615,30 +615,30 @@ public class UserExcelController {
         System.out.println(Charset.defaultCharset());
         try {
             FileWriter fw = new FileWriter(filename, true);// filePar + "\\" + filename,true
-            BufferedInputStream bis = new BufferedInputStream(is);
-            // BufferedReader bReader  = new BufferedReader (new InputStreamReader(is,"UTF-8"));
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(writeFile));
-            //BufferedWriter bWriter = new BufferedWriter(new OutputStreamWriter (new FileOutputStream (filename), "UTF-8"));
+            //BufferedInputStream bis = new BufferedInputStream(is);
+            BufferedReader bReader  = new BufferedReader (new InputStreamReader(is,"UTF-8"));
+            //BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(writeFile));
+            BufferedWriter bWriter = new BufferedWriter(new OutputStreamWriter (new FileOutputStream (filename), "UTF-8"));
 
-            /*// 一行一行的写
+            // 一行一行的写
             String strLine = null;
             while ((strLine = bReader.readLine()) != null) {
                 bWriter.flush();
                 bWriter.write(strLine);
                 // 记得换行
                 bWriter.newLine();
-            }*/
+            }
             byte[] flash = new byte[1024];
             //String str = new String(flash, StandardCharsets.UTF_8);
             //flash = str.getBytes(StandardCharsets.UTF_8);
-            int len = 0;
-            while (-1 != (len = bis.read(flash))) {
-                bos.write(flash, 0, len);
-            }
-            //bReader.close();
-            bos.flush();
-            bis.close();
-            bos.close();
+//            int len = 0;
+//            while (-1 != (len = bis.read(flash))) {
+//                bos.write(flash, 0, len);
+//            }
+            bReader.close();
+//            bos.flush();
+//            bis.close();
+//            bos.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
