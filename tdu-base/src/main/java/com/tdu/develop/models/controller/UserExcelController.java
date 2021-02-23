@@ -461,6 +461,7 @@ public class UserExcelController {
     @ResponseBody
     public void getFileForTdu(HttpServletRequest request, HttpServletResponse response, HttpSession session,
                               @RequestParam("file") MultipartFile[] file,@RequestParam("modelinfo") String modelinfo) {
+        System.out.println("  modelinfo  :  --》 "+modelinfo);
         Date date = new Date();
         // 获取日期时间
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -471,10 +472,10 @@ public class UserExcelController {
         logger.info(" modelinfo :" + modelinfo);
 
         // 固定服务器路径
-        //String testUrl="D:/working/TDuClub/TDu/Data/3D/";
+        String testUrl="D:/working/TDuClub/TDu/Data/3D/";
 
-        // 公司服务器路径 D:\working\TDuClub\TDu\Data\3D
-        String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model";
+        //公司服务器路径 D:\working\TDuClub\TDu\Data\3D
+        //String testUrl = "/www/wwwroot/tdu.tduvr.club/Data/3D/Model";
 
         String[] modelArray = modelinfo.split("\\|");
 
@@ -503,7 +504,7 @@ public class UserExcelController {
                         String pp = id;
                         String realPath = pp;
 
-                        if (suffix.equals(".tdb") || suffix.equals(".tdc")) {
+                        if (suffix.equals(".tdb") || suffix.equals(".tdc") || suffix.equals(".glb")) {
                             LatFileName = id + suffix;
                         }
 
