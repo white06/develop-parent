@@ -775,7 +775,7 @@ public class UsersController {
     @RequestMapping(value = "GetUserInfo.action")
     @ResponseBody
     public Users GetUserInfo(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
-        String id = request.getParameter("userId");
+        String id =(String) session.getAttribute("ID");
         Users us = new Users();
         us = usersService.GetNowUser(id);
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");

@@ -40,7 +40,10 @@ public class BusinessServiceImpl implements BusinessService {
             Business business=businessMapper.getBusiness(businessUserList.get(i).getBusinessId());
             Map<String,Object> busMap=new HashMap<String,Object>();
            //关联客户需要另找，从客户表
-            CustomerInformation customerInformation=customerInformationMapper.getCustomerforId(business.getCustomerId());
+            CustomerInformation customerInformation=new CustomerInformation();
+            if(customerInformationMapper.getCustomerforId(business.getCustomerId())!=null){
+                customerInformation=customerInformationMapper.getCustomerforId(business.getCustomerId());
+            }
             //关联用户id
             Users users=usersMapper.GetNowUser(business.getBusinessId());
             //跟进id

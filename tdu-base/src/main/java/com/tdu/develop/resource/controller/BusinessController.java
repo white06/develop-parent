@@ -50,8 +50,12 @@ public class BusinessController {
     @ResponseBody
     public List<Map<String,Object>> getBusiness(HttpServletRequest request, HttpSession session) throws Exception {
         //String userId = session.getAttribute("ID").toString();
+        List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
         String userId="4d272f66-9dac-4b87-a2a1-22b6e5910779";
-        return businessService.getBusinessInfo(userId);
+        if(businessService.getBusinessInfo(userId)!=null){
+            list=businessService.getBusinessInfo(userId);
+        }
+        return list;
     }
 
     /**
@@ -118,7 +122,7 @@ public class BusinessController {
     //    String userId = (String) session.getAttribute("ID");
         String userId="4d272f66-9dac-4b87-a2a1-22b6e5910779";
         String busId=UUID.randomUUID().toString();
-        String ROLEname=(String) session.getAttribute("NAME");
+        String ROLEname=(String) session.getAttribute("Name");
         Map<String,Object> busMap= new HashMap<String,Object>();
         busMap.put("id", busId);
         busMap.put("name",request.getParameter("name"));

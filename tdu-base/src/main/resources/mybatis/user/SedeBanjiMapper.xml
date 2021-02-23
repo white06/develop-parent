@@ -9,7 +9,7 @@
 
     <insert id="inssuduinfo" parameterType="com.tdu.develop.user.pojo.SeduBanji">
 
-        replace into sedubanji VALUES (#{id},#{xuexiao},#{zhuanye},#{banji},#{xuehao},#{userId})
+        replace into sedubanji VALUES (#{userId},#{xuexiao},#{zhuanye},#{banji},#{xuehao},#{userId})
 
     </insert>
 
